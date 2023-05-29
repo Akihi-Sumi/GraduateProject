@@ -21,11 +21,12 @@ class HomeScreen extends StatelessWidget {
         height: double.infinity,
         color: Colors.black,
         child: Center(
-            child: Text(
-          "Family, Happiness, Food",
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
-        )),
+          child: Text(
+            "Family, Happiness, Food",
+            style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+        ),
       ),
     );
   }

@@ -21,11 +21,12 @@ class MessageScreen extends StatelessWidget {
         height: double.infinity,
         color: Colors.black,
         child: Center(
-            child: Text(
-          "メッセージ設定だお",
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
-        )),
+          child: Text(
+            "メッセージ設定だお",
+            style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+        ),
       ),
     );
   }

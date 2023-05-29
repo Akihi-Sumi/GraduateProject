@@ -20,48 +20,107 @@ class SettingsScreen extends StatelessWidget {
         ),
         body: SafeArea(
           child: Align(
-              alignment: AlignmentDirectional(0, 0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 150, 0, 0),
-                      child: SizedBox(
-                        width: 300,
-                        height: 70,
-                        child: TextButton(
-                          onPressed: () {
-                            print("pressed...");
-                          },
-                          style: TextButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)))),
-                          child: const Text(
-                            "メッセージ設定",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 27,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
+            alignment: AlignmentDirectional(0, 0),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 150, 0, 0),
+                  child: SizedBox(
+                    width: 300,
+                    height: 70,
+                    child: TextButton(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)))),
+                      child: const Text(
+                        "メッセージ設定",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 27,
+                          fontWeight: FontWeight.w700,
                         ),
-                      )),
-                ],
-              )),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                  child: SizedBox(
+                    width: 300,
+                    height: 70,
+                    child: TextButton(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          )),
+                      child: Text(
+                        "個人設定",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 27,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                  child: SizedBox(
+                    width: 300,
+                    height: 70,
+                    child: TextButton(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          )),
+                      child: Text(
+                        "防災グッズ",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 27,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                  child: SizedBox(
+                    width: 300,
+                    height: 70,
+                    child: TextButton(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          )),
+                      child: Text(
+                        "Button",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 27,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
         ),
-        // body: Container(
-        //   width: double.infinity,
-        //   height: double.infinity,
-        //   child: Center(
-        //       child: Text(
-        //     "Family, Receive, Review, Rip",
-        //     style: TextStyle(
-        //         color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
-        //   )),
-        // ),
       ),
     );
   }

@@ -8,7 +8,7 @@ class MessageScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "メッセージ",
+          "お天気",
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w600,
@@ -22,7 +22,7 @@ class MessageScreen extends StatelessWidget {
         color: Colors.black,
         child: Center(
           child: Text(
-            "メッセージ設定だお",
+            "天気と地震の情報を表示",
             style: TextStyle(
                 color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
           ),

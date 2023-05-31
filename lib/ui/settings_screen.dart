@@ -1,4 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_app/ui/settings/address.dart';
+import 'package:graduate_app/ui/settings/edit_message.dart';
+import 'package:graduate_app/ui/settings/mypage.dart';
+import 'package:graduate_app/ui/settings/survival_kit.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -31,12 +36,24 @@ class SettingsScreen extends StatelessWidget {
                     width: 300,
                     height: 70,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) {
+                              return EditMessageScreen();
+                            },
+                          ),
+                        );
+                      },
                       style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)))),
+                        backgroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                      ),
                       child: const Text(
                         "メッセージ設定",
                         style: TextStyle(
@@ -54,14 +71,23 @@ class SettingsScreen extends StatelessWidget {
                     width: 300,
                     height: 70,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) {
+                              return AddressScreen();
+                            },
+                          ),
+                        );
+                      },
                       style: TextButton.styleFrom(
                           backgroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           )),
                       child: Text(
-                        "個人設定",
+                        "連絡先",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 27,
@@ -77,7 +103,16 @@ class SettingsScreen extends StatelessWidget {
                     width: 300,
                     height: 70,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) {
+                              return const SurvivalKit();
+                            },
+                          ),
+                        );
+                      },
                       style: TextButton.styleFrom(
                           backgroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
@@ -100,14 +135,23 @@ class SettingsScreen extends StatelessWidget {
                     width: 300,
                     height: 70,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) {
+                              return const MyPage();
+                            },
+                          ),
+                        );
+                      },
                       style: TextButton.styleFrom(
                           backgroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           )),
                       child: Text(
-                        "Button",
+                        "個人設定",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 27,

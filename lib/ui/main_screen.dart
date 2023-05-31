@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graduate_app/ui/home_screen.dart';
-import 'package:graduate_app/ui/message_screen.dart';
 import 'package:graduate_app/ui/settings_screen.dart';
+import 'package:graduate_app/ui/weather_earthquake.dart';
 
 import 'navbar/circular_bottom_navigation.dart';
 import 'navbar/tab_item.dart';
@@ -34,17 +34,23 @@ class _MainScreenState extends State<MainScreen> {
       ),
     ),
     TabItem(
-      Icons.message_outlined,
-      "Message",
+      Icons.sunny,
+      "Weather",
       Colors.black,
       labelStyle: TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.bold,
       ),
     ),
-    TabItem(Icons.settings_sharp, "Settings", Colors.black,
-        labelStyle:
-            TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+    TabItem(
+      Icons.settings_sharp,
+      "Settings",
+      Colors.black,
+      labelStyle: TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
   ]);
 
   late CircularBottomNavigationController _navigationController;

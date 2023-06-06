@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'address/address_add.dart';
+import '../qr/qr_gene.dart';
+import '../qr/qr_scanner.dart';
 
-class AddressScreen extends StatelessWidget {
-  const AddressScreen({Key? key}) : super(key: key);
+class AddressAddScreen extends StatelessWidget {
+  const AddressAddScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class AddressScreen extends StatelessWidget {
                           context,
                           CupertinoPageRoute(
                             builder: (context) {
-                              return AddressAddScreen();
+                              return QrCodeScreen();
                             },
                           ),
                         );
@@ -51,7 +52,42 @@ class AddressScreen extends StatelessWidget {
                         ),
                       ),
                       child: const Text(
-                        "連絡先追加",
+                        "qrコード生成",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 27,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 150, 0, 0),
+                  child: SizedBox(
+                    width: 300,
+                    height: 70,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) {
+                              return QrReader();
+                            },
+                          ),
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                      ),
+                      child: const Text(
+                        "qrコード読み取り",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 27,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class EditMessageScreen extends StatelessWidget {
-  const EditMessageScreen({Key? key}) : super(key: key);
+class EditMessagePage extends StatelessWidget {
+  const EditMessagePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

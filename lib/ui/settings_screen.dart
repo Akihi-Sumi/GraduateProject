@@ -5,8 +5,8 @@ import 'package:graduate_app/ui/settings/edit_message.dart';
 import 'package:graduate_app/ui/settings/mypage.dart';
 import 'package:graduate_app/ui/settings/survival_kit.dart';
 
-class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+class SettingsScreenPage extends StatelessWidget {
+  const SettingsScreenPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class SettingsScreen extends StatelessWidget {
                           context,
                           CupertinoPageRoute(
                             builder: (context) {
-                              return EditMessageScreen();
+                              return EditMessagePage();
                             },
                           ),
                         );
@@ -76,7 +76,7 @@ class SettingsScreen extends StatelessWidget {
                           context,
                           CupertinoPageRoute(
                             builder: (context) {
-                              return AddressScreen();
+                              return AddressPage();
                             },
                           ),
                         );
@@ -108,7 +108,7 @@ class SettingsScreen extends StatelessWidget {
                           context,
                           CupertinoPageRoute(
                             builder: (context) {
-                              return const SurvivalKit();
+                              return const SurvivalKitPage();
                             },
                           ),
                         );

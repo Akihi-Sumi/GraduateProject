@@ -84,7 +84,7 @@ class _MainScreenState extends State<MainScreen> {
       case 1:
         return MessageScreen();
       case 2:
-        return SettingsScreen();
+        return SettingsScreenPage();
       default:
         return HomeScreen();
     }
@@ -96,16 +96,7 @@ class _MainScreenState extends State<MainScreen> {
       controller: _navigationController,
       selectedPos: selectedPos,
       barHeight: bottomNavBarHeight,
-      // use either barBackgroundColor or barBackgroundGradient to have a gradient on bar background
       barBackgroundColor: Colors.orange.shade700,
-      // barBackgroundGradient: LinearGradient(
-      //   begin: Alignment.bottomCenter,
-      //   end: Alignment.topCenter,
-      //   colors: [
-      //     Colors.blue,
-      //     Colors.red,
-      //   ],
-      // ),
       backgroundBoxShadow: <BoxShadow>[
         BoxShadow(color: Colors.black45, blurRadius: 10.0),
       ],

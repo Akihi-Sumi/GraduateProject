@@ -103,6 +103,7 @@ class _MyPageState extends State<MyPage> {
               ),
             ),
             SizedBox(height: 20),
+            //　データベースにほぞんするようのぼたん
             ElevatedButton(
               onPressed: () {
                 Navigator.push(

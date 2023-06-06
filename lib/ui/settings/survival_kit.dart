@@ -9,13 +9,13 @@ class SurvivalKitPage extends StatefulWidget {
   _SurvivalKitPageState createState() => _SurvivalKitPageState();
 }
 
-// "time"を追加。時間を指定。
+// "time"を追加。3年=1095日
 class _SurvivalKitPageState extends State<SurvivalKitPage> {
   List<Map> _list = [
     {"name": "応急セット", "isChecked": false},
-    {"name": "長期保存水", "isChecked": false},
+    {"name": "長期保存水", "time": 10, "isChecked": false},
     {"name": "緊急用呼口笛", "isChecked": false},
-    {"name": "缶詰、備蓄パン", "isChecked": false},
+    {"name": "缶詰、備蓄パン", "time": 5, "isChecked": false},
     {"name": "レジャーシート", "isChecked": false},
     {"name": "食品加熱袋、加熱材", "isChecked": false},
     {"name": "防災折り畳みヘルメット", "isChecked": false},
@@ -35,7 +35,7 @@ class _SurvivalKitPageState extends State<SurvivalKitPage> {
     {"name": "緊急用連絡シート", "isChecked": false},
     {"name": "非常用給水袋", "isChecked": false},
     {"name": "マスク", "isChecked": false},
-    {"name": "ドライシャンプー", "isChecked": false},
+    {"name": "ドライシャンプー", "time": 3, "isChecked": false},
   ];
 
   @override
@@ -93,11 +93,19 @@ class _SurvivalKitPageState extends State<SurvivalKitPage> {
                             : null,
                       ),
                     ),
+                    subtitle: goods["time"] != null && goods["isChecked"]
+                        ? Text(
+                            "使用期限は${DateTime.now().year + goods["time"]}月${DateTime.now().day}です")
+                        : null,
                     onChanged: (value) {
                       setState(() {
                         goods["isChecked"] = value;
-                        if (value as bool) {
-                          Timer(Duration(days: goods["time"]), () {
+                        if (goods["time"] != null) {
+                          /* CheckBoxをTrueにした後、時間経過でFalseに戻る。
+                           * しかし、このままではTimerが終了しないうちにページを移動するとエラー。
+                           * 前の画面に戻るとクリアされる。状態が保存されない。
+                           */
+                          Timer(Duration(seconds: goods["time"]), () {
                             setState(() {
                               goods["isChecked"] = false;
                             });
@@ -113,5 +121,10 @@ class _SurvivalKitPageState extends State<SurvivalKitPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

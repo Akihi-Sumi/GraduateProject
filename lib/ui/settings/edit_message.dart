@@ -30,7 +30,9 @@ class _EditMessagePageState extends State<EditMessagePage>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: Scaffold(
+      onTap: () => _animationController.reverse(),
+      child: SafeArea(
+        child: Scaffold(
           backgroundColor: Colors.black,
           appBar: AppBar(
             title: const Text(
@@ -47,10 +49,10 @@ class _EditMessagePageState extends State<EditMessagePage>
           floatingActionButton: FloatingActionBubble(
             items: <Bubble>[
               Bubble(
-                title: "Settings",
+                title: "メッセージを追加",
                 iconColor: Colors.white,
-                bubbleColor: Colors.blue,
-                icon: Icons.settings,
+                bubbleColor: Colors.orange.shade700,
+                icon: Icons.add_comment_outlined,
                 titleStyle: const TextStyle(fontSize: 16, color: Colors.white),
                 onPress: () {
                   _animationController.reverse();
@@ -58,10 +60,10 @@ class _EditMessagePageState extends State<EditMessagePage>
               ),
               // Floating action menu item
               Bubble(
-                title: "Profile",
+                title: "メッセージを編集",
                 iconColor: Colors.white,
-                bubbleColor: Colors.blue,
-                icon: Icons.people,
+                bubbleColor: Colors.orange.shade700,
+                icon: Icons.create_sharp,
                 titleStyle: const TextStyle(fontSize: 16, color: Colors.white),
                 onPress: () {
                   _animationController.reverse();
@@ -69,10 +71,10 @@ class _EditMessagePageState extends State<EditMessagePage>
               ),
               //Floating action menu item
               Bubble(
-                title: "Home",
+                title: "メッセージを削除",
                 iconColor: Colors.white,
-                bubbleColor: Colors.blue,
-                icon: Icons.home,
+                bubbleColor: Colors.orange.shade700,
+                icon: Icons.delete,
                 titleStyle: const TextStyle(fontSize: 16, color: Colors.white),
                 onPress: () {
                   Navigator.push(
@@ -92,12 +94,14 @@ class _EditMessagePageState extends State<EditMessagePage>
                 : _animationController.forward(),
 
             // Floating Action button Icon color
-            iconColor: Colors.blue,
+            iconColor: Colors.orange.shade700,
 
             // Floating Action button Icon
-            iconData: Icons.ac_unit,
+            iconData: Icons.density_medium,
             backGroundColor: Colors.white,
-          )),
+          ),
+        ),
+      ),
     );
   }
 }

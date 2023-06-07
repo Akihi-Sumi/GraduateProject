@@ -6,8 +6,8 @@ import 'package:graduate_app/ui/weather_earthquake.dart';
 import 'navbar/circular_bottom_navigation.dart';
 import 'navbar/tab_item.dart';
 
-class MainScreen extends StatefulWidget {
-  MainScreen({
+class MainScreenPage extends StatefulWidget {
+  MainScreenPage({
     Key? key,
     this.title,
   }) : super(key: key);
@@ -15,10 +15,10 @@ class MainScreen extends StatefulWidget {
   final String? title;
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<MainScreenPage> createState() => _MainScreenPageState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenPageState extends State<MainScreenPage> {
   int selectedPos = 0;
 
   double bottomNavBarHeight = 60;
@@ -80,13 +80,13 @@ class _MainScreenState extends State<MainScreen> {
     // Color? selectedColor = tabItems[selectedPos].circleColor;
     switch (selectedPos) {
       case 0:
-        return HomeScreen();
+        return HomeScreenPage();
       case 1:
-        return MessageScreen();
+        return WeatherPage();
       case 2:
         return SettingsScreenPage();
       default:
-        return HomeScreen();
+        return HomeScreenPage();
     }
   }
 

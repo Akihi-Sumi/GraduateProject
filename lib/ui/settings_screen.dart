@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/ui/settings/address.dart';
@@ -5,6 +6,7 @@ import 'package:graduate_app/ui/settings/edit_message.dart';
 import 'package:graduate_app/ui/settings/mypage.dart';
 import 'package:graduate_app/ui/settings/survival_kit.dart';
 
+@RoutePage()
 class SettingsScreenPage extends StatelessWidget {
   const SettingsScreenPage({Key? key}) : super(key: key);
 

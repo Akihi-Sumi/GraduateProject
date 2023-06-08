@@ -33,22 +33,23 @@ class _EditMessagePageState extends State<EditMessagePage>
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => _animationController.reverse(),
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: Colors.black,
-          appBar: AppBar(
-            title: const Text(
-              "メッセージ設定",
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
-              ),
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        appBar: AppBar(
+          title: const Text(
+            "メッセージ設定",
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w600,
             ),
-            backgroundColor: Colors.orange.shade700,
           ),
-          //body: Center(child: Text(_text)),
-          floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-          floatingActionButton: FloatingActionBubble(
+          backgroundColor: Colors.orange.shade700,
+        ),
+        //body: Center(child: Text(_text)),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        floatingActionButton: Container(
+          padding: EdgeInsets.all(15),
+          child: FloatingActionBubble(
             items: <Bubble>[
               Bubble(
                 title: "メッセージを追加",
@@ -79,11 +80,6 @@ class _EditMessagePageState extends State<EditMessagePage>
                 icon: Icons.delete,
                 titleStyle: const TextStyle(fontSize: 16, color: Colors.white),
                 onPress: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const EditMessagePage()));
                   _animationController.reverse();
                 },
               ),

@@ -16,13 +16,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      //   home: GestureDetector(
-      //     // use this property to change direction in whole app
-      //     // CircularBottomNavigation will act accordingly
-      //     onTap: () => primaryFocus?.unfocus(),
-      //     //textDirection: TextDirection.ltr,
-      //     child: MainScreenPage(title: 'circular_bottom_navigation'),
-      //   ),
     );
   }
 }

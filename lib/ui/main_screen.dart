@@ -63,15 +63,17 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(bottom: bottomNavBarHeight),
-            child: bodyContainer(),
-          ),
-          Align(alignment: Alignment.bottomCenter, child: bottomNav())
-        ],
+    return SafeArea(
+      child: Scaffold(
+        body: Stack(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(bottom: bottomNavBarHeight),
+              child: bodyContainer(),
+            ),
+            Align(alignment: Alignment.bottomCenter, child: bottomNav())
+          ],
+        ),
       ),
     );
   }

@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'address/address_add.dart';
 
+@RoutePage()
 class AddressPage extends StatelessWidget {
   const AddressPage({Key? key}) : super(key: key);
 

@@ -32,6 +32,38 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    AddressRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AddressPage(),
+      );
+    },
+    EditMessageRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const EditMessagePage(),
+      );
+    },
+    MyRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const MyPage(),
+      );
+    },
+    SurvivalKitRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SurvivalKitPage(),
+      );
+    },
+    SettingsRouterRoute.name: (routeData) {
+      final args = routeData.argsAs<SettingsRouterRouteArgs>(
+          orElse: () => const SettingsRouterRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SettingsRouterPage(key: args.key),
+      );
+    },
     SettingsScreenRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -96,6 +128,91 @@ class MainScreenRouteArgs {
   @override
   String toString() {
     return 'MainScreenRouteArgs{key: $key, title: $title}';
+  }
+}
+
+/// generated route for
+/// [AddressPage]
+class AddressRoute extends PageRouteInfo<void> {
+  const AddressRoute({List<PageRouteInfo>? children})
+      : super(
+          AddressRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AddressRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [EditMessagePage]
+class EditMessageRoute extends PageRouteInfo<void> {
+  const EditMessageRoute({List<PageRouteInfo>? children})
+      : super(
+          EditMessageRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'EditMessageRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [MyPage]
+class MyRoute extends PageRouteInfo<void> {
+  const MyRoute({List<PageRouteInfo>? children})
+      : super(
+          MyRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MyRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SurvivalKitPage]
+class SurvivalKitRoute extends PageRouteInfo<void> {
+  const SurvivalKitRoute({List<PageRouteInfo>? children})
+      : super(
+          SurvivalKitRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SurvivalKitRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SettingsRouterPage]
+class SettingsRouterRoute extends PageRouteInfo<SettingsRouterRouteArgs> {
+  SettingsRouterRoute({
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SettingsRouterRoute.name,
+          args: SettingsRouterRouteArgs(key: key),
+          initialChildren: children,
+        );
+
+  static const String name = 'SettingsRouterRoute';
+
+  static const PageInfo<SettingsRouterRouteArgs> page =
+      PageInfo<SettingsRouterRouteArgs>(name);
+}
+
+class SettingsRouterRouteArgs {
+  const SettingsRouterRouteArgs({this.key});
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'SettingsRouterRouteArgs{key: $key}';
   }
 }
 

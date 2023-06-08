@@ -1,12 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:graduate_app/ui/home_screen.dart';
-import 'package:graduate_app/ui/settings_screen.dart';
-import 'package:graduate_app/ui/weather_earthquake.dart';
+import 'package:graduate_app/router/app_router.dart';
 
-import 'navbar/circular_bottom_navigation.dart';
-import 'navbar/tab_item.dart';
-
-class MainScreenPage extends StatefulWidget {
+@RoutePage()
+class MainScreenPage extends StatelessWidget {
   MainScreenPage({
     Key? key,
     this.title,
@@ -15,104 +12,46 @@ class MainScreenPage extends StatefulWidget {
   final String? title;
 
   @override
-  State<MainScreenPage> createState() => _MainScreenPageState();
-}
-
-class _MainScreenPageState extends State<MainScreenPage> {
-  int selectedPos = 0;
-
-  double bottomNavBarHeight = 60;
-
-  List<TabItem> tabItems = List.of([
-    TabItem(
-      Icons.home,
-      "Home",
-      Colors.black,
-      labelStyle: TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-    TabItem(
-      Icons.sunny,
-      "Weather",
-      Colors.black,
-      labelStyle: TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-    TabItem(
-      Icons.settings_sharp,
-      "Settings",
-      Colors.black,
-      labelStyle: TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-  ]);
-
-  late CircularBottomNavigationController _navigationController;
-
-  @override
-  void initState() {
-    super.initState();
-    _navigationController = CircularBottomNavigationController(selectedPos);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(bottom: bottomNavBarHeight),
-            child: bodyContainer(),
-          ),
-          Align(alignment: Alignment.bottomCenter, child: bottomNav())
+    return SafeArea(
+      child: AutoTabsScaffold(
+        routes: const [
+          HomeScreenRoute(),
+          WeatherRoute(),
+          SettingsScreenRoute()
         ],
+        bottomNavigationBuilder: (_, tabsRouter) {
+          return BottomNavigationBar(
+            currentIndex: tabsRouter.activeIndex,
+            onTap: (int index) {
+              if (tabsRouter.activeIndex != index) {
+                tabsRouter.setActiveIndex(index);
+              } else {
+                tabsRouter
+                    .innerRouterOf<StackRouter>(tabsRouter.current.name)
+                    ?.popUntilRoot();
+              }
+            },
+            backgroundColor: Colors.orange.shade700,
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: "Home",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.sunny),
+                label: "Weather",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.settings_sharp),
+                label: "Settings",
+              ),
+            ],
+            selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+            selectedItemColor: Colors.white,
+          );
+        },
       ),
     );
-  }
-
-  Widget bodyContainer() {
-    // Color? selectedColor = tabItems[selectedPos].circleColor;
-    switch (selectedPos) {
-      case 0:
-        return HomeScreenPage();
-      case 1:
-        return WeatherPage();
-      case 2:
-        return SettingsScreenPage();
-      default:
-        return HomeScreenPage();
-    }
-  }
-
-  Widget bottomNav() {
-    return CircularBottomNavigation(
-      tabItems,
-      controller: _navigationController,
-      selectedPos: selectedPos,
-      barHeight: bottomNavBarHeight,
-      barBackgroundColor: Colors.orange.shade700,
-      backgroundBoxShadow: <BoxShadow>[
-        BoxShadow(color: Colors.black45, blurRadius: 10.0),
-      ],
-      animationDuration: Duration(milliseconds: 300),
-      selectedCallback: (int? selectedPos) {
-        setState(() {
-          this.selectedPos = selectedPos ?? 0;
-          print(_navigationController.value);
-        });
-      },
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _navigationController.dispose();
   }
 }

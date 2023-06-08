@@ -1,169 +1,106 @@
-import 'package:flutter/cupertino.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:graduate_app/ui/settings/address.dart';
-import 'package:graduate_app/ui/settings/edit_message.dart';
-import 'package:graduate_app/ui/settings/mypage.dart';
-import 'package:graduate_app/ui/settings/survival_kit.dart';
+import 'package:graduate_app/router/app_router.dart';
 
-class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+@RoutePage()
+class SettingsRouterPage extends AutoRouter {
+  SettingsRouterPage({super.key});
+}
+
+@RoutePage()
+class SettingsScreenPage extends StatelessWidget {
+  const SettingsScreenPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        appBar: AppBar(
-          title: const Text(
-            "設定",
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w600,
-            ),
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: const Text(
+          "設定",
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w600,
           ),
-          backgroundColor: Colors.orange.shade700,
         ),
-        body: SafeArea(
-          child: Align(
-            alignment: AlignmentDirectional(0, 0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 150, 0, 0),
-                  child: SizedBox(
-                    width: 300,
-                    height: 70,
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) {
-                              return EditMessageScreen();
-                            },
-                          ),
-                        );
-                      },
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                        ),
-                      ),
-                      child: const Text(
-                        "メッセージ設定",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 27,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  ),
+        backgroundColor: Colors.orange.shade700,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  fixedSize: Size(250, 60),
                 ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                  child: SizedBox(
-                    width: 300,
-                    height: 70,
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) {
-                              return AddressScreen();
-                            },
-                          ),
-                        );
-                      },
-                      style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          )),
-                      child: Text(
-                        "連絡先",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 27,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  ),
+                child: Text(
+                  "メッセージ設定",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
                 ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                  child: SizedBox(
-                    width: 300,
-                    height: 70,
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) {
-                              return const SurvivalKit();
-                            },
-                          ),
-                        );
-                      },
-                      style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          )),
-                      child: Text(
-                        "防災グッズ",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 27,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                  child: SizedBox(
-                    width: 300,
-                    height: 70,
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) {
-                              return const MyPage();
-                            },
-                          ),
-                        );
-                      },
-                      style: TextButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          )),
-                      child: Text(
-                        "個人設定",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 27,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              ],
+                onPressed: () => context.router.push(EditMessageRoute()),
+              ),
             ),
-          ),
+            Container(
+              padding: EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  fixedSize: Size(250, 60),
+                ),
+                child: Text(
+                  "連絡先",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onPressed: () => context.router.push(AddressRoute()),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  fixedSize: Size(250, 60),
+                ),
+                child: Text(
+                  "防災グッズ",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onPressed: () => context.router.push(SurvivalKitRoute()),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  fixedSize: Size(250, 60),
+                ),
+                child: Text(
+                  "個人設定",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onPressed: () => context.router.push(MyRoute()),
+              ),
+            ),
+          ],
         ),
       ),
     );

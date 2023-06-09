@@ -1,68 +1,110 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_app/ui/settings/qr/qr_gene.dart';
+import 'package:graduate_app/ui/settings/qr/qr_scanner.dart';
+import 'package:graduate_app/widget/fan_bubble.dart';
 
-import 'address/address_add.dart';
-
-class AddressPage extends StatelessWidget {
+@RoutePage()
+class AddressPage extends StatefulWidget {
   const AddressPage({Key? key}) : super(key: key);
 
   @override
+  _AddressPageState createState() => _AddressPageState();
+}
+
+class _AddressPageState extends State<AddressPage>
+    with SingleTickerProviderStateMixin {
+  late Animation<double> _animation;
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 260),
+    );
+
+    final curvedAnimation =
+        CurvedAnimation(parent: _animationController, curve: Curves.easeInOut);
+    _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: const Text(
-          "連絡先",
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.w600,
+    return GestureDetector(
+      onTap: () => _animationController.reverse(),
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        appBar: AppBar(
+          title: const Text(
+            "連絡先",
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w600,
+            ),
           ),
+          backgroundColor: Colors.orange.shade700,
         ),
-        backgroundColor: Colors.orange.shade700,
-      ),
-      body: SafeArea(
-        child: Align(
-          alignment: AlignmentDirectional(0, 0),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 150, 0, 0),
-                child: SizedBox(
-                  width: 300,
-                  height: 70,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                          builder: (context) {
-                            return AddressAddScreen();
-                          },
-                        ),
-                      );
-                    },
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
+        //body: Center(child: Text(_text)),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        floatingActionButton: Container(
+          padding: EdgeInsets.all(15),
+          child: FloatingActionBubble(
+            items: <Bubble>[
+              // Floating action menu item
+              Bubble(
+                title: "QRコードをスキャン",
+                iconColor: Colors.white,
+                bubbleColor: Colors.orange.shade700,
+                icon: Icons.qr_code_scanner,
+                titleStyle: const TextStyle(fontSize: 16, color: Colors.white),
+                onPress: () {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) {
+                        return QrReader();
+                      },
                     ),
-                    child: const Text(
-                      "連絡先追加",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 27,
-                        fontWeight: FontWeight.w700,
-                      ),
+                  );
+                  _animationController.reverse();
+                },
+              ),
+              Bubble(
+                title: "QRコードを表示",
+                iconColor: Colors.white,
+                bubbleColor: Colors.orange.shade700,
+                icon: Icons.qr_code,
+                titleStyle: const TextStyle(fontSize: 16, color: Colors.white),
+                onPress: () {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) {
+                        return QrCodeScreen();
+                      },
                     ),
-                  ),
-                ),
+                  );
+                  _animationController.reverse();
+                },
               ),
             ],
+            animation: _animation,
+
+            // On pressed change animation state
+            onPress: () => _animationController.isCompleted
+                ? _animationController.reverse()
+                : _animationController.forward(),
+
+            // Floating Action button Icon color
+            iconColor: Colors.orange.shade700,
+
+            // Floating Action button Icon
+            iconData: Icons.add,
+            backGroundColor: Colors.white,
           ),
         ),
       ),

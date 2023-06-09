@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+@RoutePage()
 class MyPage extends StatefulWidget {
   const MyPage({Key? key}) : super(key: key);
 
@@ -10,13 +12,16 @@ class MyPage extends StatefulWidget {
 class _MyPageState extends State<MyPage> {
   TextEditingController textEditingController1 = TextEditingController();
   TextEditingController textEditingController2 = TextEditingController();
+  TextEditingController textEditingController3 = TextEditingController();
   String name = ''; // 名前を保持するプロパティ
   String email = ''; // メールアドレスを保持するプロパティ
+  String hinan = ''; // 避難場所を保持するプロパティ
 
   @override
   void dispose() {
     textEditingController1.dispose();
     textEditingController2.dispose();
+    textEditingController3.dispose();
     super.dispose();
   }
 
@@ -29,6 +34,12 @@ class _MyPageState extends State<MyPage> {
   void updateInputValue2(String value) {
     setState(() {
       email = value;
+    });
+  }
+
+  void updateInputValue3(String value) {
+    setState(() {
+      hinan = value;
     });
   }
 
@@ -73,14 +84,6 @@ class _MyPageState extends State<MyPage> {
                   ),
                 ),
                 SizedBox(height: 20),
-                Text(
-                  '名前: $name',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: 20),
                 TextField(
                   controller: textEditingController2,
                   onChanged: (value) {
@@ -97,39 +100,52 @@ class _MyPageState extends State<MyPage> {
                       borderSide: BorderSide(color: Colors.white),
                     ),
                   ),
-
-                  // ！メールアドレス用のキーボードにする処理
+                  keyboardType: TextInputType.emailAddress, // メールアドレス用のキーボードを表示する
                 ),
                 SizedBox(height: 20),
-                Text(
-                  'メールアドレス: $email',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
+                TextField(
+                  controller: textEditingController3,
+                  onChanged: (value) {
+                    updateInputValue3(value);
+                  },
+                  style: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    labelText: '避難場所を入力',
+                    labelStyle: TextStyle(color: Colors.white),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.orange.shade700),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
                   ),
                 ),
                 SizedBox(height: 20),
-                /*
-								 * ！保存ボタンを押したら新しいページが出現するようになっているため修正。
-								 * ！メールアドレスに不備があったら弾く処理(バリデーション)を追加。
-								 * ！ボタンとテキストのサイズを調整
-								 */
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MyPage(),
-                      ),
-                    );
-                  },
-                  child: Text("保存"),
+               TextButton(
+                onPressed: () {
+                  // 保存ボタンが押された時の処理
+                  String enteredEmail = textEditingController2.text;
+                  if (!enteredEmail.contains('@') || !enteredEmail.contains('.')) {
+                    // メールアドレスに@と.が含まれていない場合は処理を中断
+                    return;
+                  }
+                  textEditingController1.clear(); // テキストフィールド1をクリア
+                  textEditingController2.clear(); // テキストフィールド2をクリア
+                  textEditingController3.clear(); // テキストフィールド3をクリア
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.white), // 背景色を白に指定
+                  minimumSize: MaterialStateProperty.all<Size>(Size(200, 50)), // ボタンの最小サイズを指定（横幅: 120、高さ: 50）
                 ),
-
-                // ！避難場所を入力するフィールドを追加
-              ],
-            ),
+                child: Text(
+                  "保存",
+                  style: TextStyle(fontSize: 25, color: Colors.black), // テキストのスタイルを指定
+                ),
+              ),
+            ],
           ),
-        ));
+        ),
+      )
+    );
   }
 }

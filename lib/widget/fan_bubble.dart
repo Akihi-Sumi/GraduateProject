@@ -43,7 +43,7 @@ class BubbleMenu extends StatelessWidget {
             color: item.iconColor,
           ),
           const SizedBox(
-            width: 10.0,
+            width: 15.0,
           ),
           Text(
             item.title,

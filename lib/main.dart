@@ -14,7 +14,8 @@ class MyApp extends StatelessWidget {
       routerConfig: _appRouter.config(),
       title: 'Circular Bottom Navigation Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.orange,
+        canvasColor: Colors.transparent,
       ),
     );
   }

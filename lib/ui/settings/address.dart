@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:graduate_app/fan/fan_bubble.dart';
 import 'package:graduate_app/ui/settings/qr/qr_gene.dart';
 import 'package:graduate_app/ui/settings/qr/qr_scanner.dart';
+import 'package:graduate_app/widget/fan_bubble.dart';
 
 @RoutePage()
 class AddressPage extends StatefulWidget {

@@ -8,15 +8,18 @@ class HomeScreenPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "ホーム",
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.w600,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(60),
+        child: AppBar(
+          title: const Text(
+            "ホーム",
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w600,
+            ),
           ),
+          backgroundColor: Colors.orange.shade700,
         ),
-        backgroundColor: Colors.orange.shade700,
       ),
       body: Container(
         width: double.infinity,

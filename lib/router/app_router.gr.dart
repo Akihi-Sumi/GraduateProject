@@ -28,7 +28,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: MainScreenPage(
           key: args.key,
-          title: args.title,
+          //title: args.title,
         ),
       );
     },
@@ -70,10 +70,10 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const SettingsScreenPage(),
       );
     },
-    WeatherRoute.name: (routeData) {
+    FriendsRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const WeatherPage(),
+        child: const FriendsPage(),
       );
     },
   };
@@ -232,14 +232,14 @@ class SettingsScreenRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [WeatherPage]
-class WeatherRoute extends PageRouteInfo<void> {
-  const WeatherRoute({List<PageRouteInfo>? children})
+class FriendsRoute extends PageRouteInfo<void> {
+  const FriendsRoute({List<PageRouteInfo>? children})
       : super(
-          WeatherRoute.name,
+          FriendsRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'WeatherRoute';
+  static const String name = 'FriendsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

@@ -45,7 +45,6 @@ class _SurvivalKitPageState extends State<SurvivalKitPage> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(),
       child: Scaffold(
-        backgroundColor: Colors.black,
         appBar: AppBar(
           title: const Text(
             "防災グッズ",
@@ -58,7 +57,6 @@ class _SurvivalKitPageState extends State<SurvivalKitPage> {
           actions: [],
         ),
         body: SafeArea(
-          top: true,
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -73,11 +71,10 @@ class _SurvivalKitPageState extends State<SurvivalKitPage> {
                     ),
                   ),
                 ),
-                Divider(),
                 Column(
                     children: _list.map((goods) {
                   return CheckboxListTile(
-                    tileColor: Colors.grey,
+                    //tileColor: Colors.black,
                     controlAffinity: ListTileControlAffinity.leading,
                     activeColor: Colors.orange.shade700,
                     contentPadding: EdgeInsets.only(
@@ -123,10 +120,5 @@ class _SurvivalKitPageState extends State<SurvivalKitPage> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

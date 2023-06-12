@@ -8,17 +8,15 @@ class ModalWindow extends StatefulWidget {
 }
 
 class _ModalWindowState extends State<ModalWindow> {
-  bool isDispayKeybord = false;
+  bool isDisplayKeyboard = false;
   bool isButtonActive = true;
   TextEditingController controller = TextEditingController();
-  final FocusNode _focusUserId = FocusNode();
-  final FocusNode _focusPassword = FocusNode();
+  final FocusNode _focusTextField = FocusNode();
 
   @override
   void initState() {
     super.initState();
-    _focusUserId.addListener(() => _onFocusChange(_focusUserId));
-    _focusPassword.addListener(() => _onFocusChange(_focusPassword));
+    _focusTextField.addListener(() => _onFocusChange(_focusTextField));
 
     controller.addListener(() {
       final isButtonActive = controller.text.isNotEmpty;
@@ -35,9 +33,9 @@ class _ModalWindowState extends State<ModalWindow> {
   void _onFocusChange(FocusNode focus) {
     setState(() {
       if (focus.hasFocus) {
-        isDispayKeybord = true;
+        isDisplayKeyboard = true;
       } else {
-        isDispayKeybord = false;
+        isDisplayKeyboard = false;
       }
     });
   }
@@ -45,7 +43,7 @@ class _ModalWindowState extends State<ModalWindow> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: isDispayKeybord
+      height: isDisplayKeyboard
           ? MediaQuery.of(context).size.height * 0.3
           : MediaQuery.of(context).size.height * 0.3,
       child: Column(
@@ -62,15 +60,21 @@ class _ModalWindowState extends State<ModalWindow> {
             child: TextField(
               controller: controller,
               autofocus: true,
-              focusNode: _focusUserId,
+              focusNode: _focusTextField,
               decoration: const InputDecoration(
-                labelText: 'メッセージを追加',
-                labelStyle: TextStyle(
-                  color: Colors.black,
-                ),
+                labelText: 'メッセージを入力してください',
+                labelStyle: TextStyle(color: Colors.white, fontSize: 18),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
                 ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+              ),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 22,
               ),
               onChanged: (value) {
                 setState(() {
@@ -80,6 +84,10 @@ class _ModalWindowState extends State<ModalWindow> {
             ),
           ),
           ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.orange.shade500,
+              foregroundColor: Colors.black,
+            ),
             onPressed: isButtonActive
                 ? () => {
                       setState(() => isButtonActive = false),

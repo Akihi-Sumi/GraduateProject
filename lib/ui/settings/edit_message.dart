@@ -28,58 +28,63 @@ class _EditMessagePageState extends State<EditMessagePage>
     return GestureDetector(
       onTap: () => _animationController.reverse(),
       child: Scaffold(
-        backgroundColor: Colors.black,
-        appBar: AppBar(
-          title: const Text(
-            "メッセージ設定",
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          actions: [
-            IconButton(
-              padding: EdgeInsets.only(right: 15),
-              icon: const Icon(
-                Icons.add_comment_outlined,
-                size: 35,
+        resizeToAvoidBottomInset: false,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(60),
+          child: AppBar(
+            title: const Text(
+              "メッセージ設定",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w600,
               ),
-              onPressed: () => {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (BuildContext context) {
-                    return Container(
-                      //height: 350,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFD6D6D6),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        ),
-                      ),
-                      child: const ModalWindow(),
-                    );
-                  },
+            ),
+            actions: [
+              IconButton(
+                padding: EdgeInsets.only(right: 15),
+                icon: const Icon(
+                  Icons.add_comment_outlined,
+                  size: 35,
                 ),
-              },
+                onPressed: () => {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (BuildContext context) {
+                      return Container(
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF424242),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20),
+                          ),
+                        ),
+                        child: const ModalWindow(),
+                      );
+                    },
+                  ),
+                },
+              )
+            ],
+            backgroundColor: Colors.orange.shade700,
+          ),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SingleChildScrollView(
+              child: Center(
+                child: Text(
+                  "メッセージを追加したり編集したり",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+              ),
             )
           ],
-          backgroundColor: Colors.orange.shade700,
-        ),
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          color: Colors.black,
-          child: Center(
-            child: Text(
-              "メッセージを追加したり編集する",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20),
-            ),
-          ),
         ),
       ),
     );

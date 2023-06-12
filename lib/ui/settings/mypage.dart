@@ -15,7 +15,7 @@ class _MyPageState extends State<MyPage> {
   TextEditingController textEditingController3 = TextEditingController();
   String name = ''; // 名前を保持するプロパティ
   String email = ''; // メールアドレスを保持するプロパティ
-  String hinan = ''; // 避難場所を保持するプロパティ
+  String evacuation = ''; // 避難場所を保持するプロパティ
 
   @override
   void dispose() {
@@ -39,7 +39,7 @@ class _MyPageState extends State<MyPage> {
 
   void updateInputValue3(String value) {
     setState(() {
-      hinan = value;
+      evacuation = value;
     });
   }
 
@@ -100,7 +100,8 @@ class _MyPageState extends State<MyPage> {
                       borderSide: BorderSide(color: Colors.white),
                     ),
                   ),
-                  keyboardType: TextInputType.emailAddress, // メールアドレス用のキーボードを表示する
+                  keyboardType:
+                      TextInputType.emailAddress, // メールアドレス用のキーボードを表示する
                 ),
                 SizedBox(height: 20),
                 TextField(
@@ -120,32 +121,35 @@ class _MyPageState extends State<MyPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
-               TextButton(
-                onPressed: () {
-                  // 保存ボタンが押された時の処理
-                  String enteredEmail = textEditingController2.text;
-                  if (!enteredEmail.contains('@') || !enteredEmail.contains('.')) {
-                    // メールアドレスに@と.が含まれていない場合は処理を中断
-                    return;
-                  }
-                  textEditingController1.clear(); // テキストフィールド1をクリア
-                  textEditingController2.clear(); // テキストフィールド2をクリア
-                  textEditingController3.clear(); // テキストフィールド3をクリア
-                },
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.white), // 背景色を白に指定
-                  minimumSize: MaterialStateProperty.all<Size>(Size(200, 50)), // ボタンの最小サイズを指定（横幅: 120、高さ: 50）
+                SizedBox(height: 40),
+                TextButton(
+                  onPressed: () {
+                    // 保存ボタンが押された時の処理
+                    String enteredEmail = textEditingController2.text;
+                    if (!enteredEmail.contains('@') ||
+                        !enteredEmail.contains('.')) {
+                      // メールアドレスに@と.が含まれていない場合は処理を中断
+                      return;
+                    }
+                    textEditingController1.clear(); // テキストフィールド1をクリア
+                    textEditingController2.clear(); // テキストフィールド2をクリア
+                    textEditingController3.clear(); // テキストフィールド3をクリア
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Colors.white), // 背景色を白に指定
+                    minimumSize: MaterialStateProperty.all<Size>(
+                        Size(200, 50)), // ボタンの最小サイズを指定（横幅: 120、高さ: 50）
+                  ),
+                  child: Text(
+                    "保存",
+                    style: TextStyle(
+                        fontSize: 25, color: Colors.black), // テキストのスタイルを指定
+                  ),
                 ),
-                child: Text(
-                  "保存",
-                  style: TextStyle(fontSize: 25, color: Colors.black), // テキストのスタイルを指定
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      )
-    );
+        ));
   }
 }

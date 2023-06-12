@@ -14,16 +14,18 @@ class SettingsScreenPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: const Text(
-          "設定",
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.w600,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(60),
+        child: AppBar(
+          title: const Text(
+            "設定",
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w600,
+            ),
           ),
+          backgroundColor: Colors.orange.shade700,
         ),
-        backgroundColor: Colors.orange.shade700,
       ),
       body: Center(
         child: Column(

@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_app/ui/friends_screen.dart';
 import 'package:graduate_app/ui/home_screen.dart';
 import 'package:graduate_app/ui/main_screen.dart';
 import 'package:graduate_app/ui/settings/address.dart';
@@ -7,7 +8,6 @@ import 'package:graduate_app/ui/settings/edit_message.dart';
 import 'package:graduate_app/ui/settings/mypage.dart';
 import 'package:graduate_app/ui/settings/survival_kit.dart';
 import 'package:graduate_app/ui/settings_screen.dart';
-import 'package:graduate_app/ui/weather_earthquake.dart';
 
 part 'app_router.gr.dart';
 
@@ -25,8 +25,8 @@ class AppRouter extends _$AppRouter {
                 page: HomeScreenRoute.page,
               ),
               AutoRoute(
-                path: 'weather',
-                page: WeatherRoute.page,
+                path: 'friends',
+                page: FriendsRoute.page,
               ),
               AutoRoute(
                   path: 'settings',

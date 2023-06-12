@@ -3,27 +3,29 @@ import 'package:flutter/material.dart';
 import 'package:graduate_app/router/app_router.dart';
 
 @RoutePage()
-class MainScreenPage extends StatelessWidget {
+class MainScreenPage extends StatefulWidget {
   MainScreenPage({
     Key? key,
-    this.title,
   }) : super(key: key);
 
-  final String? title;
+  @override
+  State<MainScreenPage> createState() => _MainScreenPageState();
+}
 
+class _MainScreenPageState extends State<MainScreenPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: AutoTabsScaffold(
         routes: const [
           HomeScreenRoute(),
-          WeatherRoute(),
+          FriendsRoute(),
           SettingsScreenRoute()
         ],
         bottomNavigationBuilder: (_, tabsRouter) {
-          return BottomNavigationBar(
-            currentIndex: tabsRouter.activeIndex,
-            onTap: (int index) {
+          return NavigationBar(
+            selectedIndex: tabsRouter.activeIndex,
+            onDestinationSelected: (int index) {
               if (tabsRouter.activeIndex != index) {
                 tabsRouter.setActiveIndex(index);
               } else {
@@ -32,23 +34,24 @@ class MainScreenPage extends StatelessWidget {
                     ?.popUntilRoot();
               }
             },
-            backgroundColor: Colors.orange.shade700,
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
+            backgroundColor: Colors.grey[900],
+            destinations: const [
+              NavigationDestination(
+                icon: Icon(Icons.home_outlined, color: Colors.grey),
+                selectedIcon: Icon(Icons.home, color: Colors.white),
                 label: "Home",
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.sunny),
-                label: "Weather",
+              NavigationDestination(
+                icon: Icon(Icons.group_outlined, color: Colors.grey),
+                selectedIcon: Icon(Icons.group, color: Colors.white),
+                label: "Friend",
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.settings_sharp),
+              NavigationDestination(
+                icon: Icon(Icons.settings_outlined, color: Colors.grey),
+                selectedIcon: Icon(Icons.settings, color: Colors.white),
                 label: "Settings",
               ),
             ],
-            selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-            selectedItemColor: Colors.white,
           );
         },
       ),

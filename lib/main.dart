@@ -12,9 +12,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: _appRouter.config(),
-      title: 'Circular Bottom Navigation Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
+      title: 'Emergency Messenger',
+      theme: ThemeData.dark().copyWith(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.grey,
+          accentColor: Colors.orange.shade700,
+          brightness: Brightness.dark,
+        ),
+        scaffoldBackgroundColor: Colors.black,
         canvasColor: Colors.transparent,
       ),
     );

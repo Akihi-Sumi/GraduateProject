@@ -63,7 +63,7 @@ class _ModalWindowState extends State<ModalWindow> {
               focusNode: _focusTextField,
               decoration: const InputDecoration(
                 labelText: 'メッセージを入力してください',
-                labelStyle: TextStyle(color: Colors.white, fontSize: 18),
+                labelStyle: TextStyle(color: Colors.white, fontSize: 15),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
                 ),
@@ -85,7 +85,7 @@ class _ModalWindowState extends State<ModalWindow> {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.orange.shade500,
+              backgroundColor: Colors.orange[700],
               foregroundColor: Colors.black,
             ),
             onPressed: isButtonActive

@@ -24,24 +24,26 @@ class SettingsScreenPage extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          backgroundColor: Colors.orange.shade700,
+          centerTitle: true,
+          backgroundColor: Colors.black,
         ),
       ),
-      body: Center(
+      body: SizedBox(
+        width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.only(top: 15, bottom: 15),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
+                  backgroundColor: Colors.orange[700],
                   fixedSize: Size(250, 60),
                 ),
                 child: Text(
                   "メッセージ設定",
                   style: TextStyle(
-                      color: Colors.black,
+                      color: Colors.white,
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
@@ -49,16 +51,16 @@ class SettingsScreenPage extends StatelessWidget {
               ),
             ),
             Container(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.only(top: 15, bottom: 15),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
+                  backgroundColor: Colors.orange[700],
                   fixedSize: Size(250, 60),
                 ),
                 child: Text(
                   "連絡先",
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -67,16 +69,16 @@ class SettingsScreenPage extends StatelessWidget {
               ),
             ),
             Container(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.only(top: 15, bottom: 15),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
+                  backgroundColor: Colors.orange[700],
                   fixedSize: Size(250, 60),
                 ),
                 child: Text(
                   "防災グッズ",
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -85,16 +87,16 @@ class SettingsScreenPage extends StatelessWidget {
               ),
             ),
             Container(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.only(top: 15, bottom: 15),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
+                  backgroundColor: Colors.orange[700],
                   fixedSize: Size(250, 60),
                 ),
                 child: Text(
                   "個人設定",
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),

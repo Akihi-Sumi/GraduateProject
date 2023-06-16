@@ -18,7 +18,8 @@ class FriendsPage extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          backgroundColor: Colors.orange.shade700,
+          centerTitle: true,
+          backgroundColor: Colors.black,
         ),
       ),
       body: Container(

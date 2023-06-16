@@ -37,8 +37,8 @@ class _AddressPageState extends State<AddressPage>
     return GestureDetector(
       onTap: () => _animationController.reverse(),
       child: Scaffold(
-        backgroundColor: Colors.black,
         appBar: AppBar(
+          backgroundColor: Colors.black,
           title: const Text(
             "連絡先",
             style: TextStyle(
@@ -46,7 +46,7 @@ class _AddressPageState extends State<AddressPage>
               fontWeight: FontWeight.w600,
             ),
           ),
-          backgroundColor: Colors.orange.shade700,
+          centerTitle: true,
         ),
         //body: Center(child: Text(_text)),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,

@@ -6,38 +6,39 @@ class MyPage extends StatefulWidget {
   const MyPage({Key? key}) : super(key: key);
 
   @override
-  _MyPageState createState() => _MyPageState();
+  State<MyPage> createState() => _MyPageState();
 }
 
 class _MyPageState extends State<MyPage> {
-  TextEditingController textEditingController1 = TextEditingController();
-  TextEditingController textEditingController2 = TextEditingController();
-  TextEditingController textEditingController3 = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController evacuationController = TextEditingController();
+
   String name = ''; // 名前を保持するプロパティ
   String email = ''; // メールアドレスを保持するプロパティ
   String evacuation = ''; // 避難場所を保持するプロパティ
 
   @override
   void dispose() {
-    textEditingController1.dispose();
-    textEditingController2.dispose();
-    textEditingController3.dispose();
+    nameController.dispose();
+    emailController.dispose();
+    evacuationController.dispose();
     super.dispose();
   }
 
-  void updateInputValue1(String value) {
+  void nameUpdateValue(String value) {
     setState(() {
       name = value;
     });
   }
 
-  void updateInputValue2(String value) {
+  void emailUpdateValue(String value) {
     setState(() {
       email = value;
     });
   }
 
-  void updateInputValue3(String value) {
+  void evacuationUpdateValue(String value) {
     setState(() {
       evacuation = value;
     });
@@ -50,8 +51,9 @@ class _MyPageState extends State<MyPage> {
         behavior: HitTestBehavior.opaque,
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
-          backgroundColor: Colors.black,
+          //backgroundColor: Colors.black,
           appBar: AppBar(
+            backgroundColor: Colors.black,
             title: const Text(
               "個人設定",
               style: TextStyle(
@@ -59,7 +61,7 @@ class _MyPageState extends State<MyPage> {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            backgroundColor: Colors.orange.shade700,
+            centerTitle: true,
           ),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -67,9 +69,9 @@ class _MyPageState extends State<MyPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextField(
-                  controller: textEditingController1,
+                  controller: nameController,
                   onChanged: (value) {
-                    updateInputValue1(value);
+                    nameUpdateValue(value);
                   },
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
@@ -82,12 +84,13 @@ class _MyPageState extends State<MyPage> {
                       borderSide: BorderSide(color: Colors.white),
                     ),
                   ),
+                  textInputAction: TextInputAction.next,
                 ),
                 SizedBox(height: 20),
                 TextField(
-                  controller: textEditingController2,
+                  controller: emailController,
                   onChanged: (value) {
-                    updateInputValue2(value);
+                    emailUpdateValue(value);
                   },
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
@@ -100,14 +103,15 @@ class _MyPageState extends State<MyPage> {
                       borderSide: BorderSide(color: Colors.white),
                     ),
                   ),
-                  keyboardType:
-                      TextInputType.emailAddress, // メールアドレス用のキーボードを表示する
+                  // メールアドレス用のキーボードを表示する
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
                 ),
                 SizedBox(height: 20),
                 TextField(
-                  controller: textEditingController3,
+                  controller: evacuationController,
                   onChanged: (value) {
-                    updateInputValue3(value);
+                    evacuationUpdateValue(value);
                   },
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
@@ -125,26 +129,27 @@ class _MyPageState extends State<MyPage> {
                 TextButton(
                   onPressed: () {
                     // 保存ボタンが押された時の処理
-                    String enteredEmail = textEditingController2.text;
+                    String enteredEmail = emailController.text;
                     if (!enteredEmail.contains('@') ||
                         !enteredEmail.contains('.')) {
                       // メールアドレスに@と.が含まれていない場合は処理を中断
                       return;
                     }
-                    textEditingController1.clear(); // テキストフィールド1をクリア
-                    textEditingController2.clear(); // テキストフィールド2をクリア
-                    textEditingController3.clear(); // テキストフィールド3をクリア
+                    nameController.clear(); // テキストフィールド1をクリア
+                    emailController.clear(); // テキストフィールド2をクリア
+                    evacuationController.clear(); // テキストフィールド3をクリア
                   },
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        Colors.white), // 背景色を白に指定
-                    minimumSize: MaterialStateProperty.all<Size>(
-                        Size(200, 50)), // ボタンの最小サイズを指定（横幅: 120、高さ: 50）
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Color(0xFFF57C00)),
+                    minimumSize: MaterialStateProperty.all<Size>(Size(200, 50)),
                   ),
                   child: Text(
                     "保存",
                     style: TextStyle(
-                        fontSize: 25, color: Colors.black), // テキストのスタイルを指定
+                      color: Colors.black,
+                      fontSize: 25,
+                    ),
                   ),
                 ),
               ],

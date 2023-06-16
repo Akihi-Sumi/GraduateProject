@@ -7,7 +7,7 @@ class EditMessagePage extends StatefulWidget {
   const EditMessagePage({Key? key}) : super(key: key);
 
   @override
-  _EditMessagePageState createState() => _EditMessagePageState();
+  State<EditMessagePage> createState() => _EditMessagePageState();
 }
 
 class _EditMessagePageState extends State<EditMessagePage>
@@ -32,6 +32,7 @@ class _EditMessagePageState extends State<EditMessagePage>
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(60),
           child: AppBar(
+            backgroundColor: Colors.black,
             title: const Text(
               "メッセージ設定",
               style: TextStyle(
@@ -39,6 +40,7 @@ class _EditMessagePageState extends State<EditMessagePage>
                 fontWeight: FontWeight.w600,
               ),
             ),
+            centerTitle: true,
             actions: [
               IconButton(
                 padding: EdgeInsets.only(right: 15),
@@ -46,6 +48,7 @@ class _EditMessagePageState extends State<EditMessagePage>
                   Icons.add_comment_outlined,
                   size: 35,
                 ),
+                //color: Colors.orange[700],
                 onPressed: () => {
                   showModalBottomSheet(
                     context: context,
@@ -66,7 +69,6 @@ class _EditMessagePageState extends State<EditMessagePage>
                 },
               )
             ],
-            backgroundColor: Colors.orange.shade700,
           ),
         ),
         body: Column(

@@ -10,9 +10,12 @@ class MyPage extends StatefulWidget {
 }
 
 class _MyPageState extends State<MyPage> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController evacuationController = TextEditingController();
+  TextEditingController nameController =
+      TextEditingController(text: "前回保存した名前");
+  TextEditingController emailController =
+      TextEditingController(text: "前回保存したメアド");
+  TextEditingController evacuationController =
+      TextEditingController(text: "前回保存した避難場所");
 
   String name = ''; // 名前を保持するプロパティ
   String email = ''; // メールアドレスを保持するプロパティ
@@ -73,10 +76,10 @@ class _MyPageState extends State<MyPage> {
                   onChanged: (value) {
                     nameUpdateValue(value);
                   },
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.amber, fontSize: 18),
                   decoration: InputDecoration(
                     labelText: '名前を入力',
-                    labelStyle: TextStyle(color: Colors.white),
+                    labelStyle: TextStyle(color: Colors.white, fontSize: 16),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.orange.shade700),
                     ),
@@ -92,10 +95,10 @@ class _MyPageState extends State<MyPage> {
                   onChanged: (value) {
                     emailUpdateValue(value);
                   },
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.amber, fontSize: 18),
                   decoration: InputDecoration(
                     labelText: 'メールアドレスを入力',
-                    labelStyle: TextStyle(color: Colors.white),
+                    labelStyle: TextStyle(color: Colors.white, fontSize: 16),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.orange.shade700),
                     ),
@@ -113,10 +116,10 @@ class _MyPageState extends State<MyPage> {
                   onChanged: (value) {
                     evacuationUpdateValue(value);
                   },
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.amber, fontSize: 18),
                   decoration: InputDecoration(
                     labelText: '避難場所を入力',
-                    labelStyle: TextStyle(color: Colors.white),
+                    labelStyle: TextStyle(color: Colors.white, fontSize: 16),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.orange.shade700),
                     ),
@@ -128,16 +131,56 @@ class _MyPageState extends State<MyPage> {
                 SizedBox(height: 40),
                 TextButton(
                   onPressed: () {
-                    // 保存ボタンが押された時の処理
                     String enteredEmail = emailController.text;
                     if (!enteredEmail.contains('@') ||
                         !enteredEmail.contains('.')) {
                       // メールアドレスに@と.が含まれていない場合は処理を中断
+                      showDialog<void>(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text(
+                            "メールアドレスが無効です",
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 23.5,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                "閉じる",
+                                style: TextStyle(fontSize: 17.5),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
                       return;
+                    } else {
+                      FocusScope.of(context).unfocus();
+                      showDialog<void>(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text("変更内容を保存しました"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                                FocusScope.of(context).unfocus();
+                              },
+                              child: Text(
+                                "閉じる",
+                                style: TextStyle(fontSize: 17.5),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
                     }
-                    nameController.clear(); // テキストフィールド1をクリア
-                    emailController.clear(); // テキストフィールド2をクリア
-                    evacuationController.clear(); // テキストフィールド3をクリア
                   },
                   style: ButtonStyle(
                     backgroundColor:

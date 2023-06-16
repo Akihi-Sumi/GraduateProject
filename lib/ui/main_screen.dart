@@ -15,48 +15,47 @@ class MainScreenPage extends StatefulWidget {
 class _MainScreenPageState extends State<MainScreenPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: AutoTabsScaffold(
-          routes: const [
-            HomeScreenRoute(),
-            FriendsRoute(),
-            SettingsScreenRoute()
-          ],
-          bottomNavigationBuilder: (_, tabsRouter) {
-            return BottomNavigationBar(
-              currentIndex: tabsRouter.activeIndex,
-              onTap: (int index) {
-                if (tabsRouter.activeIndex != index) {
-                  tabsRouter.setActiveIndex(index);
-                } else {
-                  tabsRouter
-                      .innerRouterOf<StackRouter>(tabsRouter.current.name)
-                      ?.popUntilRoot();
-                }
-              },
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home_outlined),
-                  activeIcon: Icon(Icons.home),
-                  label: "ホーム",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.group_outlined),
-                  activeIcon: Icon(Icons.group),
-                  label: "つながり",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.settings_outlined),
-                  activeIcon: Icon(Icons.settings),
-                  label: "設定",
-                ),
-              ],
-              selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-            );
-          },
-        ),
+    return SafeArea(
+      child: AutoTabsScaffold(
+        routes: const [
+          HomeScreenRoute(),
+          FriendsRoute(),
+          SettingsScreenRoute()
+        ],
+        bottomNavigationBuilder: (_, tabsRouter) {
+          return BottomNavigationBar(
+            currentIndex: tabsRouter.activeIndex,
+            onTap: (int index) {
+              if (tabsRouter.activeIndex != index) {
+                tabsRouter.setActiveIndex(index);
+              } else {
+                tabsRouter
+                    .innerRouterOf<StackRouter>(tabsRouter.current.name)
+                    ?.popUntilRoot();
+              }
+            },
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home_outlined),
+                activeIcon: Icon(Icons.home),
+                label: "ホーム",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.group_outlined),
+                activeIcon: Icon(Icons.group),
+                label: "つながり",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.settings_outlined),
+                activeIcon: Icon(Icons.settings),
+                label: "設定",
+              ),
+            ],
+            selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+          );
+        },
       ),
+      //),
     );
   }
 }

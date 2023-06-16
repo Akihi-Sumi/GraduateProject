@@ -130,58 +130,89 @@ class _MyPageState extends State<MyPage> {
                 ),
                 SizedBox(height: 40),
                 TextButton(
-                  onPressed: () {
-                    String enteredEmail = emailController.text;
-                    if (!enteredEmail.contains('@') ||
-                        !enteredEmail.contains('.')) {
-                      // メールアドレスに@と.が含まれていない場合は処理を中断
-                      showDialog<void>(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: Text(
-                            "メールアドレスが無効です",
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 23.5,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text(
-                                "閉じる",
-                                style: TextStyle(fontSize: 17.5),
+                  onPressed: (nameController.text != "前回保存した名前" ||
+                          emailController.text != "前回保存したメアド" ||
+                          evacuationController.text != "前回保存した避難場所")
+                      ? () {
+                          //メールアドレスのバリデーション & 名前と避難場所の欄が空白じゃないとき通貨
+                          if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(emailController.text) &&
+                              nameController.text.isNotEmpty &&
+                              evacuationController.text.isNotEmpty) {
+                            FocusScope.of(context).unfocus();
+                            showDialog<void>(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Text("変更内容を保存しました"),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      FocusScope.of(context).unfocus();
+                                    },
+                                    child: Text(
+                                      "閉じる",
+                                      style: TextStyle(fontSize: 17.5),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-                      return;
-                    } else {
-                      FocusScope.of(context).unfocus();
-                      showDialog<void>(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: Text("変更内容を保存しました"),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                                FocusScope.of(context).unfocus();
-                              },
-                              child: Text(
-                                "閉じる",
-                                style: TextStyle(fontSize: 17.5),
+                            );
+                          } else if (nameController.text.isEmpty ||
+                              evacuationController.text.isEmpty) {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Text(
+                                  "未入力の項目があります",
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 23.5,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(
+                                      "閉じる",
+                                      style: TextStyle(fontSize: 17.5),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                  },
+                            );
+                          } else {
+                            showDialog<void>(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Text(
+                                  "メールアドレスが無効です",
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 23.5,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(
+                                      "閉じる",
+                                      style: TextStyle(fontSize: 17.5),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                            return;
+                          }
+                        }
+                      : null,
                   style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Color(0xFFF57C00)),

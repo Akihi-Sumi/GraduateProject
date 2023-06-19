@@ -90,7 +90,7 @@ class AnimationCard extends StatelessWidget {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(8, 4, 0, 0),
                           child: Text(
-                            profile.evacuation,
+                            profile.comment,
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w400,

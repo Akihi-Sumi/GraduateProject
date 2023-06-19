@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 
 class ModalWindow extends StatefulWidget {
-  const ModalWindow({super.key});
+  const ModalWindow(
+      {super.key,
+      required this.title,
+      required this.tfLabel,
+      required this.btnLabel});
+
+  final String title;
+  final String tfLabel;
+  final String btnLabel;
 
   @override
   State<ModalWindow> createState() => _ModalWindowState();
@@ -48,10 +56,10 @@ class _ModalWindowState extends State<ModalWindow> {
           : MediaQuery.of(context).size.height * 0.3,
       child: Column(
         children: [
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(20.0),
             child: Text(
-              'メッセージを追加',
+              widget.title,
               style: TextStyle(fontSize: 24.0),
             ),
           ),
@@ -61,8 +69,8 @@ class _ModalWindowState extends State<ModalWindow> {
               controller: controller,
               autofocus: true,
               focusNode: _focusTextField,
-              decoration: const InputDecoration(
-                labelText: 'メッセージを入力してください',
+              decoration: InputDecoration(
+                labelText: widget.tfLabel,
                 labelStyle: TextStyle(color: Colors.white, fontSize: 15),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -94,8 +102,8 @@ class _ModalWindowState extends State<ModalWindow> {
                       Navigator.of(context).pop(),
                     }
                 : null,
-            child: const Text(
-              '追加',
+            child: Text(
+              widget.btnLabel,
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,

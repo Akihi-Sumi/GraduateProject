@@ -20,7 +20,7 @@ class _EditMessagePageState extends State<EditMessagePage>
   void initState() {
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 260),
+      duration: Duration(milliseconds: 260),
     );
     super.initState();
   }
@@ -32,7 +32,7 @@ class _EditMessagePageState extends State<EditMessagePage>
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(60),
+          preferredSize: Size.fromHeight(60),
           child: AppBar(
             backgroundColor: Colors.black,
             title: const Text(
@@ -46,26 +46,29 @@ class _EditMessagePageState extends State<EditMessagePage>
             actions: [
               IconButton(
                 padding: EdgeInsets.only(right: 15),
-                icon: const Icon(
+                icon: Icon(
                   Icons.add_comment_rounded,
                   size: 35,
                   color: Color(0xFFF57C00),
                 ),
-                //color: Colors.orange[700],
                 onPressed: () => {
                   showModalBottomSheet(
                     context: context,
                     isScrollControlled: true,
                     builder: (BuildContext context) {
                       return Container(
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           color: Color(0xFF424242),
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(20),
                             topRight: Radius.circular(20),
                           ),
                         ),
-                        child: const ModalWindow(),
+                        child: ModalWindow(
+                          title: "メッセージを追加",
+                          tfLabel: "メッセージを入力してください",
+                          btnLabel: "追加",
+                        ),
                       );
                     },
                   ),
@@ -85,7 +88,7 @@ class _EditMessagePageState extends State<EditMessagePage>
               Expanded(
                 child: Message(
                   text: "Sample Bubble Sample DEMO",
-                  isSender: true, // ホームページに表示するときはtrue、設定ページのときはfalse
+                  isSender: false,
                 ),
               ),
               PopupMenuButtonSample()

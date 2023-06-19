@@ -22,7 +22,7 @@ class _DetailPageState extends State<DetailPage> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(74),
         child: AppBar(
-          backgroundColor: Colors.orangeAccent[400],
+          backgroundColor: Colors.black,
           leading: InkWell(
             onTap: () async {
               Navigator.pop(context);
@@ -50,7 +50,7 @@ class _DetailPageState extends State<DetailPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
                 child: Hero(
                   tag: "mainImage",
                   transitionOnUserGestures: true,
@@ -59,7 +59,7 @@ class _DetailPageState extends State<DetailPage> {
                     child: Image.network(
                       widget.profile.image,
                       width: double.infinity,
-                      height: 300,
+                      height: 350,
                       fit: BoxFit.cover,
                     ),
                   ),

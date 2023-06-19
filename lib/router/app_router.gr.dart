@@ -70,10 +70,10 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const SettingsScreenPage(),
       );
     },
-    FriendsRoute.name: (routeData) {
+    RelationshipRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const FriendsPage(),
+        child: const RelationshipPage(),
       );
     },
   };
@@ -232,10 +232,10 @@ class SettingsScreenRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [WeatherPage]
-class FriendsRoute extends PageRouteInfo<void> {
-  const FriendsRoute({List<PageRouteInfo>? children})
+class RelationshipRoute extends PageRouteInfo<void> {
+  const RelationshipRoute({List<PageRouteInfo>? children})
       : super(
-          FriendsRoute.name,
+          RelationshipRoute.name,
           initialChildren: children,
         );
 

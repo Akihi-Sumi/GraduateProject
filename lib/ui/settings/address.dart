@@ -10,7 +10,7 @@ class AddressPage extends StatefulWidget {
   const AddressPage({Key? key}) : super(key: key);
 
   @override
-  _AddressPageState createState() => _AddressPageState();
+  State<AddressPage> createState() => _AddressPageState();
 }
 
 class _AddressPageState extends State<AddressPage>

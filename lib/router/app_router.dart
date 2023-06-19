@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:graduate_app/ui/friends_screen.dart';
 import 'package:graduate_app/ui/home_screen.dart';
 import 'package:graduate_app/ui/main_screen.dart';
+import 'package:graduate_app/ui/relationshipPage.dart';
 import 'package:graduate_app/ui/settings/address.dart';
 import 'package:graduate_app/ui/settings/edit_message.dart';
 import 'package:graduate_app/ui/settings/mypage.dart';
@@ -26,7 +26,7 @@ class AppRouter extends _$AppRouter {
               ),
               AutoRoute(
                 path: 'friends',
-                page: FriendsRoute.page,
+                page: RelationshipRoute.page,
               ),
               AutoRoute(
                   path: 'settings',

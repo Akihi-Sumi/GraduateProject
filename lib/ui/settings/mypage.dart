@@ -51,90 +51,93 @@ class _MyPageState extends State<MyPage> {
   Widget build(BuildContext context) {
     // キーボード外をタップで収納するよう変更 (済み)
     return GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Scaffold(
-          //backgroundColor: Colors.black,
-          appBar: AppBar(
-            backgroundColor: Colors.black,
-            title: const Text(
-              "個人設定",
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
-              ),
+      behavior: HitTestBehavior.opaque,
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        //backgroundColor: Colors.black,
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: const Text(
+            "個人設定",
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w600,
             ),
-            centerTitle: true,
           ),
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextField(
-                  controller: nameController,
-                  onChanged: (value) {
-                    nameUpdateValue(value);
-                  },
-                  style: TextStyle(color: Colors.amber, fontSize: 18),
-                  decoration: InputDecoration(
-                    labelText: '名前を入力',
-                    labelStyle: TextStyle(color: Colors.white, fontSize: 16),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.orange.shade700),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
+          centerTitle: true,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(
+                controller: nameController,
+                onChanged: (value) {
+                  nameUpdateValue(value);
+                },
+                style: TextStyle(color: Colors.amber, fontSize: 18),
+                decoration: InputDecoration(
+                  labelText: '名前を入力',
+                  labelStyle: TextStyle(color: Colors.white, fontSize: 16),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.orange.shade700),
                   ),
-                  textInputAction: TextInputAction.next,
-                ),
-                SizedBox(height: 20),
-                TextField(
-                  controller: emailController,
-                  onChanged: (value) {
-                    emailUpdateValue(value);
-                  },
-                  style: TextStyle(color: Colors.amber, fontSize: 18),
-                  decoration: InputDecoration(
-                    labelText: 'メールアドレスを入力',
-                    labelStyle: TextStyle(color: Colors.white, fontSize: 16),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.orange.shade700),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                  ),
-                  // メールアドレス用のキーボードを表示する
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                ),
-                SizedBox(height: 20),
-                TextField(
-                  controller: evacuationController,
-                  onChanged: (value) {
-                    evacuationUpdateValue(value);
-                  },
-                  style: TextStyle(color: Colors.amber, fontSize: 18),
-                  decoration: InputDecoration(
-                    labelText: '避難場所を入力',
-                    labelStyle: TextStyle(color: Colors.white, fontSize: 16),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.orange.shade700),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
                   ),
                 ),
-                SizedBox(height: 40),
-                TextButton(
+                textInputAction: TextInputAction.next,
+              ),
+              SizedBox(height: 20),
+              TextField(
+                controller: emailController,
+                onChanged: (value) {
+                  emailUpdateValue(value);
+                },
+                style: TextStyle(color: Colors.amber, fontSize: 18),
+                decoration: InputDecoration(
+                  labelText: 'メールアドレスを入力',
+                  labelStyle: TextStyle(color: Colors.white, fontSize: 16),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.orange.shade700),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                ),
+                // メールアドレス用のキーボードを表示する
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.next,
+              ),
+              SizedBox(height: 20),
+              TextField(
+                controller: evacuationController,
+                onChanged: (value) {
+                  evacuationUpdateValue(value);
+                },
+                style: TextStyle(color: Colors.amber, fontSize: 18),
+                decoration: InputDecoration(
+                  labelText: '避難場所を入力',
+                  labelStyle: TextStyle(color: Colors.white, fontSize: 16),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.orange.shade700),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                ),
+              ),
+              SizedBox(height: 40),
+              SizedBox(
+                width: 140,
+                height: 50,
+                child: ElevatedButton(
                   onPressed: (nameController.text != "前回保存した名前" ||
                           emailController.text != "前回保存したメアド" ||
                           evacuationController.text != "前回保存した避難場所")
                       ? () {
-                          //メールアドレスのバリデーション & 名前と避難場所の欄が空白じゃないとき通貨
+                          //メールアドレスのバリデーション & 名前と避難場所の欄が空白じゃないとき
                           if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                   .hasMatch(emailController.text) &&
                               nameController.text.isNotEmpty &&
@@ -158,7 +161,9 @@ class _MyPageState extends State<MyPage> {
                                 ],
                               ),
                             );
-                          } else if (nameController.text.isEmpty ||
+                          }
+                          // 空欄があるとき
+                          else if (nameController.text.isEmpty ||
                               evacuationController.text.isEmpty) {
                             showDialog(
                               context: context,
@@ -184,7 +189,9 @@ class _MyPageState extends State<MyPage> {
                                 ],
                               ),
                             );
-                          } else {
+                          }
+                          // メールアドレスが無効なとき
+                          else {
                             showDialog<void>(
                               context: context,
                               builder: (context) => AlertDialog(
@@ -213,22 +220,27 @@ class _MyPageState extends State<MyPage> {
                           }
                         }
                       : null,
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Color(0xFFF57C00)),
-                    minimumSize: MaterialStateProperty.all<Size>(Size(200, 50)),
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.orange[700],
+                    textStyle: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   child: Text(
                     "保存",
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 25,
+                      //fontSize: 25,
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

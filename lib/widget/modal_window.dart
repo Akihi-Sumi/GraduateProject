@@ -4,7 +4,7 @@ class ModalWindow extends StatefulWidget {
   const ModalWindow({super.key});
 
   @override
-  _ModalWindowState createState() => _ModalWindowState();
+  State<ModalWindow> createState() => _ModalWindowState();
 }
 
 class _ModalWindowState extends State<ModalWindow> {

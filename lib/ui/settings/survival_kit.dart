@@ -8,7 +8,7 @@ class SurvivalKitPage extends StatefulWidget {
   const SurvivalKitPage({Key? key}) : super(key: key);
 
   @override
-  _SurvivalKitPageState createState() => _SurvivalKitPageState();
+  State<SurvivalKitPage> createState() => _SurvivalKitPageState();
 }
 
 // "time"を追加。3年=1095日

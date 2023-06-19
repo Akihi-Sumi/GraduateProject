@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_app/widget/message.dart';
 import 'package:graduate_app/widget/modal_window.dart';
+import 'package:graduate_app/widget/popup_menu_button.dart';
 
 @RoutePage()
 class EditMessagePage extends StatefulWidget {
@@ -45,8 +47,9 @@ class _EditMessagePageState extends State<EditMessagePage>
               IconButton(
                 padding: EdgeInsets.only(right: 15),
                 icon: const Icon(
-                  Icons.add_comment_outlined,
+                  Icons.add_comment_rounded,
                   size: 35,
+                  color: Color(0xFFF57C00),
                 ),
                 //color: Colors.orange[700],
                 onPressed: () => {
@@ -71,22 +74,25 @@ class _EditMessagePageState extends State<EditMessagePage>
             ],
           ),
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+        body:
+            //Column(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            //children: [
             SingleChildScrollView(
-              child: Center(
-                child: Text(
-                  "メッセージを追加したり編集したり",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
+          padding: EdgeInsets.only(top: 50),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Message(
+                  text: "Sample Bubble Sample DEMO",
+                  isSender: true, // ホームページに表示するときはtrue、設定ページのときはfalse
                 ),
               ),
-            )
-          ],
+              PopupMenuButtonSample()
+            ],
+          ),
+          //)
+          //],
         ),
       ),
     );

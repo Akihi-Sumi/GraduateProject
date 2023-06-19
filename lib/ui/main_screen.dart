@@ -19,7 +19,7 @@ class _MainScreenPageState extends State<MainScreenPage> {
       child: AutoTabsScaffold(
         routes: const [
           HomeScreenRoute(),
-          FriendsRoute(),
+          RelationshipRoute(),
           SettingsScreenRoute()
         ],
         bottomNavigationBuilder: (_, tabsRouter) {

@@ -10,11 +10,28 @@
 part of 'app_router.dart';
 
 abstract class _$AppRouter extends RootStackRouter {
-  // ignore: unused_element
-  _$AppRouter({super.navigatorKey});
+  _$AppRouter();
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    // LoginRoute.name: (routeData) {
+    //   final args = routeData.argsAs<LoginRouteArgs>(
+    //       orElse: () => const LoginRouteArgs());
+    //   return AutoRoutePage<dynamic>(
+    //     routeData: routeData,
+    //     child: LoginPage(
+    //       key: args.key,
+    //       onTap: onTap,
+    //       onLoginResult: args.onLoginResult,
+    //     ),
+    //   );
+    // },
+    AuthRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AuthPage(),
+      );
+    },
     HomeScreenRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -94,6 +111,42 @@ class HomeScreenRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+
+// class LoginRoute extends PageRouteInfo<LoginRouteArgs> {
+//   const LoginRoute({required Null Function(dynamic _) onLoginResult})
+//       : super(LoginRoute.name);
+
+//   static const String name = 'LoginRoute';
+//   static const PageInfo<LoginRouteArgs> page = PageInfo<LoginRouteArgs>(name);
+// }
+
+// class LoginRouteArgs {
+//   const LoginRouteArgs({
+//     this.key,
+//     this.onLoginResult,
+//   });
+
+//   final Key? key;
+//   final void Function(bool)? onLoginResult;
+
+//   @override
+//   String toString() {
+//     return 'LoginRouteArgs{key: $key, onLoginResult: $onLoginResult';
+//   }
+// }
+
+class AuthRoute extends PageRouteInfo<void> {
+  const AuthRoute({List<PageRouteInfo>? children})
+      : super(
+          AuthRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AuthRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
 /// [MainScreenPage]
 class MainScreenRoute extends PageRouteInfo<MainScreenRouteArgs> {
   MainScreenRoute({

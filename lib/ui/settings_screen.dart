@@ -2,12 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/router/app_router.dart';
 
-@RoutePage()
+// @RoutePage()
 class SettingsRouterPage extends AutoRouter {
   SettingsRouterPage({super.key});
 }
 
-@RoutePage()
+// @RoutePage()
 class SettingsScreenPage extends StatelessWidget {
   const SettingsScreenPage({Key? key}) : super(key: key);
 

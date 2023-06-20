@@ -37,17 +37,17 @@ class _AddressPageState extends State<AddressPage>
     return GestureDetector(
       onTap: () => _animationController.reverse(),
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          title: const Text(
-            "連絡先",
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          centerTitle: true,
-        ),
+        // appBar: AppBar(
+        //   backgroundColor: Colors.black,
+        //   title: const Text(
+        //     "連絡先",
+        //     style: TextStyle(
+        //       fontSize: 22,
+        //       fontWeight: FontWeight.w600,
+        //     ),
+        //   ),
+        //   centerTitle: true,
+        // ),
         //body: Center(child: Text(_text)),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         floatingActionButton: Container(

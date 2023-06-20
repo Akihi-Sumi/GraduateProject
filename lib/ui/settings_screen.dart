@@ -14,20 +14,20 @@ class SettingsScreenPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: AppBar(
-          title: const Text(
-            "設定",
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.black,
-        ),
-      ),
+      // appBar: PreferredSize(
+      //   preferredSize: const Size.fromHeight(60),
+      //   child: AppBar(
+      //     title: const Text(
+      //       "設定",
+      //       style: TextStyle(
+      //         fontSize: 22,
+      //         fontWeight: FontWeight.w600,
+      //       ),
+      //     ),
+      //     centerTitle: true,
+      //     backgroundColor: Colors.black,
+      //   ),
+      // ),
       body: SizedBox(
         width: double.infinity,
         child: Column(

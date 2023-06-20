@@ -8,24 +8,24 @@ class HomeScreenPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: AppBar(
-          title: const Text(
-            "ホーム",
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.black,
-        ),
-      ),
-      body: Container(
+      // appBar: PreferredSize(
+      //   preferredSize: const Size.fromHeight(60),
+      //   child: AppBar(
+      //     title: const Text(
+      //       "ホーム",
+      //       style: TextStyle(
+      //         fontSize: 22,
+      //         fontWeight: FontWeight.w600,
+      //       ),
+      //     ),
+      //     centerTitle: true,
+      //     backgroundColor: Colors.black,
+      //   ),
+      // ),
+      body: SizedBox(
         width: double.infinity,
         height: double.infinity,
-        color: Colors.black,
+        //color: Colors.black,
         child: Center(
           child: Text(
             "タップで送信可能な吹き出しを並べる",

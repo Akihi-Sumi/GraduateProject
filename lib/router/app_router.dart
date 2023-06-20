@@ -45,37 +45,56 @@ class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
-          path: '/auth',
-          page: AuthRoute.page,
-          initial: true,
-          keepHistory: false,
+          path: '/',
+          //initial: true,
+          page: MainScreenRoute.page,
+          // guards: [
+          //   authGuard
+          // ],
+          children: [
+            RedirectRoute(path: '', redirectTo: 'home'),
+            AutoRoute(
+              path: 'home',
+              page: HomeScreenRoute.page,
+              maintainState: true,
+              title: (ctx, _) => 'ホーム',
+            ),
+            AutoRoute(
+              path: 'relationship',
+              page: RelationshipRoute.page,
+              title: (ctx, _) => 'つながり',
+            ),
+            AutoRoute(
+              path: 'settings',
+              page: SettingsRouterRoute.page,
+              children: [
+                AutoRoute(
+                  page: SettingsScreenRoute.page,
+                  title: (ctx, _) => '設定',
+                ),
+                AutoRoute(page: EditMessageRoute.page),
+                AutoRoute(page: AddressRoute.page),
+                AutoRoute(page: SurvivalKitRoute.page),
+                AutoRoute(page: MyRoute.page),
+              ],
+            ),
+          ],
         ),
         AutoRoute(
-            path: '/main',
-            //initial: true,
-            page: MainScreenRoute.page,
-            // guards: [
-            //   authGuard
-            // ],
-            children: [
-              AutoRoute(
-                path: 'home',
-                page: HomeScreenRoute.page,
-              ),
-              AutoRoute(
-                path: 'friends',
-                page: RelationshipRoute.page,
-              ),
-              AutoRoute(
-                  path: 'settings',
-                  page: SettingsRouterRoute.page,
-                  children: [
-                    AutoRoute(page: SettingsScreenRoute.page, initial: false),
-                    AutoRoute(page: EditMessageRoute.page),
-                    AutoRoute(page: AddressRoute.page),
-                    AutoRoute(page: SurvivalKitRoute.page),
-                    AutoRoute(page: MyRoute.page),
-                  ])
-            ])
+          path: '/auth',
+          page: AuthRoute.page,
+          //initial: true,
+          keepHistory: false,
+        ),
       ];
 }
+
+// @RoutePage(name: 'HomeTab')
+// class HomeTabPage extends AutoRoute {
+//   const HomeTabPage({super.key});
+// }
+
+// @RoutePage(name: 'RelationshipTab')
+// class RelationshipTabPage extends AutoRoute {
+//   const RelationshipTabPage({super.key});
+// }

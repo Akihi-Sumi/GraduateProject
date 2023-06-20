@@ -62,17 +62,17 @@ class _MyPageState extends State<MyPage> {
       child: Scaffold(
         //backgroundColor: Colors.black,
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          title: const Text(
-            "個人設定",
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          centerTitle: true,
-        ),
+        // appBar: AppBar(
+        //   backgroundColor: Colors.black,
+        //   title: const Text(
+        //     "個人設定",
+        //     style: TextStyle(
+        //       fontSize: 22,
+        //       fontWeight: FontWeight.w600,
+        //     ),
+        //   ),
+        //   centerTitle: true,
+        // ),
         body: SingleChildScrollView(
           reverse: true,
           padding: EdgeInsets.only(bottom: bottomSpace),
@@ -118,14 +118,17 @@ class _MyPageState extends State<MyPage> {
                     nameUpdateValue(value);
                   },
                   style: TextStyle(color: Colors.amber, fontSize: 18),
+                  cursorColor: Colors.white,
                   decoration: InputDecoration(
                     labelText: '名前を入力',
                     labelStyle: TextStyle(color: Colors.white, fontSize: 16),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.orange.shade700),
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
                     ),
                     suffixIcon: IconButton(
                       onPressed: () => nameController.clear(),
@@ -142,14 +145,17 @@ class _MyPageState extends State<MyPage> {
                     emailUpdateValue(value);
                   },
                   style: TextStyle(color: Colors.amber, fontSize: 18),
+                  cursorColor: Colors.white,
                   decoration: InputDecoration(
                     labelText: 'メールアドレスを入力',
                     labelStyle: TextStyle(color: Colors.white, fontSize: 16),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.orange.shade700),
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
                     ),
                     suffixIcon: IconButton(
                       onPressed: () => emailController.clear(),
@@ -167,14 +173,17 @@ class _MyPageState extends State<MyPage> {
                     evacuationUpdateValue(value);
                   },
                   style: TextStyle(color: Colors.amber, fontSize: 18),
+                  cursorColor: Colors.white,
                   decoration: InputDecoration(
                     labelText: '避難場所を入力',
                     labelStyle: TextStyle(color: Colors.white, fontSize: 16),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.orange.shade700),
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.all(Radius.circular(15.0)),
                     ),
                     suffixIcon: IconButton(
                       onPressed: () => evacuationController.clear(),

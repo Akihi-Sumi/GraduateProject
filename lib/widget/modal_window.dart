@@ -69,15 +69,24 @@ class _ModalWindowState extends State<ModalWindow> {
               controller: controller,
               autofocus: true,
               focusNode: _focusTextField,
+              cursorColor: Colors.white,
               decoration: InputDecoration(
                 labelText: widget.tfLabel,
                 labelStyle: TextStyle(color: Colors.white, fontSize: 15),
-                border: OutlineInputBorder(
+                // border: OutlineInputBorder(
+                //   borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                // ),
+                // enabledBorder: OutlineInputBorder(
+                //   borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                //   borderSide: BorderSide(color: Colors.grey),
+                // ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.orange.shade700),
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
                 ),
                 enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                  borderSide: BorderSide(color: Colors.grey),
                 ),
               ),
               style: const TextStyle(

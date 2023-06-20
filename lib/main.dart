@@ -25,11 +25,6 @@ class _MyAppState extends State<MyApp> {
       title: 'Emergency Messenger',
       theme: ThemeData.dark().copyWith(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: Colors.grey,
-          accentColor: Colors.orange.shade700,
-          brightness: Brightness.dark,
-        ),
         scaffoldBackgroundColor: Colors.black,
         canvasColor: Colors.transparent,
       ),

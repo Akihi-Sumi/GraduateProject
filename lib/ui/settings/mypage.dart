@@ -62,17 +62,6 @@ class _MyPageState extends State<MyPage> {
       child: Scaffold(
         //backgroundColor: Colors.black,
         resizeToAvoidBottomInset: false,
-        // appBar: AppBar(
-        //   backgroundColor: Colors.black,
-        //   title: const Text(
-        //     "個人設定",
-        //     style: TextStyle(
-        //       fontSize: 22,
-        //       fontWeight: FontWeight.w600,
-        //     ),
-        //   ),
-        //   centerTitle: true,
-        // ),
         body: SingleChildScrollView(
           reverse: true,
           padding: EdgeInsets.only(bottom: bottomSpace),

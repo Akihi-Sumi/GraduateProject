@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduate_app/widget/myAlertDialog.dart';
 
 class PopupMenuButtonSample extends StatelessWidget {
   const PopupMenuButtonSample({Key? key}) : super(key: key);
@@ -13,7 +14,7 @@ class PopupMenuButtonSample extends StatelessWidget {
         size: 40,
       ),
       itemBuilder: (context) => [
-        const PopupMenuItem(
+        PopupMenuItem(
           value: 1,
           child: Row(
             children: [
@@ -34,7 +35,7 @@ class PopupMenuButtonSample extends StatelessWidget {
             ],
           ),
         ),
-        const PopupMenuItem(
+        PopupMenuItem(
           value: 2,
           child: Row(
             children: <Widget>[
@@ -54,6 +55,19 @@ class PopupMenuButtonSample extends StatelessWidget {
               )
             ],
           ),
+          onTap: () {
+            showDialog<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return MyAlertDialog(
+                  title: "削除しますか？",
+                  txt_cancel: "キャンセル",
+                  txt_ok: "削除",
+                  txt_snack: "削除しました",
+                );
+              },
+            );
+          },
         ),
       ],
     );

@@ -31,52 +31,6 @@ class _EditMessagePageState extends State<EditMessagePage>
       onTap: () => _animationController.reverse(),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60),
-          child: AppBar(
-            backgroundColor: Colors.black,
-            title: const Text(
-              "メッセージ設定",
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            centerTitle: true,
-            actions: [
-              IconButton(
-                padding: EdgeInsets.only(right: 15),
-                icon: Icon(
-                  Icons.add_comment_rounded,
-                  size: 35,
-                  color: Color(0xFFF57C00),
-                ),
-                onPressed: () => {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    builder: (BuildContext context) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: Color(0xFF424242),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20),
-                          ),
-                        ),
-                        child: ModalWindow(
-                          title: "メッセージを追加",
-                          tfLabel: "メッセージを入力してください",
-                          btnLabel: "追加",
-                        ),
-                      );
-                    },
-                  ),
-                },
-              )
-            ],
-          ),
-        ),
         body:
             //Column(
             //mainAxisAlignment: MainAxisAlignment.center,
@@ -87,7 +41,7 @@ class _EditMessagePageState extends State<EditMessagePage>
             children: <Widget>[
               Expanded(
                 child: Message(
-                  text: "Sample Bubble Sample DEMO",
+                  text: "Sample Bubble DEMO",
                   isSender: false,
                 ),
               ),
@@ -96,6 +50,36 @@ class _EditMessagePageState extends State<EditMessagePage>
           ),
           //)
           //],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (BuildContext context) {
+                return Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xFF424242),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
+                  child: ModalWindow(
+                    title: "メッセージを追加",
+                    tfLabel: "メッセージを入力してください",
+                    btnLabel: "追加",
+                  ),
+                );
+              },
+            );
+          },
+          backgroundColor: Colors.white,
+          child: Icon(
+            Icons.add_comment_rounded,
+            color: Colors.orange[700],
+            size: 40,
+          ),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduate_app/widget/myAlertDialog.dart';
 
 class Message extends StatelessWidget {
   final bool isSender;
@@ -26,7 +27,17 @@ class Message extends StatelessWidget {
     return GestureDetector(
       onTap: isSender
           ? () {
-              print("タップで動きを実装する");
+              showDialog<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return MyAlertDialog(
+                    title: "メッセージを送信しますか？",
+                    txt_cancel: "キャンセル",
+                    txt_ok: "送信",
+                    txt_snack: "メッセージを送信しました",
+                  );
+                },
+              );
             }
           : null,
       child: Align(
@@ -43,7 +54,7 @@ class Message extends StatelessWidget {
               constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width * .8,
               ),
-              margin: const EdgeInsets.fromLTRB(17, 7, 7, 7),
+              margin: const EdgeInsets.fromLTRB(25, 15, 15, 15),
               child: Stack(
                 children: <Widget>[
                   Padding(

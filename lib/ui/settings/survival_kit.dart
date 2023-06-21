@@ -45,32 +45,10 @@ class _SurvivalKitPageState extends State<SurvivalKitPage> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(),
       child: Scaffold(
-        // appBar: AppBar(
-        //   title: const Text(
-        //     "防災グッズ",
-        //     style: TextStyle(
-        //       fontSize: 22,
-        //       fontWeight: FontWeight.w600,
-        //     ),
-        //   ),
-        //   backgroundColor: Colors.orange.shade700,
-        //   actions: [],
-        // ),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(10, 20, 0, 0),
-                  child: Text(
-                    "防災グッズ チェックリスト",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 25,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
                 Column(
                     children: _list.map((goods) {
                   return CheckboxListTile(

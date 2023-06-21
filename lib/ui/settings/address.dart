@@ -66,7 +66,7 @@ class _AddressPageState extends State<AddressPage>
                     context,
                     CupertinoPageRoute(
                       builder: (context) {
-                        return QrReader();
+                        return QRViewExample();
                       },
                     ),
                   );

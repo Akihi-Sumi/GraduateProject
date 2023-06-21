@@ -67,15 +67,28 @@ class AppRouter extends _$AppRouter {
             AutoRoute(
               path: 'settings',
               page: SettingsRouterRoute.page,
+              title: (ctx, _) => '設定',
               children: [
                 AutoRoute(
                   page: SettingsScreenRoute.page,
                   title: (ctx, _) => '設定',
                 ),
-                AutoRoute(page: EditMessageRoute.page),
-                AutoRoute(page: AddressRoute.page),
-                AutoRoute(page: SurvivalKitRoute.page),
-                AutoRoute(page: MyRoute.page),
+                AutoRoute(
+                  page: EditMessageRoute.page,
+                  title: (ctx, _) => 'メッセージ設定',
+                ),
+                AutoRoute(
+                  page: AddressRoute.page,
+                  title: (ctx, _) => '連絡先',
+                ),
+                AutoRoute(
+                  page: SurvivalKitRoute.page,
+                  title: (ctx, _) => '防災グッズチェックリスト',
+                ),
+                AutoRoute(
+                  page: MyRoute.page,
+                  title: (ctx, _) => '個人設定',
+                ),
               ],
             ),
           ],

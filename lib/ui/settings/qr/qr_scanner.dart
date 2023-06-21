@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+
 import 'qr_kakunin.dart';
 
-class QrReader extends StatelessWidget {
-  const QrReader({Key? key}) : super(key: key);
+// class QrReader extends StatelessWidget {
+//   const QrReader({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'QR Code Scanner',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const QRViewExample(),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'QR Code Scanner',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: const QRViewExample(),
+//     );
+//   }
+// }
 
 class QRViewExample extends StatefulWidget {
   const QRViewExample({Key? key}) : super(key: key);
@@ -31,9 +32,9 @@ class _QRViewExampleState extends State<QRViewExample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('QR Code Scanner'),
-      ),
+      // appBar: AppBar(
+      //   title: const Text('QR Code Scanner'),
+      // ),
       body: Column(
         children: [
           Expanded(

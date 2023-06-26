@@ -14,6 +14,8 @@ class EditMessagePage extends StatefulWidget {
 
 class _EditMessagePageState extends State<EditMessagePage>
     with SingleTickerProviderStateMixin {
+  bool tfEnable = false;
+  bool modeChange = true;
   late AnimationController _animationController;
 
   @override
@@ -31,25 +33,39 @@ class _EditMessagePageState extends State<EditMessagePage>
       onTap: () => _animationController.reverse(),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        body:
-            //Column(
-            //mainAxisAlignment: MainAxisAlignment.center,
-            //children: [
+        body: Column(
+          //mainAxisAlignment: MainAxisAlignment.center,
+          children: [
             SingleChildScrollView(
-          padding: EdgeInsets.only(top: 50),
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: Message(
-                  text: "Sample Bubble DEMO",
-                  isSender: false,
-                ),
+              padding: EdgeInsets.only(top: 50),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Expanded(
+                    child: Message(
+                      isSender: false,
+                      changeEnable: tfEnable,
+                    ),
+                  ),
+                  PopupMenuButtonSample(
+                    defaultMode: modeChange,
+                    onTap: () {
+                      setState(() {
+                        tfEnable = true;
+                        modeChange = false;
+                      });
+                    },
+                    editComplete: () {
+                      modeChange = true;
+                      tfEnable = false;
+                      //Navigator.of(context).pop();
+                      FocusScope.of(context).unfocus();
+                    },
+                  ),
+                ],
               ),
-              PopupMenuButtonSample()
-            ],
-          ),
-          //)
-          //],
+            )
+          ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {

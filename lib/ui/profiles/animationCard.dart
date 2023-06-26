@@ -12,6 +12,14 @@ class AnimationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     ContainerTransitionType transitionType = ContainerTransitionType.fade;
 
+    // final Future<dynamic> userName = FirebaseFirestore.instance
+    //     .collection('AdminCustomerInformation')
+    //     .doc('30nsFI27PxcOTYL3MUYI')
+    //     .collection('AccountSet')
+    //     .doc('OrB0HoxOMX0YmVf8DsOM')
+    //     .get()
+    //     .then((doc) => doc.data()?['UserName']);
+
     return Padding(
       padding: EdgeInsets.all(8),
       child: OpenContainer<bool>(
@@ -70,6 +78,7 @@ class AnimationCard extends StatelessWidget {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(8, 4, 0, 0),
                           child: Text(
+                            //profile.name,
                             profile.name,
                             style: const TextStyle(
                               fontSize: 25,

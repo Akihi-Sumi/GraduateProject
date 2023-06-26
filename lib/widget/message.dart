@@ -3,15 +3,16 @@ import 'package:graduate_app/widget/myAlertDialog.dart';
 
 class Message extends StatelessWidget {
   final bool isSender;
-  final String text;
+  //final String text;
   final bool tail;
   final Color color;
   final TextStyle textStyle;
+  final bool changeEnable;
 
   const Message({
     Key? key,
     required this.isSender,
-    required this.text,
+    //required this.text,
     this.color = Colors.orange,
     this.tail = true,
     this.textStyle = const TextStyle(
@@ -19,6 +20,7 @@ class Message extends StatelessWidget {
       fontSize: 30,
       fontWeight: FontWeight.bold,
     ),
+    required this.changeEnable,
   }) : super(key: key);
 
   ///chat bubble builder method
@@ -60,10 +62,14 @@ class Message extends StatelessWidget {
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                    child: Text(
-                      text,
+                    child: TextField(
+                      //text,
+                      enabled: changeEnable,
                       style: textStyle,
                       textAlign: TextAlign.left,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                      ),
                     ),
                   ),
                 ],

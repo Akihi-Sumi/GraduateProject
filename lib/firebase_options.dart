@@ -27,21 +27,6 @@ class DefaultFirebaseOptions {
         return android;
       case TargetPlatform.iOS:
         return ios;
-      case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
-      case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
-      case TargetPlatform.linux:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for linux - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
       default:
         throw UnsupportedError(
           'DefaultFirebaseOptions are not supported for this platform.',
@@ -54,7 +39,8 @@ class DefaultFirebaseOptions {
     appId: '1:30376339764:android:c9fb1b834c63c8b41e9d61',
     messagingSenderId: '30376339764',
     projectId: 'emergency-message-app-c8db9',
-    databaseURL: 'https://emergency-message-app-c8db9-default-rtdb.firebaseio.com',
+    databaseURL:
+        'https://emergency-message-app-c8db9-default-rtdb.firebaseio.com',
     storageBucket: 'emergency-message-app-c8db9.appspot.com',
   );
 
@@ -63,10 +49,13 @@ class DefaultFirebaseOptions {
     appId: '1:30376339764:ios:efc7b32cd38b27711e9d61',
     messagingSenderId: '30376339764',
     projectId: 'emergency-message-app-c8db9',
-    databaseURL: 'https://emergency-message-app-c8db9-default-rtdb.firebaseio.com',
+    databaseURL:
+        'https://emergency-message-app-c8db9-default-rtdb.firebaseio.com',
     storageBucket: 'emergency-message-app-c8db9.appspot.com',
-    androidClientId: '30376339764-stt05icstci7mcunjglb46jic72i48uh.apps.googleusercontent.com',
-    iosClientId: '30376339764-l59t4cf4ij03q11q5g3lnmbucqfck8ic.apps.googleusercontent.com',
+    androidClientId:
+        '30376339764-stt05icstci7mcunjglb46jic72i48uh.apps.googleusercontent.com',
+    iosClientId:
+        '30376339764-l59t4cf4ij03q11q5g3lnmbucqfck8ic.apps.googleusercontent.com',
     iosBundleId: 'com.example.graduateApp',
   );
 }

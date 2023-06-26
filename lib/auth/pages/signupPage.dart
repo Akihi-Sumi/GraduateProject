@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/auth/components/my_textfield.dart';
+import 'package:graduate_app/ui/main_screen.dart';
 
 class SignUpPage extends StatefulWidget {
   final Function()? onTap;
@@ -12,6 +13,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
@@ -38,9 +40,18 @@ class _SignUpPageState extends State<SignUpPage> {
         });
 
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: _emailController.text, password: _passwordController.text);
-      Navigator.pop(context);
+      FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+
+      await Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) {
+            return MainScreenPage();
+          },
+        ),
+      );
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
       //wrong Email
@@ -77,8 +88,14 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 const SizedBox(height: 25),
                 MyTextField(
-                  controller: _emailController,
+                  controller: _nameController,
                   hintText: 'ユーザー名',
+                  obscureText: false,
+                ),
+                const SizedBox(height: 10),
+                MyTextField(
+                  controller: _emailController,
+                  hintText: 'メールアドレス',
                   obscureText: false,
                 ),
                 const SizedBox(height: 10),

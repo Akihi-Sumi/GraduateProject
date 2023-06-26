@@ -13,7 +13,10 @@ class HomeScreenPage extends StatelessWidget {
         SingleChildScrollView(
           padding: EdgeInsets.all(16),
           child: Center(
-            child: Message(isSender: true, text: "助けて"),
+            child: Message(
+              isSender: true,
+              changeEnable: false,
+            ),
           ),
         ),
       ],

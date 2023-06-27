@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/auth/components/my_textfield.dart';
+import 'package:graduate_app/router/app_router.dart';
 
-//@RoutePage()
+@RoutePage()
 class LoginPage extends StatefulWidget {
   final Function()? onTap;
 
@@ -36,6 +38,8 @@ class _LoginPageState extends State<LoginPage> {
         email: _emailController.text,
         password: _passwordController.text,
       );
+      isAuthenticated = true;
+      context.router.replaceAll([MainScreenRoute()]);
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);

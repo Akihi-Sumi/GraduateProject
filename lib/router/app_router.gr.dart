@@ -10,26 +10,25 @@
 part of 'app_router.dart';
 
 abstract class _$AppRouter extends RootStackRouter {
-  _$AppRouter();
+  // ignore: unused_element
+  _$AppRouter({super.navigatorKey});
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    // LoginRoute.name: (routeData) {
-    //   final args = routeData.argsAs<LoginRouteArgs>(
-    //       orElse: () => const LoginRouteArgs());
-    //   return AutoRoutePage<dynamic>(
-    //     routeData: routeData,
-    //     child: LoginPage(
-    //       key: args.key,
-    //       onTap: onTap,
-    //       onLoginResult: args.onLoginResult,
-    //     ),
-    //   );
-    // },
     AuthRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const AuthPage(),
+      );
+    },
+    SignUpRoute.name: (routeData) {
+      final args = routeData.argsAs<SignUpRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SignUpPage(
+          key: args.key,
+          onTap: args.onTap,
+        ),
       );
     },
     HomeScreenRoute.name: (routeData) {
@@ -43,10 +42,13 @@ abstract class _$AppRouter extends RootStackRouter {
           orElse: () => const MainScreenRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: MainScreenPage(
-          key: args.key,
-          //title: args.title,
-        ),
+        child: MainScreenPage(key: args.key),
+      );
+    },
+    RelationshipRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const RelationshipPage(),
       );
     },
     AddressRoute.name: (routeData) {
@@ -87,13 +89,95 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const SettingsScreenPage(),
       );
     },
-    RelationshipRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const RelationshipPage(),
-      );
-    },
   };
+}
+
+/// generated route for
+/// [AuthPage]
+class AuthRoute extends PageRouteInfo<void> {
+  const AuthRoute({List<PageRouteInfo>? children})
+      : super(
+          AuthRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AuthRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [LoginPage]
+class LoginRoute extends PageRouteInfo<LoginRouteArgs> {
+  LoginRoute({
+    Key? key,
+    required dynamic Function()? onTap,
+    List<PageRouteInfo>? children,
+  }) : super(
+          LoginRoute.name,
+          args: LoginRouteArgs(
+            key: key,
+            onTap: onTap,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'LoginRoute';
+
+  static const PageInfo<LoginRouteArgs> page = PageInfo<LoginRouteArgs>(name);
+}
+
+class LoginRouteArgs {
+  const LoginRouteArgs({
+    this.key,
+    required this.onTap,
+  });
+
+  final Key? key;
+
+  final dynamic Function()? onTap;
+
+  @override
+  String toString() {
+    return 'LoginRouteArgs{key: $key, onTap: $onTap}';
+  }
+}
+
+/// generated route for
+/// [SignUpPage]
+class SignUpRoute extends PageRouteInfo<SignUpRouteArgs> {
+  SignUpRoute({
+    Key? key,
+    required dynamic Function()? onTap,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SignUpRoute.name,
+          args: SignUpRouteArgs(
+            key: key,
+            onTap: onTap,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'SignUpRoute';
+
+  static const PageInfo<SignUpRouteArgs> page = PageInfo<SignUpRouteArgs>(name);
+}
+
+class SignUpRouteArgs {
+  const SignUpRouteArgs({
+    this.key,
+    required this.onTap,
+  });
+
+  final Key? key;
+
+  final dynamic Function()? onTap;
+
+  @override
+  String toString() {
+    return 'SignUpRouteArgs{key: $key, onTap: $onTap}';
+  }
 }
 
 /// generated route for
@@ -111,54 +195,14 @@ class HomeScreenRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-
-// class LoginRoute extends PageRouteInfo<LoginRouteArgs> {
-//   const LoginRoute({required Null Function(dynamic _) onLoginResult})
-//       : super(LoginRoute.name);
-
-//   static const String name = 'LoginRoute';
-//   static const PageInfo<LoginRouteArgs> page = PageInfo<LoginRouteArgs>(name);
-// }
-
-// class LoginRouteArgs {
-//   const LoginRouteArgs({
-//     this.key,
-//     this.onLoginResult,
-//   });
-
-//   final Key? key;
-//   final void Function(bool)? onLoginResult;
-
-//   @override
-//   String toString() {
-//     return 'LoginRouteArgs{key: $key, onLoginResult: $onLoginResult';
-//   }
-// }
-
-class AuthRoute extends PageRouteInfo<void> {
-  const AuthRoute({List<PageRouteInfo>? children})
-      : super(
-          AuthRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'AuthRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
 /// [MainScreenPage]
 class MainScreenRoute extends PageRouteInfo<MainScreenRouteArgs> {
   MainScreenRoute({
     Key? key,
-    String? title,
     List<PageRouteInfo>? children,
   }) : super(
           MainScreenRoute.name,
-          args: MainScreenRouteArgs(
-            key: key,
-            title: title,
-          ),
+          args: MainScreenRouteArgs(key: key),
           initialChildren: children,
         );
 
@@ -169,19 +213,28 @@ class MainScreenRoute extends PageRouteInfo<MainScreenRouteArgs> {
 }
 
 class MainScreenRouteArgs {
-  const MainScreenRouteArgs({
-    this.key,
-    this.title,
-  });
+  const MainScreenRouteArgs({this.key});
 
   final Key? key;
 
-  final String? title;
-
   @override
   String toString() {
-    return 'MainScreenRouteArgs{key: $key, title: $title}';
+    return 'MainScreenRouteArgs{key: $key}';
   }
+}
+
+/// generated route for
+/// [RelationshipPage]
+class RelationshipRoute extends PageRouteInfo<void> {
+  const RelationshipRoute({List<PageRouteInfo>? children})
+      : super(
+          RelationshipRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RelationshipRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -279,20 +332,6 @@ class SettingsScreenRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SettingsScreenRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [WeatherPage]
-class RelationshipRoute extends PageRouteInfo<void> {
-  const RelationshipRoute({List<PageRouteInfo>? children})
-      : super(
-          RelationshipRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'FriendsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

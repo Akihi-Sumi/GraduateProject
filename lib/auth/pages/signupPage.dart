@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/auth/components/my_textfield.dart';
 import 'package:graduate_app/ui/main_screen.dart';
 
+@RoutePage()
 class SignUpPage extends StatefulWidget {
   final Function()? onTap;
 
@@ -64,7 +66,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16),

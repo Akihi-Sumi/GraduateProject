@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/auth/pages/authPage.dart';
+import 'package:graduate_app/auth/pages/signupPage.dart';
 import 'package:graduate_app/ui/home_screen.dart';
 import 'package:graduate_app/ui/main_screen.dart';
 import 'package:graduate_app/ui/relationshipPage.dart';
@@ -19,11 +20,7 @@ class AuthGuard extends AutoRouteGuard {
   Future<void> onNavigation(
       NavigationResolver resolver, StackRouter router) async {
     if (!isAuthenticated) {
-      router.push(
-        AuthRoute(
-            //resolver.next();
-            ),
-      );
+      router.replaceAll([AuthRoute()]);
     } else {
       resolver.next(true);
     }
@@ -46,68 +43,66 @@ class AppRouter extends _$AppRouter {
   List<AutoRoute> get routes => [
         AutoRoute(
           path: '/',
+          page: AuthRoute.page,
           //initial: true,
-          page: MainScreenRoute.page,
-          // guards: [
-          //   authGuard
-          // ],
+          keepHistory: false,
           children: [
-            RedirectRoute(path: '', redirectTo: 'home'),
             AutoRoute(
-              path: 'home',
-              page: HomeScreenRoute.page,
-              maintainState: true,
-              title: (ctx, _) => 'ホーム',
+              page: LoginRoute.page,
+              path: 'login',
             ),
             AutoRoute(
-              path: 'relationship',
-              page: RelationshipRoute.page,
-              title: (ctx, _) => 'つながり',
+              page: SignUpRoute.page,
+              path: 'signup',
             ),
             AutoRoute(
-              path: 'settings',
-              page: SettingsRouterRoute.page,
-              title: (ctx, _) => '設定',
+              path: 'main',
+              initial: true,
+              page: MainScreenRoute.page,
+              guards: [AuthGuard()],
               children: [
+                RedirectRoute(path: '', redirectTo: 'home'),
                 AutoRoute(
-                  page: SettingsScreenRoute.page,
+                  path: 'home',
+                  page: HomeScreenRoute.page,
+                  maintainState: true,
+                  title: (ctx, _) => 'ホーム',
+                ),
+                AutoRoute(
+                  path: 'relationship',
+                  page: RelationshipRoute.page,
+                  title: (ctx, _) => 'つながり',
+                ),
+                AutoRoute(
+                  path: 'settings',
+                  page: SettingsRouterRoute.page,
                   title: (ctx, _) => '設定',
-                ),
-                AutoRoute(
-                  page: EditMessageRoute.page,
-                  title: (ctx, _) => 'メッセージ設定',
-                ),
-                AutoRoute(
-                  page: AddressRoute.page,
-                  title: (ctx, _) => '連絡先',
-                ),
-                AutoRoute(
-                  page: SurvivalKitRoute.page,
-                  title: (ctx, _) => '防災グッズチェックリスト',
-                ),
-                AutoRoute(
-                  page: MyRoute.page,
-                  title: (ctx, _) => '個人設定',
+                  children: [
+                    AutoRoute(
+                      page: SettingsScreenRoute.page,
+                      title: (ctx, _) => '設定',
+                    ),
+                    AutoRoute(
+                      page: EditMessageRoute.page,
+                      title: (ctx, _) => 'メッセージ設定',
+                    ),
+                    AutoRoute(
+                      page: AddressRoute.page,
+                      title: (ctx, _) => '連絡先',
+                    ),
+                    AutoRoute(
+                      page: SurvivalKitRoute.page,
+                      title: (ctx, _) => '防災グッズチェックリスト',
+                    ),
+                    AutoRoute(
+                      page: MyRoute.page,
+                      title: (ctx, _) => '個人設定',
+                    ),
+                  ],
                 ),
               ],
             ),
           ],
         ),
-        AutoRoute(
-          path: '/auth',
-          page: AuthRoute.page,
-          //initial: true,
-          keepHistory: false,
-        ),
       ];
 }
-
-// @RoutePage(name: 'HomeTab')
-// class HomeTabPage extends AutoRoute {
-//   const HomeTabPage({super.key});
-// }
-
-// @RoutePage(name: 'RelationshipTab')
-// class RelationshipTabPage extends AutoRoute {
-//   const RelationshipTabPage({super.key});
-// }

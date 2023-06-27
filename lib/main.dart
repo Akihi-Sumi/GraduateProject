@@ -32,11 +32,6 @@ class _MyAppState extends State<MyApp> {
         scaffoldBackgroundColor: Colors.black,
         canvasColor: Colors.transparent,
       ),
-      // builder: (_, router) {
-      //   return ChangeNotifierProvider<AuthService>(
-      //     create: (_) => authService,
-      //   );
-      // },
     );
   }
 }

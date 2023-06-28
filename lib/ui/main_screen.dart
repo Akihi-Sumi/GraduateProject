@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:graduate_app/router/app_router.dart';
+import 'package:graduate_app/app/app_router.gr.dart';
 
 @RoutePage()
 class MainScreenPage extends StatefulWidget {

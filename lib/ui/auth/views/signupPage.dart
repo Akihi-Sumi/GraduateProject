@@ -21,6 +21,7 @@ class SignupView extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Sign Up'),
+        centerTitle: true,
       ),
       body: const SignupForm(),
     );

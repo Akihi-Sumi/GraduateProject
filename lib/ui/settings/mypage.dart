@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_app/widget/userIcon.dart';
 
 @RoutePage()
 class MyPage extends StatefulWidget {
@@ -52,8 +53,6 @@ class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
     final bottomSpace = MediaQuery.of(context).viewInsets.bottom;
-    double screenWidth = MediaQuery.of(context).size.width;
-    double algo = screenWidth / 411.4;
 
     // キーボード外をタップで収納するよう変更 (済み)
     return GestureDetector(
@@ -70,36 +69,7 @@ class _MyPageState extends State<MyPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Stack(
-                  children: [
-                    CircleAvatar(
-                      radius: 100,
-                      backgroundImage: NetworkImage(
-                        /// profileImage
-                        "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1327&q=80",
-                      ),
-                    ),
-                    Positioned(
-                      bottom: algo * 5.0,
-                      right: algo * 10.0,
-                      child: GestureDetector(
-                        onTap: () {
-                          /// デバイスに保存されている写真を選ぶ処理
-                          // PickImage(context);
-                          print("写真を選択");
-                        },
-                        child: CircleAvatar(
-                          radius: algo * 25.0,
-                          backgroundColor: Colors.orange[700],
-                          child: Icon(
-                            Icons.camera_alt,
-                            size: algo * 33.0,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                UserIcon(),
                 SizedBox(height: 30),
                 TextField(
                   controller: nameController,

@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:developer';
 
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,7 +18,7 @@ class ImageHelper {
       final image = await _imagePicker.pickImage(source: source);
       return image;
     } catch (e) {
-      log('[ImageHelper] pick: $e' as num);
+      log('[ImageHelper] pick: $e');
       return null;
     }
   }
@@ -34,7 +34,7 @@ class ImageHelper {
         compressQuality: 80,
       );
     } catch (e) {
-      log('[ImageHelper] crop: $e' as num);
+      log('[ImageHelper] crop: $e');
       return null;
     }
   }

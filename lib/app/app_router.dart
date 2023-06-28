@@ -1,30 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:graduate_app/app/app_router.gr.dart';
 
-// var isAuthenticated = false;
-
-// class AuthGuard extends AutoRouteGuard {
-//   @override
-//   Future<void> onNavigation(
-//       NavigationResolver resolver, StackRouter router) async {
-//     if (!isAuthenticated) {
-//       router.replaceAll([AuthRoute()]);
-//     } else {
-//       resolver.next(true);
-//     }
-//   }
-// }
-
-// class AuthService extends ChangeNotifier {
-//   bool _isAuthenticated = false;
-//   bool get isAuthenticated => _isAuthenticated;
-
-//   set isAuthenticated(bool value) {
-//     _isAuthenticated = value;
-//     notifyListeners();
-//   }
-// }
-
 @AutoRouterConfig(replaceInRouteName: 'Page,Route')
 class AppRouter extends $AppRouter {
   @override
@@ -43,16 +19,12 @@ class AppRouter extends $AppRouter {
               path: 'signup',
             ),
             AutoRoute(
-              path: 'main',
-              initial: true,
+              path: '',
               page: MainScreenRoute.page,
-              // guards: [AuthGuard()],
               children: [
-                RedirectRoute(path: '', redirectTo: 'home'),
                 AutoRoute(
                   path: 'home',
                   page: HomeScreenRoute.page,
-                  maintainState: true,
                   title: (ctx, _) => 'ホーム',
                 ),
                 AutoRoute(
@@ -89,7 +61,15 @@ class AppRouter extends $AppRouter {
                 ),
               ],
             ),
+            RedirectRoute(
+              path: '*',
+              redirectTo: '/',
+            ),
           ],
+        ),
+        RedirectRoute(
+          path: '*',
+          redirectTo: '/',
         ),
       ];
 }

@@ -15,9 +15,13 @@ class App extends StatelessWidget {
       child: MaterialApp.router(
         //routerDelegate: _appRouter.delegate(),
         routerConfig: _appRouter.config(),
-        title: 'Flutter Firebase Bloc Chat',
+        title: 'Emergency Messenger App',
         debugShowCheckedModeBanner: false,
-        builder: (_, child) => _Unfocus(child: child!),
+        builder: (_, child) => _Unfocused(child: child!),
+        theme: ThemeData.dark().copyWith(
+          scaffoldBackgroundColor: Colors.black,
+          canvasColor: Colors.transparent,
+        ),
       ),
     );
   }
@@ -25,8 +29,8 @@ class App extends StatelessWidget {
 
 // Wrap widgets in `_Unfocus` to enable the user
 // to unfocus the keyboard by tapping anywhere.
-class _Unfocus extends StatelessWidget {
-  const _Unfocus({
+class _Unfocused extends StatelessWidget {
+  const _Unfocused({
     Key? key,
     required this.child,
   }) : super(key: key);

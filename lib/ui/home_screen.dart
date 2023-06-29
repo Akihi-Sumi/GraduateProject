@@ -1,5 +1,6 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_app/widget/message.dart';
 
 @RoutePage()
 class HomeScreenPage extends StatelessWidget {
@@ -7,29 +8,18 @@ class HomeScreenPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "ホーム",
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.w600,
+    return Column(
+      children: [
+        SingleChildScrollView(
+          padding: EdgeInsets.all(16),
+          child: Center(
+            child: Message(
+              isSender: true,
+              changeEnable: false,
+            ),
           ),
         ),
-        backgroundColor: Colors.orange.shade700,
-      ),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        color: Colors.black,
-        child: Center(
-          child: Text(
-            "タップで送信可能な吹き出しを並べる",
-            style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
-          ),
-        ),
-      ),
+      ],
     );
   }
 }

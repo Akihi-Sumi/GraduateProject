@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:graduate_app/router/app_router.dart';
+import 'package:graduate_app/app/app_router.gr.dart';
 
 @RoutePage()
 class SettingsRouterPage extends AutoRouter {
@@ -14,32 +14,22 @@ class SettingsScreenPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: const Text(
-          "設定",
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        backgroundColor: Colors.orange.shade700,
-      ),
-      body: Center(
+      body: SizedBox(
+        width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.only(top: 15, bottom: 15),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
+                  backgroundColor: Colors.orange[700],
                   fixedSize: Size(250, 60),
                 ),
                 child: Text(
                   "メッセージ設定",
                   style: TextStyle(
-                      color: Colors.black,
+                      color: Colors.white,
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
@@ -47,16 +37,16 @@ class SettingsScreenPage extends StatelessWidget {
               ),
             ),
             Container(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.only(top: 15, bottom: 15),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
+                  backgroundColor: Colors.orange[700],
                   fixedSize: Size(250, 60),
                 ),
                 child: Text(
                   "連絡先",
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -65,16 +55,16 @@ class SettingsScreenPage extends StatelessWidget {
               ),
             ),
             Container(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.only(top: 15, bottom: 15),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
+                  backgroundColor: Colors.orange[700],
                   fixedSize: Size(250, 60),
                 ),
                 child: Text(
                   "防災グッズ",
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -83,16 +73,16 @@ class SettingsScreenPage extends StatelessWidget {
               ),
             ),
             Container(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.only(top: 15, bottom: 15),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
+                  backgroundColor: Colors.orange[700],
                   fixedSize: Size(250, 60),
                 ),
                 child: Text(
                   "個人設定",
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),

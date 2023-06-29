@@ -6,19 +6,19 @@ class QrCodeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final String qrData = '名前: name\nメールアドレス: email'; // QRコードにエンコードするテキスト
+    const String qrData = '名前: name\nメールアドレス: email'; // QRコードにエンコードするテキスト
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("QRコード"),
-        backgroundColor: Colors.orange.shade700,
-      ),
+      // appBar: AppBar(
+      //   title: const Text("QRコード"),
+      //   backgroundColor: Colors.orange.shade700,
+      // ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
+              color: Colors.white,
               child: QrImageView(
                 data: qrData,
                 version: QrVersions.auto,

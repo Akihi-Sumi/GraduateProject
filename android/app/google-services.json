@@ -1,0 +1,91 @@
+{
+  "project_info": {
+    "project_number": "30376339764",
+    "firebase_url": "https://emergency-message-app-c8db9-default-rtdb.firebaseio.com",
+    "project_id": "emergency-message-app-c8db9",
+    "storage_bucket": "emergency-message-app-c8db9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:30376339764:android:c9fb1b834c63c8b41e9d61",
+        "android_client_info": {
+          "package_name": "com.example.graduate_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "30376339764-ocp5sldbop781j14j7iqh3qegt7d7r7p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyGmDNNCQyGh5DMeZaElMjfZiehEOC10g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "30376339764-ocp5sldbop781j14j7iqh3qegt7d7r7p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "30376339764-6tdg1s90dacnulnor4651o0jmqf3j2du.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.graduateApp.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:30376339764:android:6164c8f082f450ba1e9d61",
+        "android_client_info": {
+          "package_name": "com.flutterflow.eca"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "30376339764-stt05icstci7mcunjglb46jic72i48uh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flutterflow.eca",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "30376339764-ocp5sldbop781j14j7iqh3qegt7d7r7p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyGmDNNCQyGh5DMeZaElMjfZiehEOC10g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "30376339764-ocp5sldbop781j14j7iqh3qegt7d7r7p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "30376339764-6tdg1s90dacnulnor4651o0jmqf3j2du.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.graduateApp.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

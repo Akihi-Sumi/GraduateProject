@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
 
 class ModalWindow extends StatefulWidget {
-  const ModalWindow({super.key});
+  const ModalWindow(
+      {super.key,
+      required this.title,
+      required this.tfLabel,
+      required this.btnLabel});
+
+  final String title;
+  final String tfLabel;
+  final String btnLabel;
 
   @override
-  _ModalWindowState createState() => _ModalWindowState();
+  State<ModalWindow> createState() => _ModalWindowState();
 }
 
 class _ModalWindowState extends State<ModalWindow> {
-  bool isDispayKeybord = false;
+  bool isDisplayKeyboard = false;
   bool isButtonActive = true;
   TextEditingController controller = TextEditingController();
-  final FocusNode _focusUserId = FocusNode();
-  final FocusNode _focusPassword = FocusNode();
+  final FocusNode _focusTextField = FocusNode();
 
   @override
   void initState() {
     super.initState();
-    _focusUserId.addListener(() => _onFocusChange(_focusUserId));
-    _focusPassword.addListener(() => _onFocusChange(_focusPassword));
+    _focusTextField.addListener(() => _onFocusChange(_focusTextField));
 
     controller.addListener(() {
       final isButtonActive = controller.text.isNotEmpty;
@@ -35,9 +41,9 @@ class _ModalWindowState extends State<ModalWindow> {
   void _onFocusChange(FocusNode focus) {
     setState(() {
       if (focus.hasFocus) {
-        isDispayKeybord = true;
+        isDisplayKeyboard = true;
       } else {
-        isDispayKeybord = false;
+        isDisplayKeyboard = false;
       }
     });
   }
@@ -45,15 +51,15 @@ class _ModalWindowState extends State<ModalWindow> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: isDispayKeybord
+      height: isDisplayKeyboard
           ? MediaQuery.of(context).size.height * 0.3
           : MediaQuery.of(context).size.height * 0.3,
       child: Column(
         children: [
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(20.0),
             child: Text(
-              'メッセージを追加',
+              widget.title,
               style: TextStyle(fontSize: 24.0),
             ),
           ),
@@ -62,15 +68,30 @@ class _ModalWindowState extends State<ModalWindow> {
             child: TextField(
               controller: controller,
               autofocus: true,
-              focusNode: _focusUserId,
-              decoration: const InputDecoration(
-                labelText: 'メッセージを追加',
-                labelStyle: TextStyle(
-                  color: Colors.black,
+              focusNode: _focusTextField,
+              cursorColor: Colors.white,
+              decoration: InputDecoration(
+                labelText: widget.tfLabel,
+                labelStyle: TextStyle(color: Colors.white, fontSize: 15),
+                // border: OutlineInputBorder(
+                //   borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                // ),
+                // enabledBorder: OutlineInputBorder(
+                //   borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                //   borderSide: BorderSide(color: Colors.grey),
+                // ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.orange.shade700),
+                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
                 ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
                 ),
+              ),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 22,
               ),
               onChanged: (value) {
                 setState(() {
@@ -80,14 +101,18 @@ class _ModalWindowState extends State<ModalWindow> {
             ),
           ),
           ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.orange[700],
+              foregroundColor: Colors.black,
+            ),
             onPressed: isButtonActive
                 ? () => {
                       setState(() => isButtonActive = false),
                       Navigator.of(context).pop(),
                     }
                 : null,
-            child: const Text(
-              '追加',
+            child: Text(
+              widget.btnLabel,
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,

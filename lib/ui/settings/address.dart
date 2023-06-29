@@ -10,7 +10,7 @@ class AddressPage extends StatefulWidget {
   const AddressPage({Key? key}) : super(key: key);
 
   @override
-  _AddressPageState createState() => _AddressPageState();
+  State<AddressPage> createState() => _AddressPageState();
 }
 
 class _AddressPageState extends State<AddressPage>
@@ -37,17 +37,17 @@ class _AddressPageState extends State<AddressPage>
     return GestureDetector(
       onTap: () => _animationController.reverse(),
       child: Scaffold(
-        backgroundColor: Colors.black,
-        appBar: AppBar(
-          title: const Text(
-            "連絡先",
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          backgroundColor: Colors.orange.shade700,
-        ),
+        // appBar: AppBar(
+        //   backgroundColor: Colors.black,
+        //   title: const Text(
+        //     "連絡先",
+        //     style: TextStyle(
+        //       fontSize: 22,
+        //       fontWeight: FontWeight.w600,
+        //     ),
+        //   ),
+        //   centerTitle: true,
+        // ),
         //body: Center(child: Text(_text)),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         floatingActionButton: Container(
@@ -66,7 +66,7 @@ class _AddressPageState extends State<AddressPage>
                     context,
                     CupertinoPageRoute(
                       builder: (context) {
-                        return QrReader();
+                        return QRViewExample();
                       },
                     ),
                   );

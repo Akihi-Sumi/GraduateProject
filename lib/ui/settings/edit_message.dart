@@ -1,24 +1,28 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_app/widget/message.dart';
 import 'package:graduate_app/widget/modal_window.dart';
+import 'package:graduate_app/widget/popup_menu_button.dart';
 
 @RoutePage()
 class EditMessagePage extends StatefulWidget {
   const EditMessagePage({Key? key}) : super(key: key);
 
   @override
-  _EditMessagePageState createState() => _EditMessagePageState();
+  State<EditMessagePage> createState() => _EditMessagePageState();
 }
 
 class _EditMessagePageState extends State<EditMessagePage>
     with SingleTickerProviderStateMixin {
+  bool tfEnable = false;
+  bool modeChange = true;
   late AnimationController _animationController;
 
   @override
   void initState() {
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 260),
+      duration: Duration(milliseconds: 260),
     );
     super.initState();
   }
@@ -28,57 +32,69 @@ class _EditMessagePageState extends State<EditMessagePage>
     return GestureDetector(
       onTap: () => _animationController.reverse(),
       child: Scaffold(
-        backgroundColor: Colors.black,
-        appBar: AppBar(
-          title: const Text(
-            "メッセージ設定",
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          actions: [
-            IconButton(
-              padding: EdgeInsets.only(right: 15),
-              icon: const Icon(
-                Icons.add_comment_outlined,
-                size: 35,
+        resizeToAvoidBottomInset: false,
+        body: Column(
+          //mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SingleChildScrollView(
+              padding: EdgeInsets.only(top: 50),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Expanded(
+                    child: Message(
+                      isSender: false,
+                      changeEnable: tfEnable,
+                    ),
+                  ),
+                  PopupMenuButtonSample(
+                    defaultMode: modeChange,
+                    onTap: () {
+                      setState(() {
+                        tfEnable = true;
+                        modeChange = false;
+                      });
+                    },
+                    editComplete: () {
+                      modeChange = true;
+                      tfEnable = false;
+                      //Navigator.of(context).pop();
+                      FocusScope.of(context).unfocus();
+                    },
+                  ),
+                ],
               ),
-              onPressed: () => {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (BuildContext context) {
-                    return Container(
-                      //height: 350,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFD6D6D6),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        ),
-                      ),
-                      child: const ModalWindow(),
-                    );
-                  },
-                ),
-              },
             )
           ],
-          backgroundColor: Colors.orange.shade700,
         ),
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          color: Colors.black,
-          child: Center(
-            child: Text(
-              "メッセージを追加したり編集する",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20),
-            ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (BuildContext context) {
+                return Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xFF424242),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
+                  child: ModalWindow(
+                    title: "メッセージを追加",
+                    tfLabel: "メッセージを入力してください",
+                    btnLabel: "追加",
+                  ),
+                );
+              },
+            );
+          },
+          backgroundColor: Colors.white,
+          child: Icon(
+            Icons.add_comment_rounded,
+            color: Colors.orange[700],
+            size: 40,
           ),
         ),
       ),

@@ -1,22 +1,20 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:graduate_app/router/app_router.dart';
+import 'package:flutter/services.dart';
+import 'package:graduate_app/app/app.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-void main() => runApp(MyApp());
+import 'firebase_options.dart';
 
-class MyApp extends StatelessWidget {
-  MyApp({super.key});
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-  final _appRouter = AppRouter();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: _appRouter.config(),
-      title: 'Circular Bottom Navigation Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-        canvasColor: Colors.transparent,
-      ),
-    );
-  }
+  runApp(
+    ProviderScope(
+      child: App(),
+    ),
+  );
 }

@@ -8,87 +8,169 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i9;
-import 'package:flutter/material.dart' as _i10;
-import 'package:graduate_app/ui/home_screen.dart' as _i1;
-import 'package:graduate_app/ui/main_screen.dart' as _i2;
-import 'package:graduate_app/ui/relationshipPage.dart' as _i3;
-import 'package:graduate_app/ui/settings/address.dart' as _i4;
-import 'package:graduate_app/ui/settings/edit_message.dart' as _i5;
-import 'package:graduate_app/ui/settings/mypage.dart' as _i6;
-import 'package:graduate_app/ui/settings/survival_kit.dart' as _i7;
-import 'package:graduate_app/ui/settings_screen.dart' as _i8;
+import 'package:auto_route/auto_route.dart' as _i13;
+import 'package:flutter/material.dart' as _i14;
+import 'package:graduate_app/ui/auth/authPage.dart' as _i1;
+import 'package:graduate_app/ui/auth/get_started_page.dart' as _i2;
+import 'package:graduate_app/ui/auth/loginPage.dart' as _i3;
+import 'package:graduate_app/ui/auth/signupPage.dart' as _i4;
+import 'package:graduate_app/ui/home_screen.dart' as _i5;
+import 'package:graduate_app/ui/main_screen.dart' as _i6;
+import 'package:graduate_app/ui/relationshipPage.dart' as _i7;
+import 'package:graduate_app/ui/settings/address.dart' as _i8;
+import 'package:graduate_app/ui/settings/edit_message.dart' as _i9;
+import 'package:graduate_app/ui/settings/mypage.dart' as _i10;
+import 'package:graduate_app/ui/settings/survival_kit.dart' as _i11;
+import 'package:graduate_app/ui/settings_screen.dart' as _i12;
 
-abstract class $AppRouter extends _i9.RootStackRouter {
+abstract class $AppRouter extends _i13.RootStackRouter {
   $AppRouter({super.navigatorKey});
 
   @override
-  final Map<String, _i9.PageFactory> pagesMap = {
-    HomeScreenRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
+  final Map<String, _i13.PageFactory> pagesMap = {
+    AuthRoute.name: (routeData) {
+      return _i13.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i1.HomeScreenPage(),
+        child: const _i1.AuthPage(),
+      );
+    },
+    GetStartedRoute.name: (routeData) {
+      return _i13.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i2.GetStartedPage(),
+      );
+    },
+    LoginRoute.name: (routeData) {
+      return _i13.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i3.LoginPage(),
+      );
+    },
+    SignupRoute.name: (routeData) {
+      return _i13.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i4.SignupPage(),
+      );
+    },
+    HomeScreenRoute.name: (routeData) {
+      return _i13.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i5.HomeScreenPage(),
       );
     },
     MainScreenRoute.name: (routeData) {
-      final args = routeData.argsAs<MainScreenRouteArgs>(
-          orElse: () => const MainScreenRouteArgs());
-      return _i9.AutoRoutePage<dynamic>(
+      return _i13.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i2.MainScreenPage(key: args.key),
+        child: _i6.MainScreenPage(),
       );
     },
     RelationshipRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
+      return _i13.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i3.RelationshipPage(),
+        child: const _i7.RelationshipPage(),
       );
     },
     AddressRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
+      return _i13.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i4.AddressPage(),
+        child: const _i8.AddressPage(),
       );
     },
     EditMessageRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
+      return _i13.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i5.EditMessagePage(),
+        child: const _i9.EditMessagePage(),
       );
     },
     MyRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
+      return _i13.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i6.MyPage(),
+        child: const _i10.MyPage(),
       );
     },
     SurvivalKitRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
+      return _i13.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i7.SurvivalKitPage(),
+        child: const _i11.SurvivalKitPage(),
       );
     },
     SettingsRouterRoute.name: (routeData) {
       final args = routeData.argsAs<SettingsRouterRouteArgs>(
           orElse: () => const SettingsRouterRouteArgs());
-      return _i9.AutoRoutePage<dynamic>(
+      return _i13.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i8.SettingsRouterPage(key: args.key),
+        child: _i12.SettingsRouterPage(key: args.key),
       );
     },
     SettingsScreenRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
+      return _i13.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i8.SettingsScreenPage(),
+        child: const _i12.SettingsScreenPage(),
       );
     },
   };
 }
 
 /// generated route for
-/// [_i1.HomeScreenPage]
-class HomeScreenRoute extends _i9.PageRouteInfo<void> {
-  const HomeScreenRoute({List<_i9.PageRouteInfo>? children})
+/// [_i1.AuthPage]
+class AuthRoute extends _i13.PageRouteInfo<void> {
+  const AuthRoute({List<_i13.PageRouteInfo>? children})
+      : super(
+          AuthRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AuthRoute';
+
+  static const _i13.PageInfo<void> page = _i13.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i2.GetStartedPage]
+class GetStartedRoute extends _i13.PageRouteInfo<void> {
+  const GetStartedRoute({List<_i13.PageRouteInfo>? children})
+      : super(
+          GetStartedRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'GetStartedRoute';
+
+  static const _i13.PageInfo<void> page = _i13.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i3.LoginPage]
+class LoginRoute extends _i13.PageRouteInfo<void> {
+  const LoginRoute({List<_i13.PageRouteInfo>? children})
+      : super(
+          LoginRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'LoginRoute';
+
+  static const _i13.PageInfo<void> page = _i13.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i4.SignupPage]
+class SignupRoute extends _i13.PageRouteInfo<void> {
+  const SignupRoute({List<_i13.PageRouteInfo>? children})
+      : super(
+          SignupRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SignupRoute';
+
+  static const _i13.PageInfo<void> page = _i13.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i5.HomeScreenPage]
+class HomeScreenRoute extends _i13.PageRouteInfo<void> {
+  const HomeScreenRoute({List<_i13.PageRouteInfo>? children})
       : super(
           HomeScreenRoute.name,
           initialChildren: children,
@@ -96,42 +178,27 @@ class HomeScreenRoute extends _i9.PageRouteInfo<void> {
 
   static const String name = 'HomeScreenRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i13.PageInfo<void> page = _i13.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i2.MainScreenPage]
-class MainScreenRoute extends _i9.PageRouteInfo<MainScreenRouteArgs> {
-  MainScreenRoute({
-    _i10.Key? key,
-    List<_i9.PageRouteInfo>? children,
-  }) : super(
+/// [_i6.MainScreenPage]
+class MainScreenRoute extends _i13.PageRouteInfo<void> {
+  const MainScreenRoute({List<_i13.PageRouteInfo>? children})
+      : super(
           MainScreenRoute.name,
-          args: MainScreenRouteArgs(key: key),
           initialChildren: children,
         );
 
   static const String name = 'MainScreenRoute';
 
-  static const _i9.PageInfo<MainScreenRouteArgs> page =
-      _i9.PageInfo<MainScreenRouteArgs>(name);
-}
-
-class MainScreenRouteArgs {
-  const MainScreenRouteArgs({this.key});
-
-  final _i10.Key? key;
-
-  @override
-  String toString() {
-    return 'MainScreenRouteArgs{key: $key}';
-  }
+  static const _i13.PageInfo<void> page = _i13.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i3.RelationshipPage]
-class RelationshipRoute extends _i9.PageRouteInfo<void> {
-  const RelationshipRoute({List<_i9.PageRouteInfo>? children})
+/// [_i7.RelationshipPage]
+class RelationshipRoute extends _i13.PageRouteInfo<void> {
+  const RelationshipRoute({List<_i13.PageRouteInfo>? children})
       : super(
           RelationshipRoute.name,
           initialChildren: children,
@@ -139,13 +206,13 @@ class RelationshipRoute extends _i9.PageRouteInfo<void> {
 
   static const String name = 'RelationshipRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i13.PageInfo<void> page = _i13.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i4.AddressPage]
-class AddressRoute extends _i9.PageRouteInfo<void> {
-  const AddressRoute({List<_i9.PageRouteInfo>? children})
+/// [_i8.AddressPage]
+class AddressRoute extends _i13.PageRouteInfo<void> {
+  const AddressRoute({List<_i13.PageRouteInfo>? children})
       : super(
           AddressRoute.name,
           initialChildren: children,
@@ -153,13 +220,13 @@ class AddressRoute extends _i9.PageRouteInfo<void> {
 
   static const String name = 'AddressRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i13.PageInfo<void> page = _i13.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i5.EditMessagePage]
-class EditMessageRoute extends _i9.PageRouteInfo<void> {
-  const EditMessageRoute({List<_i9.PageRouteInfo>? children})
+/// [_i9.EditMessagePage]
+class EditMessageRoute extends _i13.PageRouteInfo<void> {
+  const EditMessageRoute({List<_i13.PageRouteInfo>? children})
       : super(
           EditMessageRoute.name,
           initialChildren: children,
@@ -167,13 +234,13 @@ class EditMessageRoute extends _i9.PageRouteInfo<void> {
 
   static const String name = 'EditMessageRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i13.PageInfo<void> page = _i13.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i6.MyPage]
-class MyRoute extends _i9.PageRouteInfo<void> {
-  const MyRoute({List<_i9.PageRouteInfo>? children})
+/// [_i10.MyPage]
+class MyRoute extends _i13.PageRouteInfo<void> {
+  const MyRoute({List<_i13.PageRouteInfo>? children})
       : super(
           MyRoute.name,
           initialChildren: children,
@@ -181,13 +248,13 @@ class MyRoute extends _i9.PageRouteInfo<void> {
 
   static const String name = 'MyRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i13.PageInfo<void> page = _i13.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i7.SurvivalKitPage]
-class SurvivalKitRoute extends _i9.PageRouteInfo<void> {
-  const SurvivalKitRoute({List<_i9.PageRouteInfo>? children})
+/// [_i11.SurvivalKitPage]
+class SurvivalKitRoute extends _i13.PageRouteInfo<void> {
+  const SurvivalKitRoute({List<_i13.PageRouteInfo>? children})
       : super(
           SurvivalKitRoute.name,
           initialChildren: children,
@@ -195,15 +262,15 @@ class SurvivalKitRoute extends _i9.PageRouteInfo<void> {
 
   static const String name = 'SurvivalKitRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i13.PageInfo<void> page = _i13.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i8.SettingsRouterPage]
-class SettingsRouterRoute extends _i9.PageRouteInfo<SettingsRouterRouteArgs> {
+/// [_i12.SettingsRouterPage]
+class SettingsRouterRoute extends _i13.PageRouteInfo<SettingsRouterRouteArgs> {
   SettingsRouterRoute({
-    _i10.Key? key,
-    List<_i9.PageRouteInfo>? children,
+    _i14.Key? key,
+    List<_i13.PageRouteInfo>? children,
   }) : super(
           SettingsRouterRoute.name,
           args: SettingsRouterRouteArgs(key: key),
@@ -212,14 +279,14 @@ class SettingsRouterRoute extends _i9.PageRouteInfo<SettingsRouterRouteArgs> {
 
   static const String name = 'SettingsRouterRoute';
 
-  static const _i9.PageInfo<SettingsRouterRouteArgs> page =
-      _i9.PageInfo<SettingsRouterRouteArgs>(name);
+  static const _i13.PageInfo<SettingsRouterRouteArgs> page =
+      _i13.PageInfo<SettingsRouterRouteArgs>(name);
 }
 
 class SettingsRouterRouteArgs {
   const SettingsRouterRouteArgs({this.key});
 
-  final _i10.Key? key;
+  final _i14.Key? key;
 
   @override
   String toString() {
@@ -228,9 +295,9 @@ class SettingsRouterRouteArgs {
 }
 
 /// generated route for
-/// [_i8.SettingsScreenPage]
-class SettingsScreenRoute extends _i9.PageRouteInfo<void> {
-  const SettingsScreenRoute({List<_i9.PageRouteInfo>? children})
+/// [_i12.SettingsScreenPage]
+class SettingsScreenRoute extends _i13.PageRouteInfo<void> {
+  const SettingsScreenRoute({List<_i13.PageRouteInfo>? children})
       : super(
           SettingsScreenRoute.name,
           initialChildren: children,
@@ -238,5 +305,5 @@ class SettingsScreenRoute extends _i9.PageRouteInfo<void> {
 
   static const String name = 'SettingsScreenRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i13.PageInfo<void> page = _i13.PageInfo<void>(name);
 }

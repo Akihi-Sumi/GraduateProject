@@ -14,4 +14,5 @@ class AppColors {
   static const baseDark = Color(0xFF8F8F8F);
 
   static const textColor = Color(0xFF4E4E4E);
+  static const mainText = Color(0xFFFFFFFF);
 }

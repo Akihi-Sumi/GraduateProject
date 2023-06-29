@@ -1,35 +1,52 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduate_app/app/app_router.gr.dart';
 import 'package:graduate_app/features/features.dart';
+import 'package:graduate_app/utils/utils.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()
-class MainScreenPage extends StatefulWidget {
-  MainScreenPage({
-    Key? key,
-  }) : super(key: key);
-
+class MainScreenPage extends HookConsumerWidget {
   @override
-  State<MainScreenPage> createState() => _MainScreenPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen<AsyncValue<void>>(
+      signOutControllerProvider,
+      (_, state) async {
+        if (state.isLoading) {
+          ref.read(overlayLoadingProvider.notifier).startLoading();
+          return;
+        }
 
-class RouteDestination {
-  final PageRouteInfo route;
-  final IconData icon;
-  final String label;
+        await state.when(
+          data: (_) async {
+            // ローディングを非表示にする
+            ref.read(overlayLoadingProvider.notifier).endLoading();
 
-  const RouteDestination({
-    required this.route,
-    required this.icon,
-    required this.label,
-  });
-}
+            // ログインできたらスナックバーでメッセージを表示してホーム画面に遷移する
+            ref
+                .read(scaffoldMessengerServiceProvider)
+                .showSnackBar('Complete to log out!');
 
-class _MainScreenPageState extends State<MainScreenPage>
-    with TickerProviderStateMixin {
-  @override
-  Widget build(BuildContext context) {
+            await AutoRouter.of(context).replaceAll([AuthRoute()]);
+          },
+          error: (e, s) async {
+            // ローディングを非表示にする
+            ref.read(overlayLoadingProvider.notifier).endLoading();
+
+            // エラーが発生したらエラーダイアログを表示する
+            state.showAlertDialogOnError(context);
+          },
+          loading: () {
+            // ローディングを表示する
+            ref.read(overlayLoadingProvider.notifier).startLoading();
+          },
+        );
+      },
+    );
+
+    // Provider
+    final state = ref.watch(signOutControllerProvider);
+
     return SafeArea(
       child: AutoTabsRouter(
         routes: const [
@@ -53,7 +70,20 @@ class _MainScreenPageState extends State<MainScreenPage>
                 leading: AutoLeadingButton(ignorePagelessRoutes: true),
                 actions: [
                   IconButton(
-                    onPressed: () => context.read<AuthCubit>().signOut(),
+                    onPressed: () async {
+                      await showActionDialog(
+                        context: context,
+                        title: 'Log Out',
+                        content: 'Do you want to log out ?',
+                        onPressed: state.isLoading
+                            ? null
+                            : () async {
+                                await ref
+                                    .read(signOutControllerProvider.notifier)
+                                    .signOut();
+                              },
+                      );
+                    },
                     icon: Icon(Icons.logout),
                   ),
                 ],

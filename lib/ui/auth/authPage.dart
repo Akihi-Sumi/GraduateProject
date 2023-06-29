@@ -1,8 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:graduate_app/app/app_router.gr.dart';
+import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
+import 'package:graduate_app/ui/auth/error_page.dart';
+import 'package:graduate_app/ui/auth/get_started_page.dart';
+import 'package:graduate_app/utils/utils.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+@RoutePage()
 class AuthPage extends HookConsumerWidget {
   const AuthPage({super.key});
 
@@ -14,16 +18,16 @@ class AuthPage extends HookConsumerWidget {
       body: ref.watch(authUserProvider).when(
         data: (data) {
           if (data != null) {
-            context.router.replaceAll([MainScreenRoute()]);
+            return AutoRouter();
           } else {
-            //return const GetStartedPage();
+            return GetStartedPage();
           }
         },
         error: (error, stackTrace) {
-          //return const ErrorPage();
+          return const ErrorPage();
         },
         loading: () {
-          //return const OverlayLoadingWidget();
+          return const OverlayLoadingWidget();
         },
       ),
     );

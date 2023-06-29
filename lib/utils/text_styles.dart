@@ -14,7 +14,7 @@ class TextStyles {
       );
 
   /// fontSize: 24, fontWeight: FontWeight.w700,
-  static TextStyle h2({Color color = AppColors.textColor}) => TextStyle(
+  static TextStyle h2({Color color = AppColors.mainText}) => TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.w700,
         color: color,

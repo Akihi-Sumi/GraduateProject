@@ -11,6 +11,10 @@ class AppRouter extends $AppRouter {
           initial: true,
           children: [
             AutoRoute(
+              page: GetStartedRoute.page,
+              path: 'start',
+            ),
+            AutoRoute(
               page: LoginRoute.page,
               path: 'login',
             ),

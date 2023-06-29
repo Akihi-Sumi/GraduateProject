@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduate_app/app/app_router.dart';
-import 'package:graduate_app/features/auth/cubits/auth_cubit.dart';
+import 'package:graduate_app/features/features.dart';
 
 class App extends StatelessWidget {
   App({Key? key}) : super(key: key);

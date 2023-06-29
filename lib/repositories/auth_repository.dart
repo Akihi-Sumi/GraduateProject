@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-import 'package:graduate_app/models/custom_exception_model.dart';
+import 'package:graduate_app/models/models.dart';
 
 class AuthRepository {
   AuthRepository({

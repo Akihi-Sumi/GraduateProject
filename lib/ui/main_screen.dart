@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduate_app/app/app_router.gr.dart';
+import 'package:graduate_app/features/features.dart';
 
 @RoutePage()
 class MainScreenPage extends StatefulWidget {
@@ -49,6 +51,12 @@ class _MainScreenPageState extends State<MainScreenPage>
                 ),
                 centerTitle: true,
                 leading: AutoLeadingButton(ignorePagelessRoutes: true),
+                actions: [
+                  IconButton(
+                    onPressed: () => context.read<AuthCubit>().signOut(),
+                    icon: Icon(Icons.logout),
+                  ),
+                ],
                 backgroundColor: Colors.black,
               ),
             ),

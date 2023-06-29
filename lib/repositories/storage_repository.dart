@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:graduate_app/models/custom_exception_model.dart';
+import 'package:graduate_app/models/models.dart';
 
 class StorageRepository {
   StorageRepository({

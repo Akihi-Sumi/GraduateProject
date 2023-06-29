@@ -7,7 +7,7 @@ class AppRouter extends $AppRouter {
   List<AutoRoute> get routes => [
         AutoRoute(
           path: '/',
-          page: AuthWrapperRoute.page,
+          page: AuthRoute.page,
           initial: true,
           children: [
             AutoRoute(

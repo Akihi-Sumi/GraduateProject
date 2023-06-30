@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_app/ui/settings/createMessagePage.dart';
 import 'package:graduate_app/widget/message.dart';
-import 'package:graduate_app/widget/modal_window.dart';
 import 'package:graduate_app/widget/popup_menu_button.dart';
 
 @RoutePage()
@@ -69,25 +69,31 @@ class _EditMessagePageState extends State<EditMessagePage>
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              builder: (BuildContext context) {
-                return Container(
-                  decoration: BoxDecoration(
-                    color: Color(0xFF424242),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ),
-                  ),
-                  child: ModalWindow(
-                    title: "メッセージを追加",
-                    tfLabel: "メッセージを入力してください",
-                    btnLabel: "追加",
-                  ),
-                );
-              },
+            // showModalBottomSheet(
+            //   context: context,
+            //   isScrollControlled: true,
+            //   builder: (BuildContext context) {
+            //     return Container(
+            //       decoration: BoxDecoration(
+            //         color: Color(0xFF424242),
+            //         borderRadius: BorderRadius.only(
+            //           topLeft: Radius.circular(20),
+            //           topRight: Radius.circular(20),
+            //         ),
+            //       ),
+            //       child: ModalWindow(
+            //         title: "メッセージを追加",
+            //         tfLabel: "メッセージを入力してください",
+            //         btnLabel: "追加",
+            //       ),
+            //     );
+            //   },
+            // );
+            Navigator.push<dynamic>(
+              context,
+              _sliderAnimationBuilder(
+                widget: CreateMessagePage(),
+              ),
             );
           },
           backgroundColor: Colors.white,
@@ -100,4 +106,28 @@ class _EditMessagePageState extends State<EditMessagePage>
       ),
     );
   }
+}
+
+PageRouteBuilder<dynamic> _sliderAnimationBuilder({required Widget widget}) {
+  return PageRouteBuilder<dynamic>(
+    transitionDuration: const Duration(milliseconds: 200),
+    reverseTransitionDuration: const Duration(milliseconds: 200),
+    fullscreenDialog: true,
+    pageBuilder: (context, animation, secondaryAnimation) {
+      // 表示する画面のWidget
+      return widget;
+    },
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(0, 1); // 下から上
+      // final Offset begin = Offset(0.0, -1.0); // 上から下
+      const end = Offset.zero;
+      final tween = Tween(begin: begin, end: end)
+          .chain(CurveTween(curve: Curves.easeInOut));
+      final offsetAnimation = animation.drive(tween);
+      return SlideTransition(
+        position: offsetAnimation,
+        child: child,
+      );
+    },
+  );
 }

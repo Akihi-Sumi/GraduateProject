@@ -16,6 +16,8 @@ class _LoadingNotifier extends Notifier<bool> {
   void startLoading() => state = true;
 
   void endLoading() => state = false;
+
+  void update(bool Function(dynamic state) param0) {}
 }
 
 /// show a primary color's SpinkitCircle.

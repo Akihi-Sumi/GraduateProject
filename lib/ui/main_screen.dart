@@ -47,15 +47,15 @@ class MainScreenPage extends HookConsumerWidget {
     // Provider
     final state = ref.watch(signOutControllerProvider);
 
-    return SafeArea(
-      child: AutoTabsRouter(
-        routes: const [
-          HomeScreenRoute(),
-          RelationshipRoute(),
-          SettingsScreenRoute()
-        ],
-        builder: (context, child) {
-          return Scaffold(
+    return AutoTabsRouter(
+      routes: const [
+        HomeScreenRoute(),
+        RelationshipRoute(),
+        SettingsScreenRoute()
+      ],
+      builder: (context, child) {
+        return SafeArea(
+          child: Scaffold(
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(60),
               child: AppBar(
@@ -92,14 +92,15 @@ class MainScreenPage extends HookConsumerWidget {
             ),
             body: child,
             bottomNavigationBar: buildBottomNav(context, context.tabsRouter),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 
   Widget buildBottomNav(BuildContext context, TabsRouter tabsRouter) {
     return BottomNavigationBar(
+      elevation: 0,
       currentIndex: tabsRouter.activeIndex,
       onTap: (int index) {
         if (tabsRouter.activeIndex != index) {

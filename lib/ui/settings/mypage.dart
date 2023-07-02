@@ -59,8 +59,6 @@ class _MyPageState extends State<MyPage> {
       behavior: HitTestBehavior.opaque,
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        //backgroundColor: Colors.black,
-        resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           reverse: true,
           padding: EdgeInsets.only(bottom: bottomSpace),

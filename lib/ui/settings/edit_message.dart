@@ -1,95 +1,65 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_app/features/features.dart';
+import 'package:graduate_app/models/models.dart';
 import 'package:graduate_app/ui/settings/createMessagePage.dart';
-import 'package:graduate_app/widget/message.dart';
-import 'package:graduate_app/widget/popup_menu_button.dart';
+import 'package:graduate_app/widget/message_bubble.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()
-class EditMessagePage extends StatefulWidget {
+class EditMessagePage extends HookConsumerWidget {
   const EditMessagePage({Key? key}) : super(key: key);
 
   @override
-  State<EditMessagePage> createState() => _EditMessagePageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    // bool tfEnable = false;
+    // bool modeChange = true;
 
-class _EditMessagePageState extends State<EditMessagePage>
-    with SingleTickerProviderStateMixin {
-  bool tfEnable = false;
-  bool modeChange = true;
-  late AnimationController _animationController;
+    final messages = ref.watch(messagesProvider).maybeWhen<List<Message>>(
+          data: (data) {
+            return data.sublist(0, data.length >= 20 ? 20 : data.length);
+          },
+          orElse: () => [],
+        );
 
-  @override
-  void initState() {
-    _animationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 260),
-    );
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _animationController.reverse(),
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Column(
-          //mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SingleChildScrollView(
-              padding: EdgeInsets.only(top: 50),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Expanded(
-                    child: Message(
-                      isSender: false,
-                      changeEnable: tfEnable,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.only(top: 50),
+            child: Column(
+              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: messages
+                  .map(
+                    (message) => MessageBubble(
+                      message: message,
+                      isSender: true,
+                      isEditer: true,
+                      changeEnable: false,
                     ),
-                  ),
-                  PopupMenuButtonSample(
-                    defaultMode: modeChange,
-                    onTap: () {
-                      setState(() {
-                        tfEnable = true;
-                        modeChange = false;
-                      });
-                    },
-                    editComplete: () {
-                      modeChange = true;
-                      tfEnable = false;
-                      //Navigator.of(context).pop();
-                      FocusScope.of(context).unfocus();
-                    },
-                  ),
-                ],
-              ),
-            )
-          ],
+                  )
+                  .toList(),
+              // PopupMenuButtonSample(
+              //   defaultMode: modeChange,
+              //   onTap: () {
+              //     // setState(() {
+              //     tfEnable = true;
+              //     modeChange = false;
+              //     // });
+              //   },
+              //   editComplete: () {
+              //     modeChange = true;
+              //     tfEnable = false;
+              //     //Navigator.of(context).pop();
+              //     FocusScope.of(context).unfocus();
+              //   },
+              // ),
+            ),
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            // showModalBottomSheet(
-            //   context: context,
-            //   isScrollControlled: true,
-            //   builder: (BuildContext context) {
-            //     return Container(
-            //       decoration: BoxDecoration(
-            //         color: Color(0xFF424242),
-            //         borderRadius: BorderRadius.only(
-            //           topLeft: Radius.circular(20),
-            //           topRight: Radius.circular(20),
-            //         ),
-            //       ),
-            //       child: ModalWindow(
-            //         title: "メッセージを追加",
-            //         tfLabel: "メッセージを入力してください",
-            //         btnLabel: "追加",
-            //       ),
-            //     );
-            //   },
-            // );
-            Navigator.push<dynamic>(
+            Navigator.push(
               context,
               _sliderAnimationBuilder(
                 widget: CreateMessagePage(),
@@ -108,8 +78,8 @@ class _EditMessagePageState extends State<EditMessagePage>
   }
 }
 
-PageRouteBuilder<dynamic> _sliderAnimationBuilder({required Widget widget}) {
-  return PageRouteBuilder<dynamic>(
+PageRouteBuilder _sliderAnimationBuilder({required Widget widget}) {
+  return PageRouteBuilder(
     transitionDuration: const Duration(milliseconds: 200),
     reverseTransitionDuration: const Duration(milliseconds: 200),
     fullscreenDialog: true,

@@ -7,11 +7,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final messagesProvider = StreamProvider.autoDispose<List<Message>>((ref) {
   final userId = ref.watch(authRepositoryImplProvider).currentUser!.uid;
-  final message = ref.read(messageRepositoryImplProvider).subscribeMessages(
+  final messages = ref.read(messageRepositoryImplProvider).subscribeMessages(
         userId: userId,
-        queryBuilder: (q) => q.orderBy('updateAt', descending: true),
+        queryBuilder: (q) => q.orderBy('updatedAt', descending: true),
       );
-  return message;
+  return messages;
 });
 
 /// メッセージを追加する処理

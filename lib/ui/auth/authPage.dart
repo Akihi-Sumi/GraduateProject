@@ -15,6 +15,7 @@ class AuthPage extends HookConsumerWidget {
     ref.handleConnectivity();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: ref.watch(authUserProvider).when(
         data: (data) {
           if (data != null) {

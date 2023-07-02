@@ -61,6 +61,7 @@ class CreateMessagePage extends HookConsumerWidget {
       child: Stack(
         children: [
           Scaffold(
+            resizeToAvoidBottomInset: false,
             appBar: MyAppBar(
               title: 'メッセージの追加',
               automaticallyImplyLeading: true,
@@ -78,15 +79,20 @@ class CreateMessagePage extends HookConsumerWidget {
                           .watch(overlayLoadingProvider.notifier)
                           .update((state) => true);
 
-                      final message =
-                          Message(messageText: messageController.value.text);
+                      final message = Message(
+                        messageText: messageController.value.text,
+                        createdAt: UnionTimestamp.serverTimestamp(),
+                        updatedAt: UnionTimestamp.serverTimestamp(),
+                      );
 
                       if (userId != null) {
                         await ref
                             .read(createMessageControllerProvider.notifier)
                             .createMessage(
                               userId: userId,
-                              message: message,
+                              message: message.copyWith(
+                                messageText: messageController.value.text,
+                              ),
                             );
                       }
                     },

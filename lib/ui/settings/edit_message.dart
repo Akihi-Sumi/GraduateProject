@@ -34,7 +34,7 @@ class EditMessagePage extends HookConsumerWidget {
                     (message) => MessageBubble(
                       message: message,
                       isSender: true,
-                      isEditer: true,
+                      isEditor: true,
                       changeEnable: false,
                     ),
                   )

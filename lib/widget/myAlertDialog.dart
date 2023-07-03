@@ -7,12 +7,14 @@ class MyAlertDialog extends StatelessWidget {
     required this.txt_cancel,
     required this.txt_ok,
     required this.txt_snack,
+    required this.exe,
   }) : super(key: key);
 
   final String title;
   final String txt_cancel;
   final String txt_ok;
   final String txt_snack;
+  final void Function()? exe;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +53,8 @@ class MyAlertDialog extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
+                exe;
+
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(

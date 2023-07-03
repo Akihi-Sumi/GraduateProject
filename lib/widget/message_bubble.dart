@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:graduate_app/features/features.dart';
 import 'package:graduate_app/models/models.dart';
+import 'package:graduate_app/utils/utils.dart';
 import 'package:graduate_app/widget/myAlertDialog.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MessageBubble extends HookConsumerWidget {
   final bool isSender;
-  final bool isEditer;
+  final bool isEditor;
   final bool tail;
   final Color color;
   final TextStyle textStyle;
@@ -17,7 +19,7 @@ class MessageBubble extends HookConsumerWidget {
     Key? key,
     required this.message,
     required this.isSender,
-    required this.isEditer,
+    required this.isEditor,
     this.color = Colors.orange,
     this.tail = true,
     this.textStyle = const TextStyle(
@@ -31,10 +33,31 @@ class MessageBubble extends HookConsumerWidget {
   ///chat bubble builder method
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen<AsyncValue<void>>(deleteMessageControllerProvider,
+        (_, state) async {
+      if (state.isLoading) {
+        ref.watch(overlayLoadingProvider.notifier).update((state) => true);
+        return;
+      }
+
+      await state.when(data: (_) async {
+        ref.watch(overlayLoadingProvider.notifier).update((state) => false);
+        ref
+            .read(scaffoldMessengerServiceProvider)
+            .showSnackBar("メッセージを削除しました。");
+        Navigator.of(context).pop();
+      }, error: (e, s) async {
+        ref.watch(overlayLoadingProvider.notifier).update((state) => false);
+        state.showAlertDialogOnError(context);
+      }, loading: () {
+        ref.watch(overlayLoadingProvider.notifier).update((state) => true);
+      });
+    });
+
     return GestureDetector(
       onTap: isSender
           ? () {
-              isEditer
+              isEditor
                   ? null
                   : showDialog<void>(
                       context: context,
@@ -44,14 +67,71 @@ class MessageBubble extends HookConsumerWidget {
                           txt_cancel: "キャンセル",
                           txt_ok: "送信",
                           txt_snack: "メッセージを送信しました",
+                          exe: () {},
                         );
                       },
                     );
             }
           : null,
-      onLongPress: isEditer
+      onLongPress: isEditor
           ? () {
-              debugPrint("long press");
+              showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return SizedBox(
+                      height: 140,
+                      //color: Colors.amber,
+                      child: Column(
+                        //crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          ListTile(
+                            leading: Icon(
+                              Icons.edit,
+                              size: 30,
+                            ),
+                            title: Text(
+                              "編集",
+                              style: TextStyle(fontSize: 28),
+                            ),
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                          ListTile(
+                            leading: Icon(
+                              Icons.delete,
+                              size: 30,
+                            ),
+                            title: Text(
+                              "削除",
+                              style: TextStyle(fontSize: 28),
+                            ),
+                            onTap: () {
+                              Navigator.pop(context);
+                              showDialog<void>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return MyAlertDialog(
+                                    title: "メッセージを削除しますか？",
+                                    txt_cancel: "キャンセル",
+                                    txt_ok: "削除",
+                                    txt_snack: "メッセージを削除しました",
+                                    exe: () async {
+                                      ref
+                                          .watch(
+                                              overlayLoadingProvider.notifier)
+                                          .update((state) => true);
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                          )
+                        ],
+                      ),
+                    );
+                  });
             }
           : null,
       child: Align(

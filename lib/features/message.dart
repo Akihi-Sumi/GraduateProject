@@ -52,7 +52,7 @@ class CreateMessageController extends AutoDisposeAsyncNotifier<void> {
 }
 
 /// メッセージを削除する処理
-final messageDeleteControllerProvider =
+final deleteMessageControllerProvider =
     AutoDisposeAsyncNotifierProvider<DeleteMessageController, void>(
   DeleteMessageController.new,
 );

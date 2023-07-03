@@ -75,6 +75,9 @@ class PopupMenuButtonSample extends StatelessWidget {
                         txt_cancel: "キャンセル",
                         txt_ok: "削除",
                         txt_snack: "削除しました",
+                        exe: () {
+                          // 処理
+                        },
                       );
                     },
                   );

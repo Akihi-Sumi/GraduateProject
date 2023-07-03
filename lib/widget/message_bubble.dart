@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:graduate_app/features/features.dart';
 import 'package:graduate_app/models/models.dart';
-import 'package:graduate_app/utils/utils.dart';
 import 'package:graduate_app/widget/myAlertDialog.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -12,6 +10,7 @@ class MessageBubble extends HookConsumerWidget {
   final Color color;
   final TextStyle textStyle;
   final bool changeEnable;
+  final void Function()? execution;
 
   final Message message;
 
@@ -28,32 +27,12 @@ class MessageBubble extends HookConsumerWidget {
       fontWeight: FontWeight.bold,
     ),
     required this.changeEnable,
+    required this.execution,
   }) : super(key: key);
 
   ///chat bubble builder method
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen<AsyncValue<void>>(deleteMessageControllerProvider,
-        (_, state) async {
-      if (state.isLoading) {
-        ref.watch(overlayLoadingProvider.notifier).update((state) => true);
-        return;
-      }
-
-      await state.when(data: (_) async {
-        ref.watch(overlayLoadingProvider.notifier).update((state) => false);
-        ref
-            .read(scaffoldMessengerServiceProvider)
-            .showSnackBar("メッセージを削除しました。");
-        Navigator.of(context).pop();
-      }, error: (e, s) async {
-        ref.watch(overlayLoadingProvider.notifier).update((state) => false);
-        state.showAlertDialogOnError(context);
-      }, loading: () {
-        ref.watch(overlayLoadingProvider.notifier).update((state) => true);
-      });
-    });
-
     return GestureDetector(
       onTap: isSender
           ? () {
@@ -117,12 +96,7 @@ class MessageBubble extends HookConsumerWidget {
                                     txt_cancel: "キャンセル",
                                     txt_ok: "削除",
                                     txt_snack: "メッセージを削除しました",
-                                    exe: () async {
-                                      ref
-                                          .watch(
-                                              overlayLoadingProvider.notifier)
-                                          .update((state) => true);
-                                    },
+                                    exe: execution,
                                   );
                                 },
                               );

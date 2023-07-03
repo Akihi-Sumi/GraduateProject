@@ -22,7 +22,6 @@ Message _$MessageFromJson(Map<String, dynamic> json) {
 mixin _$Message {
   String get messageId => throw _privateConstructorUsedError;
   String get messageText => throw _privateConstructorUsedError;
-  bool get active => throw _privateConstructorUsedError;
   @unionTimestampConverter
   UnionTimestamp get createdAt => throw _privateConstructorUsedError;
   @alwaysUseServerTimestampUnionTimestampConverter
@@ -41,7 +40,6 @@ abstract class $MessageCopyWith<$Res> {
   $Res call(
       {String messageId,
       String messageText,
-      bool active,
       @unionTimestampConverter
           UnionTimestamp createdAt,
       @alwaysUseServerTimestampUnionTimestampConverter
@@ -66,7 +64,6 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
   $Res call({
     Object? messageId = null,
     Object? messageText = null,
-    Object? active = null,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
@@ -79,10 +76,6 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
           ? _value.messageText
           : messageText // ignore: cast_nullable_to_non_nullable
               as String,
-      active: null == active
-          ? _value.active
-          : active // ignore: cast_nullable_to_non_nullable
-              as bool,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -121,7 +114,6 @@ abstract class _$$_MessageCopyWith<$Res> implements $MessageCopyWith<$Res> {
   $Res call(
       {String messageId,
       String messageText,
-      bool active,
       @unionTimestampConverter
           UnionTimestamp createdAt,
       @alwaysUseServerTimestampUnionTimestampConverter
@@ -145,7 +137,6 @@ class __$$_MessageCopyWithImpl<$Res>
   $Res call({
     Object? messageId = null,
     Object? messageText = null,
-    Object? active = null,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
@@ -158,10 +149,6 @@ class __$$_MessageCopyWithImpl<$Res>
           ? _value.messageText
           : messageText // ignore: cast_nullable_to_non_nullable
               as String,
-      active: null == active
-          ? _value.active
-          : active // ignore: cast_nullable_to_non_nullable
-              as bool,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -180,7 +167,6 @@ class _$_Message extends _Message {
   const _$_Message(
       {this.messageId = '',
       this.messageText = '',
-      this.active = true,
       @unionTimestampConverter required this.createdAt,
       @alwaysUseServerTimestampUnionTimestampConverter required this.updatedAt})
       : super._();
@@ -195,9 +181,6 @@ class _$_Message extends _Message {
   @JsonKey()
   final String messageText;
   @override
-  @JsonKey()
-  final bool active;
-  @override
   @unionTimestampConverter
   final UnionTimestamp createdAt;
   @override
@@ -206,7 +189,7 @@ class _$_Message extends _Message {
 
   @override
   String toString() {
-    return 'Message(messageId: $messageId, messageText: $messageText, active: $active, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Message(messageId: $messageId, messageText: $messageText, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -218,7 +201,6 @@ class _$_Message extends _Message {
                 other.messageId == messageId) &&
             (identical(other.messageText, messageText) ||
                 other.messageText == messageText) &&
-            (identical(other.active, active) || other.active == active) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -227,8 +209,8 @@ class _$_Message extends _Message {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, messageId, messageText, active, createdAt, updatedAt);
+  int get hashCode =>
+      Object.hash(runtimeType, messageId, messageText, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -248,7 +230,6 @@ abstract class _Message extends Message {
   const factory _Message(
       {final String messageId,
       final String messageText,
-      final bool active,
       @unionTimestampConverter
           required final UnionTimestamp createdAt,
       @alwaysUseServerTimestampUnionTimestampConverter
@@ -261,8 +242,6 @@ abstract class _Message extends Message {
   String get messageId;
   @override
   String get messageText;
-  @override
-  bool get active;
   @override
   @unionTimestampConverter
   UnionTimestamp get createdAt;

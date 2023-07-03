@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/app/app_router.gr.dart';
 import 'package:graduate_app/features/features.dart';
-import 'package:graduate_app/features/notifiers/notifiers.dart';
 import 'package:graduate_app/gen/assets.gen.dart';
 import 'package:graduate_app/utils/utils.dart';
 import 'package:graduate_app/widget/widget.dart';

@@ -15,17 +15,11 @@ DocumentReference<AppUser> appUserRef({
 }) =>
     appUsersRef.doc(userId);
 
-/// deletedUsers コレクションの参照。
-final deletedUsersRef = _db.collection('deletedUsers').withConverter(
-      fromFirestore: (ds, _) => DeletedUser.fromDocumentSnapshot(ds),
-      toFirestore: (obj, _) => obj.toJson(),
-    );
-
 /// message コレクションの参照
 CollectionReference<Message> messagesRef({
   required String userId,
 }) =>
-    appUserRef(userId: userId).collection('message').withConverter(
+    appUserRef(userId: userId).collection('messages').withConverter(
           fromFirestore: (ds, _) => Message.fromDocumentSnapshot(ds),
           toFirestore: (obj, _) => obj.toJson(),
         );
@@ -36,3 +30,9 @@ DocumentReference<Message> messageRef({
   required String messageId,
 }) =>
     messagesRef(userId: userId).doc(messageId);
+
+/// deletedUsers コレクションの参照。
+final deletedUsersRef = _db.collection('deletedUsers').withConverter(
+      fromFirestore: (ds, _) => DeletedUser.fromDocumentSnapshot(ds),
+      toFirestore: (obj, _) => obj.toJson(),
+    );

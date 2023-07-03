@@ -2,7 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/features/features.dart';
 import 'package:graduate_app/models/models.dart';
+import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
 import 'package:graduate_app/ui/settings/createMessagePage.dart';
+import 'package:graduate_app/utils/utils.dart';
 import 'package:graduate_app/widget/message_bubble.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -12,8 +14,26 @@ class EditMessagePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // bool tfEnable = false;
-    // bool modeChange = true;
+    ref.listen<AsyncValue<void>>(deleteMessageControllerProvider,
+        (_, state) async {
+      if (state.isLoading) {
+        ref.watch(overlayLoadingProvider.notifier).update((state) => true);
+        return;
+      }
+
+      await state.when(data: (_) async {
+        ref.watch(overlayLoadingProvider.notifier).update((state) => false);
+        ref
+            .read(scaffoldMessengerServiceProvider)
+            .showSnackBar("メッセージを削除しました。");
+        Navigator.of(context).pop();
+      }, error: (e, s) async {
+        ref.watch(overlayLoadingProvider.notifier).update((state) => false);
+        state.showAlertDialogOnError(context);
+      }, loading: () {
+        ref.watch(overlayLoadingProvider.notifier).update((state) => true);
+      });
+    });
 
     final messages = ref.watch(messagesProvider).maybeWhen<List<Message>>(
           data: (data) {
@@ -21,6 +41,8 @@ class EditMessagePage extends HookConsumerWidget {
           },
           orElse: () => [],
         );
+
+    final userId = ref.watch(authRepositoryImplProvider).currentUser?.uid;
 
     return GestureDetector(
       child: Scaffold(
@@ -36,6 +58,17 @@ class EditMessagePage extends HookConsumerWidget {
                       isSender: true,
                       isEditor: true,
                       changeEnable: false,
+                      execution: () async {
+                        if (userId != null) {
+                          await ref
+                              .read(deleteMessageControllerProvider.notifier)
+                              .deleteMessage(
+                                userId: userId,
+                                messageId: message.messageId,
+                                message: message,
+                              );
+                        }
+                      },
                     ),
                   )
                   .toList(),

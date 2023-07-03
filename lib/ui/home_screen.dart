@@ -30,6 +30,7 @@ class HomeScreenPage extends HookConsumerWidget {
                   isSender: true,
                   isEditor: false,
                   changeEnable: false,
+                  execution: () {},
                 ),
               )
               .toList(),

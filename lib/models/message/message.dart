@@ -10,7 +10,6 @@ class Message with _$Message {
   const factory Message({
     @Default('') String messageId,
     @Default('') String messageText,
-    @Default(true) bool active,
     @unionTimestampConverter required UnionTimestamp createdAt,
     @alwaysUseServerTimestampUnionTimestampConverter
     required UnionTimestamp updatedAt,

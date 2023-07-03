@@ -11,16 +11,6 @@ final messageRepositoryImplProvider = Provider<MessageRepositoryImpl>(
 
 class MessageRepositoryImpl implements MessageRepository {
   @override
-  Future<void> create({
-    required String userId,
-    required Message message,
-  }) async {
-    await messagesRef(userId: userId).add(
-      message,
-    );
-  }
-
-  @override
   Future<Message?> fetchMessage({
     required String userId,
     required String messageId,
@@ -32,28 +22,6 @@ class MessageRepositoryImpl implements MessageRepository {
       return null;
     }
     return ds.data();
-  }
-
-  @override
-  Future<void> update({
-    required String userId,
-    required String messageId,
-    required Message message,
-  }) async {
-    await messagesRef(userId: userId)
-        .doc(messageId)
-        .set(message, SetOptions(merge: true));
-  }
-
-  @override
-  Future<void> delete({
-    required String userId,
-    required String messageId,
-    required Message message,
-  }) async {
-    await messagesRef(userId: userId)
-        .doc(messageId)
-        .set(message.copyWith(active: false), SetOptions(merge: true));
   }
 
   @override
@@ -75,5 +43,40 @@ class MessageRepositoryImpl implements MessageRepository {
       }
       return message;
     });
+  }
+
+  @override
+  Future<void> create({
+    required String userId,
+    required Message message,
+  }) async {
+    await messagesRef(userId: userId).add(
+      message,
+    );
+  }
+
+  @override
+  Future<void> update({
+    required String userId,
+    required String messageId,
+    required Message message,
+  }) async {
+    await messagesRef(userId: userId).doc(messageId).set(
+          message,
+          SetOptions(merge: true),
+        );
+  }
+
+  @override
+  Future<void> delete({
+    required String userId,
+    required String messageId,
+    required Message message,
+  }) async {
+    await messagesRef(userId: userId).doc(messageId).set(
+          message,
+          SetOptions(merge: true),
+        );
+    //await messagesRef(userId: userId).doc(messageId).delete();
   }
 }

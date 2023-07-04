@@ -12,7 +12,11 @@ class SurvivalKitPage extends StatefulWidget {
 }
 
 // "time"を追加。3年=1095日
-class _SurvivalKitPageState extends State<SurvivalKitPage> {
+class _SurvivalKitPageState extends State<SurvivalKitPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   List<Map> _list = [
     {"name": "応急セット", "isChecked": false},
     {"name": "長期保存水", "time": 10, "isChecked": false},
@@ -42,6 +46,8 @@ class _SurvivalKitPageState extends State<SurvivalKitPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(),
       child: Scaffold(
@@ -74,7 +80,7 @@ class _SurvivalKitPageState extends State<SurvivalKitPage> {
                         ? Text(
                             "使用期限は${DateTime.now().year + goods["time"]}月${DateTime.now().day}です")
                         : null,
-                    onChanged: (value) {
+                    onChanged: (bool? value) {
                       setState(() {
                         goods["isChecked"] = value;
                         if (goods["time"] != null) {
@@ -98,5 +104,10 @@ class _SurvivalKitPageState extends State<SurvivalKitPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

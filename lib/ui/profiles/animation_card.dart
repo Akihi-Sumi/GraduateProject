@@ -1,7 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/model/people_model.dart';
-import 'package:graduate_app/ui/profiles/detailPage.dart';
+import 'package:graduate_app/ui/profiles/detail_page.dart';
 
 class AnimationCard extends StatelessWidget {
   const AnimationCard({Key? key, required this.profile}) : super(key: key);

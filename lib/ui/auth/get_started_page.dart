@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/gen/assets.gen.dart';
-import 'package:graduate_app/ui/auth/loginPage.dart';
-import 'package:graduate_app/ui/auth/signupPage.dart';
+import 'package:graduate_app/ui/auth/login_page.dart';
+import 'package:graduate_app/ui/auth/signup_page.dart';
 import 'package:graduate_app/utils/utils.dart';
 import 'package:graduate_app/widget/widget.dart';
 

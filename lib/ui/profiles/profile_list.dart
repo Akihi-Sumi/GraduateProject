@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduate_app/model/people_model.dart';
-import 'package:graduate_app/ui/profiles/animationCard.dart';
+import 'package:graduate_app/ui/profiles/animation_card.dart';
 
 class ProfileList extends StatelessWidget {
   const ProfileList({Key? key, required this.profiles}) : super(key: key);

@@ -52,22 +52,25 @@ class EditMessagePage extends HookConsumerWidget {
             child: Column(
               children: messages
                   .map(
-                    (message) => MessageBubble(
-                      message: message,
-                      isSender: true,
-                      isEditor: true,
-                      changeEnable: false,
-                      execution: () async {
-                        if (userId != null) {
-                          await ref
-                              .read(messageDeleteControllerProvider.notifier)
-                              .deleteMessage(
-                                userId: userId,
-                                messageId: message.messageId,
-                                message: message,
-                              );
-                        }
-                      },
+                    (message) => Container(
+                      margin: EdgeInsets.only(bottom: 30),
+                      child: MessageBubble(
+                        message: message,
+                        isSender: true,
+                        isEditor: true,
+                        changeEnable: false,
+                        execution: () async {
+                          if (userId != null) {
+                            await ref
+                                .read(messageDeleteControllerProvider.notifier)
+                                .deleteMessage(
+                                  userId: userId,
+                                  messageId: message.messageId,
+                                  message: message,
+                                );
+                          }
+                        },
+                      ),
                     ),
                   )
                   .toList(),

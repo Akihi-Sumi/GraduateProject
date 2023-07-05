@@ -25,12 +25,15 @@ class HomeScreenPage extends HookConsumerWidget {
         child: Column(
           children: messages
               .map(
-                (message) => MessageBubble(
-                  message: message,
-                  isSender: true,
-                  isEditor: false,
-                  changeEnable: false,
-                  execution: () {},
+                (message) => Container(
+                  margin: EdgeInsets.only(bottom: 30),
+                  child: MessageBubble(
+                    message: message,
+                    isSender: true,
+                    isEditor: false,
+                    changeEnable: false,
+                    execution: () {},
+                  ),
                 ),
               )
               .toList(),

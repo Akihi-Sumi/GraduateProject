@@ -5,11 +5,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MessageBubble extends HookConsumerWidget {
   final bool isSender;
-  final bool isEditer;
+  final bool isEditor;
   final bool tail;
   final Color color;
   final TextStyle textStyle;
   final bool changeEnable;
+  final void Function()? execution;
 
   final Message message;
 
@@ -17,7 +18,7 @@ class MessageBubble extends HookConsumerWidget {
     Key? key,
     required this.message,
     required this.isSender,
-    required this.isEditer,
+    required this.isEditor,
     this.color = Colors.orange,
     this.tail = true,
     this.textStyle = const TextStyle(
@@ -26,6 +27,7 @@ class MessageBubble extends HookConsumerWidget {
       fontWeight: FontWeight.bold,
     ),
     required this.changeEnable,
+    required this.execution,
   }) : super(key: key);
 
   ///chat bubble builder method
@@ -34,7 +36,7 @@ class MessageBubble extends HookConsumerWidget {
     return GestureDetector(
       onTap: isSender
           ? () {
-              isEditer
+              isEditor
                   ? null
                   : showDialog<void>(
                       context: context,
@@ -44,14 +46,59 @@ class MessageBubble extends HookConsumerWidget {
                           txt_cancel: "キャンセル",
                           txt_ok: "送信",
                           txt_snack: "メッセージを送信しました",
+                          exe: () {},
                         );
                       },
                     );
             }
           : null,
-      onLongPress: isEditer
+      onLongPress: isEditor
           ? () {
-              debugPrint("long press");
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return SizedBox(
+                    height: 140,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ListTile(
+                          leading: Icon(Icons.edit, size: 40),
+                          title: Text(
+                            "編集",
+                            style: TextStyle(fontSize: 28),
+                          ),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.delete, size: 40),
+                          title: Text(
+                            "削除",
+                            style: TextStyle(fontSize: 28),
+                          ),
+                          onTap: () {
+                            showDialog<void>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return MyAlertDialog(
+                                  title: "メッセージを削除しますか？",
+                                  txt_cancel: "キャンセル",
+                                  txt_ok: "削除",
+                                  txt_snack: "メッセージを削除しました",
+                                  exe: execution,
+                                );
+                              },
+                            );
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
             }
           : null,
       child: Align(

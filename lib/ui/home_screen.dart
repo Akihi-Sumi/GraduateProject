@@ -28,8 +28,9 @@ class HomeScreenPage extends HookConsumerWidget {
                 (message) => MessageBubble(
                   message: message,
                   isSender: true,
-                  isEditer: false,
+                  isEditor: false,
                   changeEnable: false,
+                  execution: () {},
                 ),
               )
               .toList(),

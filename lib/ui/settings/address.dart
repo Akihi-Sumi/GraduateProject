@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_app/model/people_data.dart';
+import 'package:graduate_app/ui/profiles/profile_list.dart';
 import 'package:graduate_app/ui/settings/qr/qr_gene.dart';
 import 'package:graduate_app/ui/settings/qr/qr_scanner.dart';
 import 'package:graduate_app/widget/fan_bubble.dart';
@@ -37,18 +39,11 @@ class _AddressPageState extends State<AddressPage>
     return GestureDetector(
       onTap: () => _animationController.reverse(),
       child: Scaffold(
-        // appBar: AppBar(
-        //   backgroundColor: Colors.black,
-        //   title: const Text(
-        //     "連絡先",
-        //     style: TextStyle(
-        //       fontSize: 22,
-        //       fontWeight: FontWeight.w600,
-        //     ),
-        //   ),
-        //   centerTitle: true,
-        // ),
-        //body: Center(child: Text(_text)),
+        body: SingleChildScrollView(
+          child: SizedBox(
+            child: ProfileList(profiles: profiles),
+          ),
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         floatingActionButton: Container(
           padding: EdgeInsets.all(15),

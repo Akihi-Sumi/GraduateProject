@@ -19,30 +19,6 @@ class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(74),
-        child: AppBar(
-          backgroundColor: Colors.black,
-          leading: InkWell(
-            onTap: () async {
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              Icons.arrow_back_rounded,
-              size: 24,
-            ),
-          ),
-          title: Text(
-            widget.profile.name,
-            style: const TextStyle(
-              fontSize: 26,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          centerTitle: true,
-          elevation: 0,
-        ),
-      ),
       body: Column(
         children: [
           Column(
@@ -50,7 +26,7 @@ class _DetailPageState extends State<DetailPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 5, 16, 24),
                 child: Hero(
                   tag: "mainImage",
                   transitionOnUserGestures: true,
@@ -65,8 +41,14 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                 ),
               ),
+              Center(
+                child: Text(
+                  widget.profile.name,
+                  style: TextStyle(fontSize: 28),
+                ),
+              ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16, 10, 16, 0),
+                padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                 child: Text(
                   widget.profile.email,
                   style: TextStyle(

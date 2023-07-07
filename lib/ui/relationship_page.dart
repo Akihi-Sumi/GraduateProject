@@ -1,7 +1,5 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
-import 'package:graduate_app/model/people_data.dart';
-import 'package:graduate_app/ui/profiles/profile_list.dart';
 
 @RoutePage()
 class RelationshipPage extends StatefulWidget {
@@ -16,8 +14,8 @@ class _RelationshipPageState extends State<RelationshipPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: SizedBox(
-          child: ProfileList(profiles: profiles),
+        child: Center(
+          child: Text("送られたメッセージを表示"),
         ),
       ),
     );

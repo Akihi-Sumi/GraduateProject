@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:graduate_app/widget/userIcon.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class MyPage extends StatefulWidget {
-  const MyPage({Key? key}) : super(key: key);
+class MyPage2 extends StatefulHookConsumerWidget {
+  const MyPage2({Key? key}) : super(key: key);
 
   @override
-  State<MyPage> createState() => _MyPageState();
+  MyPage2State createState() => MyPage2State();
 }
 
-class _MyPageState extends State<MyPage> {
+class MyPage2State extends ConsumerState<MyPage2> {
   TextEditingController nameController =
       TextEditingController(text: "前回保存した名前");
   TextEditingController emailController =

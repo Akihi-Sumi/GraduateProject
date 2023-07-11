@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_app/models/models.dart';
+import 'package:graduate_app/repositories/app_user/app_user_repository_impl.dart';
 import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
 import 'package:graduate_app/utils/utils.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -27,6 +29,7 @@ class SignUpController extends AutoDisposeAsyncNotifier<void> {
     required String password,
   }) async {
     final authRepository = ref.read(authRepositoryImplProvider);
+    final AppUserRepository = ref.read(appUserRepositoryImplProvider);
     // サインアップをローディング中にする
     state = const AsyncLoading();
 
@@ -36,29 +39,43 @@ class SignUpController extends AutoDisposeAsyncNotifier<void> {
         final isNetworkCheck = await isNetworkConnected();
         if (!isNetworkCheck) {
           const exception = AppException(
-            message: 'Maybe your network is disconnected. Please check yours.',
+            message: 'ネットワークが切断されました。',
           );
           throw exception;
         }
 
         if (isCheckTerms == false) {
           const exception = AppException(
-            message: 'Please agree the terms of service and privacy policy.',
+            message: '利用規約とプライバシーポリシーに同意してください。',
           );
           throw exception;
         }
 
         if (userName.isEmpty || email.isEmpty || password.isEmpty) {
           const exception = AppException(
-            message: 'Please input your user name, email, and password.',
+            message: 'ユーザー名、メールアドレス、パスワードを入力してください。',
           );
           throw exception;
         }
 
-        await authRepository.signUp(
+        final userId = await authRepository.signUp(
           email: email,
           password: password,
         );
+        if (userId != null) {
+          final appUser = AppUser(
+            userId: userId,
+            userName: userName,
+            createdAt: const UnionTimestamp.serverTimestamp(),
+          );
+
+          await AppUserRepository.create(userId: userId, appUser: appUser);
+        } else {
+          const exception = AppException(
+            message: "アカウントの作成に失敗しました。",
+          );
+          throw exception;
+        }
       } on FirebaseAuthException catch (e) {
         final exception = AppException(
           code: e.code,

@@ -1,18 +1,21 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_app/features/app_user.dart';
+import 'package:graduate_app/utils/constants/constants.dart';
 import 'package:graduate_app/widget/userIcon.dart';
+import 'package:graduate_app/widget/widget.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()
-class MyPage extends StatefulWidget {
+class MyPage extends StatefulHookConsumerWidget {
   const MyPage({Key? key}) : super(key: key);
 
   @override
-  State<MyPage> createState() => _MyPageState();
+  MyPageState createState() => MyPageState();
 }
 
-class _MyPageState extends State<MyPage> {
-  TextEditingController nameController =
-      TextEditingController(text: "前回保存した名前");
+class MyPageState extends ConsumerState<MyPage> {
+  TextEditingController nameController = TextEditingController();
   TextEditingController emailController =
       TextEditingController(text: "前回保存したメアド");
   TextEditingController evacuationController =
@@ -52,6 +55,12 @@ class _MyPageState extends State<MyPage> {
 
   @override
   Widget build(BuildContext context) {
+    final appUserName = ref.watch(appUserFutureProvider).maybeWhen(
+          data: (data) => data?.userName,
+          orElse: () => null,
+        );
+    TextEditingController userName = TextEditingController(text: appUserName);
+
     final bottomSpace = MediaQuery.of(context).viewInsets.bottom;
 
     // キーボード外をタップで収納するよう変更 (済み)
@@ -69,15 +78,16 @@ class _MyPageState extends State<MyPage> {
               children: [
                 UserIcon(),
                 SizedBox(height: 30),
+                TextFormHeader(title: "名前"),
+                Measure.g_4,
                 TextField(
-                  controller: nameController,
+                  controller: userName,
                   onChanged: (value) {
                     nameUpdateValue(value);
                   },
                   style: TextStyle(color: Colors.amber, fontSize: 18),
                   cursorColor: Colors.white,
                   decoration: InputDecoration(
-                    labelText: '名前を入力',
                     labelStyle: TextStyle(color: Colors.white, fontSize: 16),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.orange.shade700),
@@ -95,6 +105,8 @@ class _MyPageState extends State<MyPage> {
                   textInputAction: TextInputAction.next,
                 ),
                 SizedBox(height: 20),
+                TextFormHeader(title: "メールアドレス"),
+                Measure.g_4,
                 TextField(
                   controller: emailController,
                   focusNode: emailFocus,
@@ -104,7 +116,6 @@ class _MyPageState extends State<MyPage> {
                   style: TextStyle(color: Colors.amber, fontSize: 18),
                   cursorColor: Colors.white,
                   decoration: InputDecoration(
-                    labelText: 'メールアドレスを入力',
                     labelStyle: TextStyle(color: Colors.white, fontSize: 16),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.orange.shade700),
@@ -124,6 +135,8 @@ class _MyPageState extends State<MyPage> {
                   textInputAction: TextInputAction.next,
                 ),
                 SizedBox(height: 20),
+                TextFormHeader(title: "避難場所"),
+                Measure.g_4,
                 TextField(
                   controller: evacuationController,
                   onChanged: (value) {
@@ -132,7 +145,6 @@ class _MyPageState extends State<MyPage> {
                   style: TextStyle(color: Colors.amber, fontSize: 18),
                   cursorColor: Colors.white,
                   decoration: InputDecoration(
-                    labelText: '避難場所を入力',
                     labelStyle: TextStyle(color: Colors.white, fontSize: 16),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.orange.shade700),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:graduate_app/features/message.dart';
 import 'package:graduate_app/models/models.dart';
 import 'package:graduate_app/widget/message_bubble.dart';
+import 'package:graduate_app/widget/send_location.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()
@@ -18,27 +19,30 @@ class HomeScreenPage extends HookConsumerWidget {
           orElse: () => [],
         );
 
-    return SingleChildScrollView(
-      //padding: EdgeInsets.all(16),
-      child: Padding(
-        padding: EdgeInsets.only(top: 50),
-        child: Column(
-          children: messages
-              .map(
-                (message) => Container(
-                  margin: EdgeInsets.only(bottom: 30),
-                  child: MessageBubble(
-                    message: message,
-                    isSender: true,
-                    isEditor: false,
-                    changeEnable: false,
-                    execution: () {},
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(top: 110),
+          child: Column(
+            children: messages
+                .map(
+                  (message) => Container(
+                    margin: EdgeInsets.only(bottom: 30),
+                    child: MessageBubble(
+                      message: message,
+                      isSender: true,
+                      isEditor: false,
+                      changeEnable: false,
+                      execution: () {},
+                    ),
                   ),
-                ),
-              )
-              .toList(),
+                )
+                .toList(),
+          ),
         ),
       ),
+      floatingActionButton: SendLocation(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
     );
   }
 }

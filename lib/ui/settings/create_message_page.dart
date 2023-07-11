@@ -62,9 +62,11 @@ class CreateMessagePage extends HookConsumerWidget {
         children: [
           Scaffold(
             resizeToAvoidBottomInset: false,
-            appBar: MyAppBar(
-              title: 'メッセージの追加',
+            appBar: AppBar(
+              title: Text('閉じる'),
               automaticallyImplyLeading: true,
+              backgroundColor: Colors.black,
+              centerTitle: false,
             ),
             body: Padding(
               padding: Measure.p_a16,
@@ -72,6 +74,7 @@ class CreateMessagePage extends HookConsumerWidget {
                 children: [
                   Gap(24),
                   _MessageTextForm(controller: messageController),
+                  SizedBox(height: 40),
                   PrimaryRoundedButton(
                     text: "追加",
                     onTap: () async {

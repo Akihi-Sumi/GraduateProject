@@ -29,7 +29,7 @@ class SignUpController extends AutoDisposeAsyncNotifier<void> {
     required String password,
   }) async {
     final authRepository = ref.read(authRepositoryImplProvider);
-    final AppUserRepository = ref.read(appUserRepositoryImplProvider);
+    final appUserRepository = ref.read(appUserRepositoryImplProvider);
     // サインアップをローディング中にする
     state = const AsyncLoading();
 
@@ -66,10 +66,11 @@ class SignUpController extends AutoDisposeAsyncNotifier<void> {
           final appUser = AppUser(
             userId: userId,
             userName: userName,
+            userEmail: email,
             createdAt: const UnionTimestamp.serverTimestamp(),
           );
 
-          await AppUserRepository.create(userId: userId, appUser: appUser);
+          await appUserRepository.create(userId: userId, appUser: appUser);
         } else {
           const exception = AppException(
             message: "アカウントの作成に失敗しました。",

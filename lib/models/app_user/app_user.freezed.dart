@@ -23,6 +23,7 @@ mixin _$AppUser {
   @Assert('userName.length <= 20')
   String get userId => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
+  String get userEmail => throw _privateConstructorUsedError;
   @unionTimestampConverter
   UnionTimestamp get createdAt => throw _privateConstructorUsedError;
 
@@ -39,6 +40,7 @@ abstract class $AppUserCopyWith<$Res> {
   $Res call(
       {@Assert('userName.length <= 20') String userId,
       String userName,
+      String userEmail,
       @unionTimestampConverter UnionTimestamp createdAt});
 
   $UnionTimestampCopyWith<$Res> get createdAt;
@@ -59,6 +61,7 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
   $Res call({
     Object? userId = null,
     Object? userName = null,
+    Object? userEmail = null,
     Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
@@ -69,6 +72,10 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
       userName: null == userName
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
+              as String,
+      userEmail: null == userEmail
+          ? _value.userEmail
+          : userEmail // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -96,6 +103,7 @@ abstract class _$$_AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
   $Res call(
       {@Assert('userName.length <= 20') String userId,
       String userName,
+      String userEmail,
       @unionTimestampConverter UnionTimestamp createdAt});
 
   @override
@@ -114,6 +122,7 @@ class __$$_AppUserCopyWithImpl<$Res>
   $Res call({
     Object? userId = null,
     Object? userName = null,
+    Object? userEmail = null,
     Object? createdAt = null,
   }) {
     return _then(_$_AppUser(
@@ -124,6 +133,10 @@ class __$$_AppUserCopyWithImpl<$Res>
       userName: null == userName
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
+              as String,
+      userEmail: null == userEmail
+          ? _value.userEmail
+          : userEmail // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -139,6 +152,7 @@ class _$_AppUser extends _AppUser {
   const _$_AppUser(
       {@Assert('userName.length <= 20') this.userId = '',
       this.userName = '',
+      this.userEmail = '',
       @unionTimestampConverter required this.createdAt})
       : super._();
 
@@ -153,12 +167,15 @@ class _$_AppUser extends _AppUser {
   @JsonKey()
   final String userName;
   @override
+  @JsonKey()
+  final String userEmail;
+  @override
   @unionTimestampConverter
   final UnionTimestamp createdAt;
 
   @override
   String toString() {
-    return 'AppUser(userId: $userId, userName: $userName, createdAt: $createdAt)';
+    return 'AppUser(userId: $userId, userName: $userName, userEmail: $userEmail, createdAt: $createdAt)';
   }
 
   @override
@@ -169,13 +186,16 @@ class _$_AppUser extends _AppUser {
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.userName, userName) ||
                 other.userName == userName) &&
+            (identical(other.userEmail, userEmail) ||
+                other.userEmail == userEmail) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, userId, userName, createdAt);
+  int get hashCode =>
+      Object.hash(runtimeType, userId, userName, userEmail, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -195,6 +215,7 @@ abstract class _AppUser extends AppUser {
   const factory _AppUser(
           {@Assert('userName.length <= 20') final String userId,
           final String userName,
+          final String userEmail,
           @unionTimestampConverter required final UnionTimestamp createdAt}) =
       _$_AppUser;
   const _AppUser._() : super._();
@@ -206,6 +227,8 @@ abstract class _AppUser extends AppUser {
   String get userId;
   @override
   String get userName;
+  @override
+  String get userEmail;
   @override
   @unionTimestampConverter
   UnionTimestamp get createdAt;

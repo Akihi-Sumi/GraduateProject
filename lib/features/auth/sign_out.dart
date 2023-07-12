@@ -31,7 +31,7 @@ class SignOutController extends AutoDisposeAsyncNotifier<void> {
         final isNetworkCheck = await isNetworkConnected();
         if (!isNetworkCheck) {
           const exception = AppException(
-            message: 'Maybe your network is disconnected. Please check yours.',
+            message: 'ネットワークが接続されていません。',
           );
           throw exception;
         }

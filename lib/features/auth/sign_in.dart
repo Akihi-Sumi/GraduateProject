@@ -34,14 +34,14 @@ class SignInController extends AutoDisposeAsyncNotifier<void> {
         final isNetworkCheck = await isNetworkConnected();
         if (!isNetworkCheck) {
           const exception = AppException(
-            message: 'Maybe your network is disconnected. Please check yours.',
+            message: 'ネットワークが接続されていません。',
           );
           throw exception;
         }
 
         if (email.isEmpty || password.isEmpty) {
           const exception = AppException(
-            message: 'Please input your email and password.',
+            message: 'メールアドレスとパスワードを入力してください。',
           );
           throw exception;
         }

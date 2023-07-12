@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:graduate_app/app/app_router.gr.dart';
 import 'package:graduate_app/features/features.dart';
 import 'package:graduate_app/gen/assets.gen.dart';
 import 'package:graduate_app/utils/utils.dart';
@@ -50,9 +49,9 @@ class LoginPage extends HookConsumerWidget {
               // ログインできたらスナックバーでメッセージを表示してホーム画面に遷移する
               ref
                   .read(scaffoldMessengerServiceProvider)
-                  .showSnackBar('Logged in');
+                  .showSnackBar('ログインしました。');
 
-              await AutoRouter.of(context).replaceAll([MainScreenRoute()]);
+              await context.popRoute();
             },
             error: (e, s) async {
               // ローディングを非表示にする

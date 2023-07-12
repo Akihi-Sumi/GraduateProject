@@ -10,6 +10,7 @@ class AppUser with _$AppUser {
   const factory AppUser({
     @Assert('userName.length <= 20') @Default('') String userId,
     @Default('') String userName,
+    @Default('') String userEmail,
     @unionTimestampConverter required UnionTimestamp createdAt,
   }) = _AppUser;
 

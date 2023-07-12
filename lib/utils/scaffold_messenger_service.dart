@@ -56,9 +56,9 @@ class ScaffoldMessengerService {
       SnackBar(
         content: Text(
           message,
-          style: TextStyles.p2(color: AppColors.baseWhite),
+          style: TextStyles.p2(color: AppColors.baseBlack),
         ),
-        backgroundColor: AppColors.baseBlack,
+        backgroundColor: AppColors.baseWhite,
         behavior: defaultSnackBarBehavior,
         duration: duration,
       ),

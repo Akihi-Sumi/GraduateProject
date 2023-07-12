@@ -25,7 +25,7 @@ class MainScreenPage extends HookConsumerWidget {
             // ログインできたらスナックバーでメッセージを表示してホーム画面に遷移する
             ref
                 .read(scaffoldMessengerServiceProvider)
-                .showSnackBar('Complete to log out!');
+                .showSnackBar('ログアウトしました。');
 
             await AutoRouter.of(context).replaceAll([AuthRoute()]);
           },
@@ -73,8 +73,8 @@ class MainScreenPage extends HookConsumerWidget {
                     onPressed: () async {
                       await showActionDialog(
                         context: context,
-                        title: 'Log Out',
-                        content: 'Do you want to log out ?',
+                        title: 'ログアウト',
+                        content: 'ログアウトしますか？',
                         onPressed: state.isLoading
                             ? null
                             : () async {

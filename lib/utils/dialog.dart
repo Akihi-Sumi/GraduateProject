@@ -87,10 +87,6 @@ Future<void> createMessageDialog(
                       color: AppColors.baseLight,
                     ),
                   ),
-                  prefixIcon: Icon(
-                    Icons.add_comment_rounded,
-                    color: AppColors.baseLight,
-                  ),
                 ),
               ),
             ],

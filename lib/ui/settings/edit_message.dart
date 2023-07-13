@@ -32,7 +32,7 @@ class EditMessagePage extends HookConsumerWidget {
 
               ref
                   .read(scaffoldMessengerServiceProvider)
-                  .showSnackBar('メッセージをを追加しました！');
+                  .showSnackBar('メッセージをを追加しました。');
 
               Navigator.of(context).pop();
             },
@@ -68,6 +68,8 @@ class EditMessagePage extends HookConsumerWidget {
               ref
                   .read(scaffoldMessengerServiceProvider)
                   .showSnackBar("メッセージを更新しました。");
+
+              Navigator.of(context).pop();
             },
             error: (e, s) async {
               ref
@@ -93,9 +95,11 @@ class EditMessagePage extends HookConsumerWidget {
 
         await state.when(data: (_) async {
           ref.watch(overlayLoadingProvider.notifier).update((state) => false);
-          // ref
-          //     .read(scaffoldMessengerServiceProvider)
-          //     .showSnackBar("メッセージを削除しました");
+
+          ref
+              .read(scaffoldMessengerServiceProvider)
+              .showSnackBar("メッセージを削除しました。");
+
           Navigator.of(context).pop();
         }, error: (e, s) async {
           ref.watch(overlayLoadingProvider.notifier).update((state) => false);
@@ -177,8 +181,25 @@ class EditMessagePage extends HookConsumerWidget {
                                         "削除",
                                         style: TextStyle(fontSize: 28),
                                       ),
-                                      onTap: () {
-                                        Navigator.pop(context);
+                                      onTap: () async {
+                                        await showActionDialog(
+                                          context: context,
+                                          title: 'メッセージを削除',
+                                          content: 'メッセージを削除します。',
+                                          onPressed: () async {
+                                            if (userId != null) {
+                                              await ref
+                                                  .read(
+                                                      messageDeleteControllerProvider
+                                                          .notifier)
+                                                  .deleteMessage(
+                                                    userId: userId,
+                                                    messageId: msg.messageId,
+                                                    message: msg,
+                                                  );
+                                            }
+                                          },
+                                        );
                                       },
                                     ),
                                   ],

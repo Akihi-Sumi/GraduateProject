@@ -51,6 +51,45 @@ class CreateMessageController extends AutoDisposeAsyncNotifier<void> {
   }
 }
 
+/// メッセージの更新
+final messageUpdateControllerProvider =
+    AutoDisposeAsyncNotifierProvider<UpdateMessageController, void>(
+  UpdateMessageController.new,
+);
+
+class UpdateMessageController extends AutoDisposeAsyncNotifier<void> {
+  @override
+  FutureOr<void> build() {}
+
+  Future<void> updateMessage({
+    required String userId,
+    required String messageId,
+    required Message message,
+  }) async {
+    final messageRepository = ref.read(messageRepositoryImplProvider);
+
+    state = const AsyncLoading();
+
+    state = await AsyncValue.guard(() async {
+      try {
+        if (message.messageText.isEmpty) {
+          throw const AppException(
+            message: '文章を入力してください。',
+          );
+        }
+
+        await messageRepository.update(
+          userId: userId,
+          messageId: messageId,
+          message: message,
+        );
+      } on AppException {
+        rethrow;
+      }
+    });
+  }
+}
+
 /// メッセージを削除する処理
 final messageDeleteControllerProvider =
     AutoDisposeAsyncNotifierProvider<DeleteMessageController, void>(

@@ -51,6 +51,39 @@ class EditMessagePage extends HookConsumerWidget {
           );
         },
       )
+      ..listen<AsyncValue<void>>(
+        messageUpdateControllerProvider,
+        (_, state) async {
+          if (state.isLoading) {
+            ref.watch(overlayLoadingProvider.notifier).update((state) => true);
+            return;
+          }
+
+          await state.when(
+            data: (_) async {
+              ref
+                  .watch(overlayLoadingProvider.notifier)
+                  .update((state) => false);
+
+              ref
+                  .read(scaffoldMessengerServiceProvider)
+                  .showSnackBar("メッセージを更新しました。");
+            },
+            error: (e, s) async {
+              ref
+                  .watch(overlayLoadingProvider.notifier)
+                  .update((state) => false);
+
+              state.showAlertDialogOnError(context);
+            },
+            loading: () {
+              ref
+                  .watch(overlayLoadingProvider.notifier)
+                  .update((state) => true);
+            },
+          );
+        },
+      )
       ..listen<AsyncValue<void>>(messageDeleteControllerProvider,
           (_, state) async {
         if (state.isLoading) {
@@ -82,6 +115,7 @@ class EditMessagePage extends HookConsumerWidget {
     final userId = ref.watch(authRepositoryImplProvider).currentUser?.uid;
 
     final useMessageController = useTextEditingController();
+    final useReNameController = useTextEditingController();
 
     return GestureDetector(
       child: Scaffold(
@@ -91,23 +125,67 @@ class EditMessagePage extends HookConsumerWidget {
             child: Column(
               children: messages
                   .map(
-                    (message) => Container(
+                    (msg) => Container(
                       margin: EdgeInsets.only(bottom: 30),
-                      child: MessageBubble(
-                        message: message,
+                      child: EditMessageBubble(
+                        message: msg,
                         isSender: true,
-                        isEditor: true,
-                        changeEnable: false,
-                        execution: () async {
-                          if (userId != null) {
-                            await ref
-                                .read(messageDeleteControllerProvider.notifier)
-                                .deleteMessage(
-                                  userId: userId,
-                                  messageId: message.messageId,
-                                  message: message,
-                                );
-                          }
+                        onLongPress: () {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return SizedBox(
+                                height: 140,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    ListTile(
+                                      leading: Icon(Icons.edit, size: 40),
+                                      title: Text(
+                                        "編集",
+                                        style: TextStyle(fontSize: 28),
+                                      ),
+                                      onTap: () async {
+                                        useReNameController.text =
+                                            msg.messageText;
+                                        await editMessageDialog(
+                                          context,
+                                          useReNameController,
+                                          onPressed: () async {
+                                            final message = msg.copyWith(
+                                                messageText: useReNameController
+                                                    .value.text);
+
+                                            if (userId != null) {
+                                              await ref
+                                                  .read(
+                                                      messageUpdateControllerProvider
+                                                          .notifier)
+                                                  .updateMessage(
+                                                    userId: userId,
+                                                    messageId: msg.messageId,
+                                                    message: message,
+                                                  );
+                                            }
+                                          },
+                                        );
+                                      },
+                                    ),
+                                    ListTile(
+                                      leading: Icon(Icons.delete, size: 40),
+                                      title: Text(
+                                        "削除",
+                                        style: TextStyle(fontSize: 28),
+                                      ),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
                         },
                       ),
                     ),
@@ -141,9 +219,7 @@ class EditMessagePage extends HookConsumerWidget {
                         .read(createMessageControllerProvider.notifier)
                         .createMessage(
                           userId: userId,
-                          message: message.copyWith(
-                            messageText: useMessageController.value.text,
-                          ),
+                          message: message,
                         );
                   }
                 },

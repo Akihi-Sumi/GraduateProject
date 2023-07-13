@@ -52,55 +52,6 @@ class MessageBubble extends HookConsumerWidget {
                     );
             }
           : null,
-      onLongPress: isEditor
-          ? () {
-              showModalBottomSheet(
-                context: context,
-                builder: (BuildContext context) {
-                  return SizedBox(
-                    height: 140,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        ListTile(
-                          leading: Icon(Icons.edit, size: 40),
-                          title: Text(
-                            "編集",
-                            style: TextStyle(fontSize: 28),
-                          ),
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                        ListTile(
-                          leading: Icon(Icons.delete, size: 40),
-                          title: Text(
-                            "削除",
-                            style: TextStyle(fontSize: 28),
-                          ),
-                          onTap: () {
-                            showDialog<void>(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return MyAlertDialog(
-                                  title: "メッセージを削除しますか？",
-                                  txt_cancel: "キャンセル",
-                                  txt_ok: "削除",
-                                  txt_snack: "メッセージを削除しました",
-                                  exe: execution,
-                                );
-                              },
-                            );
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              );
-            }
-          : null,
       child: Align(
         alignment: isSender ? Alignment.topRight : Alignment.topLeft,
         child: Padding(
@@ -136,6 +87,70 @@ class MessageBubble extends HookConsumerWidget {
                             message.messageText,
                             style: textStyle,
                           ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class EditMessageBubble extends HookConsumerWidget {
+  const EditMessageBubble({
+    Key? key,
+    required this.message,
+    required this.onLongPress,
+    required this.isSender,
+    this.tail = true,
+    this.color = Colors.orange,
+    this.textStyle = const TextStyle(
+      color: Colors.black87,
+      fontSize: 30,
+      fontWeight: FontWeight.bold,
+    ),
+  }) : super(key: key);
+
+  final Message message;
+
+  final bool isSender;
+  final bool tail;
+  final Color color;
+  final TextStyle textStyle;
+  final void Function()? onLongPress;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return GestureDetector(
+      onLongPress: onLongPress,
+      child: Align(
+        alignment: isSender ? Alignment.topRight : Alignment.topLeft,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+          child: CustomPaint(
+            painter: BubbleSampleDesign(
+              color: color,
+              alignment: isSender ? Alignment.topRight : Alignment.topLeft,
+              tail: tail,
+            ),
+            child: Container(
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * .8,
+              ),
+              margin: isSender
+                  ? EdgeInsets.fromLTRB(20, 15, 25, 15)
+                  : EdgeInsets.fromLTRB(25, 15, 20, 15),
+              child: Stack(
+                children: <Widget>[
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                    child: Text(
+                      message.messageText,
+                      style: textStyle,
+                    ),
                   ),
                 ],
               ),

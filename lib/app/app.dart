@@ -18,6 +18,9 @@ class App extends HookConsumerWidget {
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: Colors.black,
         canvasColor: Colors.transparent,
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: Colors.white,
+        ),
       ),
       scaffoldMessengerKey: ref.watch(scaffoldMessengerKeyProvider),
     );

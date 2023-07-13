@@ -87,30 +87,129 @@ Future<void> createMessageDialog(
                       color: AppColors.baseLight,
                     ),
                   ),
-                  prefixIcon: Icon(Icons.message),
+                  prefixIcon: Icon(
+                    Icons.add_comment_rounded,
+                    color: AppColors.baseLight,
+                  ),
                 ),
               ),
             ],
           ),
         ),
         actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text(
-              "キャンセル",
-              style: TextStyles.p1(
-                color: AppColors.baseLight,
+          Padding(
+            padding: EdgeInsets.only(
+              right: 30,
+            ),
+            child: TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                "キャンセル",
+                style: TextStyles.p1(
+                  color: AppColors.baseLight,
+                ),
               ),
             ),
           ),
-          TextButton(
-            onPressed: onPressed,
-            child: Text(
-              "追加",
-              style: TextStyles.p1(
-                color: AppColors.secondary,
+          Padding(
+            padding: EdgeInsets.only(
+              right: 20,
+            ),
+            child: ElevatedButton(
+              onPressed: onPressed,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orangeAccent,
+                fixedSize: Size(130, 40),
+              ),
+              child: Text(
+                "追加",
+                style: TextStyles.p1(
+                  color: AppColors.baseBlack,
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future<void> editMessageDialog(
+  BuildContext context,
+  TextEditingController controller, {
+  required VoidCallback onPressed,
+}) async {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        insetPadding: Measure.p_a16,
+        content: SizedBox(
+          width: 280,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const TextFormHeader(title: "メッセージを編集"),
+              Measure.g_4,
+              TextFormField(
+                maxLength: 20,
+                controller: controller,
+                decoration: const InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.orangeAccent,
+                      width: 2,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: AppColors.baseLight,
+                    ),
+                  ),
+                  prefixIcon: Icon(
+                    Icons.edit_square,
+                    color: AppColors.baseLight,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(
+              right: 30,
+            ),
+            child: TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                "キャンセル",
+                style: TextStyles.p1(
+                  color: AppColors.baseLight,
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+              right: 20,
+            ),
+            child: ElevatedButton(
+              onPressed: onPressed,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orangeAccent,
+                fixedSize: Size(130, 40),
+              ),
+              child: Text(
+                "編集",
+                style: TextStyles.p1(
+                  color: AppColors.baseBlack,
+                ),
               ),
             ),
           ),

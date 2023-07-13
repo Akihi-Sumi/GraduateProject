@@ -253,7 +253,6 @@ class _EditUserNameTextForm extends StatelessWidget {
             controller: controller,
             onChanged: onChanged,
             style: TextStyle(color: Colors.amber, fontSize: 18),
-            cursorColor: Colors.white,
             decoration: InputDecoration(
               labelStyle: TextStyle(color: Colors.white, fontSize: 16),
               focusedBorder: OutlineInputBorder(
@@ -303,7 +302,6 @@ class _EditEmailTextForm extends StatelessWidget {
             focusNode: focusNode,
             onChanged: onChanged,
             style: TextStyle(color: Colors.amber, fontSize: 18),
-            cursorColor: Colors.white,
             decoration: InputDecoration(
               labelStyle: TextStyle(color: Colors.white, fontSize: 16),
               focusedBorder: OutlineInputBorder(
@@ -352,7 +350,6 @@ class _EditEvacuationTextForm extends StatelessWidget {
             controller: controller,
             onChanged: onChanged,
             style: TextStyle(color: Colors.amber, fontSize: 18),
-            cursorColor: Colors.white,
             decoration: InputDecoration(
               labelStyle: TextStyle(color: Colors.white, fontSize: 16),
               focusedBorder: OutlineInputBorder(

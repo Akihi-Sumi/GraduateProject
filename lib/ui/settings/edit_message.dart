@@ -172,6 +172,8 @@ class EditMessagePage extends HookConsumerWidget {
                                                   );
                                             }
                                           },
+                                        ).then(
+                                          (value) => Navigator.pop(context),
                                         );
                                       },
                                     ),
@@ -196,6 +198,10 @@ class EditMessagePage extends HookConsumerWidget {
                                                     userId: userId,
                                                     messageId: msg.messageId,
                                                     message: msg,
+                                                  )
+                                                  .then(
+                                                    (value) =>
+                                                        Navigator.pop(context),
                                                   );
                                             }
                                           },

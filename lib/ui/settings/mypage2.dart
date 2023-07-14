@@ -1,35 +1,72 @@
 //import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:graduate_app/features/features.dart';
-import 'package:graduate_app/utils/utils.dart';
+import 'package:graduate_app/features/app_user.dart';
+import 'package:graduate_app/utils/constants/constants.dart';
 import 'package:graduate_app/widget/userIcon.dart';
 import 'package:graduate_app/widget/widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-//@RoutePage()
-class MyPage2 extends HookConsumerWidget {
+// @RoutePage()
+class MyPage2 extends StatefulHookConsumerWidget {
   const MyPage2({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final bottomSpace = MediaQuery.of(context).viewInsets.bottom;
+  MyPage2State createState() => MyPage2State();
+}
 
-    final appUserName = ref.watch(appUserFutureProvider).maybeWhen<String?>(
+class MyPage2State extends ConsumerState<MyPage2> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController evacuationController =
+      TextEditingController(text: "前回保存した避難場所");
+
+  String name = ''; // 名前を保持するプロパティ
+  String email = ''; // メールアドレスを保持するプロパティ
+  String evacuation = ''; // 避難場所を保持するプロパティ
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    evacuationController.dispose();
+    super.dispose();
+  }
+
+  void nameUpdateValue(String value) {
+    setState(() {
+      name = value;
+    });
+  }
+
+  void emailUpdateValue(String value) {
+    setState(() {
+      email = value;
+    });
+  }
+
+  void evacuationUpdateValue(String value) {
+    setState(() {
+      evacuation = value;
+    });
+  }
+
+  final emailFocus = FocusNode();
+
+  @override
+  Widget build(BuildContext context) {
+    final appUserName = ref.watch(appUserFutureProvider).maybeWhen(
           data: (data) => data?.userName,
           orElse: () => null,
         );
-    final userName = useTextEditingController(text: appUserName);
+    TextEditingController userName = TextEditingController(text: appUserName);
 
     final appUserEmail = ref.watch(appUserFutureProvider).maybeWhen(
           data: (data) => data?.userEmail,
           orElse: () => null,
         );
-    final userEmail = useTextEditingController(text: appUserEmail);
+    TextEditingController userEmail = TextEditingController(text: appUserEmail);
 
-    final userEvacuation = useTextEditingController(text: "保存した避難場所");
-
-    final emailFocus = FocusNode();
+    final bottomSpace = MediaQuery.of(context).viewInsets.bottom;
 
     // キーボード外をタップで収納するよう変更 (済み)
     return GestureDetector(
@@ -48,18 +85,27 @@ class MyPage2 extends HookConsumerWidget {
                 //SizedBox(height: 30),
                 _EditUserNameTextForm(
                   controller: userName,
+                  onChanged: (value) {
+                    nameUpdateValue(value);
+                  },
                   onPressed: () => userName.clear(),
                 ),
                 SizedBox(height: 20),
                 _EditEmailTextForm(
                   controller: userEmail,
                   focusNode: emailFocus,
+                  onChanged: (value) {
+                    emailUpdateValue(value);
+                  },
                   onPressed: () => userEmail.clear(),
                 ),
                 SizedBox(height: 20),
                 _EditEvacuationTextForm(
-                  controller: userEvacuation,
-                  onPressed: () => userEvacuation.clear(),
+                  controller: evacuationController,
+                  onChanged: (value) {
+                    evacuationUpdateValue(value);
+                  },
+                  onPressed: () => evacuationController.clear(),
                 ),
                 SizedBox(height: 40),
                 SizedBox(
@@ -68,13 +114,13 @@ class MyPage2 extends HookConsumerWidget {
                   child: ElevatedButton(
                     onPressed: (userName.text != appUserName ||
                             userEmail.text != appUserEmail ||
-                            userEvacuation.text != "前回保存した避難場所")
+                            evacuationController.text != "前回保存した避難場所")
                         ? () {
                             //メールアドレスのバリデーション & 名前と避難場所の欄が空白じゃないとき
                             if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                     .hasMatch(userEmail.text) &&
                                 userName.text.isNotEmpty &&
-                                userEvacuation.text.isNotEmpty) {
+                                evacuationController.text.isNotEmpty) {
                               FocusScope.of(context).unfocus();
                               showDialog<void>(
                                 context: context,
@@ -98,7 +144,7 @@ class MyPage2 extends HookConsumerWidget {
                             // 空欄があるとき
                             else if (userName.text.isEmpty ||
                                 userEmail.text.isEmpty ||
-                                userEvacuation.text.isEmpty) {
+                                evacuationController.text.isEmpty) {
                               showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
@@ -187,10 +233,12 @@ class MyPage2 extends HookConsumerWidget {
 class _EditUserNameTextForm extends StatelessWidget {
   const _EditUserNameTextForm({
     required this.controller,
+    required this.onChanged,
     required this.onPressed,
   });
 
   final TextEditingController controller;
+  final void Function(String)? onChanged;
   final void Function()? onPressed;
 
   @override
@@ -203,6 +251,7 @@ class _EditUserNameTextForm extends StatelessWidget {
           Measure.g_4,
           TextFormField(
             controller: controller,
+            onChanged: onChanged,
             style: TextStyle(color: Colors.amber, fontSize: 18),
             decoration: InputDecoration(
               labelStyle: TextStyle(color: Colors.white, fontSize: 16),
@@ -231,11 +280,13 @@ class _EditEmailTextForm extends StatelessWidget {
   const _EditEmailTextForm({
     required this.controller,
     required this.focusNode,
+    required this.onChanged,
     required this.onPressed,
   });
 
   final TextEditingController controller;
   final FocusNode? focusNode;
+  final void Function(String)? onChanged;
   final void Function()? onPressed;
 
   @override
@@ -249,6 +300,7 @@ class _EditEmailTextForm extends StatelessWidget {
           TextFormField(
             controller: controller,
             focusNode: focusNode,
+            onChanged: onChanged,
             style: TextStyle(color: Colors.amber, fontSize: 18),
             decoration: InputDecoration(
               labelStyle: TextStyle(color: Colors.white, fontSize: 16),
@@ -278,10 +330,12 @@ class _EditEmailTextForm extends StatelessWidget {
 class _EditEvacuationTextForm extends StatelessWidget {
   const _EditEvacuationTextForm({
     required this.controller,
+    required this.onChanged,
     required this.onPressed,
   });
 
   final TextEditingController controller;
+  final void Function(String)? onChanged;
   final void Function()? onPressed;
 
   @override
@@ -294,6 +348,7 @@ class _EditEvacuationTextForm extends StatelessWidget {
           Measure.g_4,
           TextFormField(
             controller: controller,
+            onChanged: onChanged,
             style: TextStyle(color: Colors.amber, fontSize: 18),
             decoration: InputDecoration(
               labelStyle: TextStyle(color: Colors.white, fontSize: 16),

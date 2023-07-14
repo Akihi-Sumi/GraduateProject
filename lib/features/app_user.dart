@@ -5,6 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 final appUserFutureProvider = FutureProvider.autoDispose<AppUser?>((ref) async {
   final userId = ref.watch(authRepositoryImplProvider).currentUser!.uid;
   final appUser =
-      await ref.read(appUserRepositoryImplProvider).fetch(userId: userId);
+      await ref.watch(appUserRepositoryImplProvider).fetch(userId: userId);
   return appUser;
 });
+
+final userProvider = StateProvider<AppUser?>((ref) => null);

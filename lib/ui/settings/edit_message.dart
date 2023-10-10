@@ -79,7 +79,7 @@ class EditMessagePageState extends ConsumerState<EditMessagePage> {
                   .read(scaffoldMessengerServiceProvider)
                   .showSnackBar("メッセージを更新しました。");
 
-              Navigator.of(context, rootNavigator: true).pop;
+              Navigator.of(context, rootNavigator: true).pop();
             },
             error: (e, s) async {
               ref
@@ -212,9 +212,9 @@ class EditMessagePageState extends ConsumerState<EditMessagePage> {
                                           },
                                         );
 
-                                        // if (context.mounted) {
-                                        //   Navigator.of(context).pop();
-                                        // }
+                                        if (context.mounted) {
+                                          Navigator.of(context).pop();
+                                        }
                                       },
                                     ),
                                   ],
@@ -261,9 +261,9 @@ class EditMessagePageState extends ConsumerState<EditMessagePage> {
 
                   useMessageController.clear();
 
-                  // if (context.mounted) {
-                  //   Navigator.of(context).pop();
-                  // }
+                  if (context.mounted) {
+                    Navigator.of(context).pop();
+                  }
                 },
               );
             },

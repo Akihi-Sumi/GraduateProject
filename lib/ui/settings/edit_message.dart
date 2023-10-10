@@ -10,11 +10,21 @@ import 'package:graduate_app/widget/message_bubble.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()
-class EditMessagePage extends HookConsumerWidget {
+class EditMessagePage extends StatefulHookConsumerWidget {
   const EditMessagePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  EditMessagePageState createState() => EditMessagePageState();
+}
+
+class EditMessagePageState extends ConsumerState<EditMessagePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     ref
       ..listen<AsyncValue<void>>(
         createMessageControllerProvider,
@@ -34,7 +44,7 @@ class EditMessagePage extends HookConsumerWidget {
                   .read(scaffoldMessengerServiceProvider)
                   .showSnackBar('メッセージをを追加しました。');
 
-              Navigator.of(context).pop();
+              Navigator.of(context, rootNavigator: true).pop();
             },
             error: (e, s) async {
               ref
@@ -69,7 +79,7 @@ class EditMessagePage extends HookConsumerWidget {
                   .read(scaffoldMessengerServiceProvider)
                   .showSnackBar("メッセージを更新しました。");
 
-              Navigator.of(context).pop();
+              Navigator.of(context, rootNavigator: true).pop;
             },
             error: (e, s) async {
               ref
@@ -100,7 +110,7 @@ class EditMessagePage extends HookConsumerWidget {
               .read(scaffoldMessengerServiceProvider)
               .showSnackBar("メッセージを削除しました。");
 
-          Navigator.of(context).pop();
+          Navigator.of(context, rootNavigator: true).pop();
         }, error: (e, s) async {
           ref.watch(overlayLoadingProvider.notifier).update((state) => false);
           state.showAlertDialogOnError(context);
@@ -137,6 +147,7 @@ class EditMessagePage extends HookConsumerWidget {
                         onLongPress: () {
                           showModalBottomSheet(
                             context: context,
+                            isDismissible: true,
                             builder: (BuildContext context) {
                               return SizedBox(
                                 height: 140,
@@ -172,8 +183,6 @@ class EditMessagePage extends HookConsumerWidget {
                                                   );
                                             }
                                           },
-                                        ).then(
-                                          (value) => Navigator.pop(context),
                                         );
                                       },
                                     ),
@@ -198,14 +207,14 @@ class EditMessagePage extends HookConsumerWidget {
                                                     userId: userId,
                                                     messageId: msg.messageId,
                                                     message: msg,
-                                                  )
-                                                  .then(
-                                                    (value) =>
-                                                        Navigator.pop(context),
                                                   );
                                             }
                                           },
                                         );
+
+                                        // if (context.mounted) {
+                                        //   Navigator.of(context).pop();
+                                        // }
                                       },
                                     ),
                                   ],
@@ -249,6 +258,12 @@ class EditMessagePage extends HookConsumerWidget {
                           message: message,
                         );
                   }
+
+                  useMessageController.clear();
+
+                  // if (context.mounted) {
+                  //   Navigator.of(context).pop();
+                  // }
                 },
               );
             },

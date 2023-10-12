@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:graduate_app/features/features.dart';
 import 'package:graduate_app/gen/assets.gen.dart';
 import 'package:graduate_app/utils/utils.dart';
@@ -199,47 +200,49 @@ class LoginPage extends HookConsumerWidget {
         return GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: Column(
-            children: [
-              Measure.g_80,
-              const _ResetPasswordBackButton(),
-              Measure.g_60,
-              const Icon(
-                Icons.lock,
-                size: 80,
-                color: AppColors.baseWhite,
-              ),
-              Measure.g_60,
-              Text(
-                'Reset a password',
-                style: TextStyles.h3(
+          child: AutofillGroup(
+            child: Column(
+              children: [
+                Measure.g_80,
+                const _ResetPasswordBackButton(),
+                Measure.g_60,
+                const Icon(
+                  Icons.lock,
+                  size: 80,
                   color: AppColors.baseWhite,
                 ),
-              ),
-              Measure.g_60,
-              _ResetEmailTextForm(
-                controller: useSendEmailController,
-              ),
-              Measure.g_60,
-              Padding(
-                padding: Measure.p_h32,
-                child: SecondaryRoundedButton(
-                  text: 'Submit',
-                  onTap: sendEmailState.isLoading
-                      ? null
-                      : () async {
-                          await ref
-                              .read(
-                                sendPasswordResetEmailControllerProvider
-                                    .notifier,
-                              )
-                              .sendPasswordResetEmail(
-                                email: useSendEmailController.value.text,
-                              );
-                        },
+                Measure.g_60,
+                Text(
+                  'Reset a password',
+                  style: TextStyles.h3(
+                    color: AppColors.baseWhite,
+                  ),
                 ),
-              ),
-            ],
+                Measure.g_60,
+                _ResetEmailTextForm(
+                  controller: useSendEmailController,
+                ),
+                Measure.g_60,
+                Padding(
+                  padding: Measure.p_h32,
+                  child: SecondaryRoundedButton(
+                    text: 'Submit',
+                    onTap: sendEmailState.isLoading
+                        ? null
+                        : () async {
+                            await ref
+                                .read(
+                                  sendPasswordResetEmailControllerProvider
+                                      .notifier,
+                                )
+                                .sendPasswordResetEmail(
+                                  email: useSendEmailController.value.text,
+                                );
+                          },
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -269,6 +272,7 @@ class _EmailTextForm extends StatelessWidget {
           const TextFormHeader(title: 'Email'),
           Measure.g_4,
           TextFormField(
+            autofillHints: const [AutofillHints.email],
             controller: controller,
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
@@ -321,6 +325,8 @@ class _PasswordTextForm extends StatelessWidget {
           const TextFormHeader(title: 'Password'),
           Measure.g_4,
           TextFormField(
+            autofillHints: const [AutofillHints.password],
+            onEditingComplete: () => TextInput.finishAutofillContext(),
             obscureText: isObscureState,
             controller: controller,
             decoration: AppTextFormStyles.onPassword(

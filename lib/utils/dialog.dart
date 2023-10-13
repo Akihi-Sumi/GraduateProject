@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduate_app/utils/utils.dart';
-import 'package:graduate_app/widget/widget.dart';
+import 'package:graduate_app/widgets/widget.dart';
 
 Future<bool?> showAlertDialog({
   required BuildContext context,

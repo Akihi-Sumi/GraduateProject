@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:graduate_app/features/features.dart';
 import 'package:graduate_app/gen/assets.gen.dart';
 import 'package:graduate_app/utils/utils.dart';
-import 'package:graduate_app/widget/widget.dart';
+import 'package:graduate_app/widgets/widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final _nameEmailTextEditingController =

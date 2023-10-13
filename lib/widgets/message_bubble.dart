@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduate_app/models/models.dart';
-import 'package:graduate_app/widget/myAlertDialog.dart';
+import 'package:graduate_app/widgets/myAlertDialog.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MessageBubble extends HookConsumerWidget {

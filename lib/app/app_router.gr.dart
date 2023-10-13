@@ -10,18 +10,18 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i13;
 import 'package:flutter/material.dart' as _i14;
-import 'package:graduate_app/ui/auth/auth_page.dart' as _i1;
-import 'package:graduate_app/ui/auth/get_started_page.dart' as _i2;
-import 'package:graduate_app/ui/auth/login_page.dart' as _i3;
-import 'package:graduate_app/ui/auth/signup_page.dart' as _i4;
-import 'package:graduate_app/ui/home_screen.dart' as _i5;
-import 'package:graduate_app/ui/main_screen.dart' as _i6;
-import 'package:graduate_app/ui/relationship_page.dart' as _i7;
-import 'package:graduate_app/ui/settings/address.dart' as _i8;
-import 'package:graduate_app/ui/settings/edit_message.dart' as _i9;
-import 'package:graduate_app/ui/settings/mypage.dart' as _i10;
-import 'package:graduate_app/ui/settings/survival_kit.dart' as _i11;
-import 'package:graduate_app/ui/settings_screen.dart' as _i12;
+import 'package:graduate_app/screens/auth/auth_page.dart' as _i1;
+import 'package:graduate_app/screens/auth/get_started_page.dart' as _i2;
+import 'package:graduate_app/screens/auth/login_page.dart' as _i3;
+import 'package:graduate_app/screens/auth/signup_page.dart' as _i4;
+import 'package:graduate_app/screens/home_screen.dart' as _i5;
+import 'package:graduate_app/screens/main_screen.dart' as _i6;
+import 'package:graduate_app/screens/relationship_page.dart' as _i7;
+import 'package:graduate_app/screens/settings/address.dart' as _i8;
+import 'package:graduate_app/screens/settings/edit_message.dart' as _i9;
+import 'package:graduate_app/screens/settings/mypage.dart' as _i10;
+import 'package:graduate_app/screens/settings/survival_kit.dart' as _i11;
+import 'package:graduate_app/screens/settings_screen.dart' as _i12;
 
 abstract class $AppRouter extends _i13.RootStackRouter {
   $AppRouter({super.navigatorKey});

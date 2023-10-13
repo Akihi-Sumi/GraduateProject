@@ -6,7 +6,7 @@ import 'package:graduate_app/models/models.dart';
 import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
 // import 'package:graduate_app/ui/settings/create_message_page.dart';
 import 'package:graduate_app/utils/utils.dart';
-import 'package:graduate_app/widget/message_bubble.dart';
+import 'package:graduate_app/widgets/message_bubble.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()

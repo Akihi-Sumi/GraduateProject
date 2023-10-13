@@ -1,57 +1,72 @@
-import 'package:auto_route/auto_route.dart';
+//import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:graduate_app/features/features.dart';
-import 'package:graduate_app/utils/utils.dart';
-import 'package:graduate_app/widget/userIcon.dart';
-import 'package:graduate_app/widget/widget.dart';
+import 'package:graduate_app/features/app_user.dart';
+import 'package:graduate_app/utils/constants/constants.dart';
+import 'package:graduate_app/widgets/userIcon.dart';
+import 'package:graduate_app/widgets/widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-@RoutePage()
-class MyPage extends StatefulHookConsumerWidget {
-  const MyPage({Key? key}) : super(key: key);
+// @RoutePage()
+class MyPage2 extends StatefulHookConsumerWidget {
+  const MyPage2({Key? key}) : super(key: key);
 
   @override
-  MyPageState createState() => MyPageState();
+  MyPage2State createState() => MyPage2State();
 }
 
-class MyPageState extends ConsumerState<MyPage> {
-  var nameController = TextEditingController();
-  var emailController = TextEditingController();
+class MyPage2State extends ConsumerState<MyPage2> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController evacuationController =
+      TextEditingController(text: "前回保存した避難場所");
 
-  @override
-  void initState() {
-    super.initState();
-    nameController = TextEditingController(
-      // text: ref.read(appUserFutureProvider).value?.userName ?? '',
-      text: ref.read(userProvider)?.userName,
-    );
-    emailController = TextEditingController(
-      text: ref.read(appUserFutureProvider).value?.userEmail ?? '',
-    );
-  }
+  String name = ''; // 名前を保持するプロパティ
+  String email = ''; // メールアドレスを保持するプロパティ
+  String evacuation = ''; // 避難場所を保持するプロパティ
 
   @override
   void dispose() {
-    super.dispose();
     nameController.dispose();
     emailController.dispose();
+    evacuationController.dispose();
+    super.dispose();
   }
+
+  void nameUpdateValue(String value) {
+    setState(() {
+      name = value;
+    });
+  }
+
+  void emailUpdateValue(String value) {
+    setState(() {
+      email = value;
+    });
+  }
+
+  void evacuationUpdateValue(String value) {
+    setState(() {
+      evacuation = value;
+    });
+  }
+
+  final emailFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
-    final bottomSpace = MediaQuery.of(context).viewInsets.bottom;
-
     final appUserName = ref.watch(appUserFutureProvider).maybeWhen(
           data: (data) => data?.userName,
           orElse: () => null,
         );
+    TextEditingController userName = TextEditingController(text: appUserName);
+
     final appUserEmail = ref.watch(appUserFutureProvider).maybeWhen(
           data: (data) => data?.userEmail,
           orElse: () => null,
         );
+    TextEditingController userEmail = TextEditingController(text: appUserEmail);
 
-    final userEvacuation = useTextEditingController(text: "保存した避難場所");
+    final bottomSpace = MediaQuery.of(context).viewInsets.bottom;
 
     // キーボード外をタップで収納するよう変更 (済み)
     return GestureDetector(
@@ -69,33 +84,43 @@ class MyPageState extends ConsumerState<MyPage> {
                 UserIcon(),
                 //SizedBox(height: 30),
                 _EditUserNameTextForm(
-                  controller: nameController,
-                  onPressed: () => nameController.clear(),
+                  controller: userName,
+                  onChanged: (value) {
+                    nameUpdateValue(value);
+                  },
+                  onPressed: () => userName.clear(),
                 ),
                 SizedBox(height: 20),
                 _EditEmailTextForm(
-                  controller: emailController,
-                  onPressed: () => emailController.clear(),
+                  controller: userEmail,
+                  focusNode: emailFocus,
+                  onChanged: (value) {
+                    emailUpdateValue(value);
+                  },
+                  onPressed: () => userEmail.clear(),
                 ),
                 SizedBox(height: 20),
                 _EditEvacuationTextForm(
-                  controller: userEvacuation,
-                  onPressed: () => userEvacuation.clear(),
+                  controller: evacuationController,
+                  onChanged: (value) {
+                    evacuationUpdateValue(value);
+                  },
+                  onPressed: () => evacuationController.clear(),
                 ),
                 SizedBox(height: 40),
                 SizedBox(
                   width: 140,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: (nameController.text != appUserName ||
-                            emailController.text != appUserEmail ||
-                            userEvacuation.text != "前回保存した避難場所")
+                    onPressed: (userName.text != appUserName ||
+                            userEmail.text != appUserEmail ||
+                            evacuationController.text != "前回保存した避難場所")
                         ? () {
                             //メールアドレスのバリデーション & 名前と避難場所の欄が空白じゃないとき
                             if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                    .hasMatch(emailController.text) &&
-                                nameController.text.isNotEmpty &&
-                                userEvacuation.text.isNotEmpty) {
+                                    .hasMatch(userEmail.text) &&
+                                userName.text.isNotEmpty &&
+                                evacuationController.text.isNotEmpty) {
                               FocusScope.of(context).unfocus();
                               showDialog<void>(
                                 context: context,
@@ -117,9 +142,9 @@ class MyPageState extends ConsumerState<MyPage> {
                               );
                             }
                             // 空欄があるとき
-                            else if (nameController.text.isEmpty ||
-                                emailController.text.isEmpty ||
-                                userEvacuation.text.isEmpty) {
+                            else if (userName.text.isEmpty ||
+                                userEmail.text.isEmpty ||
+                                evacuationController.text.isEmpty) {
                               showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
@@ -162,6 +187,7 @@ class MyPageState extends ConsumerState<MyPage> {
                                     TextButton(
                                       onPressed: () {
                                         Navigator.pop(context);
+                                        emailFocus.requestFocus();
                                       },
                                       child: Text(
                                         "編集を続ける",
@@ -207,10 +233,12 @@ class MyPageState extends ConsumerState<MyPage> {
 class _EditUserNameTextForm extends StatelessWidget {
   const _EditUserNameTextForm({
     required this.controller,
+    required this.onChanged,
     required this.onPressed,
   });
 
   final TextEditingController controller;
+  final void Function(String)? onChanged;
   final void Function()? onPressed;
 
   @override
@@ -223,6 +251,7 @@ class _EditUserNameTextForm extends StatelessWidget {
           Measure.g_4,
           TextFormField(
             controller: controller,
+            onChanged: onChanged,
             style: TextStyle(color: Colors.amber, fontSize: 18),
             decoration: InputDecoration(
               labelStyle: TextStyle(color: Colors.white, fontSize: 16),
@@ -236,10 +265,7 @@ class _EditUserNameTextForm extends StatelessWidget {
               ),
               suffixIcon: IconButton(
                 onPressed: onPressed,
-                icon: Icon(
-                  Icons.clear,
-                  color: AppColors.baseLight,
-                ),
+                icon: Icon(Icons.clear),
               ),
             ),
             textInputAction: TextInputAction.next,
@@ -253,10 +279,14 @@ class _EditUserNameTextForm extends StatelessWidget {
 class _EditEmailTextForm extends StatelessWidget {
   const _EditEmailTextForm({
     required this.controller,
+    required this.focusNode,
+    required this.onChanged,
     required this.onPressed,
   });
 
   final TextEditingController controller;
+  final FocusNode? focusNode;
+  final void Function(String)? onChanged;
   final void Function()? onPressed;
 
   @override
@@ -269,6 +299,8 @@ class _EditEmailTextForm extends StatelessWidget {
           Measure.g_4,
           TextFormField(
             controller: controller,
+            focusNode: focusNode,
+            onChanged: onChanged,
             style: TextStyle(color: Colors.amber, fontSize: 18),
             decoration: InputDecoration(
               labelStyle: TextStyle(color: Colors.white, fontSize: 16),
@@ -282,10 +314,7 @@ class _EditEmailTextForm extends StatelessWidget {
               ),
               suffixIcon: IconButton(
                 onPressed: onPressed,
-                icon: Icon(
-                  Icons.clear,
-                  color: AppColors.baseLight,
-                ),
+                icon: Icon(Icons.clear),
               ),
             ),
             // メールアドレス用のキーボードを表示する
@@ -301,10 +330,12 @@ class _EditEmailTextForm extends StatelessWidget {
 class _EditEvacuationTextForm extends StatelessWidget {
   const _EditEvacuationTextForm({
     required this.controller,
+    required this.onChanged,
     required this.onPressed,
   });
 
   final TextEditingController controller;
+  final void Function(String)? onChanged;
   final void Function()? onPressed;
 
   @override
@@ -317,6 +348,7 @@ class _EditEvacuationTextForm extends StatelessWidget {
           Measure.g_4,
           TextFormField(
             controller: controller,
+            onChanged: onChanged,
             style: TextStyle(color: Colors.amber, fontSize: 18),
             decoration: InputDecoration(
               labelStyle: TextStyle(color: Colors.white, fontSize: 16),
@@ -330,10 +362,7 @@ class _EditEvacuationTextForm extends StatelessWidget {
               ),
               suffixIcon: IconButton(
                 onPressed: onPressed,
-                icon: Icon(
-                  Icons.clear,
-                  color: AppColors.baseLight,
-                ),
+                icon: Icon(Icons.clear),
               ),
             ),
           ),

@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:graduate_app/widget/myAlertDialog.dart';
+import 'package:graduate_app/widgets/myAlertDialog.dart';
 
 class SendLocation extends StatefulWidget {
   const SendLocation({Key? key}) : super(key: key);

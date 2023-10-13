@@ -2,8 +2,8 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/features/message.dart';
 import 'package:graduate_app/models/models.dart';
-import 'package:graduate_app/widget/message_bubble.dart';
-import 'package:graduate_app/widget/send_location.dart';
+import 'package:graduate_app/widgets/message_bubble.dart';
+import 'package:graduate_app/widgets/send_location.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()

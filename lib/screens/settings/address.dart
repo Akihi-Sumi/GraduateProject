@@ -2,10 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/model/people_data.dart';
-import 'package:graduate_app/ui/profiles/profile_list.dart';
-import 'package:graduate_app/ui/settings/qr/qr_gene.dart';
-import 'package:graduate_app/ui/settings/qr/qr_scanner.dart';
-import 'package:graduate_app/widget/fan_bubble.dart';
+import 'package:graduate_app/screens/profiles/profile_list.dart';
+import 'package:graduate_app/screens/settings/qr/qr_gene.dart';
+import 'package:graduate_app/screens/settings/qr/qr_scanner.dart';
+import 'package:graduate_app/widgets/fan_bubble.dart';
 
 @RoutePage()
 class AddressPage extends StatefulWidget {

@@ -34,9 +34,11 @@ class _SendLocationState extends State<SendLocation> {
             '緯度: ${position.latitude}\n経度: ${position.longitude}';
       });
     } catch (e) {
-      setState(() {
-        _locationMessage = '位置情報の取得に失敗しました: $e';
-      });
+      if (mounted) {
+        setState(() {
+          _locationMessage = '位置情報の取得に失敗しました: $e';
+        });
+      }
     }
   }
 
@@ -45,7 +47,7 @@ class _SendLocationState extends State<SendLocation> {
     return Container(
       height: 100,
       width: 100,
-      padding: EdgeInsets.all(15),
+      padding: EdgeInsets.all(13),
       child: FloatingActionButton(
         child: Image.asset('assets/images/google_maps.png'),
         onPressed: () {

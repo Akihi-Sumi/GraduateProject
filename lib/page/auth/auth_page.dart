@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_app/page/auth/error_page.dart';
+import 'package:graduate_app/page/auth/get_started_page.dart';
 import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
-import 'package:graduate_app/screens/auth/error_page.dart';
-import 'package:graduate_app/screens/auth/get_started_page.dart';
 import 'package:graduate_app/utils/utils.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

@@ -75,20 +75,20 @@ class _$UnionTimestampCopyWithImpl<$Res, $Val extends UnionTimestamp>
 }
 
 /// @nodoc
-abstract class _$$UnionDateTimeCopyWith<$Res> {
-  factory _$$UnionDateTimeCopyWith(
-          _$UnionDateTime value, $Res Function(_$UnionDateTime) then) =
-      __$$UnionDateTimeCopyWithImpl<$Res>;
+abstract class _$$UnionDateTimeImplCopyWith<$Res> {
+  factory _$$UnionDateTimeImplCopyWith(
+          _$UnionDateTimeImpl value, $Res Function(_$UnionDateTimeImpl) then) =
+      __$$UnionDateTimeImplCopyWithImpl<$Res>;
   @useResult
   $Res call({DateTime dateTime});
 }
 
 /// @nodoc
-class __$$UnionDateTimeCopyWithImpl<$Res>
-    extends _$UnionTimestampCopyWithImpl<$Res, _$UnionDateTime>
-    implements _$$UnionDateTimeCopyWith<$Res> {
-  __$$UnionDateTimeCopyWithImpl(
-      _$UnionDateTime _value, $Res Function(_$UnionDateTime) _then)
+class __$$UnionDateTimeImplCopyWithImpl<$Res>
+    extends _$UnionTimestampCopyWithImpl<$Res, _$UnionDateTimeImpl>
+    implements _$$UnionDateTimeImplCopyWith<$Res> {
+  __$$UnionDateTimeImplCopyWithImpl(
+      _$UnionDateTimeImpl _value, $Res Function(_$UnionDateTimeImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -96,7 +96,7 @@ class __$$UnionDateTimeCopyWithImpl<$Res>
   $Res call({
     Object? dateTime = null,
   }) {
-    return _then(_$UnionDateTime(
+    return _then(_$UnionDateTimeImpl(
       null == dateTime
           ? _value.dateTime
           : dateTime // ignore: cast_nullable_to_non_nullable
@@ -107,8 +107,8 @@ class __$$UnionDateTimeCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$UnionDateTime extends UnionDateTime {
-  const _$UnionDateTime(this.dateTime) : super._();
+class _$UnionDateTimeImpl extends UnionDateTime {
+  const _$UnionDateTimeImpl(this.dateTime) : super._();
 
   @override
   final DateTime dateTime;
@@ -122,7 +122,7 @@ class _$UnionDateTime extends UnionDateTime {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnionDateTime &&
+            other is _$UnionDateTimeImpl &&
             (identical(other.dateTime, dateTime) ||
                 other.dateTime == dateTime));
   }
@@ -133,8 +133,8 @@ class _$UnionDateTime extends UnionDateTime {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnionDateTimeCopyWith<_$UnionDateTime> get copyWith =>
-      __$$UnionDateTimeCopyWithImpl<_$UnionDateTime>(this, _$identity);
+  _$$UnionDateTimeImplCopyWith<_$UnionDateTimeImpl> get copyWith =>
+      __$$UnionDateTimeImplCopyWithImpl<_$UnionDateTimeImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -200,35 +200,35 @@ class _$UnionDateTime extends UnionDateTime {
 }
 
 abstract class UnionDateTime extends UnionTimestamp {
-  const factory UnionDateTime(final DateTime dateTime) = _$UnionDateTime;
+  const factory UnionDateTime(final DateTime dateTime) = _$UnionDateTimeImpl;
   const UnionDateTime._() : super._();
 
   DateTime get dateTime;
   @JsonKey(ignore: true)
-  _$$UnionDateTimeCopyWith<_$UnionDateTime> get copyWith =>
+  _$$UnionDateTimeImplCopyWith<_$UnionDateTimeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UnionServerTimestampCopyWith<$Res> {
-  factory _$$UnionServerTimestampCopyWith(_$UnionServerTimestamp value,
-          $Res Function(_$UnionServerTimestamp) then) =
-      __$$UnionServerTimestampCopyWithImpl<$Res>;
+abstract class _$$UnionServerTimestampImplCopyWith<$Res> {
+  factory _$$UnionServerTimestampImplCopyWith(_$UnionServerTimestampImpl value,
+          $Res Function(_$UnionServerTimestampImpl) then) =
+      __$$UnionServerTimestampImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$UnionServerTimestampCopyWithImpl<$Res>
-    extends _$UnionTimestampCopyWithImpl<$Res, _$UnionServerTimestamp>
-    implements _$$UnionServerTimestampCopyWith<$Res> {
-  __$$UnionServerTimestampCopyWithImpl(_$UnionServerTimestamp _value,
-      $Res Function(_$UnionServerTimestamp) _then)
+class __$$UnionServerTimestampImplCopyWithImpl<$Res>
+    extends _$UnionTimestampCopyWithImpl<$Res, _$UnionServerTimestampImpl>
+    implements _$$UnionServerTimestampImplCopyWith<$Res> {
+  __$$UnionServerTimestampImplCopyWithImpl(_$UnionServerTimestampImpl _value,
+      $Res Function(_$UnionServerTimestampImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$UnionServerTimestamp extends UnionServerTimestamp {
-  const _$UnionServerTimestamp() : super._();
+class _$UnionServerTimestampImpl extends UnionServerTimestamp {
+  const _$UnionServerTimestampImpl() : super._();
 
   @override
   String toString() {
@@ -238,7 +238,8 @@ class _$UnionServerTimestamp extends UnionServerTimestamp {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$UnionServerTimestamp);
+        (other.runtimeType == runtimeType &&
+            other is _$UnionServerTimestampImpl);
   }
 
   @override
@@ -308,6 +309,6 @@ class _$UnionServerTimestamp extends UnionServerTimestamp {
 }
 
 abstract class UnionServerTimestamp extends UnionTimestamp {
-  const factory UnionServerTimestamp() = _$UnionServerTimestamp;
+  const factory UnionServerTimestamp() = _$UnionServerTimestampImpl;
   const UnionServerTimestamp._() : super._();
 }

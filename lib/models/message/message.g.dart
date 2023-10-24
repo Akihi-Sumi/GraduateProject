@@ -6,7 +6,8 @@ part of 'message.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Message _$$_MessageFromJson(Map<String, dynamic> json) => _$_Message(
+_$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
+    _$MessageImpl(
       messageId: json['messageId'] as String? ?? '',
       messageText: json['messageText'] as String? ?? '',
       createdAt: unionTimestampConverter.fromJson(json['createdAt'] as Object),
@@ -14,7 +15,7 @@ _$_Message _$$_MessageFromJson(Map<String, dynamic> json) => _$_Message(
           .fromJson(json['updatedAt'] as Object),
     );
 
-Map<String, dynamic> _$$_MessageToJson(_$_Message instance) =>
+Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) =>
     <String, dynamic>{
       'messageId': instance.messageId,
       'messageText': instance.messageText,

@@ -40,10 +40,9 @@ abstract class $MessageCopyWith<$Res> {
   $Res call(
       {String messageId,
       String messageText,
-      @unionTimestampConverter
-          UnionTimestamp createdAt,
+      @unionTimestampConverter UnionTimestamp createdAt,
       @alwaysUseServerTimestampUnionTimestampConverter
-          UnionTimestamp updatedAt});
+      UnionTimestamp updatedAt});
 
   $UnionTimestampCopyWith<$Res> get createdAt;
   $UnionTimestampCopyWith<$Res> get updatedAt;
@@ -105,19 +104,18 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
 }
 
 /// @nodoc
-abstract class _$$_MessageCopyWith<$Res> implements $MessageCopyWith<$Res> {
-  factory _$$_MessageCopyWith(
-          _$_Message value, $Res Function(_$_Message) then) =
-      __$$_MessageCopyWithImpl<$Res>;
+abstract class _$$MessageImplCopyWith<$Res> implements $MessageCopyWith<$Res> {
+  factory _$$MessageImplCopyWith(
+          _$MessageImpl value, $Res Function(_$MessageImpl) then) =
+      __$$MessageImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String messageId,
       String messageText,
-      @unionTimestampConverter
-          UnionTimestamp createdAt,
+      @unionTimestampConverter UnionTimestamp createdAt,
       @alwaysUseServerTimestampUnionTimestampConverter
-          UnionTimestamp updatedAt});
+      UnionTimestamp updatedAt});
 
   @override
   $UnionTimestampCopyWith<$Res> get createdAt;
@@ -126,10 +124,11 @@ abstract class _$$_MessageCopyWith<$Res> implements $MessageCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_MessageCopyWithImpl<$Res>
-    extends _$MessageCopyWithImpl<$Res, _$_Message>
-    implements _$$_MessageCopyWith<$Res> {
-  __$$_MessageCopyWithImpl(_$_Message _value, $Res Function(_$_Message) _then)
+class __$$MessageImplCopyWithImpl<$Res>
+    extends _$MessageCopyWithImpl<$Res, _$MessageImpl>
+    implements _$$MessageImplCopyWith<$Res> {
+  __$$MessageImplCopyWithImpl(
+      _$MessageImpl _value, $Res Function(_$MessageImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -140,7 +139,7 @@ class __$$_MessageCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
-    return _then(_$_Message(
+    return _then(_$MessageImpl(
       messageId: null == messageId
           ? _value.messageId
           : messageId // ignore: cast_nullable_to_non_nullable
@@ -163,16 +162,16 @@ class __$$_MessageCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Message extends _Message {
-  const _$_Message(
+class _$MessageImpl extends _Message {
+  const _$MessageImpl(
       {this.messageId = '',
       this.messageText = '',
       @unionTimestampConverter required this.createdAt,
       @alwaysUseServerTimestampUnionTimestampConverter required this.updatedAt})
       : super._();
 
-  factory _$_Message.fromJson(Map<String, dynamic> json) =>
-      _$$_MessageFromJson(json);
+  factory _$MessageImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MessageImplFromJson(json);
 
   @override
   @JsonKey()
@@ -196,7 +195,7 @@ class _$_Message extends _Message {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Message &&
+            other is _$MessageImpl &&
             (identical(other.messageId, messageId) ||
                 other.messageId == messageId) &&
             (identical(other.messageText, messageText) ||
@@ -215,12 +214,12 @@ class _$_Message extends _Message {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MessageCopyWith<_$_Message> get copyWith =>
-      __$$_MessageCopyWithImpl<_$_Message>(this, _$identity);
+  _$$MessageImplCopyWith<_$MessageImpl> get copyWith =>
+      __$$MessageImplCopyWithImpl<_$MessageImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MessageToJson(
+    return _$$MessageImplToJson(
       this,
     );
   }
@@ -230,13 +229,12 @@ abstract class _Message extends Message {
   const factory _Message(
       {final String messageId,
       final String messageText,
-      @unionTimestampConverter
-          required final UnionTimestamp createdAt,
+      @unionTimestampConverter required final UnionTimestamp createdAt,
       @alwaysUseServerTimestampUnionTimestampConverter
-          required final UnionTimestamp updatedAt}) = _$_Message;
+      required final UnionTimestamp updatedAt}) = _$MessageImpl;
   const _Message._() : super._();
 
-  factory _Message.fromJson(Map<String, dynamic> json) = _$_Message.fromJson;
+  factory _Message.fromJson(Map<String, dynamic> json) = _$MessageImpl.fromJson;
 
   @override
   String get messageId;
@@ -250,6 +248,6 @@ abstract class _Message extends Message {
   UnionTimestamp get updatedAt;
   @override
   @JsonKey(ignore: true)
-  _$$_MessageCopyWith<_$_Message> get copyWith =>
+  _$$MessageImplCopyWith<_$MessageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -8,14 +8,14 @@ import 'package:graduate_app/widgets/widget.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()
-class MyPage extends StatefulHookConsumerWidget {
-  const MyPage({Key? key}) : super(key: key);
+class MyProfilePage extends StatefulHookConsumerWidget {
+  const MyProfilePage({Key? key}) : super(key: key);
 
   @override
   MyPageState createState() => MyPageState();
 }
 
-class MyPageState extends ConsumerState<MyPage> {
+class MyPageState extends ConsumerState<MyProfilePage> {
   var nameController = TextEditingController();
   var emailController = TextEditingController();
 
@@ -58,8 +58,24 @@ class MyPageState extends ConsumerState<MyPage> {
       behavior: HitTestBehavior.opaque,
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(60),
+          child: AppBar(
+            title: Text(
+              context.topRoute.title(context),
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            centerTitle: true,
+            leading: BackButton(
+              onPressed: () => context.popRoute(),
+            ),
+            backgroundColor: Colors.black,
+          ),
+        ),
         body: SingleChildScrollView(
-          reverse: true,
           padding: EdgeInsets.only(bottom: bottomSpace),
           child: Container(
             padding: EdgeInsets.fromLTRB(16, 20, 16, 16),

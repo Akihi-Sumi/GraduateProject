@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:graduate_app/features/features.dart';
 import 'package:graduate_app/gen/assets.gen.dart';
 import 'package:graduate_app/utils/utils.dart';
@@ -83,10 +82,10 @@ class LoginPage extends HookConsumerWidget {
 
               Navigator.of(context).pop();
 
-              // ログインできたらスナックバーでメッセージを表示してホーム画面に遷移する
+              // 送信できたらスナックバーでメッセージを表示して
               ref
                   .read(scaffoldMessengerServiceProvider)
-                  .showSnackBar('Success of sending email !');
+                  .showSnackBar('メールを送信しました');
             },
             error: (e, s) async {
               // ローディングを非表示にする
@@ -160,7 +159,7 @@ class LoginPage extends HookConsumerWidget {
                       Padding(
                         padding: Measure.p_h32,
                         child: PrimaryRoundedButton(
-                          text: 'Log in',
+                          text: 'ログイン',
                           onTap: signInstate.isLoading
                               ? null
                               : () async {
@@ -213,7 +212,7 @@ class LoginPage extends HookConsumerWidget {
                 ),
                 Measure.g_60,
                 Text(
-                  'Reset a password',
+                  'パスワード再設定用のメールを送信',
                   style: TextStyles.h3(
                     color: AppColors.baseWhite,
                   ),
@@ -226,7 +225,7 @@ class LoginPage extends HookConsumerWidget {
                 Padding(
                   padding: Measure.p_h32,
                   child: SecondaryRoundedButton(
-                    text: 'Submit',
+                    text: '送信',
                     onTap: sendEmailState.isLoading
                         ? null
                         : () async {
@@ -269,7 +268,7 @@ class _EmailTextForm extends StatelessWidget {
       padding: Measure.p_h32,
       child: Column(
         children: [
-          const TextFormHeader(title: 'Email'),
+          const TextFormHeader(title: 'メールアドレス'),
           Measure.g_4,
           TextFormField(
             autofillHints: const [AutofillHints.email],
@@ -298,7 +297,7 @@ class _ForgetPasswordTextButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Text(
-        'Do you forget the password?',
+        'パスワードをお忘れの方',
         style: TextStyles.p1(color: AppColors.secondary),
       ),
     );
@@ -322,13 +321,14 @@ class _PasswordTextForm extends StatelessWidget {
       padding: Measure.p_h32,
       child: Column(
         children: [
-          const TextFormHeader(title: 'Password'),
+          const TextFormHeader(title: 'パスワード'),
           Measure.g_4,
           TextFormField(
             autofillHints: const [AutofillHints.password],
-            onEditingComplete: () => TextInput.finishAutofillContext(),
             obscureText: isObscureState,
             controller: controller,
+            keyboardType: TextInputType.visiblePassword,
+            textInputAction: TextInputAction.done,
             decoration: AppTextFormStyles.onPassword(
               state: isObscureState,
               notifier: notifier,
@@ -354,7 +354,7 @@ class _ResetEmailTextForm extends StatelessWidget {
       child: Column(
         children: [
           const TextFormHeader(
-            title: 'Email',
+            title: 'メールアドレス',
             color: AppColors.baseWhite,
           ),
           Measure.g_16,

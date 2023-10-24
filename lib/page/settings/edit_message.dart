@@ -4,7 +4,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graduate_app/features/features.dart';
 import 'package:graduate_app/models/models.dart';
 import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
-// import 'package:graduate_app/ui/settings/create_message_page.dart';
 import 'package:graduate_app/utils/utils.dart';
 import 'package:graduate_app/widgets/message_bubble.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -133,6 +132,23 @@ class EditMessagePageState extends ConsumerState<EditMessagePage> {
 
     return GestureDetector(
       child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(60),
+          child: AppBar(
+            title: Text(
+              context.topRoute.title(context),
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            centerTitle: true,
+            leading: BackButton(
+              onPressed: () => context.popRoute(),
+            ),
+            backgroundColor: Colors.black,
+          ),
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.only(top: 110),
@@ -184,6 +200,10 @@ class EditMessagePageState extends ConsumerState<EditMessagePage> {
                                             }
                                           },
                                         );
+
+                                        if (context.mounted) {
+                                          Navigator.of(context).pop();
+                                        }
                                       },
                                     ),
                                     ListTile(
@@ -233,7 +253,8 @@ class EditMessagePageState extends ConsumerState<EditMessagePage> {
         floatingActionButton: Container(
           height: 100,
           width: 100,
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.all(10),
+          margin: EdgeInsets.only(top: 100),
           child: FloatingActionButton(
             onPressed: () async {
               await createMessageDialog(
@@ -260,10 +281,6 @@ class EditMessagePageState extends ConsumerState<EditMessagePage> {
                   }
 
                   useMessageController.clear();
-
-                  if (context.mounted) {
-                    Navigator.of(context).pop();
-                  }
                 },
               );
             },

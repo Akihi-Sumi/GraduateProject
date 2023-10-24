@@ -1,4 +1,4 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/features/message.dart';
 import 'package:graduate_app/models/models.dart';
@@ -7,8 +7,13 @@ import 'package:graduate_app/widgets/send_location.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()
-class HomeScreenPage extends HookConsumerWidget {
-  const HomeScreenPage({Key? key}) : super(key: key);
+class HomeRouterPage extends AutoRouter {
+  const HomeRouterPage({super.key});
+}
+
+@RoutePage()
+class HomePage extends HookConsumerWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

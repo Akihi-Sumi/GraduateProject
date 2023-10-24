@@ -39,7 +39,7 @@ abstract class $DeletedUserCopyWith<$Res> {
   $Res call(
       {String uid,
       @alwaysUseServerTimestampUnionTimestampConverter
-          UnionTimestamp createdAt});
+      UnionTimestamp createdAt});
 
   $UnionTimestampCopyWith<$Res> get createdAt;
 }
@@ -82,28 +82,28 @@ class _$DeletedUserCopyWithImpl<$Res, $Val extends DeletedUser>
 }
 
 /// @nodoc
-abstract class _$$_DeletedUserCopyWith<$Res>
+abstract class _$$DeletedUserImplCopyWith<$Res>
     implements $DeletedUserCopyWith<$Res> {
-  factory _$$_DeletedUserCopyWith(
-          _$_DeletedUser value, $Res Function(_$_DeletedUser) then) =
-      __$$_DeletedUserCopyWithImpl<$Res>;
+  factory _$$DeletedUserImplCopyWith(
+          _$DeletedUserImpl value, $Res Function(_$DeletedUserImpl) then) =
+      __$$DeletedUserImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String uid,
       @alwaysUseServerTimestampUnionTimestampConverter
-          UnionTimestamp createdAt});
+      UnionTimestamp createdAt});
 
   @override
   $UnionTimestampCopyWith<$Res> get createdAt;
 }
 
 /// @nodoc
-class __$$_DeletedUserCopyWithImpl<$Res>
-    extends _$DeletedUserCopyWithImpl<$Res, _$_DeletedUser>
-    implements _$$_DeletedUserCopyWith<$Res> {
-  __$$_DeletedUserCopyWithImpl(
-      _$_DeletedUser _value, $Res Function(_$_DeletedUser) _then)
+class __$$DeletedUserImplCopyWithImpl<$Res>
+    extends _$DeletedUserCopyWithImpl<$Res, _$DeletedUserImpl>
+    implements _$$DeletedUserImplCopyWith<$Res> {
+  __$$DeletedUserImplCopyWithImpl(
+      _$DeletedUserImpl _value, $Res Function(_$DeletedUserImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -112,7 +112,7 @@ class __$$_DeletedUserCopyWithImpl<$Res>
     Object? uid = null,
     Object? createdAt = null,
   }) {
-    return _then(_$_DeletedUser(
+    return _then(_$DeletedUserImpl(
       uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
@@ -127,14 +127,14 @@ class __$$_DeletedUserCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_DeletedUser extends _DeletedUser {
-  const _$_DeletedUser(
+class _$DeletedUserImpl extends _DeletedUser {
+  const _$DeletedUserImpl(
       {this.uid = '',
       @alwaysUseServerTimestampUnionTimestampConverter required this.createdAt})
       : super._();
 
-  factory _$_DeletedUser.fromJson(Map<String, dynamic> json) =>
-      _$$_DeletedUserFromJson(json);
+  factory _$DeletedUserImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DeletedUserImplFromJson(json);
 
   @override
   @JsonKey()
@@ -152,7 +152,7 @@ class _$_DeletedUser extends _DeletedUser {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_DeletedUser &&
+            other is _$DeletedUserImpl &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
@@ -165,12 +165,12 @@ class _$_DeletedUser extends _DeletedUser {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_DeletedUserCopyWith<_$_DeletedUser> get copyWith =>
-      __$$_DeletedUserCopyWithImpl<_$_DeletedUser>(this, _$identity);
+  _$$DeletedUserImplCopyWith<_$DeletedUserImpl> get copyWith =>
+      __$$DeletedUserImplCopyWithImpl<_$DeletedUserImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_DeletedUserToJson(
+    return _$$DeletedUserImplToJson(
       this,
     );
   }
@@ -180,11 +180,11 @@ abstract class _DeletedUser extends DeletedUser {
   const factory _DeletedUser(
       {final String uid,
       @alwaysUseServerTimestampUnionTimestampConverter
-          required final UnionTimestamp createdAt}) = _$_DeletedUser;
+      required final UnionTimestamp createdAt}) = _$DeletedUserImpl;
   const _DeletedUser._() : super._();
 
   factory _DeletedUser.fromJson(Map<String, dynamic> json) =
-      _$_DeletedUser.fromJson;
+      _$DeletedUserImpl.fromJson;
 
   @override
   String get uid;
@@ -193,6 +193,6 @@ abstract class _DeletedUser extends DeletedUser {
   UnionTimestamp get createdAt;
   @override
   @JsonKey(ignore: true)
-  _$$_DeletedUserCopyWith<_$_DeletedUser> get copyWith =>
+  _$$DeletedUserImplCopyWith<_$DeletedUserImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

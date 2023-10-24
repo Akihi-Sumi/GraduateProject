@@ -51,6 +51,23 @@ class _SurvivalKitPageState extends State<SurvivalKitPage>
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(),
       child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(60),
+          child: AppBar(
+            title: Text(
+              context.topRoute.title(context),
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            centerTitle: true,
+            leading: BackButton(
+              onPressed: () => context.popRoute(),
+            ),
+            backgroundColor: Colors.black,
+          ),
+        ),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(

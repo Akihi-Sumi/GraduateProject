@@ -131,7 +131,7 @@ class SignupPage extends HookConsumerWidget {
                       Padding(
                         padding: Measure.p_h32,
                         child: PrimaryRoundedButton(
-                          text: 'Create a account',
+                          text: 'アカウントを作成',
                           onTap: state.isLoading
                               ? null
                               : () async {
@@ -174,7 +174,7 @@ class _UserNameTextForm extends StatelessWidget {
       padding: Measure.p_h32,
       child: Column(
         children: [
-          const TextFormHeader(title: 'User name'),
+          const TextFormHeader(title: 'ユーザー名'),
           Measure.g_4,
           TextFormField(
             maxLength: 20,
@@ -204,7 +204,7 @@ class _EmailTextForm extends StatelessWidget {
       padding: Measure.p_h32,
       child: Column(
         children: [
-          const TextFormHeader(title: 'Email'),
+          const TextFormHeader(title: 'メールアドレス'),
           Measure.g_4,
           TextFormField(
             controller: controller,
@@ -237,11 +237,13 @@ class _PasswordTextForm extends StatelessWidget {
       padding: Measure.p_h32,
       child: Column(
         children: [
-          const TextFormHeader(title: 'Password'),
+          const TextFormHeader(title: 'パスワード'),
           Measure.g_4,
           TextFormField(
             obscureText: isObscureState,
             controller: controller,
+            keyboardType: TextInputType.visiblePassword,
+            textInputAction: TextInputAction.done,
             decoration: AppTextFormStyles.onPassword(
               state: isObscureState,
               notifier: notifier,
@@ -279,11 +281,7 @@ class _TermsAndPrivacyPolicyText extends HookConsumerWidget {
               text: TextSpan(
                 children: <TextSpan>[
                   TextSpan(
-                    text: 'You agree',
-                    style: TextStyles.p2(),
-                  ),
-                  TextSpan(
-                    text: ' Terms of service ',
+                    text: '利用規約 ',
                     recognizer: TapGestureRecognizer()
                       ..onTap = () async {
                         ref
@@ -314,11 +312,11 @@ class _TermsAndPrivacyPolicyText extends HookConsumerWidget {
                     ),
                   ),
                   TextSpan(
-                    text: 'and',
+                    text: 'および',
                     style: TextStyles.p2(),
                   ),
                   TextSpan(
-                    text: ' Privacy Policy ',
+                    text: ' プライバシーポリシー',
                     recognizer: TapGestureRecognizer()
                       ..onTap = () async {
                         ref
@@ -347,10 +345,6 @@ class _TermsAndPrivacyPolicyText extends HookConsumerWidget {
                     style: TextStyles.p2(
                       color: AppColors.secondary,
                     ),
-                  ),
-                  TextSpan(
-                    text: '.',
-                    style: TextStyles.p2(),
                   ),
                 ],
               ),

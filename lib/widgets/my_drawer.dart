@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:graduate_app/features/app_user.dart';
+import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/widgets/imitation_list_tile.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

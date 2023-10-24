@@ -36,3 +36,10 @@ DocumentReference<Message> messageRef({
   required String messageId,
 }) =>
     messagesRef(userId: userId).doc(messageId);
+
+class FirebaseConstants {
+  //static const usersCollection = 'users';
+  static const groupsCollection = 'groups';
+  static const groupMessagesCollection = 'messages';
+  //static const commentsCollection = 'comments';
+}

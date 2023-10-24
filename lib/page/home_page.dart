@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:graduate_app/features/message.dart';
+import 'package:graduate_app/controller/message.dart';
 import 'package:graduate_app/models/models.dart';
 import 'package:graduate_app/widgets/message_bubble.dart';
 import 'package:graduate_app/widgets/send_location.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:graduate_app/features/notifiers/notifiers.dart';
+import 'package:graduate_app/controller/notifiers/notifiers.dart';
 import 'package:graduate_app/utils/constants/constants.dart';
 
 /// [TextFormField] arguments, i.e., the form styles of [InputDecoration].

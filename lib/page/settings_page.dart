@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:graduate_app/features/auth/sign_out.dart';
+import 'package:graduate_app/controller/auth/sign_out.dart';
 import 'package:graduate_app/router/app_router.gr.dart';
 import 'package:graduate_app/utils/async_value_error_dialog.dart';
 import 'package:graduate_app/utils/dialog.dart';

@@ -6,19 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /// アプリ全体に半透明のローディング画面を重ねるかどうか。
 /// Whether to stack semi-transparent background
-final overlayLoadingProvider =
-    NotifierProvider<_LoadingNotifier, bool>(_LoadingNotifier.new);
-
-class _LoadingNotifier extends Notifier<bool> {
-  @override
-  bool build() => false;
-
-  void startLoading() => state = true;
-
-  void endLoading() => state = false;
-
-  void update(bool Function(dynamic state) param0) {}
-}
+final overlayLoadingProvider = StateProvider<bool>((_) => false);
 
 /// show a primary color's SpinkitCircle.
 class PrimarySpinkitCircle extends StatelessWidget {

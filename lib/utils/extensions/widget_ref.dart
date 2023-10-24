@@ -1,5 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:graduate_app/utils/utils.dart';
+import 'package:graduate_app/utils/connectivity.dart';
+import 'package:graduate_app/utils/loading.dart';
+import 'package:graduate_app/utils/scaffold_messenger_service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 extension WidgetRefEx on WidgetRef {
@@ -8,30 +10,30 @@ extension WidgetRefEx on WidgetRef {
       listen<AsyncValue<ConnectivityResult>>(connectivityProvider, (_, next) {
         if (next.isLoading) {
           // ローディングを表示する
-          read(overlayLoadingProvider.notifier).startLoading();
+          watch(overlayLoadingProvider.notifier).update((state) => false);
           return;
         }
 
         next.when(
           data: (data) async {
             // ローディングを非表示にする
-            watch(overlayLoadingProvider.notifier).endLoading();
+            watch(overlayLoadingProvider.notifier).update((state) => false);
             // インターネット接続が切れた際に
             if (data == ConnectivityResult.none) {
               watch(scaffoldMessengerServiceProvider)
-                  .showSnackBar('Please connect to the internet.');
+                  .showSnackBar('インターネットに接続してください');
             }
           },
           error: (e, s) async {
             // ローディングを非表示にする
-            read(overlayLoadingProvider.notifier).endLoading();
+            watch(overlayLoadingProvider.notifier).update((state) => false);
             // エラーが発生したらエラーダイアログを表示する
             watch(scaffoldMessengerServiceProvider)
-                .showSnackBar('Please connect to the internet.');
+                .showSnackBar('インターネットに接続してください');
           },
           loading: () {
             // ローディングを表示する
-            read(overlayLoadingProvider.notifier).startLoading();
+            watch(overlayLoadingProvider.notifier).update((state) => false);
           },
         );
       });

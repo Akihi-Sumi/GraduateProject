@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:graduate_app/gen/assets.gen.dart';
 import 'package:graduate_app/page/auth/login_page.dart';
 import 'package:graduate_app/page/auth/signup_page.dart';
-import 'package:graduate_app/utils/utils.dart';
-import 'package:graduate_app/widgets/widget.dart';
+import 'package:graduate_app/utils/constants/app_colors.dart';
+import 'package:graduate_app/utils/constants/measure.dart';
+import 'package:graduate_app/utils/text_styles.dart';
+import 'package:graduate_app/widgets/app_bar.dart';
+import 'package:graduate_app/widgets/rounded_button.dart';
 
 @RoutePage()
 class GetStartedPage extends StatelessWidget {

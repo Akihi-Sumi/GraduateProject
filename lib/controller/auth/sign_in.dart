@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
-import 'package:graduate_app/utils/utils.dart';
+import 'package:graduate_app/utils/exceptions/exception.dart';
+import 'package:graduate_app/utils/extensions/firebase_auth_exception.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /// Firebase Auth を用いてサインインをする [AsyncNotifierProvider]。
@@ -31,14 +32,6 @@ class SignInController extends AutoDisposeAsyncNotifier<void> {
     // サインイン処理を実行する
     state = await AsyncValue.guard(() async {
       try {
-        final isNetworkCheck = await isNetworkConnected();
-        if (!isNetworkCheck) {
-          const exception = AppException(
-            message: 'ネットワークが接続されていません。',
-          );
-          throw exception;
-        }
-
         if (email.isEmpty || password.isEmpty) {
           const exception = AppException(
             message: 'メールアドレスとパスワードを入力してください。',

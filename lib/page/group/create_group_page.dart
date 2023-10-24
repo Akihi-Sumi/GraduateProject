@@ -33,7 +33,7 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage> {
         preferredSize: Size.fromHeight(60),
         child: AppBar(
           title: Text(
-            context.topRoute.title(context),
+            "グループ作成",
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w600,
@@ -47,8 +47,31 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [_GroupNameTextForm(controller: groupNameController)],
+        ),
       ),
+    );
+  }
+}
+
+class _GroupNameTextForm extends StatelessWidget {
+  const _GroupNameTextForm({required this.controller});
+
+  final TextEditingController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        hintText: "グループ名を入力してください",
+        filled: true,
+        border: InputBorder.none,
+        contentPadding: EdgeInsets.all(18),
+      ),
+      maxLength: 20,
     );
   }
 }

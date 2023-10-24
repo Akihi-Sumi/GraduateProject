@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:graduate_app/utils/utils.dart';
+import 'package:graduate_app/utils/json_converters/union_timestamp.dart';
 
 part 'app_user.freezed.dart';
 part 'app_user.g.dart';

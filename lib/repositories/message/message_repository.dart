@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:graduate_app/models/models.dart';
+import 'package:graduate_app/models/message/message.dart';
 
 abstract class MessageRepository {
   Future<void> create({

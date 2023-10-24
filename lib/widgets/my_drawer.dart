@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduate_app/controller/app_user.dart';
+import 'package:graduate_app/page/group/create_group_page.dart';
 import 'package:graduate_app/widgets/imitation_list_tile.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -52,7 +53,11 @@ class MyDrawer extends HookConsumerWidget {
                         style: TextStyle(color: Colors.orange, fontSize: 16)),
                     onPressed: () {
                       Navigator.of(context).pop();
-                      // グループ作成画面へ
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CreateGroupPage()),
+                      );
                     },
                   ),
                 ],

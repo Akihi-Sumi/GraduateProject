@@ -1,8 +1,9 @@
 import 'dart:async';
 
-import 'package:graduate_app/models/models.dart';
-import 'package:graduate_app/repositories/repositories.dart';
-import 'package:graduate_app/utils/utils.dart';
+import 'package:graduate_app/models/message/message.dart';
+import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
+import 'package:graduate_app/repositories/message/message_repository_impl.dart';
+import 'package:graduate_app/utils/exceptions/exception.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final messagesProvider = StreamProvider.autoDispose<List<Message>>((ref) {

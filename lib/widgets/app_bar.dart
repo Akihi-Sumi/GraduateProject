@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:graduate_app/utils/utils.dart';
+import 'package:graduate_app/utils/constants/app_colors.dart';
+import 'package:graduate_app/utils/text_styles.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MyAppBar({

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../utils/utils.dart';
+import 'package:graduate_app/utils/constants/app_colors.dart';
+import 'package:graduate_app/utils/text_styles.dart';
 
 /// The header [Widget] of setting on [TextFormField].
 class TextFormHeader extends StatelessWidget {

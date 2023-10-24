@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:graduate_app/models/models.dart';
-import 'package:graduate_app/utils/utils.dart';
+import 'package:graduate_app/models/message/message.dart';
+import 'package:graduate_app/utils/firestore_refs.dart';
+import 'package:graduate_app/utils/logger.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'message_repository.dart';

@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:graduate_app/models/models.dart';
+import 'package:graduate_app/models/app_user/app_user.dart';
 import 'package:graduate_app/repositories/app_user/app_user_repository_impl.dart';
 import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
-import 'package:graduate_app/utils/utils.dart';
+import 'package:graduate_app/utils/exceptions/exception.dart';
+import 'package:graduate_app/utils/extensions/firebase_auth_exception.dart';
+import 'package:graduate_app/utils/json_converters/union_timestamp.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /// Firebase Auth を用いてサインアップをする [AsyncNotifierProvider]。
@@ -36,14 +38,6 @@ class SignUpController extends AutoDisposeAsyncNotifier<void> {
     // サインアップを実行する
     state = await AsyncValue.guard(() async {
       try {
-        final isNetworkCheck = await isNetworkConnected();
-        if (!isNetworkCheck) {
-          const exception = AppException(
-            message: 'ネットワークが切断されました。',
-          );
-          throw exception;
-        }
-
         if (isCheckTerms == false) {
           const exception = AppException(
             message: '利用規約とプライバシーポリシーに同意してください。',

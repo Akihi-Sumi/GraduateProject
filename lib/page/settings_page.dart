@@ -24,14 +24,14 @@ class SettingsPage extends ConsumerWidget {
       signOutControllerProvider,
       (_, state) async {
         if (state.isLoading) {
-          ref.read(overlayLoadingProvider.notifier).startLoading();
+          ref.watch(overlayLoadingProvider.notifier).update((state) => true);
           return;
         }
 
         await state.when(
           data: (_) async {
             // ローディングを非表示にする
-            ref.read(overlayLoadingProvider.notifier).endLoading();
+            ref.watch(overlayLoadingProvider.notifier).update((state) => false);
 
             // ログインできたらスナックバーでメッセージを表示してホーム画面に遷移する
             ref
@@ -42,14 +42,14 @@ class SettingsPage extends ConsumerWidget {
           },
           error: (e, s) async {
             // ローディングを非表示にする
-            ref.read(overlayLoadingProvider.notifier).endLoading();
+            ref.watch(overlayLoadingProvider.notifier).update((state) => false);
 
             // エラーが発生したらエラーダイアログを表示する
             state.showAlertDialogOnError(context);
           },
           loading: () {
             // ローディングを表示する
-            ref.read(overlayLoadingProvider.notifier).startLoading();
+            ref.watch(overlayLoadingProvider.notifier).update((state) => true);
           },
         );
       },

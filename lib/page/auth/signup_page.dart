@@ -1,36 +1,22 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:graduate_app/controller/features.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:graduate_app/controller/auth/sign_up.dart';
 import 'package:graduate_app/gen/assets.gen.dart';
-import 'package:graduate_app/utils/utils.dart';
-import 'package:graduate_app/widgets/widget.dart';
+import 'package:graduate_app/utils/async_value_error_dialog.dart';
+import 'package:graduate_app/utils/constants/app_colors.dart';
+import 'package:graduate_app/utils/constants/measure.dart';
+import 'package:graduate_app/utils/dialog.dart';
+import 'package:graduate_app/utils/exceptions/exception.dart';
+import 'package:graduate_app/utils/loading.dart';
+import 'package:graduate_app/utils/scaffold_messenger_service.dart';
+import 'package:graduate_app/utils/text_styles.dart';
+import 'package:graduate_app/utils/textform_styles.dart';
+import 'package:graduate_app/widgets/app_bar.dart';
+import 'package:graduate_app/widgets/rounded_button.dart';
+import 'package:graduate_app/widgets/textform_header.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-final _nameEmailTextEditingController =
-    Provider.autoDispose<TextEditingController>(
-  (_) => TextEditingController(),
-);
-
-final _emailTextEditingController = Provider.autoDispose<TextEditingController>(
-  (_) => TextEditingController(),
-);
-
-final _passwordTextEditingController =
-    Provider.autoDispose<TextEditingController>(
-  (_) => TextEditingController(),
-);
-
-/// NotifierProvider
-final _isObscureProvider =
-    NotifierProvider.autoDispose<IsObscureNotifier, bool>(
-  IsObscureNotifier.new,
-);
-
-final _isCheckTermsProvider =
-    NotifierProvider.autoDispose<IsCheckTermsNotifier, bool>(
-  IsCheckTermsNotifier.new,
-);
 
 @RoutePage()
 class SignupPage extends HookConsumerWidget {
@@ -42,14 +28,14 @@ class SignupPage extends HookConsumerWidget {
       signUpControllerProvider,
       (_, state) async {
         if (state.isLoading) {
-          ref.read(overlayLoadingProvider.notifier).startLoading();
+          ref.watch(overlayLoadingProvider.notifier).update((state) => true);
           return;
         }
 
         await state.when(
           data: (_) async {
             // ローディングを非表示にする
-            ref.read(overlayLoadingProvider.notifier).endLoading();
+            ref.watch(overlayLoadingProvider.notifier).update((state) => false);
 
             // ログインできたらスナックバーでメッセージを表示してホーム画面に遷移する
             ref
@@ -60,14 +46,14 @@ class SignupPage extends HookConsumerWidget {
           },
           error: (e, s) async {
             // ローディングを非表示にする
-            ref.read(overlayLoadingProvider.notifier).endLoading();
+            ref.watch(overlayLoadingProvider.notifier).update((state) => false);
 
             // エラーが発生したらエラーダイアログを表示する
             state.showAlertDialogOnError(context);
           },
           loading: () {
             // ローディングを表示する
-            ref.read(overlayLoadingProvider.notifier).startLoading();
+            ref.watch(overlayLoadingProvider.notifier).update((state) => true);
           },
         );
       },
@@ -77,13 +63,11 @@ class SignupPage extends HookConsumerWidget {
     final state = ref.watch(signUpControllerProvider);
 
     // Hooks
-    final isCheckTermsState = ref.watch(_isCheckTermsProvider);
-    final isCheckTermsNotifier = ref.watch(_isCheckTermsProvider.notifier);
-    final isObscureState = ref.watch(_isObscureProvider);
-    final isObscureNotifier = ref.watch(_isObscureProvider.notifier);
-    final userNameController = ref.watch(_nameEmailTextEditingController);
-    final emailController = ref.watch(_emailTextEditingController);
-    final passwordController = ref.watch(_passwordTextEditingController);
+    final isObscure = useState(true);
+    final isCheckTerms = useState(false);
+    final userNameController = useTextEditingController();
+    final emailController = useTextEditingController();
+    final passwordController = useTextEditingController();
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -119,13 +103,11 @@ class SignupPage extends HookConsumerWidget {
                       Measure.g_16,
                       _PasswordTextForm(
                         controller: passwordController,
-                        isObscureState: isObscureState,
-                        notifier: isObscureNotifier,
+                        isObscure: isObscure,
                       ),
                       Measure.g_32,
                       _TermsAndPrivacyPolicyText(
-                        state: isCheckTermsState,
-                        notifier: isCheckTermsNotifier,
+                        isCheckTerms: isCheckTerms,
                       ),
                       Measure.g_32,
                       Padding(
@@ -139,7 +121,7 @@ class SignupPage extends HookConsumerWidget {
                                   await ref
                                       .read(signUpControllerProvider.notifier)
                                       .signUp(
-                                        isCheckTerms: isCheckTermsState,
+                                        isCheckTerms: isCheckTerms.value,
                                         userName: userNameController.value.text,
                                         email: emailController.value.text,
                                         password: passwordController.value.text,
@@ -223,13 +205,11 @@ class _EmailTextForm extends StatelessWidget {
 class _PasswordTextForm extends StatelessWidget {
   const _PasswordTextForm({
     required this.controller,
-    required this.isObscureState,
-    required this.notifier,
+    required this.isObscure,
   });
 
   final TextEditingController controller;
-  final bool isObscureState;
-  final IsObscureNotifier notifier;
+  final ValueNotifier<bool> isObscure;
 
   @override
   Widget build(BuildContext context) {
@@ -240,13 +220,12 @@ class _PasswordTextForm extends StatelessWidget {
           const TextFormHeader(title: 'パスワード'),
           Measure.g_4,
           TextFormField(
-            obscureText: isObscureState,
+            obscureText: isObscure.value,
             controller: controller,
             keyboardType: TextInputType.visiblePassword,
             textInputAction: TextInputAction.done,
             decoration: AppTextFormStyles.onPassword(
-              state: isObscureState,
-              notifier: notifier,
+              isObscure: isObscure,
             ),
           ),
         ],
@@ -257,12 +236,10 @@ class _PasswordTextForm extends StatelessWidget {
 
 class _TermsAndPrivacyPolicyText extends HookConsumerWidget {
   const _TermsAndPrivacyPolicyText({
-    required this.state,
-    required this.notifier,
+    required this.isCheckTerms,
   });
 
-  final bool state;
-  final IsCheckTermsNotifier notifier;
+  final ValueNotifier<bool> isCheckTerms;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -273,8 +250,8 @@ class _TermsAndPrivacyPolicyText extends HookConsumerWidget {
           Checkbox(
             activeColor: AppColors.secondary,
             checkColor: AppColors.baseWhite,
-            value: state,
-            onChanged: (value) => notifier.changeState(value: value!),
+            value: isCheckTerms.value,
+            onChanged: (value) => isCheckTerms.value = value!,
           ),
           Expanded(
             child: RichText(
@@ -285,10 +262,8 @@ class _TermsAndPrivacyPolicyText extends HookConsumerWidget {
                     recognizer: TapGestureRecognizer()
                       ..onTap = () async {
                         ref
-                            .read(
-                              overlayLoadingProvider.notifier,
-                            )
-                            .startLoading();
+                            .watch(overlayLoadingProvider.notifier)
+                            .update((state) => true);
                         try {
                           // App users will check Terms of service
                           // with the web url or text in the app.
@@ -301,10 +276,8 @@ class _TermsAndPrivacyPolicyText extends HookConsumerWidget {
                           );
                         } finally {
                           ref
-                              .read(
-                                overlayLoadingProvider.notifier,
-                              )
-                              .endLoading();
+                              .watch(overlayLoadingProvider.notifier)
+                              .update((state) => false);
                         }
                       },
                     style: TextStyles.p2(
@@ -320,10 +293,8 @@ class _TermsAndPrivacyPolicyText extends HookConsumerWidget {
                     recognizer: TapGestureRecognizer()
                       ..onTap = () async {
                         ref
-                            .read(
-                              overlayLoadingProvider.notifier,
-                            )
-                            .startLoading();
+                            .watch(overlayLoadingProvider.notifier)
+                            .update((state) => true);
                         try {
                           // App users will check Privacy Policy.
                           // with the web url or text in the app.
@@ -336,10 +307,8 @@ class _TermsAndPrivacyPolicyText extends HookConsumerWidget {
                           );
                         } finally {
                           ref
-                              .read(
-                                overlayLoadingProvider.notifier,
-                              )
-                              .endLoading();
+                              .watch(overlayLoadingProvider.notifier)
+                              .update((state) => false);
                         }
                       },
                     style: TextStyles.p2(

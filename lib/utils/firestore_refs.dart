@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:graduate_app/models/models.dart';
+import 'package:graduate_app/models/app_user/app_user.dart';
+import 'package:graduate_app/models/deleted_user/deleted_user.dart';
+import 'package:graduate_app/models/message/message.dart';
 
 final _db = FirebaseFirestore.instance;
 

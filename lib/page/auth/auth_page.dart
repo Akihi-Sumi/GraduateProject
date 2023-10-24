@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:graduate_app/page/auth/error_page.dart';
 import 'package:graduate_app/page/auth/get_started_page.dart';
 import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
-import 'package:graduate_app/utils/utils.dart';
+import 'package:graduate_app/utils/extensions/widget_ref.dart';
+import 'package:graduate_app/utils/loading.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()

@@ -1,5 +1,6 @@
-import 'package:graduate_app/models/models.dart';
-import 'package:graduate_app/repositories/repositories.dart';
+import 'package:graduate_app/models/app_user/app_user.dart';
+import 'package:graduate_app/repositories/app_user/app_user_repository_impl.dart';
+import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final appUserFutureProvider = FutureProvider.autoDispose<AppUser?>((ref) async {

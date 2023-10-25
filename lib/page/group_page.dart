@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_app/page/group/send_message_page.dart';
 
 @RoutePage()
 class GroupRouterPage extends AutoRouter {
@@ -58,6 +59,11 @@ class _GroupPageState extends State<GroupPage> {
 class SelectPostTypeSheet extends StatelessWidget {
   const SelectPostTypeSheet({Key? key}) : super(key: key);
 
+  void navigateToType(BuildContext context, String type) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => SendMessagePage(type: type)));
+  }
+
   @override
   Widget build(BuildContext context) {
     double cardHeightWidth = kIsWeb ? 360 : 120;
@@ -90,6 +96,7 @@ class SelectPostTypeSheet extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pop();
               // メッセージ作成画面orウィジェット
+              navigateToType(context, 'text');
             },
           ),
           GestureDetector(

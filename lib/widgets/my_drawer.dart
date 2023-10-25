@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:graduate_app/controller/app_user.dart';
+import 'package:graduate_app/controller/group_controller.dart';
 import 'package:graduate_app/page/group/create_group_page.dart';
+import 'package:graduate_app/page/group/send_message_page.dart';
+import 'package:graduate_app/utils/loading.dart';
 import 'package:graduate_app/widgets/imitation_list_tile.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -40,14 +43,28 @@ class MyDrawer extends HookConsumerWidget {
                 leading: Icon(Icons.group, color: Colors.white),
                 iconColor: Colors.white,
                 children: <Widget>[
-                  ImitationListTile(
-                    title: const Text("グループ名", style: TextStyle(fontSize: 24)),
-                    leading: CircleAvatar(),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      // グループ画面へ
-                    },
-                  ),
+                  ref.watch(userGroupsProvider).when(
+                        data: (groups) => Expanded(
+                          child: ListView.builder(
+                            itemCount: groups.length,
+                            itemBuilder: (context, index) {
+                              final group = groups[index];
+                              return ImitationListTile(
+                                title: Text(group.groupName,
+                                    style: TextStyle(fontSize: 24)),
+                                leading: CircleAvatar(),
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                  // グループ画面へ
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                        error: (error, stackTrace) =>
+                            ErrorText(error: error.toString()),
+                        loading: () => const OverlayLoadingWidget(),
+                      ),
                   TextButton(
                     child: Text("グループを作成",
                         style: TextStyle(color: Colors.orange, fontSize: 16)),

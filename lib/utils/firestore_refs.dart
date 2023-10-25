@@ -2,8 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:graduate_app/models/app_user/app_user.dart';
 import 'package:graduate_app/models/deleted_user/deleted_user.dart';
 import 'package:graduate_app/models/message/message.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final _db = FirebaseFirestore.instance;
+
+final firestoreProvider = Provider((ref) => _db);
 
 /// appUsers コレクションの参照。
 final appUsersRef = _db.collection('appUsers').withConverter(
@@ -45,3 +48,15 @@ class FirebaseConstants {
   static const groupMessagesCollection = 'messages';
   //static const commentsCollection = 'comments';
 }
+
+// /// groups コレクションの参照。
+// final groupsRef = _db.collection('groups').withConverter(
+//       fromFirestore: (ds, _) => GroupModel.fromDocumentSnapshot(ds),
+//       toFirestore: (obj, _) => obj.toJson(),
+//     );
+
+// /// group ドキュメントの参照。
+// DocumentReference<GroupModel> groupRef({
+//   required String groupId,
+// }) =>
+//     groupsRef.doc(groupId);

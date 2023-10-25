@@ -1,16 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:graduate_app/models/app_user/app_user.dart';
-import 'package:graduate_app/models/group/group_model.dart';
+import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/models/message/message.dart';
+import 'package:graduate_app/models/post/group_model.dart';
 import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
 import 'package:graduate_app/repositories/group_repository.dart';
 import 'package:graduate_app/utils/failure_type_defs.dart';
 import 'package:graduate_app/widgets/show_snack_bar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final userProvider = StateProvider<AppUser?>((ref) => null);
+//final userProvider = StateProvider<AppUser?>((ref) => null);
 
 Future<String?> fetchUserData() async {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -47,16 +47,16 @@ final groupControllerProvider =
   );
 });
 
-final getGroupByNameProvider = StreamProvider.family((ref, String name) {
-  return ref.watch(groupControllerProvider.notifier).getGroupByName(name);
+final getGroupByNameProvider = StreamProvider.family((ref, String groupName) {
+  return ref.watch(groupControllerProvider.notifier).getGroupByName(groupName);
 });
 
 final searchGroupProvider = StreamProvider.family((ref, String query) {
   return ref.watch(groupControllerProvider.notifier).searchGroup(query);
 });
 
-final getGroupMessageProvider = StreamProvider.family((ref, String name) {
-  return ref.read(groupControllerProvider.notifier).getGroupMessages(name);
+final getGroupMessageProvider = StreamProvider.family((ref, String groupName) {
+  return ref.read(groupControllerProvider.notifier).getGroupMessages(groupName);
 });
 
 class GroupController extends StateNotifier<bool> {
@@ -74,16 +74,16 @@ class GroupController extends StateNotifier<bool> {
         super(false);
 
   //新しいコミュニティを作成するメソッド
-  void createGroup(String name, BuildContext context) async {
+  void createGroup(String groupName, BuildContext context) async {
     state = true; // プログラムの状態をtrueに設定（おそらく非同期処理の進行状況を示すためのフラグ）
 
     // 現在のユーザーのUIDを取得。_ref.read(userProvider)はユーザープロバイダーからユーザー情報を取得する操作を行っていると仮定します。
     final uid = (await fetchUserData()).toString();
 
     // 新しいCommunityオブジェクトを作成。コミュニティの情報を表現します。
-    GroupModel group = GroupModel(
-      groupId: name, // id、nameは引数から受け取ったコミュニティの名前です。
-      groupName: name,
+    GroupModel2 group = GroupModel2(
+      groupId: groupName, // id、nameは引数から受け取ったコミュニティの名前です。
+      groupName: groupName,
       // banner: Constants.bannerDefault,
       // avatar: Constants.avatarDefault,
       // membersとmodsには、コミュニティを作成したユーザーのUIDが含まれています。
@@ -97,21 +97,19 @@ class GroupController extends StateNotifier<bool> {
     state = false;
     //resの結果をfoldメソッドを使用して処理
     res.fold(
-        //エラーがある場合（関数が呼び出される）、
-        //showSnackBar関数を使用してエラーメッセージを表示
-        (l) => showSnackBar(context, l.message),
-        //成功した場合（関数が呼び出される）
-        //成功メッセージを表示
-        //Routemaster.of(context).pop();を使用して現在の画面を閉じます。
-        (r) {
-      showSnackBar(context, 'グループを作成しました');
-      //画面を閉じようとするとエラーが出る
-      //Routemaster.of(context).pop();
-    });
+      //エラーがある場合（関数が呼び出される）、
+      //showSnackBar関数を使用してエラーメッセージを表示
+      (l) => showSnackBar(context, l.message),
+      //成功した場合（関数が呼び出される）
+      //成功メッセージを表示
+      (r) {
+        showSnackBar(context, 'グループを作成しました');
+      },
+    );
   }
 
   // ユーザーがコミュニティに参加または退会するメソッド
-  void joinGroup(GroupModel group, BuildContext context) async {
+  void joinGroup(GroupModel2 group, BuildContext context) async {
     //final user = _ref.read(userProvider)!;//現在のユーザーオブジェクトを取得
     final uid = _ref.watch(userIdProvider);
 
@@ -135,23 +133,23 @@ class GroupController extends StateNotifier<bool> {
   }
 
   //ユーザーが参加しているコミュニティのリストを提供する非同期ストリームを取得
-  Stream<List<GroupModel>> getUserGroups() {
+  Stream<List<GroupModel2>> getUserGroups() {
     final uid = _ref.read(userProvider)!.userId;
     return _groupRepository.getUserGroups(uid);
   }
 
   // コミュニティ名を指定して対応するコミュニティを提供する非同期ストリームを取得します
-  Stream<GroupModel> getGroupByName(String name) {
-    return _groupRepository.getGroupByName(name);
+  Stream<GroupModel2> getGroupByName(String groupName) {
+    return _groupRepository.getGroupByName(groupName);
   }
 
   //指定した検索クエリに一致するコミュニティのリストを提供
-  Stream<List<GroupModel>> searchGroup(String query) {
+  Stream<List<GroupModel2>> searchGroup(String query) {
     return _groupRepository.searchGroup(query);
   }
 
   //指定したコミュニティ名に関連する投稿のリストを提供
-  Stream<List<Message>> getGroupMessages(String name) {
-    return _groupRepository.getGroupMessages(name);
+  Stream<List<Message>> getGroupMessages(String groupName) {
+    return _groupRepository.getGroupMessages(groupName);
   }
 }

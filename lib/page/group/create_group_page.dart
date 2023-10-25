@@ -1,6 +1,7 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/controller/group_controller.dart';
+import 'package:graduate_app/utils/constants/measure.dart';
+import 'package:graduate_app/widgets/rounded_button.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CreateGroupPage extends StatefulHookConsumerWidget {
@@ -24,32 +25,48 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage> {
           groupNameController.text.trim(),
           context,
         );
+
+    groupNameController.clear();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
-        child: AppBar(
-          title: Text(
-            "グループ作成",
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w600,
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(60),
+          child: AppBar(
+            title: Text(
+              "グループ作成",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w600,
+              ),
             ),
+            centerTitle: true,
+            // leading: BackButton(
+            //   onPressed: () => context.popRoute(),
+            // ),
+            backgroundColor: Colors.black,
           ),
-          centerTitle: true,
-          leading: BackButton(
-            onPressed: () => context.popRoute(),
-          ),
-          backgroundColor: Colors.black,
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [_GroupNameTextForm(controller: groupNameController)],
+        body: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              _GroupNameTextForm(controller: groupNameController),
+              Measure.g_24,
+              Padding(
+                padding: Measure.p_h32,
+                child: PrimaryRoundedButton(
+                  text: "作成",
+                  onTap: createGroup,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

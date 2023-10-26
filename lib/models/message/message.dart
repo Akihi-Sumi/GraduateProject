@@ -8,8 +8,12 @@ part 'message.g.dart';
 @freezed
 class Message with _$Message {
   const factory Message({
+    @Default('') String userId,
+    @Default('') String userName,
     @Default('') String messageId,
+    @Default('') String type,
     @Default('') String messageText,
+    @Default('') String groupName,
     @unionTimestampConverter required UnionTimestamp createdAt,
     @alwaysUseServerTimestampUnionTimestampConverter
     required UnionTimestamp updatedAt,

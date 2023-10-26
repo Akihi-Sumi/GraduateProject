@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/models/group/group_model.dart';
 import 'package:graduate_app/models/message/message.dart';
+import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
 import 'package:graduate_app/repositories/group_message_repository.dart';
 import 'package:graduate_app/utils/json_converters/union_timestamp.dart';
 import 'package:graduate_app/widgets/show_snack_bar.dart';
@@ -38,12 +40,14 @@ final getGroupMessageByIdProvider =
 class GroupMessageController extends StateNotifier<bool> {
   final GroupMessageRepository _groupMessageRepository;
   //final StorageRepository _storageRepository;
+  final Ref _ref;
 
   GroupMessageController({
     required GroupMessageRepository groupMessageRepository,
     //required StorageRepository storageRepository,
     required Ref ref,
   })  : _groupMessageRepository = groupMessageRepository,
+        _ref = ref,
         // _storageRepository = storageRepository,
         super(false);
 
@@ -54,15 +58,18 @@ class GroupMessageController extends StateNotifier<bool> {
   }) async {
     state = true;
     String messageId = const Uuid().v1();
-    //final user = _ref.read(userProvider);
+
+    // final uid = _ref.watch(authRepositoryImplProvider).currentUser?.uid ?? '';
+    final uid = _ref.watch(authRepositoryImplProvider).currentUser?.uid ?? '';
+    final userName = _ref.watch(userProvider)?.userName ?? '';
 
     final Message message = Message(
       messageId: messageId,
       messageText: messageText,
-      // userId: user.uid,
-      // userName: user.name,
-      // type: 'text,
-      // groupName: selectedGroup,
+      userId: uid,
+      userName: userName,
+      type: 'text',
+      groupName: selectedGroup.groupName,
       createdAt: UnionTimestamp.serverTimestamp(),
       updatedAt: UnionTimestamp.serverTimestamp(),
     );

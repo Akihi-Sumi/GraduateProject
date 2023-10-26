@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:graduate_app/models/group/group_model.dart';
 import 'package:graduate_app/models/message/message.dart';
-import 'package:graduate_app/models/post/group_model.dart';
 import 'package:graduate_app/utils/failure_type_defs.dart';
 import 'package:graduate_app/utils/firestore_refs.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -32,7 +32,7 @@ class GroupMessageRepository {
     }
   }
 
-  Stream<List<Message>> fetchUserGroupMessages(List<GroupModel2> groups) {
+  Stream<List<Message>> fetchUserGroupMessages(List<GroupModel> groups) {
     return _groupMessage
         .where('groupName', whereIn: groups.map((e) => e.groupName).toList())
         .orderBy('createAt', descending: true)

@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:graduate_app/models/group/group_model.dart';
 import 'package:graduate_app/models/message/message.dart';
-import 'package:graduate_app/models/post/group_model.dart';
 import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
 import 'package:graduate_app/repositories/group_repository.dart';
 import 'package:graduate_app/utils/failure_type_defs.dart';
@@ -81,7 +81,7 @@ class GroupController extends StateNotifier<bool> {
     final uid = _ref.watch(authRepositoryImplProvider).currentUser?.uid ?? '';
 
     // 新しいCommunityオブジェクトを作成。コミュニティの情報を表現します。
-    GroupModel2 group = GroupModel2(
+    GroupModel group = GroupModel(
       groupId: groupName, // id、nameは引数から受け取ったコミュニティの名前です。
       groupName: groupName,
       // banner: Constants.bannerDefault,
@@ -109,7 +109,7 @@ class GroupController extends StateNotifier<bool> {
   }
 
   // ユーザーがコミュニティに参加または退会するメソッド
-  void joinGroup(GroupModel2 group, BuildContext context) async {
+  void joinGroup(GroupModel group, BuildContext context) async {
     //final user = _ref.read(userProvider)!;//現在のユーザーオブジェクトを取得
     final uid = _ref.watch(userIdProvider);
 
@@ -133,19 +133,19 @@ class GroupController extends StateNotifier<bool> {
   }
 
   //ユーザーが参加しているコミュニティのリストを提供する非同期ストリームを取得
-  Stream<List<GroupModel2>> getUserGroups() {
+  Stream<List<GroupModel>> getUserGroups() {
     //final uid = _ref.read(userProvider)?.userId ?? '';
     final uid = _ref.read(authRepositoryImplProvider).currentUser?.uid ?? '';
     return _groupRepository.getUserGroups(uid);
   }
 
   // コミュニティ名を指定して対応するコミュニティを提供する非同期ストリームを取得します
-  Stream<GroupModel2> getGroupByName(String groupName) {
+  Stream<GroupModel> getGroupByName(String groupName) {
     return _groupRepository.getGroupByName(groupName);
   }
 
   //指定した検索クエリに一致するコミュニティのリストを提供
-  Stream<List<GroupModel2>> searchGroup(String query) {
+  Stream<List<GroupModel>> searchGroup(String query) {
     return _groupRepository.searchGroup(query);
   }
 

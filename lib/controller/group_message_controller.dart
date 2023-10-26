@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:graduate_app/models/group/group_model.dart';
 import 'package:graduate_app/models/message/message.dart';
-import 'package:graduate_app/models/post/group_model.dart';
 import 'package:graduate_app/repositories/group_message_repository.dart';
 import 'package:graduate_app/utils/json_converters/union_timestamp.dart';
 import 'package:graduate_app/widgets/show_snack_bar.dart';
@@ -20,7 +20,7 @@ final groupMessageControllerProvider =
 });
 
 final userGroupMessagesProvider =
-    StreamProvider.family((ref, List<GroupModel2> groups) {
+    StreamProvider.family((ref, List<GroupModel> groups) {
   final groupMessageController =
       ref.watch(groupMessageControllerProvider.notifier);
 
@@ -49,7 +49,7 @@ class GroupMessageController extends StateNotifier<bool> {
 
   void sendTextMessage({
     required BuildContext context,
-    required GroupModel2 selectedGroup,
+    required GroupModel selectedGroup,
     required String messageText,
   }) async {
     state = true;
@@ -75,7 +75,7 @@ class GroupMessageController extends StateNotifier<bool> {
     });
   }
 
-  Stream<List<Message>> fetchUserGroupMessages(List<GroupModel2> groups) {
+  Stream<List<Message>> fetchUserGroupMessages(List<GroupModel> groups) {
     if (groups.isNotEmpty) {
       return _groupMessageRepository.fetchUserGroupMessages(groups);
     }

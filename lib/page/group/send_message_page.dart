@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graduate_app/controller/group_controller.dart';
 import 'package:graduate_app/controller/group_message_controller.dart';
-import 'package:graduate_app/models/post/group_model.dart';
+import 'package:graduate_app/models/group/group_model.dart';
 import 'package:graduate_app/utils/constants/measure.dart';
 import 'package:graduate_app/utils/loading.dart';
 import 'package:graduate_app/widgets/rounded_button.dart';
@@ -20,8 +20,8 @@ class SendMessagePage extends StatefulHookConsumerWidget {
 class _SendMessagePageState extends ConsumerState<SendMessagePage> {
   final messageTextController = TextEditingController();
 
-  List<GroupModel2> groups = [];
-  GroupModel2? selectedGroup;
+  List<GroupModel> groups = [];
+  GroupModel? selectedGroup;
 
   @override
   void dispose() {

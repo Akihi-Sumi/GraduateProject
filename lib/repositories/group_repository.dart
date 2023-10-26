@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:graduate_app/models/group/group_model.dart';
 import 'package:graduate_app/models/message/message.dart';
-import 'package:graduate_app/models/post/group_model.dart';
 import 'package:graduate_app/utils/failure_type_defs.dart';
 import 'package:graduate_app/utils/firestore_refs.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -16,7 +16,7 @@ class GroupRepository {
       : _firestore = firestore;
 
   //: 新しいコミュニティを作成します。同じ名前のコミュニティが既に存在する場合はエラーをスローします。
-  FutureVoid createGroup(GroupModel2 group) async {
+  FutureVoid createGroup(GroupModel group) async {
     try {
       //与えられたコミュニティの名前を使用して、Firestore内のドキュメントを取得
       var groupDoc = await _groups.doc(group.groupName).get();
@@ -26,7 +26,7 @@ class GroupRepository {
       }
 
       //Firestoreに新しいコミュニティのドキュメントを作成する操作
-      return right(_groups.doc(group.groupName).set(group.toMap()));
+      return right(_groups.doc(group.groupName).set(group.toJson()));
     } on FirebaseException catch (e) {
       //エラーメッセージをキャッチしてスロー
       throw e.message!;
@@ -62,12 +62,12 @@ class GroupRepository {
   }
 
   // 特定のユーザーがメンバーであるすべてのコミュニティを取得するためのストリームを提供します。
-  Stream<List<GroupModel2>> getUserGroups(String userId) {
+  Stream<List<GroupModel>> getUserGroups(String userId) {
     return _groups.where('members', arrayContains: userId).snapshots().map(
       (event) {
-        List<GroupModel2> groups = [];
+        List<GroupModel> groups = [];
         for (var doc in event.docs) {
-          groups.add(GroupModel2.fromMap(doc.data() as Map<String, dynamic>));
+          groups.add(GroupModel.fromJson(doc.data() as Map<String, dynamic>));
         }
         return groups;
       },
@@ -75,15 +75,15 @@ class GroupRepository {
   }
 
   // コミュニティの名前を指定して、そのコミュニティの詳細を取得するためのストリームを提供します。
-  Stream<GroupModel2> getGroupByName(String groupName) {
+  Stream<GroupModel> getGroupByName(String groupName) {
     return _groups.doc(groupName).snapshots().map(
-        (event) => GroupModel2.fromMap(event.data() as Map<String, dynamic>));
+        (event) => GroupModel.fromJson(event.data() as Map<String, dynamic>));
   }
 
   // コミュニティの情報を編集します。
-  FutureVoid editGroup(GroupModel2 group) async {
+  FutureVoid editGroup(GroupModel group) async {
     try {
-      return right(_groups.doc(group.groupName).update(group.toMap()));
+      return right(_groups.doc(group.groupName).update(group.toJson()));
     } on FirebaseException catch (e) {
       throw e.message!;
     } catch (e) {
@@ -92,7 +92,7 @@ class GroupRepository {
   }
 
   //指定したクエリに基づいてコミュニティを検索するためのストリームを提供します。
-  Stream<List<GroupModel2>> searchGroup(String query) {
+  Stream<List<GroupModel>> searchGroup(String query) {
     return _groups
         .where(
           'groupName',
@@ -106,9 +106,9 @@ class GroupRepository {
         )
         .snapshots()
         .map((event) {
-      List<GroupModel2> groups = [];
+      List<GroupModel> groups = [];
       for (var group in event.docs) {
-        groups.add(GroupModel2.fromMap(group.data() as Map<String, dynamic>));
+        groups.add(GroupModel.fromJson(group.data() as Map<String, dynamic>));
       }
       return groups;
     });

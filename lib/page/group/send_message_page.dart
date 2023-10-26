@@ -96,6 +96,7 @@ class _SendMessagePageState extends ConsumerState<SendMessagePage> {
                       }
 
                       return DropdownButton(
+                        dropdownColor: Colors.grey[800],
                         value: selectedGroup ?? data[0],
                         items: data
                             .map((e) => DropdownMenuItem(

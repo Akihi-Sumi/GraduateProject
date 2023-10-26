@@ -36,6 +36,8 @@ class _SendMessagePageState extends ConsumerState<SendMessagePage> {
             selectedGroup: selectedGroup ?? groups[0],
             messageText: messageTextController.text.trim(),
           );
+
+      messageTextController.clear();
     } else {
       showSnackBar(context, "項目を全て入力してください");
     }

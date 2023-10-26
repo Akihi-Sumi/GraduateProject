@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/models/message/message.dart';
 import 'package:graduate_app/models/post/group_model.dart';
 import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
@@ -78,7 +77,8 @@ class GroupController extends StateNotifier<bool> {
     state = true; // プログラムの状態をtrueに設定（おそらく非同期処理の進行状況を示すためのフラグ）
 
     // 現在のユーザーのUIDを取得。_ref.read(userProvider)はユーザープロバイダーからユーザー情報を取得する操作を行っていると仮定します。
-    final uid = (await fetchUserData()).toString();
+    //final uid = (await fetchUserData()).toString();
+    final uid = _ref.watch(authRepositoryImplProvider).currentUser?.uid ?? '';
 
     // 新しいCommunityオブジェクトを作成。コミュニティの情報を表現します。
     GroupModel2 group = GroupModel2(
@@ -134,7 +134,8 @@ class GroupController extends StateNotifier<bool> {
 
   //ユーザーが参加しているコミュニティのリストを提供する非同期ストリームを取得
   Stream<List<GroupModel2>> getUserGroups() {
-    final uid = _ref.read(userProvider)!.userId;
+    //final uid = _ref.read(userProvider)?.userId ?? '';
+    final uid = _ref.read(authRepositoryImplProvider).currentUser?.uid ?? '';
     return _groupRepository.getUserGroups(uid);
   }
 

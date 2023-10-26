@@ -7,10 +7,10 @@ part 'group_model.g.dart';
 @freezed
 class GroupModel with _$GroupModel {
   const factory GroupModel({
-    required String groupId,
-    required String groupName,
-    required List<String> members,
-    required List<String> mods,
+    @Default('') String groupId,
+    @Default('') String groupName,
+    @Default(<String>[]) List<String> members,
+    @Default(<String>[]) List<String> mods,
   }) = _GroupModel;
 
   factory GroupModel.fromJson(Map<String, dynamic> json) =>

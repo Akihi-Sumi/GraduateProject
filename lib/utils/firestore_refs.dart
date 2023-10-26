@@ -48,15 +48,3 @@ class FirebaseConstants {
   static const groupMessagesCollection = 'messages';
   //static const commentsCollection = 'comments';
 }
-
-// /// groups コレクションの参照。
-// final groupsRef = _db.collection('groups').withConverter(
-//       fromFirestore: (ds, _) => GroupModel.fromDocumentSnapshot(ds),
-//       toFirestore: (obj, _) => obj.toJson(),
-//     );
-
-// /// group ドキュメントの参照。
-// DocumentReference<GroupModel> groupRef({
-//   required String groupId,
-// }) =>
-//     groupsRef.doc(groupId);

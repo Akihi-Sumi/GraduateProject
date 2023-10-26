@@ -139,10 +139,10 @@ class __$$GroupModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$GroupModelImpl extends _GroupModel {
   const _$GroupModelImpl(
-      {required this.groupId,
-      required this.groupName,
-      required final List<String> members,
-      required final List<String> mods})
+      {this.groupId = '',
+      this.groupName = '',
+      final List<String> members = const <String>[],
+      final List<String> mods = const <String>[]})
       : _members = members,
         _mods = mods,
         super._();
@@ -151,11 +151,14 @@ class _$GroupModelImpl extends _GroupModel {
       _$$GroupModelImplFromJson(json);
 
   @override
+  @JsonKey()
   final String groupId;
   @override
+  @JsonKey()
   final String groupName;
   final List<String> _members;
   @override
+  @JsonKey()
   List<String> get members {
     if (_members is EqualUnmodifiableListView) return _members;
     // ignore: implicit_dynamic_type
@@ -164,6 +167,7 @@ class _$GroupModelImpl extends _GroupModel {
 
   final List<String> _mods;
   @override
+  @JsonKey()
   List<String> get mods {
     if (_mods is EqualUnmodifiableListView) return _mods;
     // ignore: implicit_dynamic_type
@@ -212,10 +216,10 @@ class _$GroupModelImpl extends _GroupModel {
 
 abstract class _GroupModel extends GroupModel {
   const factory _GroupModel(
-      {required final String groupId,
-      required final String groupName,
-      required final List<String> members,
-      required final List<String> mods}) = _$GroupModelImpl;
+      {final String groupId,
+      final String groupName,
+      final List<String> members,
+      final List<String> mods}) = _$GroupModelImpl;
   const _GroupModel._() : super._();
 
   factory _GroupModel.fromJson(Map<String, dynamic> json) =

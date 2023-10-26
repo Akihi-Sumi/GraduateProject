@@ -59,7 +59,6 @@ class GroupMessageController extends StateNotifier<bool> {
     state = true;
     String messageId = const Uuid().v1();
 
-    // final uid = _ref.watch(authRepositoryImplProvider).currentUser?.uid ?? '';
     final uid = _ref.watch(authRepositoryImplProvider).currentUser?.uid ?? '';
     final userName = _ref.watch(userProvider)?.userName ?? '';
 

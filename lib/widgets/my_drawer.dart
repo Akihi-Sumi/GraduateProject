@@ -44,23 +44,27 @@ class MyDrawer extends HookConsumerWidget {
                 iconColor: Colors.white,
                 children: <Widget>[
                   ref.watch(userGroupsProvider).when(
-                        data: (groups) => Expanded(
-                          child: ListView.builder(
-                            itemCount: groups.length,
-                            itemBuilder: (context, index) {
-                              final group = groups[index];
-                              return ImitationListTile(
-                                title: Text(group.groupName,
-                                    style: TextStyle(fontSize: 24)),
-                                leading: CircleAvatar(),
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                  // グループ画面へ
-                                },
-                              );
-                            },
-                          ),
+                        data: (groups) =>
+                            // Expanded(
+                            //   child:
+                            ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: groups.length,
+                          itemBuilder: (context, index) {
+                            final group = groups[index];
+                            return ImitationListTile(
+                              title: Text(group.groupName,
+                                  style: TextStyle(fontSize: 24)),
+                              leading: CircleAvatar(),
+                              onTap: () {
+                                Navigator.of(context).pop();
+                                // グループ画面へ
+                              },
+                            );
+                          },
                         ),
+                        //),
                         error: (error, stackTrace) =>
                             ErrorText(error: error.toString()),
                         loading: () => const OverlayLoadingWidget(),

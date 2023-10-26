@@ -1,6 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 
 class GroupModel2 {
@@ -30,7 +28,7 @@ class GroupModel2 {
   }
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
+    return {
       'groupId': groupId,
       'groupName': groupName,
       'members': members,
@@ -42,15 +40,15 @@ class GroupModel2 {
     return GroupModel2(
       groupId: map['groupId'] as String,
       groupName: map['groupName'] as String,
-      members: List<String>.from((map['members'] as List<String>)),
-      mods: List<String>.from((map['mods'] as List<String>)),
+      members: List<String>.from(map['members']),
+      mods: List<String>.from(map['mods']),
     );
   }
 
-  String toJson() => json.encode(toMap());
+  // String toJson() => json.encode(toMap());
 
-  factory GroupModel2.fromJson(String source) =>
-      GroupModel2.fromMap(json.decode(source) as Map<String, dynamic>);
+  // factory GroupModel2.fromJson(String source) =>
+  //     GroupModel2.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -58,10 +56,11 @@ class GroupModel2 {
   }
 
   @override
-  bool operator ==(covariant GroupModel2 other) {
+  bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other.groupId == groupId &&
+    return other is GroupModel2 &&
+        other.groupId == groupId &&
         other.groupName == groupName &&
         listEquals(other.members, members) &&
         listEquals(other.mods, mods);

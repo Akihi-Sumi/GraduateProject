@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduate_app/controller/app_user.dart';
-import 'package:graduate_app/controller/group_controller.dart';
+import 'package:graduate_app/controller/group.dart';
 import 'package:graduate_app/page/group/create_group_page.dart';
 import 'package:graduate_app/page/group/send_message_page.dart';
 import 'package:graduate_app/utils/loading.dart';
@@ -43,7 +43,7 @@ class MyDrawer extends HookConsumerWidget {
                 leading: Icon(Icons.group, color: Colors.white),
                 iconColor: Colors.white,
                 children: <Widget>[
-                  ref.watch(userGroupsProvider).when(
+                  ref.watch(groupsProvider).when(
                         data: (groups) =>
                             // Expanded(
                             //   child:

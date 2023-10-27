@@ -270,6 +270,7 @@ class EditMessagePageState extends ConsumerState<EditMessagePage> {
                       .update((state) => true);
 
                   final message = Message(
+                    type: 'text',
                     messageText: useMessageController.value.text,
                     createdAt: UnionTimestamp.serverTimestamp(),
                     updatedAt: UnionTimestamp.serverTimestamp(),

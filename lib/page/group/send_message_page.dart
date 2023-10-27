@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/controller/group.dart';
-import 'package:graduate_app/controller/group_dropdown.dart';
 import 'package:graduate_app/controller/group_message.dart';
 import 'package:graduate_app/models/group/group_model.dart';
 import 'package:graduate_app/models/message/message.dart';
-import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
 import 'package:graduate_app/utils/async_value_error_dialog.dart';
 import 'package:graduate_app/utils/constants/app_colors.dart';
 import 'package:graduate_app/utils/constants/measure.dart';
@@ -27,9 +24,8 @@ class SendMessagePage extends StatefulHookConsumerWidget {
 
 class _SendMessagePageState extends ConsumerState<SendMessagePage> {
   final messageTextController = TextEditingController();
-
-  // List<GroupModel> groups = [];
-  // GroupModel? selectedGroup;
+  List<GroupModel> groups = [];
+  GroupModel? selectedGroup;
 
   @override
   void dispose() {
@@ -60,22 +56,10 @@ class _SendMessagePageState extends ConsumerState<SendMessagePage> {
       });
     });
 
-    final useMessageTextController = useTextEditingController();
-
-    final selectedGroup = ref.watch(dropdownButtonGroupProvider);
-
-    final userId = ref.watch(authRepositoryImplProvider).currentUser?.uid;
+    //final userId = ref.watch(authRepositoryImplProvider).currentUser?.uid;
     final appUserName = ref.watch(appUserFutureProvider).maybeWhen<String?>(
           data: (data) => data?.userName,
           orElse: () => null,
-        );
-
-    final groups = ref.watch(groupsProvider).maybeWhen<List<GroupModel>>(
-          data: (data) {
-            final groups = data.toList();
-            return [initGroup, ...groups];
-          },
-          orElse: () => [initGroup],
         );
 
     return GestureDetector(
@@ -108,42 +92,77 @@ class _SendMessagePageState extends ConsumerState<SendMessagePage> {
                 child: Text("グループを選択"),
               ),
               Measure.g_16,
-              Padding(
-                padding: Measure.p_h8,
-                child: _DropdownGroupSelectButton(
-                  groupsList: groups,
-                  selectedGroup: selectedGroup,
-                  onChanged: (value) => ref
-                      .read(dropdownButtonGroupProvider.notifier)
-                      .selectedGroup(value),
-                ),
-              ),
+              ref.watch(groupsProvider).when(
+                    data: (data) {
+                      groups = data;
+
+                      if (data.isEmpty) {
+                        return const SizedBox();
+                      }
+
+                      return DecoratedBox(
+                        decoration: BoxDecoration(
+                          borderRadius: Measure.br_6,
+                          border: Border.all(
+                            color: AppColors.secondary,
+                          ),
+                        ),
+                        child: SizedBox(
+                          width: 300,
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                              isExpanded: true,
+                              underline: Container(),
+                              dropdownColor: Colors.grey[800],
+                              value: selectedGroup ?? data[0],
+                              items: data
+                                  .map((e) => DropdownMenuItem(
+                                        value: e,
+                                        child: Center(
+                                          child: Text(e.groupName),
+                                        ),
+                                      ))
+                                  .toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedGroup = value;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    error: (error, stackTrace) => ErrorText(
+                      error: error.toString(),
+                    ),
+                    loading: () => const Loader(),
+                  ),
               Measure.g_60,
               Padding(
                 padding: Measure.p_h32,
                 child: PrimaryRoundedButton(
                   text: "送信",
                   onTap: () async {
-                    if (userId != null) {
-                      ref
-                          .watch(overlayLoadingProvider.notifier)
-                          .update((state) => true);
+                    //if (userId != null) {
+                    ref
+                        .watch(overlayLoadingProvider.notifier)
+                        .update((state) => true);
 
-                      final groupMessage = Message(
-                        messageText: useMessageTextController.value.text,
-                        type: 'text',
-                        userId: userId,
-                        userName: appUserName ?? '',
-                        createdAt: UnionTimestamp.serverTimestamp(),
-                        updatedAt: UnionTimestamp.serverTimestamp(),
-                      );
-                      await ref
-                          .read(sendMessageControllerProvider.notifier)
-                          .sendMessage(
-                            groupMessage: groupMessage,
-                            group: selectedGroup,
-                          );
-                    }
+                    final groupMessage = Message(
+                      messageText: messageTextController.value.text,
+                      type: 'text',
+                      userName: appUserName ?? '',
+                      groupName: selectedGroup?.groupName ?? '',
+                      createdAt: UnionTimestamp.serverTimestamp(),
+                      updatedAt: UnionTimestamp.serverTimestamp(),
+                    );
+                    await ref
+                        .read(sendMessageControllerProvider.notifier)
+                        .sendMessage(
+                          groupMessage: groupMessage,
+                        );
+                    //}
                   },
                 ),
               ),
@@ -186,55 +205,6 @@ class ErrorText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Text(error),
-    );
-  }
-}
-
-class _DropdownGroupSelectButton extends HookWidget {
-  const _DropdownGroupSelectButton({
-    required this.selectedGroup,
-    required this.onChanged,
-    required this.groupsList,
-  });
-
-  final GroupModel? selectedGroup;
-  final void Function(GroupModel?)? onChanged;
-  final List<GroupModel> groupsList;
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        borderRadius: Measure.br_6,
-        border: Border.all(
-          color: selectedGroup == initGroup
-              ? AppColors.baseLight
-              : AppColors.secondary,
-        ),
-      ),
-      child: SizedBox(
-        width: 300,
-        child: DropdownButtonHideUnderline(
-          child: DropdownButton<GroupModel?>(
-            isExpanded: true,
-            underline: Container(),
-            dropdownColor: Colors.grey[800],
-            value: selectedGroup,
-            style: TextStyle(fontSize: 16, color: Colors.white),
-            icon: Icon(
-              Icons.expand_more,
-              color: AppColors.secondary,
-            ),
-            onChanged: onChanged,
-            items: groupsList.map<DropdownMenuItem<GroupModel?>>((value) {
-              return DropdownMenuItem(
-                value: value,
-                child: Text(value.groupName),
-              );
-            }).toList(),
-          ),
-        ),
-      ),
     );
   }
 }

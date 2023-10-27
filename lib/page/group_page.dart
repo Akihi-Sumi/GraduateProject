@@ -1,7 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_app/controller/group_message.dart';
+import 'package:graduate_app/models/message/message.dart';
 import 'package:graduate_app/page/group/send_message_page.dart';
+import 'package:graduate_app/widgets/message_bubble.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()
 class GroupRouterPage extends AutoRouter {
@@ -9,20 +13,37 @@ class GroupRouterPage extends AutoRouter {
 }
 
 @RoutePage()
-class GroupPage extends StatefulWidget {
+class GroupPage extends HookConsumerWidget {
   const GroupPage({Key? key}) : super(key: key);
 
   @override
-  State<GroupPage> createState() => _GroupPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final groupMessages =
+        ref.watch(groupMessageProvider).maybeWhen<List<Message>>(
+              data: (data) => data.toList(),
+              orElse: () => [],
+            );
 
-class _GroupPageState extends State<GroupPage> {
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Center(
-          child: Text("送られたメッセージを表示"),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 20),
+          child: Column(
+            children: groupMessages
+                .map(
+                  (messages) => Container(
+                    margin: EdgeInsets.only(bottom: 30),
+                    child: MessageBubble(
+                      message: messages,
+                      isSender: false,
+                      isEditor: false,
+                      changeEnable: false,
+                      sendToGroup: () {},
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
         ),
       ),
       floatingActionButton: Container(

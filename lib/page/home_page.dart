@@ -38,7 +38,7 @@ class HomePage extends HookConsumerWidget {
                       isSender: true,
                       isEditor: false,
                       changeEnable: false,
-                      execution: () {},
+                      sendToGroup: () {},
                     ),
                   ),
                 )

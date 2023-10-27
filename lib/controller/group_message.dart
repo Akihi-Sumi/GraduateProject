@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:graduate_app/models/group/group_model.dart';
 import 'package:graduate_app/models/message/message.dart';
 import 'package:graduate_app/repositories/group_message/group_message_repository_impl.dart';
 import 'package:graduate_app/utils/exceptions/exception.dart';
@@ -26,7 +25,7 @@ class SendMessageController extends AutoDisposeAsyncNotifier<void> {
 
   Future<void> sendMessage({
     required Message groupMessage,
-    required GroupModel group,
+    //required GroupModel group,
   }) async {
     final groupMessageRepository = ref.read(groupMessageRepositoryImplProvider);
 
@@ -39,11 +38,11 @@ class SendMessageController extends AutoDisposeAsyncNotifier<void> {
             message: "文章を入力してください",
           );
         }
-        if (group.groupId == 'id-unselected') {
-          throw const AppException(
-            message: "グループを選択してください",
-          );
-        }
+        // if (group.groupId == 'id-unselected') {
+        //   throw const AppException(
+        //     message: "グループを選択してください",
+        //   );
+        // }
 
         await groupMessageRepository.sendMessage(
           groupMessage: groupMessage,

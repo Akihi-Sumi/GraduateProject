@@ -10,7 +10,7 @@ class MessageBubble extends HookConsumerWidget {
   final Color color;
   final TextStyle textStyle;
   final bool changeEnable;
-  final void Function()? execution;
+  final void Function()? sendToGroup;
 
   final Message message;
 
@@ -27,7 +27,7 @@ class MessageBubble extends HookConsumerWidget {
       fontWeight: FontWeight.bold,
     ),
     required this.changeEnable,
-    required this.execution,
+    required this.sendToGroup,
   }) : super(key: key);
 
   ///chat bubble builder method
@@ -46,7 +46,7 @@ class MessageBubble extends HookConsumerWidget {
                           txt_cancel: "キャンセル",
                           txt_ok: "送信",
                           txt_snack: "メッセージを送信しました",
-                          exe: () {},
+                          exe: sendToGroup,
                         );
                       },
                     );

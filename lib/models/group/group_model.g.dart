@@ -17,6 +17,7 @@ _$GroupModelImpl _$$GroupModelImplFromJson(Map<String, dynamic> json) =>
       mods:
           (json['mods'] as List<dynamic>?)?.map((e) => e as String).toList() ??
               const <String>[],
+      createdAt: unionTimestampConverter.fromJson(json['createdAt'] as Object),
     );
 
 Map<String, dynamic> _$$GroupModelImplToJson(_$GroupModelImpl instance) =>
@@ -25,4 +26,5 @@ Map<String, dynamic> _$$GroupModelImplToJson(_$GroupModelImpl instance) =>
       'groupName': instance.groupName,
       'members': instance.members,
       'mods': instance.mods,
+      'createdAt': unionTimestampConverter.toJson(instance.createdAt),
     };

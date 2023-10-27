@@ -24,6 +24,8 @@ mixin _$GroupModel {
   String get groupName => throw _privateConstructorUsedError;
   List<String> get members => throw _privateConstructorUsedError;
   List<String> get mods => throw _privateConstructorUsedError;
+  @unionTimestampConverter
+  UnionTimestamp get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,7 +43,10 @@ abstract class $GroupModelCopyWith<$Res> {
       {String groupId,
       String groupName,
       List<String> members,
-      List<String> mods});
+      List<String> mods,
+      @unionTimestampConverter UnionTimestamp createdAt});
+
+  $UnionTimestampCopyWith<$Res> get createdAt;
 }
 
 /// @nodoc
@@ -61,6 +66,7 @@ class _$GroupModelCopyWithImpl<$Res, $Val extends GroupModel>
     Object? groupName = null,
     Object? members = null,
     Object? mods = null,
+    Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
       groupId: null == groupId
@@ -79,7 +85,19 @@ class _$GroupModelCopyWithImpl<$Res, $Val extends GroupModel>
           ? _value.mods
           : mods // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as UnionTimestamp,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UnionTimestampCopyWith<$Res> get createdAt {
+    return $UnionTimestampCopyWith<$Res>(_value.createdAt, (value) {
+      return _then(_value.copyWith(createdAt: value) as $Val);
+    });
   }
 }
 
@@ -95,7 +113,11 @@ abstract class _$$GroupModelImplCopyWith<$Res>
       {String groupId,
       String groupName,
       List<String> members,
-      List<String> mods});
+      List<String> mods,
+      @unionTimestampConverter UnionTimestamp createdAt});
+
+  @override
+  $UnionTimestampCopyWith<$Res> get createdAt;
 }
 
 /// @nodoc
@@ -113,6 +135,7 @@ class __$$GroupModelImplCopyWithImpl<$Res>
     Object? groupName = null,
     Object? members = null,
     Object? mods = null,
+    Object? createdAt = null,
   }) {
     return _then(_$GroupModelImpl(
       groupId: null == groupId
@@ -131,6 +154,10 @@ class __$$GroupModelImplCopyWithImpl<$Res>
           ? _value._mods
           : mods // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as UnionTimestamp,
     ));
   }
 }
@@ -142,7 +169,8 @@ class _$GroupModelImpl extends _GroupModel {
       {this.groupId = '',
       this.groupName = '',
       final List<String> members = const <String>[],
-      final List<String> mods = const <String>[]})
+      final List<String> mods = const <String>[],
+      @unionTimestampConverter required this.createdAt})
       : _members = members,
         _mods = mods,
         super._();
@@ -175,8 +203,12 @@ class _$GroupModelImpl extends _GroupModel {
   }
 
   @override
+  @unionTimestampConverter
+  final UnionTimestamp createdAt;
+
+  @override
   String toString() {
-    return 'GroupModel(groupId: $groupId, groupName: $groupName, members: $members, mods: $mods)';
+    return 'GroupModel(groupId: $groupId, groupName: $groupName, members: $members, mods: $mods, createdAt: $createdAt)';
   }
 
   @override
@@ -188,7 +220,9 @@ class _$GroupModelImpl extends _GroupModel {
             (identical(other.groupName, groupName) ||
                 other.groupName == groupName) &&
             const DeepCollectionEquality().equals(other._members, _members) &&
-            const DeepCollectionEquality().equals(other._mods, _mods));
+            const DeepCollectionEquality().equals(other._mods, _mods) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
@@ -198,7 +232,8 @@ class _$GroupModelImpl extends _GroupModel {
       groupId,
       groupName,
       const DeepCollectionEquality().hash(_members),
-      const DeepCollectionEquality().hash(_mods));
+      const DeepCollectionEquality().hash(_mods),
+      createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -216,10 +251,12 @@ class _$GroupModelImpl extends _GroupModel {
 
 abstract class _GroupModel extends GroupModel {
   const factory _GroupModel(
-      {final String groupId,
-      final String groupName,
-      final List<String> members,
-      final List<String> mods}) = _$GroupModelImpl;
+          {final String groupId,
+          final String groupName,
+          final List<String> members,
+          final List<String> mods,
+          @unionTimestampConverter required final UnionTimestamp createdAt}) =
+      _$GroupModelImpl;
   const _GroupModel._() : super._();
 
   factory _GroupModel.fromJson(Map<String, dynamic> json) =
@@ -233,6 +270,9 @@ abstract class _GroupModel extends GroupModel {
   List<String> get members;
   @override
   List<String> get mods;
+  @override
+  @unionTimestampConverter
+  UnionTimestamp get createdAt;
   @override
   @JsonKey(ignore: true)
   _$$GroupModelImplCopyWith<_$GroupModelImpl> get copyWith =>

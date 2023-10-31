@@ -13,10 +13,7 @@ class Message with _$Message {
     @Default('') String messageId,
     @Default('') String type,
     @Default('') String messageText,
-    @Default('') String groupName,
     @unionTimestampConverter required UnionTimestamp createdAt,
-    @alwaysUseServerTimestampUnionTimestampConverter
-    required UnionTimestamp updatedAt,
   }) = _Message;
 
   factory Message.fromJson(Map<String, dynamic> json) =>

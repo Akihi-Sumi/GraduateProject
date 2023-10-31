@@ -13,10 +13,8 @@ _$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
       messageId: json['messageId'] as String? ?? '',
       type: json['type'] as String? ?? '',
       messageText: json['messageText'] as String? ?? '',
-      groupName: json['groupName'] as String? ?? '',
+      isSendUser: json['isSendUser'] as bool? ?? true,
       createdAt: unionTimestampConverter.fromJson(json['createdAt'] as Object),
-      updatedAt: alwaysUseServerTimestampUnionTimestampConverter
-          .fromJson(json['updatedAt'] as Object),
     );
 
 Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) =>
@@ -26,8 +24,6 @@ Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) =>
       'messageId': instance.messageId,
       'type': instance.type,
       'messageText': instance.messageText,
-      'groupName': instance.groupName,
+      'isSendUser': instance.isSendUser,
       'createdAt': unionTimestampConverter.toJson(instance.createdAt),
-      'updatedAt': alwaysUseServerTimestampUnionTimestampConverter
-          .toJson(instance.updatedAt),
     };

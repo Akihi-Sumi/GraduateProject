@@ -6,15 +6,13 @@ class MyAlertDialog extends StatelessWidget {
     required this.title,
     required this.txt_cancel,
     required this.txt_ok,
-    required this.txt_snack,
-    required this.exe,
+    required this.onTap,
   }) : super(key: key);
 
   final String title;
   final String txt_cancel;
   final String txt_ok;
-  final String txt_snack;
-  final void Function()? exe;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -52,24 +50,7 @@ class MyAlertDialog extends StatelessWidget {
               ),
             ),
             InkWell(
-              onTap: () {
-                exe;
-
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      txt_snack,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    behavior: SnackBarBehavior.floating,
-                    margin: EdgeInsets.only(bottom: 70),
-                  ),
-                );
-
-                Navigator.pop(context);
-              },
+              onTap: onTap,
               child: Container(
                 height: size.height * 0.045,
                 width: size.width * 0.3,

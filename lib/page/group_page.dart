@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:graduate_app/controller/group_message.dart';
 import 'package:graduate_app/models/message/message.dart';
 import 'package:graduate_app/page/group/send_message_page.dart';
+import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
+import 'package:graduate_app/utils/extensions/date_time.dart';
 import 'package:graduate_app/widgets/message_bubble.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -24,25 +26,35 @@ class GroupPage extends HookConsumerWidget {
               orElse: () => [],
             );
 
+    final userId = ref.watch(authRepositoryImplProvider).currentUser?.uid;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 20),
           child: Column(
-            children: groupMessages
-                .map(
-                  (messages) => Container(
-                    margin: EdgeInsets.only(bottom: 30),
-                    child: MessageBubble(
-                      message: messages,
-                      isSender: false,
-                      isEditor: false,
-                      changeEnable: false,
-                      sendToGroup: () {},
-                    ),
+            children: groupMessages.map((messages) {
+              /// 自身のユーザーIDとメッセージのユーザーIDを比較
+              final isSender = userId == messages.userId;
+
+              return Container(
+                margin: EdgeInsets.only(bottom: 15),
+                child: GroupMessageBubble(
+                  message: messages,
+                  isSender: isSender,
+                  textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18.5,
+                    fontWeight: FontWeight.bold,
                   ),
-                )
-                .toList(),
+                  onLongPress: () {
+                    print("longPressed");
+                  },
+                  date: toIsoStringDateWithWeekDay(messages.createdAt.dateTime),
+                  time: to24HourNotationString(messages.createdAt.dateTime),
+                ),
+              );
+            }).toList(),
           ),
         ),
       ),

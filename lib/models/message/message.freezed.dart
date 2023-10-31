@@ -25,11 +25,9 @@ mixin _$Message {
   String get messageId => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   String get messageText => throw _privateConstructorUsedError;
-  String get groupName => throw _privateConstructorUsedError;
+  bool get isSendUser => throw _privateConstructorUsedError;
   @unionTimestampConverter
   UnionTimestamp get createdAt => throw _privateConstructorUsedError;
-  @alwaysUseServerTimestampUnionTimestampConverter
-  UnionTimestamp get updatedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,13 +45,10 @@ abstract class $MessageCopyWith<$Res> {
       String messageId,
       String type,
       String messageText,
-      String groupName,
-      @unionTimestampConverter UnionTimestamp createdAt,
-      @alwaysUseServerTimestampUnionTimestampConverter
-      UnionTimestamp updatedAt});
+      bool isSendUser,
+      @unionTimestampConverter UnionTimestamp createdAt});
 
   $UnionTimestampCopyWith<$Res> get createdAt;
-  $UnionTimestampCopyWith<$Res> get updatedAt;
 }
 
 /// @nodoc
@@ -74,9 +69,8 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
     Object? messageId = null,
     Object? type = null,
     Object? messageText = null,
-    Object? groupName = null,
+    Object? isSendUser = null,
     Object? createdAt = null,
-    Object? updatedAt = null,
   }) {
     return _then(_value.copyWith(
       userId: null == userId
@@ -99,17 +93,13 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
           ? _value.messageText
           : messageText // ignore: cast_nullable_to_non_nullable
               as String,
-      groupName: null == groupName
-          ? _value.groupName
-          : groupName // ignore: cast_nullable_to_non_nullable
-              as String,
+      isSendUser: null == isSendUser
+          ? _value.isSendUser
+          : isSendUser // ignore: cast_nullable_to_non_nullable
+              as bool,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as UnionTimestamp,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
               as UnionTimestamp,
     ) as $Val);
   }
@@ -119,14 +109,6 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
   $UnionTimestampCopyWith<$Res> get createdAt {
     return $UnionTimestampCopyWith<$Res>(_value.createdAt, (value) {
       return _then(_value.copyWith(createdAt: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $UnionTimestampCopyWith<$Res> get updatedAt {
-    return $UnionTimestampCopyWith<$Res>(_value.updatedAt, (value) {
-      return _then(_value.copyWith(updatedAt: value) as $Val);
     });
   }
 }
@@ -144,15 +126,11 @@ abstract class _$$MessageImplCopyWith<$Res> implements $MessageCopyWith<$Res> {
       String messageId,
       String type,
       String messageText,
-      String groupName,
-      @unionTimestampConverter UnionTimestamp createdAt,
-      @alwaysUseServerTimestampUnionTimestampConverter
-      UnionTimestamp updatedAt});
+      bool isSendUser,
+      @unionTimestampConverter UnionTimestamp createdAt});
 
   @override
   $UnionTimestampCopyWith<$Res> get createdAt;
-  @override
-  $UnionTimestampCopyWith<$Res> get updatedAt;
 }
 
 /// @nodoc
@@ -171,9 +149,8 @@ class __$$MessageImplCopyWithImpl<$Res>
     Object? messageId = null,
     Object? type = null,
     Object? messageText = null,
-    Object? groupName = null,
+    Object? isSendUser = null,
     Object? createdAt = null,
-    Object? updatedAt = null,
   }) {
     return _then(_$MessageImpl(
       userId: null == userId
@@ -196,17 +173,13 @@ class __$$MessageImplCopyWithImpl<$Res>
           ? _value.messageText
           : messageText // ignore: cast_nullable_to_non_nullable
               as String,
-      groupName: null == groupName
-          ? _value.groupName
-          : groupName // ignore: cast_nullable_to_non_nullable
-              as String,
+      isSendUser: null == isSendUser
+          ? _value.isSendUser
+          : isSendUser // ignore: cast_nullable_to_non_nullable
+              as bool,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as UnionTimestamp,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
               as UnionTimestamp,
     ));
   }
@@ -221,9 +194,8 @@ class _$MessageImpl extends _Message {
       this.messageId = '',
       this.type = '',
       this.messageText = '',
-      this.groupName = '',
-      @unionTimestampConverter required this.createdAt,
-      @alwaysUseServerTimestampUnionTimestampConverter required this.updatedAt})
+      this.isSendUser = true,
+      @unionTimestampConverter required this.createdAt})
       : super._();
 
   factory _$MessageImpl.fromJson(Map<String, dynamic> json) =>
@@ -246,17 +218,14 @@ class _$MessageImpl extends _Message {
   final String messageText;
   @override
   @JsonKey()
-  final String groupName;
+  final bool isSendUser;
   @override
   @unionTimestampConverter
   final UnionTimestamp createdAt;
-  @override
-  @alwaysUseServerTimestampUnionTimestampConverter
-  final UnionTimestamp updatedAt;
 
   @override
   String toString() {
-    return 'Message(userId: $userId, userName: $userName, messageId: $messageId, type: $type, messageText: $messageText, groupName: $groupName, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Message(userId: $userId, userName: $userName, messageId: $messageId, type: $type, messageText: $messageText, isSendUser: $isSendUser, createdAt: $createdAt)';
   }
 
   @override
@@ -272,18 +241,16 @@ class _$MessageImpl extends _Message {
             (identical(other.type, type) || other.type == type) &&
             (identical(other.messageText, messageText) ||
                 other.messageText == messageText) &&
-            (identical(other.groupName, groupName) ||
-                other.groupName == groupName) &&
+            (identical(other.isSendUser, isSendUser) ||
+                other.isSendUser == isSendUser) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, userId, userName, messageId,
-      type, messageText, groupName, createdAt, updatedAt);
+      type, messageText, isSendUser, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -301,15 +268,14 @@ class _$MessageImpl extends _Message {
 
 abstract class _Message extends Message {
   const factory _Message(
-      {final String userId,
-      final String userName,
-      final String messageId,
-      final String type,
-      final String messageText,
-      final String groupName,
-      @unionTimestampConverter required final UnionTimestamp createdAt,
-      @alwaysUseServerTimestampUnionTimestampConverter
-      required final UnionTimestamp updatedAt}) = _$MessageImpl;
+          {final String userId,
+          final String userName,
+          final String messageId,
+          final String type,
+          final String messageText,
+          final bool isSendUser,
+          @unionTimestampConverter required final UnionTimestamp createdAt}) =
+      _$MessageImpl;
   const _Message._() : super._();
 
   factory _Message.fromJson(Map<String, dynamic> json) = _$MessageImpl.fromJson;
@@ -325,13 +291,10 @@ abstract class _Message extends Message {
   @override
   String get messageText;
   @override
-  String get groupName;
+  bool get isSendUser;
   @override
   @unionTimestampConverter
   UnionTimestamp get createdAt;
-  @override
-  @alwaysUseServerTimestampUnionTimestampConverter
-  UnionTimestamp get updatedAt;
   @override
   @JsonKey(ignore: true)
   _$$MessageImplCopyWith<_$MessageImpl> get copyWith =>

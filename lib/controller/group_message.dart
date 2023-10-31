@@ -8,7 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 final groupMessageProvider = StreamProvider.autoDispose<List<Message>>((ref) {
   final groupMessages =
       ref.read(groupMessageRepositoryImplProvider).subscribeGroupMessages(
-            queryBuilder: (q) => q.orderBy('createdAt', descending: true),
+            queryBuilder: (q) => q.orderBy('createdAt', descending: false),
           );
 
   return groupMessages;

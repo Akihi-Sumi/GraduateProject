@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:graduate_app/widgets/myAlertDialog.dart';
@@ -58,10 +56,9 @@ class _SendLocationState extends State<SendLocation> {
                 title: "現在地を送信しますか？",
                 txt_cancel: "キャンセル",
                 txt_ok: "送信",
-                txt_snack: "現在地を送信しました",
-                exe: () {
+                onTap: () {
                   _getLocation();
-                  log(_locationMessage);
+                  print(_locationMessage);
                 },
               );
             },

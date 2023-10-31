@@ -10,7 +10,7 @@ final messagesProvider = StreamProvider.autoDispose<List<Message>>((ref) {
   final userId = ref.watch(authRepositoryImplProvider).currentUser!.uid;
   final messages = ref.read(messageRepositoryImplProvider).subscribeMessages(
         userId: userId,
-        queryBuilder: (q) => q.orderBy('updatedAt', descending: true),
+        queryBuilder: (q) => q.orderBy('createdAt', descending: false),
       );
   return messages;
 });

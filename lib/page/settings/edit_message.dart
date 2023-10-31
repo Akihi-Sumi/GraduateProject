@@ -219,8 +219,8 @@ class EditMessagePageState extends ConsumerState<EditMessagePage> {
                                       onTap: () async {
                                         await showActionDialog(
                                           context: context,
-                                          title: 'メッセージを削除',
-                                          content: 'メッセージを削除します。',
+                                          title: 'メッセージを削除しますか?',
+                                          buttonText: "はい",
                                           onPressed: () async {
                                             if (userId != null) {
                                               await ref
@@ -273,7 +273,6 @@ class EditMessagePageState extends ConsumerState<EditMessagePage> {
                     type: 'text',
                     messageText: useMessageController.value.text,
                     createdAt: UnionTimestamp.serverTimestamp(),
-                    updatedAt: UnionTimestamp.serverTimestamp(),
                   );
 
                   if (userId != null) {

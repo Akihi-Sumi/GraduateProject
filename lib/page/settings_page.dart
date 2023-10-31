@@ -98,8 +98,8 @@ class SettingsPage extends ConsumerWidget {
             onPressed: () async {
               await showActionDialog(
                 context: context,
-                title: 'ログアウト',
-                content: 'ログアウトしますか？',
+                title: 'ログアウトしますか？',
+                buttonText: "ログアウト",
                 onPressed: state.isLoading
                     ? null
                     : () async {

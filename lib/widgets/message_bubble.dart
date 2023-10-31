@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:graduate_app/models/message/message.dart';
-import 'package:graduate_app/widgets/myAlertDialog.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MessageBubble extends HookConsumerWidget {
   final bool isSender;
-  final bool isEditor;
   final bool tail;
   final Color color;
   final TextStyle textStyle;
   final bool changeEnable;
-  final void Function()? sendToGroup;
+  final VoidCallback exe;
 
   final Message message;
 
@@ -18,7 +16,6 @@ class MessageBubble extends HookConsumerWidget {
     Key? key,
     required this.message,
     required this.isSender,
-    required this.isEditor,
     this.color = Colors.orange,
     this.tail = true,
     this.textStyle = const TextStyle(
@@ -27,31 +24,14 @@ class MessageBubble extends HookConsumerWidget {
       fontWeight: FontWeight.bold,
     ),
     required this.changeEnable,
-    required this.sendToGroup,
+    required this.exe,
   }) : super(key: key);
 
   ///chat bubble builder method
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: isSender
-          ? () {
-              isEditor
-                  ? null
-                  : showDialog<void>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return MyAlertDialog(
-                          title: "メッセージを送信しますか？",
-                          txt_cancel: "キャンセル",
-                          txt_ok: "送信",
-                          txt_snack: "メッセージを送信しました",
-                          exe: sendToGroup,
-                        );
-                      },
-                    );
-            }
-          : null,
+      onTap: isSender ? exe : null,
       child: Align(
         alignment: isSender ? Alignment.topRight : Alignment.topLeft,
         child: Padding(
@@ -67,8 +47,8 @@ class MessageBubble extends HookConsumerWidget {
                 maxWidth: MediaQuery.of(context).size.width * .8,
               ),
               margin: isSender
-                  ? EdgeInsets.fromLTRB(20, 15, 25, 15)
-                  : EdgeInsets.fromLTRB(25, 15, 20, 15),
+                  ? EdgeInsets.fromLTRB(15, 15, 25, 15)
+                  : EdgeInsets.fromLTRB(20, 15, 25, 15),
               child: Stack(
                 children: <Widget>[
                   Padding(

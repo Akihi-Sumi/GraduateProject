@@ -34,25 +34,62 @@ Future<bool?> showAlertDialog({
 Future<bool?> showActionDialog({
   required BuildContext context,
   required String title,
-  required String content,
   required void Function()? onPressed,
+  required String buttonText,
 }) async {
   return showDialog(
     context: context,
-    builder: (context) => AlertDialog(
-      title: Text(title),
-      content: Text(content),
-      actions: <Widget>[
-        TextButton(
-          child: const Text('キャンセル'),
-          onPressed: () => Navigator.of(context).pop(),
+    builder: (context) {
+      return AlertDialog(
+        title: Text(title),
+        insetPadding: Measure.p_a16,
+        content: SizedBox(
+          width: 280,
         ),
-        TextButton(
-          onPressed: onPressed,
-          child: const Text('OK'),
-        ),
-      ],
-    ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 30),
+            child: TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(
+                "キャンセル",
+                style: TextStyles.p1(color: AppColors.baseLight),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(right: 20),
+            child: ElevatedButton(
+              onPressed: onPressed,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orangeAccent.shade700,
+                fixedSize: Size(130, 40),
+              ),
+              child: Text(
+                buttonText,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    },
+    // => AlertDialog(
+    //   title: Text(title),
+    //   actions: <Widget>[
+    //     TextButton(
+    //       child: const Text('キャンセル'),
+    //       onPressed: () => Navigator.of(context).pop(),
+    //     ),
+    //     TextButton(
+    //       onPressed: onPressed,
+    //       child: const Text('OK'),
+    //     ),
+    //   ],
+    // ),
   );
 }
 

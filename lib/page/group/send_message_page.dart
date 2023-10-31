@@ -4,6 +4,7 @@ import 'package:graduate_app/controller/group.dart';
 import 'package:graduate_app/controller/group_message.dart';
 import 'package:graduate_app/models/group/group_model.dart';
 import 'package:graduate_app/models/message/message.dart';
+import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
 import 'package:graduate_app/utils/async_value_error_dialog.dart';
 import 'package:graduate_app/utils/constants/app_colors.dart';
 import 'package:graduate_app/utils/constants/measure.dart';
@@ -56,7 +57,7 @@ class _SendMessagePageState extends ConsumerState<SendMessagePage> {
       });
     });
 
-    //final userId = ref.watch(authRepositoryImplProvider).currentUser?.uid;
+    final userId = ref.watch(authRepositoryImplProvider).currentUser?.uid;
     final appUserName = ref.watch(appUserFutureProvider).maybeWhen<String?>(
           data: (data) => data?.userName,
           orElse: () => null,
@@ -152,10 +153,9 @@ class _SendMessagePageState extends ConsumerState<SendMessagePage> {
                     final groupMessage = Message(
                       messageText: messageTextController.value.text,
                       type: 'text',
+                      userId: userId ?? '',
                       userName: appUserName ?? '',
-                      groupName: selectedGroup?.groupName ?? '',
                       createdAt: UnionTimestamp.serverTimestamp(),
-                      updatedAt: UnionTimestamp.serverTimestamp(),
                     );
                     await ref
                         .read(sendMessageControllerProvider.notifier)

@@ -38,7 +38,6 @@ class App extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
-      //routerDelegate: _appRouter.delegate(),
       routerConfig: _appRouter.config(),
       title: 'Emergency Messenger App',
       debugShowCheckedModeBanner: false,

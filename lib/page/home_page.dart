@@ -75,7 +75,6 @@ class HomePage extends HookConsumerWidget {
                     child: MessageBubble(
                       message: message,
                       isSender: true,
-                      //isUser: true,
                       changeEnable: false,
                       exe: () async {
                         await showActionDialog(

@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/controller/group.dart';
@@ -142,6 +141,8 @@ class _GroupPageState extends ConsumerState<GroupPage> {
                           /// 自身のユーザーIDとメッセージのユーザーIDを比較
                           final isSender = userId == messages.userId;
 
+                          // final isSelectGroup = messages.groupId == selectedGroup?.groupId || messages.groupId == "";
+
                           return Container(
                             margin: EdgeInsets.only(bottom: 15),
                             child: GroupMessageBubble(
@@ -180,6 +181,7 @@ class _GroupPageState extends ConsumerState<GroupPage> {
                   type: 'text',
                   userId: userId ?? '',
                   userName: appUserName ?? '',
+                  groupId: selectedGroup?.groupId ?? '',
                   createdAt: UnionTimestamp.serverTimestamp(),
                 );
                 await ref
@@ -193,128 +195,6 @@ class _GroupPageState extends ConsumerState<GroupPage> {
             ),
           ],
         ),
-        // floatingActionButton: Container(
-        //   height: 80,
-        //   width: 80,
-        //   padding: EdgeInsets.only(bottom: 10, right: 10),
-        //   child: FloatingActionButton(
-        //     backgroundColor: Colors.orange[700],
-        //     heroTag: "post",
-        //     onPressed: () => showModalBottomSheet(
-        //       context: context,
-        //       useRootNavigator: true,
-        //       builder: (builder) {
-        //         return SelectPostTypeSheet();
-        //       },
-        //       backgroundColor: Colors.grey[850],
-        //       shape: RoundedRectangleBorder(
-        //         borderRadius: BorderRadius.vertical(
-        //           top: Radius.circular(25.0),
-        //         ),
-        //       ),
-        //     ),
-        //     child: Icon(
-        //       Icons.add,
-        //       size: 50,
-        //     ),
-        //   ),
-        // ),
-        // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      ),
-    );
-  }
-}
-
-class SelectPostTypeSheet extends StatelessWidget {
-  const SelectPostTypeSheet({Key? key}) : super(key: key);
-
-  void navigateToType(BuildContext context, String type) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => SendMessagePage(type: type)));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    double cardHeightWidth = kIsWeb ? 360 : 120;
-    double iconSize = kIsWeb ? 120 : 60;
-
-    return SizedBox(
-      height: 180,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          GestureDetector(
-            child: SizedBox(
-              height: cardHeightWidth,
-              width: cardHeightWidth,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                color: Colors.black,
-                elevation: 16,
-                child: Center(
-                  child: Icon(
-                    Icons.add_comment,
-                    size: iconSize,
-                  ),
-                ),
-              ),
-            ),
-            onTap: () {
-              Navigator.of(context).pop();
-              // メッセージ作成画面orウィジェット
-              navigateToType(context, 'text');
-            },
-          ),
-          GestureDetector(
-            child: SizedBox(
-              height: cardHeightWidth,
-              width: cardHeightWidth,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                color: Colors.black,
-                elevation: 16,
-                child: Center(
-                  child: Icon(
-                    Icons.image,
-                    size: iconSize,
-                  ),
-                ),
-              ),
-            ),
-            onTap: () {
-              Navigator.of(context).pop();
-              // 画像選択画面orウィジェット
-            },
-          ),
-          GestureDetector(
-            child: SizedBox(
-              height: cardHeightWidth,
-              width: cardHeightWidth,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                color: Colors.black,
-                elevation: 16,
-                child: Center(
-                  child: Icon(
-                    Icons.add_a_photo,
-                    size: iconSize,
-                  ),
-                ),
-              ),
-            ),
-            onTap: () {
-              Navigator.of(context).pop();
-              // カメラ起動
-            },
-          ),
-        ],
       ),
     );
   }
@@ -335,15 +215,11 @@ class _MessageInputField extends HookConsumerWidget {
       children: [
         IconButton(
           onPressed: () {},
-          icon: Icon(Icons.add_a_photo),
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.image),
+          icon: Icon(Icons.add),
         ),
         Expanded(
           child: Container(
-            margin: const EdgeInsets.only(top: 8),
+            margin: const EdgeInsets.only(top: 8, bottom: 8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(16)),
               color: Colors.grey.shade300,
@@ -358,7 +234,7 @@ class _MessageInputField extends HookConsumerWidget {
                 contentPadding: const EdgeInsets.only(
                   left: 16,
                   right: 36,
-                  top: 12,
+                  top: 8,
                   bottom: 8,
                 ),
                 focusedBorder: InputBorder.none,
@@ -367,14 +243,16 @@ class _MessageInputField extends HookConsumerWidget {
                 disabledBorder: InputBorder.none,
                 hintText: 'メッセージを入力',
                 hintStyle: TextStyle(color: Colors.grey.shade600),
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.send),
-                  onPressed: sendMessage,
-                ),
-                suffixIconColor: Colors.orangeAccent.shade400,
               ),
             ),
           ),
+        ),
+        IconButton(
+          icon: Icon(
+            Icons.send,
+            color: Colors.orange.shade700,
+          ),
+          onPressed: sendMessage,
         ),
       ],
     );

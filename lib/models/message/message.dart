@@ -13,6 +13,7 @@ class Message with _$Message {
     @Default('') String messageId,
     @Default('') String type,
     @Default('') String messageText,
+    @Default('') String groupId,
     @unionTimestampConverter required UnionTimestamp createdAt,
   }) = _Message;
 

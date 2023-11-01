@@ -25,7 +25,6 @@ mixin _$Message {
   String get messageId => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   String get messageText => throw _privateConstructorUsedError;
-  bool get isSendUser => throw _privateConstructorUsedError;
   @unionTimestampConverter
   UnionTimestamp get createdAt => throw _privateConstructorUsedError;
 
@@ -45,7 +44,6 @@ abstract class $MessageCopyWith<$Res> {
       String messageId,
       String type,
       String messageText,
-      bool isSendUser,
       @unionTimestampConverter UnionTimestamp createdAt});
 
   $UnionTimestampCopyWith<$Res> get createdAt;
@@ -69,7 +67,6 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
     Object? messageId = null,
     Object? type = null,
     Object? messageText = null,
-    Object? isSendUser = null,
     Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
@@ -93,10 +90,6 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
           ? _value.messageText
           : messageText // ignore: cast_nullable_to_non_nullable
               as String,
-      isSendUser: null == isSendUser
-          ? _value.isSendUser
-          : isSendUser // ignore: cast_nullable_to_non_nullable
-              as bool,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -126,7 +119,6 @@ abstract class _$$MessageImplCopyWith<$Res> implements $MessageCopyWith<$Res> {
       String messageId,
       String type,
       String messageText,
-      bool isSendUser,
       @unionTimestampConverter UnionTimestamp createdAt});
 
   @override
@@ -149,7 +141,6 @@ class __$$MessageImplCopyWithImpl<$Res>
     Object? messageId = null,
     Object? type = null,
     Object? messageText = null,
-    Object? isSendUser = null,
     Object? createdAt = null,
   }) {
     return _then(_$MessageImpl(
@@ -173,10 +164,6 @@ class __$$MessageImplCopyWithImpl<$Res>
           ? _value.messageText
           : messageText // ignore: cast_nullable_to_non_nullable
               as String,
-      isSendUser: null == isSendUser
-          ? _value.isSendUser
-          : isSendUser // ignore: cast_nullable_to_non_nullable
-              as bool,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -194,7 +181,6 @@ class _$MessageImpl extends _Message {
       this.messageId = '',
       this.type = '',
       this.messageText = '',
-      this.isSendUser = true,
       @unionTimestampConverter required this.createdAt})
       : super._();
 
@@ -217,15 +203,12 @@ class _$MessageImpl extends _Message {
   @JsonKey()
   final String messageText;
   @override
-  @JsonKey()
-  final bool isSendUser;
-  @override
   @unionTimestampConverter
   final UnionTimestamp createdAt;
 
   @override
   String toString() {
-    return 'Message(userId: $userId, userName: $userName, messageId: $messageId, type: $type, messageText: $messageText, isSendUser: $isSendUser, createdAt: $createdAt)';
+    return 'Message(userId: $userId, userName: $userName, messageId: $messageId, type: $type, messageText: $messageText, createdAt: $createdAt)';
   }
 
   @override
@@ -241,16 +224,14 @@ class _$MessageImpl extends _Message {
             (identical(other.type, type) || other.type == type) &&
             (identical(other.messageText, messageText) ||
                 other.messageText == messageText) &&
-            (identical(other.isSendUser, isSendUser) ||
-                other.isSendUser == isSendUser) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, userId, userName, messageId,
-      type, messageText, isSendUser, createdAt);
+  int get hashCode => Object.hash(
+      runtimeType, userId, userName, messageId, type, messageText, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -273,7 +254,6 @@ abstract class _Message extends Message {
           final String messageId,
           final String type,
           final String messageText,
-          final bool isSendUser,
           @unionTimestampConverter required final UnionTimestamp createdAt}) =
       _$MessageImpl;
   const _Message._() : super._();
@@ -290,8 +270,6 @@ abstract class _Message extends Message {
   String get type;
   @override
   String get messageText;
-  @override
-  bool get isSendUser;
   @override
   @unionTimestampConverter
   UnionTimestamp get createdAt;

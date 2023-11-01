@@ -5,6 +5,7 @@ import 'package:graduate_app/controller/group_message.dart';
 import 'package:graduate_app/models/message/message.dart';
 import 'package:graduate_app/page/group/send_message_page.dart';
 import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
+import 'package:graduate_app/utils/extensions/date_time.dart';
 import 'package:graduate_app/widgets/message_bubble.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -33,20 +34,24 @@ class GroupPage extends HookConsumerWidget {
           padding: const EdgeInsets.only(top: 20),
           child: Column(
             children: groupMessages.map((messages) {
+              /// 自身のユーザーIDとメッセージのユーザーIDを比較
               final isSender = userId == messages.userId;
 
               return Container(
-                margin: EdgeInsets.only(bottom: 30),
-                child: MessageBubble(
+                margin: EdgeInsets.only(bottom: 15),
+                child: GroupMessageBubble(
                   message: messages,
                   isSender: isSender,
-                  //isUser: false,
-                  changeEnable: false,
-                  exe: () {
-                    print(isSender);
-                    print(userId);
-                    print(messages.userId);
+                  textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18.5,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  onLongPress: () {
+                    print("longPressed");
                   },
+                  date: toIsoStringDateWithWeekDay(messages.createdAt.dateTime),
+                  time: to24HourNotationString(messages.createdAt.dateTime),
                 ),
               );
             }).toList(),

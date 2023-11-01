@@ -163,7 +163,11 @@ class EditMessagePageState extends ConsumerState<EditMessagePage> {
                       margin: EdgeInsets.only(bottom: 30),
                       child: EditMessageBubble(
                         message: msg,
-                        isSender: true,
+                        textStyle: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
                         onLongPress: () {
                           showModalBottomSheet(
                             context: context,

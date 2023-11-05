@@ -8,9 +8,9 @@ import 'package:graduate_app/widgets/my_drawer.dart';
 class RootPage extends StatelessWidget {
   const RootPage({super.key});
 
-  void displayDrawer(BuildContext context) {
-    Scaffold.of(context).openDrawer();
-  }
+  // void displayDrawer(BuildContext context) {
+  //   Scaffold.of(context).openDrawer();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class RootPage extends StatelessWidget {
       routes: const [
         HomeRouterRoute(),
         SearchRouterRoute(),
-        GroupRouterRoute(),
+        GroupRoute(),
       ],
       transitionBuilder: (context, child, animation) {
         return AnimatedBuilder(
@@ -41,23 +41,24 @@ class RootPage extends StatelessWidget {
                 ),
               ),
               centerTitle: true,
-              leading: Builder(
-                builder: (context) {
-                  return IconButton(
-                    icon: Icon(Icons.menu),
-                    onPressed: () => displayDrawer(context),
-                  );
-                },
+              leading: AutoLeadingButton(
+                showIfChildCanPop: false,
               ),
               backgroundColor: Colors.black,
             ),
           ),
-          drawer: MyDrawer(
+          // drawer: MyDrawer(
+          //   toSettings: () {
+          //     Navigator.of(context).pop();
+          //     context.navigateTo(SettingsRouterRoute());
+          //   },
+          // ),
+          drawer: Drawer(child: MyDrawer(
             toSettings: () {
               Navigator.of(context).pop();
               context.navigateTo(SettingsRouterRoute());
             },
-          ),
+          )),
           body: child,
           bottomNavigationBar: RootNavigationBar(tabsRouter: tabsRouter),
         );

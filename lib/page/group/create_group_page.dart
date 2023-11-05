@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:graduate_app/controller/group.dart';
+import 'package:graduate_app/controllers/group/group.dart';
 import 'package:graduate_app/models/group/group_model.dart';
 import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
 import 'package:graduate_app/utils/async_value_error_dialog.dart';
@@ -19,23 +19,6 @@ class CreateGroupPage extends StatefulHookConsumerWidget {
 }
 
 class _CreateGroupPageState extends ConsumerState<CreateGroupPage> {
-  // final groupNameController = TextEditingController();
-
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   groupNameController.dispose();
-  // }
-
-  // void createGroup() {
-  //   ref.read(groupControllerProvider.notifier).createGroup(
-  //         groupNameController.text.trim(),
-  //         context,
-  //       );
-
-  //   groupNameController.clear();
-  // }
-
   @override
   Widget build(BuildContext context) {
     ref.listen(createGroupControllerProvider, (_, state) async {
@@ -100,9 +83,11 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage> {
                       final group = GroupModel(
                         groupId: useGroupNameController.value.text,
                         groupName: useGroupNameController.value.text,
+                        createUserId: userId,
                         members: [userId],
                         mods: [userId],
                         createdAt: UnionTimestamp.serverTimestamp(),
+                        updatedAt: UnionTimestamp.serverTimestamp(),
                       );
 
                       await ref

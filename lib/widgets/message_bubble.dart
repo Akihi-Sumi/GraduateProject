@@ -62,7 +62,7 @@ class MessageBubble extends HookConsumerWidget {
                             ),
                           )
                         : Text(
-                            message.messageText,
+                            message.content,
                             style: textStyle,
                           ),
                   ),
@@ -116,7 +116,7 @@ class EditMessageBubble extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           vertical: 0, horizontal: 0),
                       child: Text(
-                        message.messageText,
+                        message.content,
                         style: textStyle,
                       ),
                     ),
@@ -138,8 +138,6 @@ class GroupMessageBubble extends StatelessWidget {
     required this.isSender,
     required this.textStyle,
     required this.onLongPress,
-    required this.date,
-    required this.time,
     this.tail = true,
   }) : super(key: key);
 
@@ -148,8 +146,6 @@ class GroupMessageBubble extends StatelessWidget {
 
   final TextStyle textStyle;
   final void Function()? onLongPress;
-  final String date;
-  final String time;
   final bool tail;
 
   @override
@@ -162,18 +158,6 @@ class GroupMessageBubble extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 17),
-              child: Column(
-                children: [
-                  Text(
-                    date,
-                    style: TextStyle(fontSize: 12.5),
-                  ),
-                  Text(
-                    time,
-                    style: TextStyle(fontSize: 12.5),
-                  ),
-                ],
-              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
@@ -193,7 +177,7 @@ class GroupMessageBubble extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             vertical: 0, horizontal: 0),
                         child: Text(
-                          message.messageText,
+                          message.content,
                           style: textStyle,
                         ),
                       ),
@@ -229,7 +213,7 @@ class GroupMessageBubble extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             vertical: 0, horizontal: 0),
                         child: Text(
-                          message.messageText,
+                          message.content,
                           style: textStyle,
                         ),
                       ),
@@ -240,18 +224,7 @@ class GroupMessageBubble extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 17),
-              child: Column(
-                children: [
-                  Text(
-                    date,
-                    style: TextStyle(fontSize: 12.5),
-                  ),
-                  Text(
-                    time,
-                    style: TextStyle(fontSize: 12.5),
-                  ),
-                ],
-              ),
+              child: Column(),
             ),
           ],
         ),

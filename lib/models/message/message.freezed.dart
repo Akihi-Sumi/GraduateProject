@@ -20,14 +20,15 @@ Message _$MessageFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Message {
-  String get userId => throw _privateConstructorUsedError;
-  String get userName => throw _privateConstructorUsedError;
   String get messageId => throw _privateConstructorUsedError;
-  String get type => throw _privateConstructorUsedError;
-  String get messageText => throw _privateConstructorUsedError;
-  String get groupId => throw _privateConstructorUsedError;
+  String get senderId => throw _privateConstructorUsedError;
+  String get content => throw _privateConstructorUsedError;
+  List<String> get imageUrls => throw _privateConstructorUsedError;
+  bool get isDeleted => throw _privateConstructorUsedError;
   @unionTimestampConverter
-  UnionTimestamp get createdAt => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  @alwaysUseServerTimestampUnionTimestampConverter
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,15 +41,13 @@ abstract class $MessageCopyWith<$Res> {
       _$MessageCopyWithImpl<$Res, Message>;
   @useResult
   $Res call(
-      {String userId,
-      String userName,
-      String messageId,
-      String type,
-      String messageText,
-      String groupId,
-      @unionTimestampConverter UnionTimestamp createdAt});
-
-  $UnionTimestampCopyWith<$Res> get createdAt;
+      {String messageId,
+      String senderId,
+      String content,
+      List<String> imageUrls,
+      bool isDeleted,
+      @unionTimestampConverter DateTime? createdAt,
+      @alwaysUseServerTimestampUnionTimestampConverter DateTime? updatedAt});
 }
 
 /// @nodoc
@@ -64,52 +63,44 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userId = null,
-    Object? userName = null,
     Object? messageId = null,
-    Object? type = null,
-    Object? messageText = null,
-    Object? groupId = null,
-    Object? createdAt = null,
+    Object? senderId = null,
+    Object? content = null,
+    Object? imageUrls = null,
+    Object? isDeleted = null,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_value.copyWith(
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-      userName: null == userName
-          ? _value.userName
-          : userName // ignore: cast_nullable_to_non_nullable
-              as String,
       messageId: null == messageId
           ? _value.messageId
           : messageId // ignore: cast_nullable_to_non_nullable
               as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
+      senderId: null == senderId
+          ? _value.senderId
+          : senderId // ignore: cast_nullable_to_non_nullable
               as String,
-      messageText: null == messageText
-          ? _value.messageText
-          : messageText // ignore: cast_nullable_to_non_nullable
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
               as String,
-      groupId: null == groupId
-          ? _value.groupId
-          : groupId // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
+      imageUrls: null == imageUrls
+          ? _value.imageUrls
+          : imageUrls // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      isDeleted: null == isDeleted
+          ? _value.isDeleted
+          : isDeleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as UnionTimestamp,
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $UnionTimestampCopyWith<$Res> get createdAt {
-    return $UnionTimestampCopyWith<$Res>(_value.createdAt, (value) {
-      return _then(_value.copyWith(createdAt: value) as $Val);
-    });
   }
 }
 
@@ -121,16 +112,13 @@ abstract class _$$MessageImplCopyWith<$Res> implements $MessageCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String userId,
-      String userName,
-      String messageId,
-      String type,
-      String messageText,
-      String groupId,
-      @unionTimestampConverter UnionTimestamp createdAt});
-
-  @override
-  $UnionTimestampCopyWith<$Res> get createdAt;
+      {String messageId,
+      String senderId,
+      String content,
+      List<String> imageUrls,
+      bool isDeleted,
+      @unionTimestampConverter DateTime? createdAt,
+      @alwaysUseServerTimestampUnionTimestampConverter DateTime? updatedAt});
 }
 
 /// @nodoc
@@ -144,43 +132,43 @@ class __$$MessageImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userId = null,
-    Object? userName = null,
     Object? messageId = null,
-    Object? type = null,
-    Object? messageText = null,
-    Object? groupId = null,
-    Object? createdAt = null,
+    Object? senderId = null,
+    Object? content = null,
+    Object? imageUrls = null,
+    Object? isDeleted = null,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_$MessageImpl(
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-      userName: null == userName
-          ? _value.userName
-          : userName // ignore: cast_nullable_to_non_nullable
-              as String,
       messageId: null == messageId
           ? _value.messageId
           : messageId // ignore: cast_nullable_to_non_nullable
               as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
+      senderId: null == senderId
+          ? _value.senderId
+          : senderId // ignore: cast_nullable_to_non_nullable
               as String,
-      messageText: null == messageText
-          ? _value.messageText
-          : messageText // ignore: cast_nullable_to_non_nullable
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
               as String,
-      groupId: null == groupId
-          ? _value.groupId
-          : groupId // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
+      imageUrls: null == imageUrls
+          ? _value._imageUrls
+          : imageUrls // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      isDeleted: null == isDeleted
+          ? _value.isDeleted
+          : isDeleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as UnionTimestamp,
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -189,43 +177,50 @@ class __$$MessageImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$MessageImpl extends _Message {
   const _$MessageImpl(
-      {this.userId = '',
-      this.userName = '',
-      this.messageId = '',
-      this.type = '',
-      this.messageText = '',
-      this.groupId = '',
-      @unionTimestampConverter required this.createdAt})
-      : super._();
+      {this.messageId = '',
+      this.senderId = '',
+      this.content = '',
+      final List<String> imageUrls = const <String>[],
+      this.isDeleted = false,
+      @unionTimestampConverter this.createdAt,
+      @alwaysUseServerTimestampUnionTimestampConverter this.updatedAt})
+      : _imageUrls = imageUrls,
+        super._();
 
   factory _$MessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$MessageImplFromJson(json);
 
   @override
   @JsonKey()
-  final String userId;
-  @override
-  @JsonKey()
-  final String userName;
-  @override
-  @JsonKey()
   final String messageId;
   @override
   @JsonKey()
-  final String type;
+  final String senderId;
   @override
   @JsonKey()
-  final String messageText;
+  final String content;
+  final List<String> _imageUrls;
   @override
   @JsonKey()
-  final String groupId;
+  List<String> get imageUrls {
+    if (_imageUrls is EqualUnmodifiableListView) return _imageUrls;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_imageUrls);
+  }
+
+  @override
+  @JsonKey()
+  final bool isDeleted;
   @override
   @unionTimestampConverter
-  final UnionTimestamp createdAt;
+  final DateTime? createdAt;
+  @override
+  @alwaysUseServerTimestampUnionTimestampConverter
+  final DateTime? updatedAt;
 
   @override
   String toString() {
-    return 'Message(userId: $userId, userName: $userName, messageId: $messageId, type: $type, messageText: $messageText, groupId: $groupId, createdAt: $createdAt)';
+    return 'Message(messageId: $messageId, senderId: $senderId, content: $content, imageUrls: $imageUrls, isDeleted: $isDeleted, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -233,23 +228,32 @@ class _$MessageImpl extends _Message {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MessageImpl &&
-            (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.userName, userName) ||
-                other.userName == userName) &&
             (identical(other.messageId, messageId) ||
                 other.messageId == messageId) &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.messageText, messageText) ||
-                other.messageText == messageText) &&
-            (identical(other.groupId, groupId) || other.groupId == groupId) &&
+            (identical(other.senderId, senderId) ||
+                other.senderId == senderId) &&
+            (identical(other.content, content) || other.content == content) &&
+            const DeepCollectionEquality()
+                .equals(other._imageUrls, _imageUrls) &&
+            (identical(other.isDeleted, isDeleted) ||
+                other.isDeleted == isDeleted) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, userId, userName, messageId,
-      type, messageText, groupId, createdAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      messageId,
+      senderId,
+      content,
+      const DeepCollectionEquality().hash(_imageUrls),
+      isDeleted,
+      createdAt,
+      updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -267,33 +271,34 @@ class _$MessageImpl extends _Message {
 
 abstract class _Message extends Message {
   const factory _Message(
-          {final String userId,
-          final String userName,
-          final String messageId,
-          final String type,
-          final String messageText,
-          final String groupId,
-          @unionTimestampConverter required final UnionTimestamp createdAt}) =
-      _$MessageImpl;
+      {final String messageId,
+      final String senderId,
+      final String content,
+      final List<String> imageUrls,
+      final bool isDeleted,
+      @unionTimestampConverter final DateTime? createdAt,
+      @alwaysUseServerTimestampUnionTimestampConverter
+      final DateTime? updatedAt}) = _$MessageImpl;
   const _Message._() : super._();
 
   factory _Message.fromJson(Map<String, dynamic> json) = _$MessageImpl.fromJson;
 
   @override
-  String get userId;
-  @override
-  String get userName;
-  @override
   String get messageId;
   @override
-  String get type;
+  String get senderId;
   @override
-  String get messageText;
+  String get content;
   @override
-  String get groupId;
+  List<String> get imageUrls;
+  @override
+  bool get isDeleted;
   @override
   @unionTimestampConverter
-  UnionTimestamp get createdAt;
+  DateTime? get createdAt;
+  @override
+  @alwaysUseServerTimestampUnionTimestampConverter
+  DateTime? get updatedAt;
   @override
   @JsonKey(ignore: true)
   _$$MessageImplCopyWith<_$MessageImpl> get copyWith =>

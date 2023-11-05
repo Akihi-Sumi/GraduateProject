@@ -13,9 +13,11 @@ final groupMessageRepositoryImplProvider = Provider<GroupMessageRepositoryImpl>(
 class GroupMessageRepositoryImpl implements GroupMessageRepository {
   @override
   Future<Message?> fetchGroupMessage({
+    required String groupId,
     required String messageId,
   }) async {
-    final ds = await groupMessageRef(messageId: messageId).get();
+    final ds =
+        await groupMessageRef(groupId: groupId, messageId: messageId).get();
 
     if (!ds.exists) {
       logger.warning("Document not found: ${ds.reference.path}");
@@ -26,10 +28,11 @@ class GroupMessageRepositoryImpl implements GroupMessageRepository {
 
   @override
   Stream<List<Message>> subscribeGroupMessages({
+    required String groupId,
     Query<Message>? Function(Query<Message> query)? queryBuilder,
     int Function(Message lhs, Message rhs)? compare,
   }) {
-    Query<Message> query = groupMessagesRef;
+    Query<Message> query = groupMessagesRef(groupId: groupId);
 
     if (queryBuilder != null) {
       query = queryBuilder(query)!;
@@ -48,17 +51,19 @@ class GroupMessageRepositoryImpl implements GroupMessageRepository {
 
   @override
   Future<void> sendMessage({
+    required String groupId,
     required Message groupMessage,
   }) async {
-    await groupMessagesRef.add(groupMessage);
+    await groupMessagesRef(groupId: groupId).add(groupMessage);
   }
 
   @override
   Future<void> updateGroupMessage({
+    required String groupId,
     required String messageId,
     required Message groupMessage,
   }) async {
-    await groupMessagesRef.doc(messageId).set(
+    await groupMessagesRef(groupId: groupId).doc(messageId).set(
           groupMessage,
           SetOptions(merge: true),
         );
@@ -66,9 +71,10 @@ class GroupMessageRepositoryImpl implements GroupMessageRepository {
 
   @override
   Future<void> deleteGroupMessage({
+    required String groupId,
     required String messageId,
     required Message groupMessage,
   }) async {
-    await groupMessagesRef.doc(messageId).delete();
+    await groupMessagesRef(groupId: groupId).doc(messageId).delete();
   }
 }

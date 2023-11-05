@@ -1,13 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:graduate_app/controller/app_user.dart';
+import 'package:graduate_app/controller/group.dart';
 import 'package:graduate_app/controller/group_message.dart';
 import 'package:graduate_app/controller/message.dart';
 import 'package:graduate_app/models/message/message.dart';
 import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
 import 'package:graduate_app/utils/async_value_error_dialog.dart';
 import 'package:graduate_app/utils/dialog.dart';
-import 'package:graduate_app/utils/json_converters/union_timestamp.dart';
 import 'package:graduate_app/utils/loading.dart';
 import 'package:graduate_app/utils/scaffold_messenger_service.dart';
 import 'package:graduate_app/widgets/message_bubble.dart';
@@ -58,10 +57,11 @@ class HomePage extends HookConsumerWidget {
         );
 
     final userId = ref.watch(authRepositoryImplProvider).currentUser?.uid;
-    final appUserName = ref.watch(appUserFutureProvider).maybeWhen<String?>(
-          data: (data) => data?.userName,
-          orElse: () => null,
-        );
+
+    final groupId = ref
+        .watch(groupsStreamProvider)
+        .maybeWhen(data: (data) => data.map((e) => e.groupId), orElse: () => '')
+        .toString();
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -87,22 +87,17 @@ class HomePage extends HookConsumerWidget {
                                 .update((state) => true);
 
                             final groupMessage = Message(
-                              messageText: message.messageText,
-                              type: 'text',
-                              userId: userId ?? '',
-                              userName: appUserName ?? '',
-                              createdAt: UnionTimestamp.serverTimestamp(),
+                              content: message.content,
+                              senderId: userId ?? '',
+                              createdAt: DateTime.now(),
                             );
 
                             await ref
                                 .read(sendMessageControllerProvider.notifier)
                                 .sendMessage(
+                                  groupId: groupId,
                                   groupMessage: groupMessage,
                                 );
-
-                            // if (context.mounted) {
-                            //   Navigator.of(context).pop();
-                            // }
                           },
                         );
                       },

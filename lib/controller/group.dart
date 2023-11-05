@@ -5,9 +5,15 @@ import 'package:graduate_app/repositories/group/group_repository_impl.dart';
 import 'package:graduate_app/utils/exceptions/exception.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final groupsProvider = StreamProvider.autoDispose<List<GroupModel>>((ref) {
+final groupsProvider = FutureProvider.family.autoDispose<GroupModel?, String>(
+  (ref, groupId) =>
+      ref.watch(groupRepositoryImplProvider).fetchGroup(groupId: groupId),
+);
+
+final groupsStreamProvider =
+    StreamProvider.autoDispose<List<GroupModel>>((ref) {
   final groups = ref.read(groupRepositoryImplProvider).subscribeGroups(
-        queryBuilder: (q) => q.orderBy('createdAt', descending: true),
+        queryBuilder: (q) => q.orderBy('updatedAt', descending: true),
       );
   return groups;
 });

@@ -14,4 +14,14 @@ abstract class GroupRepository {
   Future<void> createGroup({
     required GroupModel group,
   });
+
+  Future<void> joinGroup({
+    required String groupId,
+    required String userId,
+  });
+
+  Future<void> leaveGroup({
+    required String groupId,
+    required String userId,
+  });
 }

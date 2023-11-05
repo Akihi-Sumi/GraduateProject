@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:graduate_app/page/group/group_chat_page.dart';
 import 'package:graduate_app/router/app_router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Page,Route')
@@ -50,16 +51,9 @@ class AppRouter extends $AppRouter {
                   ],
                 ),
                 AutoRoute(
-                  path: 'group',
-                  page: GroupRouterRoute.page,
+                  //initial: true,
+                  page: GroupRoute.page,
                   title: (ctx, _) => "グループ",
-                  children: [
-                    AutoRoute(
-                      initial: true,
-                      page: GroupRoute.page,
-                      title: (ctx, _) => "グループ",
-                    ),
-                  ],
                 ),
               ],
             ),
@@ -88,6 +82,10 @@ class AppRouter extends $AppRouter {
                   title: (ctx, _) => "防災グッズ リスト",
                 ),
               ],
+            ),
+            AutoRoute(
+              path: GroupChatPage.path,
+              page: GroupChatRoute.page,
             ),
           ],
         ),

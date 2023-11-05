@@ -6,7 +6,6 @@ import 'package:graduate_app/models/message/message.dart';
 import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
 import 'package:graduate_app/utils/async_value_error_dialog.dart';
 import 'package:graduate_app/utils/dialog.dart';
-import 'package:graduate_app/utils/json_converters/union_timestamp.dart';
 import 'package:graduate_app/utils/loading.dart';
 import 'package:graduate_app/utils/scaffold_messenger_service.dart';
 import 'package:graduate_app/widgets/message_bubble.dart';
@@ -185,14 +184,13 @@ class EditMessagePageState extends ConsumerState<EditMessagePage> {
                                         style: TextStyle(fontSize: 28),
                                       ),
                                       onTap: () async {
-                                        useReNameController.text =
-                                            msg.messageText;
+                                        useReNameController.text = msg.content;
                                         await editMessageDialog(
                                           context,
                                           useReNameController,
                                           onPressed: () async {
                                             final message = msg.copyWith(
-                                                messageText: useReNameController
+                                                content: useReNameController
                                                     .value.text);
 
                                             if (userId != null) {
@@ -274,9 +272,8 @@ class EditMessagePageState extends ConsumerState<EditMessagePage> {
                       .update((state) => true);
 
                   final message = Message(
-                    type: 'text',
-                    messageText: useMessageController.value.text,
-                    createdAt: UnionTimestamp.serverTimestamp(),
+                    content: useMessageController.value.text,
+                    createdAt: DateTime.now(),
                   );
 
                   if (userId != null) {

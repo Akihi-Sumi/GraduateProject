@@ -52,4 +52,24 @@ class GroupRepositoryImpl implements GroupRepository {
   }) async {
     await groupsRef.add(group);
   }
+
+  @override
+  Future<void> joinGroup({
+    required String groupId,
+    required String userId,
+  }) async {
+    await groupRef(groupId: groupId).update({
+      'members': FieldValue.arrayUnion([userId])
+    });
+  }
+
+  @override
+  Future<void> leaveGroup({
+    required String groupId,
+    required String userId,
+  }) async {
+    await groupRef(groupId: groupId).update({
+      'members': FieldValue.arrayRemove([userId])
+    });
+  }
 }

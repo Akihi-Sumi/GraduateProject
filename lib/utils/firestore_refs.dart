@@ -63,13 +63,17 @@ DocumentReference<GroupModel> groupRef({
     groupsRef.doc(groupId);
 
 /// groupMessagesコレクション
-final groupMessagesRef = _db.collection('groupMessages').withConverter(
-      fromFirestore: (ds, _) => Message.fromDocumentSnapshot(ds),
-      toFirestore: (obj, _) => obj.toJson(),
-    );
+CollectionReference<Message> groupMessagesRef({
+  required String groupId,
+}) =>
+    groupRef(groupId: groupId).collection('groupMessages').withConverter(
+          fromFirestore: (ds, _) => Message.fromDocumentSnapshot(ds),
+          toFirestore: (obj, _) => obj.toJson(),
+        );
 
 /// groupMessageドキュメント
 DocumentReference<Message> groupMessageRef({
+  required String groupId,
   required String messageId,
 }) =>
-    groupMessagesRef.doc(messageId);
+    groupMessagesRef(groupId: groupId).doc(messageId);

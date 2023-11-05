@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/controller/group.dart';
 import 'package:graduate_app/page/group/create_group_page.dart';
-import 'package:graduate_app/page/group/send_message_page.dart';
 import 'package:graduate_app/utils/loading.dart';
 import 'package:graduate_app/widgets/imitation_list_tile.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -43,7 +42,7 @@ class MyDrawer extends HookConsumerWidget {
                 leading: Icon(Icons.group, color: Colors.white),
                 iconColor: Colors.white,
                 children: <Widget>[
-                  ref.watch(groupsProvider).when(
+                  ref.watch(groupsStreamProvider).when(
                         data: (groups) =>
                             // Expanded(
                             //   child:
@@ -116,6 +115,19 @@ class MyAccountIcon extends StatelessWidget {
           },
         ),
       ],
+    );
+  }
+}
+
+class ErrorText extends StatelessWidget {
+  const ErrorText({Key? key, required this.error}) : super(key: key);
+
+  final String error;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(error),
     );
   }
 }

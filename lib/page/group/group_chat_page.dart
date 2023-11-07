@@ -94,7 +94,7 @@ class _GroupChatPageState extends ConsumerState<GroupChatPage> {
                   Expanded(
                     child: ListView.builder(
                       itemCount: state.readGroupMessages.length,
-                      reverse: true,
+                      //reverse: false,
                       // controller: _scrollController,
                       itemBuilder: (context, index) {
                         final readGroupMessage = state.readGroupMessages[index];

@@ -54,4 +54,22 @@ class SendMessageController extends AutoDisposeAsyncNotifier<void> {
       }
     });
   }
+
+  Future<void> sendMessageAllGroup({
+    required List<String> groupId,
+    required Message groupMessage,
+  }) async {
+    final groupMessageRepo = ref.read(groupMessageRepositoryImplProvider);
+
+    state = const AsyncLoading();
+
+    state = await AsyncValue.guard(() async {
+      try {
+        await groupMessageRepo.sendMessageAllGroup(
+            groupIds: groupId, groupMessage: groupMessage);
+      } on AppException {
+        rethrow;
+      }
+    });
+  }
 }

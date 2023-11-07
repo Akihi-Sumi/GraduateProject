@@ -51,7 +51,7 @@ class FirebaseConstants {
 }
 
 /// groupコレクション
-final groupsRef = _db.collection('groups').withConverter(
+final groupsRef = _db.collection('groups').withConverter<GroupModel>(
       fromFirestore: (ds, _) => GroupModel.fromDocumentSnapshot(ds),
       toFirestore: (obj, _) => obj.toJson(),
     );

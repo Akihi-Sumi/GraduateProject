@@ -92,12 +92,21 @@ class HomePage extends HookConsumerWidget {
                               createdAt: DateTime.now(),
                             );
 
+                            // await ref
+                            //     .read(sendMessageControllerProvider.notifier)
+                            //     .sendMessage(
+                            //       groupId: groupId,
+                            //       groupMessage: groupMessage,
+                            //     );
+
                             await ref
                                 .read(sendMessageControllerProvider.notifier)
-                                .sendMessage(
-                                  groupId: groupId,
-                                  groupMessage: groupMessage,
-                                );
+                                .sendMessageAllGroup(
+                              groupId: [groupId],
+                              groupMessage: groupMessage,
+                            );
+
+                            print(groupId);
                           },
                         );
                       },

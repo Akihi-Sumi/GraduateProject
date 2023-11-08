@@ -8,7 +8,7 @@ abstract class GroupMessageRepository {
   });
 
   Future<void> sendMessageAllGroup({
-    required List<String> groupIds,
+    //required List<String> groupIds,
     required Message groupMessage,
   });
 

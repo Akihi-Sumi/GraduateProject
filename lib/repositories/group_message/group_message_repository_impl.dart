@@ -59,21 +59,14 @@ class GroupMessageRepositoryImpl implements GroupMessageRepository {
 
   @override
   Future<void> sendMessageAllGroup({
-    required List<String> groupIds,
     required Message groupMessage,
   }) async {
-    // for (final groupId in groupIds) {
-    //   await groupMessagesRef(groupId: groupId).add(groupMessage);
-    // }
-    WriteBatch batch = FirebaseFirestore.instance.batch();
+    final groupDocs = await groupsRef.get();
 
-    for (final groupId in groupIds) {
-      batch.set(
-        groupMessagesRef(groupId: groupId).doc(),
-        groupMessage,
-      );
+    for (final groupDoc in groupDocs.docs) {
+      final groupMessagesRef = groupDoc.reference.collection('groupMessages');
+      groupMessagesRef.add(groupMessage.toJson());
     }
-    await batch.commit();
   }
 
   @override

@@ -66,7 +66,9 @@ DocumentReference<GroupModel> groupRef({
 CollectionReference<Message> groupMessagesRef({
   required String groupId,
 }) =>
-    groupRef(groupId: groupId).collection('groupMessages').withConverter(
+    groupRef(groupId: groupId)
+        .collection('groupMessages')
+        .withConverter<Message>(
           fromFirestore: (ds, _) => Message.fromDocumentSnapshot(ds),
           toFirestore: (obj, _) => obj.toJson(),
         );

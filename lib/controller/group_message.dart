@@ -56,7 +56,7 @@ class SendMessageController extends AutoDisposeAsyncNotifier<void> {
   }
 
   Future<void> sendMessageAllGroup({
-    required List<String> groupId,
+    //required List<String> groupIds,
     required Message groupMessage,
   }) async {
     final groupMessageRepo = ref.read(groupMessageRepositoryImplProvider);
@@ -66,7 +66,9 @@ class SendMessageController extends AutoDisposeAsyncNotifier<void> {
     state = await AsyncValue.guard(() async {
       try {
         await groupMessageRepo.sendMessageAllGroup(
-            groupIds: groupId, groupMessage: groupMessage);
+          //groupIds: groupIds,
+          groupMessage: groupMessage,
+        );
       } on AppException {
         rethrow;
       }

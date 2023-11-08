@@ -41,14 +41,6 @@ class _GroupChatPageState extends ConsumerState<GroupChatPage> {
     //final loading = state.loading;
     final readGroup = state.readGroup;
 
-    // final groupMessages =
-    //     ref.watch(groupMessageProvider).maybeWhen<List<Message>>(
-    //           data: (data) => data.toList(),
-    //           orElse: () => [],
-    //         );
-
-    //final userId = ref.watch(authRepositoryImplProvider).currentUser?.uid;
-
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => FocusScope.of(context).unfocus(),

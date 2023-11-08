@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:graduate_app/controller/group.dart';
 import 'package:graduate_app/controller/group_message.dart';
 import 'package:graduate_app/controller/message.dart';
 import 'package:graduate_app/models/message/message.dart';
@@ -58,11 +57,6 @@ class HomePage extends HookConsumerWidget {
 
     final userId = ref.watch(authRepositoryImplProvider).currentUser?.uid;
 
-    final groupId = ref
-        .watch(groupsStreamProvider)
-        .maybeWhen(data: (data) => data.map((e) => e.groupId), orElse: () => '')
-        .toString();
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -92,21 +86,11 @@ class HomePage extends HookConsumerWidget {
                               createdAt: DateTime.now(),
                             );
 
-                            // await ref
-                            //     .read(sendMessageControllerProvider.notifier)
-                            //     .sendMessage(
-                            //       groupId: groupId,
-                            //       groupMessage: groupMessage,
-                            //     );
-
                             await ref
                                 .read(sendMessageControllerProvider.notifier)
                                 .sendMessageAllGroup(
-                              groupId: [groupId],
-                              groupMessage: groupMessage,
-                            );
-
-                            print(groupId);
+                                  groupMessage: groupMessage,
+                                );
                           },
                         );
                       },

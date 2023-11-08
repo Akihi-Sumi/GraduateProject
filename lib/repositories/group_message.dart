@@ -19,7 +19,7 @@ class GroupMessageRepository {
     required String? lastReadMessageId,
   }) async {
     var query = readGroupMessageCollectionReference(groupId: groupId)
-        .orderBy('createdAt', descending: true);
+        .orderBy('createdAt', descending: false);
 
     final qds = lastReadMessageId == null
         ? null

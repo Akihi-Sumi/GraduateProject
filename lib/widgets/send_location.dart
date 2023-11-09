@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:graduate_app/widgets/myAlertDialog.dart';
@@ -13,32 +15,45 @@ class _SendLocationState extends State<SendLocation> {
   String _locationMessage = '';
   // String ido = '';
   // String keido = '';
+  Position? currentPosition;
+  late StreamSubscription<Position> positionStream;
+
+  final LocationSettings locationSettings = const LocationSettings(
+    accuracy: LocationAccuracy.high,
+    distanceFilter: 100,
+  );
 
   @override
   void initState() {
     super.initState();
-    _getLocation();
+    positionStream =
+        Geolocator.getPositionStream(locationSettings: locationSettings)
+            .listen((Position? position) {
+      currentPosition = position;
+      print(position == null
+          ? 'Unknown'
+          : '${position.latitude.toString()}, ${position.longitude.toString()}');
+    });
   }
 
-  Future<void> _getLocation() async {
-    try {
-      Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
-      setState(() {
-        // ido = '${position.latitude}';
-        // keido = '${position.longitude}';
-        _locationMessage =
-            '緯度: ${position.latitude}\n経度: ${position.longitude}';
-      });
-    } catch (e) {
-      if (mounted) {
-        setState(() {
-          _locationMessage = '位置情報の取得に失敗しました: $e';
-        });
-      }
-    }
-  }
+  // Future<void> _getLocation() async {
+  //   try {
+  //     Position position = await Geolocator.getCurrentPosition(
+  //       desiredAccuracy: LocationAccuracy.high,
+  //     );
+  //     setState(() {
+  //       _locationMessage =
+  //           '緯度: ${position.latitude}, 経度: ${position.longitude}';
+  //     });
+  //     print(position);
+  //   } catch (e) {
+  //     if (mounted) {
+  //       setState(() {
+  //         _locationMessage = '位置情報の取得に失敗しました: $e';
+  //       });
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +64,7 @@ class _SendLocationState extends State<SendLocation> {
       child: FloatingActionButton(
         child: Image.asset('assets/images/google_maps.png'),
         onPressed: () {
+          print(_locationMessage);
           showDialog<void>(
             context: context,
             builder: (BuildContext context) {
@@ -57,8 +73,7 @@ class _SendLocationState extends State<SendLocation> {
                 txt_cancel: "キャンセル",
                 txt_ok: "送信",
                 onTap: () {
-                  _getLocation();
-                  print(_locationMessage);
+                  positionStream;
                 },
               );
             },

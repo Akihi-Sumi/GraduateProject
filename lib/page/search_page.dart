@@ -1,5 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_app/controllers/group/groups.dart';
+import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
+import 'package:graduate_app/utils/loading.dart';
+import 'package:graduate_app/widgets/imitation_list_tile.dart';
 import 'package:graduate_app/widgets/search_user_group_delegate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -14,24 +18,42 @@ class SearchPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userId = ref.watch(authRepositoryImplProvider).currentUser?.uid;
+
     return Scaffold(
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 24, right: 24),
-          child: Column(
-            children: [
-              SearchBox(),
-              const SizedBox(height: 10),
-              ListTile(
-                title: Text("参加済みグループ"),
-              ),
-              ListTile(
-                title: Text("グループ名"),
-                leading: CircleAvatar(),
-                onTap: () {},
-              )
-            ],
-          ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 24, right: 24),
+              child: SearchBox(),
+            ),
+            ListTile(
+              title: Text("参加済みグループ"),
+            ),
+            ref.watch(groupsStreamProvider(userId ?? '')).when(
+                  data: (groups) => ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: groups.length,
+                    itemBuilder: (context, index) {
+                      final group = groups[index];
+                      return ImitationListTile(
+                        title: Text(
+                          group.groupName,
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        leading: CircleAvatar(),
+                        onTap: () {
+                          // グループ画面へ
+                        },
+                      );
+                    },
+                  ),
+                  error: (error, stackTrace) => Text("error"),
+                  loading: () => const Loader(),
+                ),
+          ],
         ),
       ),
     );

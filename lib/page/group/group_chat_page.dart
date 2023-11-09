@@ -1,9 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/controllers/group/group.dart';
-import 'package:graduate_app/models/group/group_model.dart';
 import 'package:graduate_app/page/auth/auth_dependent_builder.dart';
-import 'package:graduate_app/widgets/massase_bubble_design.dart';
+import 'package:graduate_app/widgets/group_massase_bubble.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()
@@ -25,9 +24,6 @@ class GroupChatPage extends ConsumerStatefulWidget {
 
 class _GroupChatPageState extends ConsumerState<GroupChatPage> {
   final messageTextController = TextEditingController();
-
-  List<GroupModel> groups = [];
-  GroupModel? selectedGroup;
 
   @override
   void dispose() {
@@ -92,7 +88,7 @@ class _GroupChatPageState extends ConsumerState<GroupChatPage> {
                         final readGroupMessage = state.readGroupMessages[index];
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 24),
-                          child: MessageBubble(
+                          child: GroupMessageBubble(
                             group: readGroup,
                             message: readGroupMessage,
                             isMyMessage: readGroupMessage.senderId == userId,

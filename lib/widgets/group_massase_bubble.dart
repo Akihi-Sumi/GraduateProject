@@ -1,63 +1,120 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:graduate_app/controllers/group/read_status.dart';
+import 'package:graduate_app/models/group/group_model.dart';
 import 'package:graduate_app/models/message/message.dart';
+import 'package:graduate_app/utils/extensions/date_time.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class MessageBubble extends HookConsumerWidget {
-  final bool tail;
+const double _senderIconSize = 24;
+
+/// ふきだしのデザイン
+class GroupMessageBubble extends ConsumerWidget {
+  const GroupMessageBubble({
+    required this.group,
+    this.onTap,
+    this.onLongPress,
+    required this.isMyMessage,
+    required this.isGroupMessage,
+    this.tail = true,
+    required this.sizeSenderBubble,
+    required this.message,
+    required this.textStyle,
+  });
+
+  final GroupModel group;
+
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
 
+  final bool isMyMessage;
+  final bool isGroupMessage;
+
+  final bool tail;
+  final EdgeInsetsGeometry sizeSenderBubble;
+
   final Message message;
+  final TextStyle textStyle;
 
-  const MessageBubble({
-    Key? key,
-    required this.message,
-    this.onTap,
-    this.onLongPress,
-    this.tail = true,
-  }) : super(key: key);
-
-  ///chat bubble builder method
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return GestureDetector(
-      onTap: onTap,
-      onLongPress: onLongPress,
-      child: Align(
-        alignment: Alignment.topRight,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 2),
-          child: CustomPaint(
-            painter: BubbleSampleDesign(
-              color: Colors.orange,
-              alignment: Alignment.topRight,
-              tail: tail,
+    final partnerLastReadAt = ref.watch(groupPartnerLastReadAtProvider(group));
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment:
+          isMyMessage ? MainAxisAlignment.end : MainAxisAlignment.start,
+      children: [
+        if (!isMyMessage) ...[
+          // if (partnerImageUrl.isEmpty)
+          const Icon(
+            Icons.account_circle,
+            size: _senderIconSize * 2,
+          )
+          // else
+          //   GenericImage.circle(
+          //     imageUrl: userImageUrl,
+          //     size: _senderIconSize * 2,
+          //   ),
+          ,
+          const Gap(8),
+        ],
+        if (isGroupMessage) ...[
+          if (isMyMessage) ...[
+            _ReadStatusText(
+              messageCreatedAt: message.createdAt,
+              partnerLastReadAt: partnerLastReadAt,
             ),
-            child: Container(
-              constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width * .8,
-              ),
-              margin: EdgeInsets.fromLTRB(15, 15, 25, 15),
-              child: Stack(
-                children: <Widget>[
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                    child: Text(
-                      message.content,
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
+          ],
+        ],
+        GestureDetector(
+          onTap: onTap,
+          onLongPress: onLongPress,
+          child: Column(
+            crossAxisAlignment:
+                isMyMessage ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                child: CustomPaint(
+                  painter: BubbleDesign(
+                    color: isMyMessage ? Colors.orange : Colors.grey.shade400,
+                    alignment:
+                        isMyMessage ? Alignment.topRight : Alignment.topLeft,
+                    tail: tail,
+                  ),
+                  child: Container(
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * .8,
+                    ),
+                    margin: isMyMessage
+                        ? sizeSenderBubble
+                        : EdgeInsets.fromLTRB(25, 15, 12.5, 15),
+                    child: Stack(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 0, horizontal: 0),
+                          child: Text(
+                            message.content,
+                            style: textStyle,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
+              const Gap(4),
+              _MessageCreatedAt(
+                groupMessage: message,
+                isMyMessage: isMyMessage,
+              ),
+            ],
           ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -65,12 +122,12 @@ class MessageBubble extends HookConsumerWidget {
 ///custom painter use to create the shape of the chat bubble
 ///
 /// [color],[alignment] and [tail] can be changed
-class BubbleSampleDesign extends CustomPainter {
+class BubbleDesign extends CustomPainter {
   final Color color;
   final Alignment alignment;
   final bool tail;
 
-  BubbleSampleDesign({
+  BubbleDesign({
     required this.color,
     required this.alignment,
     required this.tail,
@@ -237,5 +294,71 @@ class BubbleSampleDesign extends CustomPainter {
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
     return true;
+  }
+}
+
+class _ReadStatusText extends StatelessWidget {
+  const _ReadStatusText({
+    required this.messageCreatedAt,
+    required this.partnerLastReadAt,
+  });
+
+  final DateTime? messageCreatedAt;
+  final DateTime? partnerLastReadAt;
+
+  @override
+  Widget build(BuildContext context) {
+    final text = _readStatusString(
+      messageCreatedAt: messageCreatedAt,
+      partnerLastReadAt: partnerLastReadAt,
+    );
+    if (text.isEmpty) {
+      return const SizedBox();
+    }
+    return Padding(
+      padding: const EdgeInsets.only(top: 20),
+      child: Text(
+        text,
+        style: TextStyle(fontSize: 15, color: Colors.grey),
+      ),
+    );
+  }
+
+  String _readStatusString({
+    required DateTime? messageCreatedAt,
+    required DateTime? partnerLastReadAt,
+  }) {
+    if (messageCreatedAt == null) {
+      return '';
+    }
+    if (partnerLastReadAt == null) {
+      return '未読';
+    }
+    return messageCreatedAt.isAfter(partnerLastReadAt) ? '未読' : '既読';
+  }
+}
+
+class _MessageCreatedAt extends StatelessWidget {
+  const _MessageCreatedAt({
+    required this.groupMessage,
+    required this.isMyMessage,
+  });
+
+  final Message groupMessage;
+  final bool isMyMessage;
+
+  @override
+  Widget build(BuildContext context) {
+    final createdAt = groupMessage.createdAt;
+    if (createdAt == null) {
+      return const SizedBox();
+    }
+    return Text(
+      createdAt.formatRelativeDate(),
+      style: TextStyle(
+        color: Colors.grey,
+        fontSize: 13.5,
+      ),
+    );
   }
 }

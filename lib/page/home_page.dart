@@ -23,7 +23,7 @@ class HomePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen<AsyncValue<void>>(sendMessageControllerProvider,
+    ref.listen<AsyncValue<void>>(sendMessageAllGroupControllerProvider,
         (_, state) async {
       if (state.isLoading) {
         ref.watch(overlayLoadingProvider.notifier).update((state) => true);
@@ -68,9 +68,7 @@ class HomePage extends HookConsumerWidget {
                     margin: EdgeInsets.only(bottom: 30),
                     child: MessageBubble(
                       message: message,
-                      isSender: true,
-                      changeEnable: false,
-                      exe: () async {
+                      onTap: () async {
                         await showActionDialog(
                           context: context,
                           title: "メッセージを送信しますか",
@@ -87,7 +85,8 @@ class HomePage extends HookConsumerWidget {
                             );
 
                             await ref
-                                .read(sendMessageControllerProvider.notifier)
+                                .read(sendMessageAllGroupControllerProvider
+                                    .notifier)
                                 .sendMessageAllGroup(
                                   groupMessage: groupMessage,
                                 );

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:graduate_app/controller/app_user.dart';
-import 'package:graduate_app/controller/group.dart';
+import 'package:graduate_app/controllers/group/groups.dart';
 import 'package:graduate_app/page/group/create_group_page.dart';
+import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
 import 'package:graduate_app/utils/loading.dart';
 import 'package:graduate_app/widgets/imitation_list_tile.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -17,6 +18,8 @@ class MyDrawer extends HookConsumerWidget {
           data: (data) => data?.userName,
           orElse: () => null,
         );
+
+    final userId = ref.watch(authRepositoryImplProvider).currentUser?.uid;
 
     return Drawer(
       child: SafeArea(
@@ -42,19 +45,18 @@ class MyDrawer extends HookConsumerWidget {
                 leading: Icon(Icons.group, color: Colors.white),
                 iconColor: Colors.white,
                 children: <Widget>[
-                  ref.watch(groupsStreamProvider).when(
-                        data: (groups) =>
-                            // Expanded(
-                            //   child:
-                            ListView.builder(
+                  ref.watch(groupsStreamProvider(userId ?? '')).when(
+                        data: (groups) => ListView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: groups.length,
                           itemBuilder: (context, index) {
                             final group = groups[index];
                             return ImitationListTile(
-                              title: Text(group.groupName,
-                                  style: TextStyle(fontSize: 24)),
+                              title: Text(
+                                group.groupName,
+                                style: TextStyle(fontSize: 24),
+                              ),
                               leading: CircleAvatar(),
                               onTap: () {
                                 Navigator.of(context).pop();
@@ -63,7 +65,6 @@ class MyDrawer extends HookConsumerWidget {
                             );
                           },
                         ),
-                        //),
                         error: (error, stackTrace) =>
                             ErrorText(error: error.toString()),
                         loading: () => const OverlayLoadingWidget(),

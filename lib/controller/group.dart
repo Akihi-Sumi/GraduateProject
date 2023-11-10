@@ -27,6 +27,10 @@ final searchGroupProvider = StreamProvider.family((ref, String query) {
   return ref.watch(groupControllerProvider.notifier).searchGroup(query);
 });
 
+final getGroupByNameProvider = StreamProvider.family((ref, String groupName) {
+  return ref.watch(groupControllerProvider.notifier).getGroupByName(groupName);
+});
+
 class GroupController extends StateNotifier<bool> {
   final GroupRepository _groupRepository;
   final Ref _ref;
@@ -44,6 +48,10 @@ class GroupController extends StateNotifier<bool> {
   //指定した検索クエリに一致するコミュニティのリストを提供
   Stream<List<GroupModel>> searchGroup(String query) {
     return _groupRepository.searchGroup(query);
+  }
+
+  Stream<GroupModel> getGroupByName(String groupName) {
+    return _groupRepository.getGroupByName(groupName);
   }
 
   // ユーザーがコミュニティに参加または退会するメソッド

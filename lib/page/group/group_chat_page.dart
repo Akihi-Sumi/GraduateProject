@@ -45,7 +45,7 @@ class _GroupChatPageState extends ConsumerState<GroupChatPage> {
           preferredSize: Size.fromHeight(60),
           child: AppBar(
             title: Text(
-              'グループ名',
+              readGroup?.groupName ?? '',
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w600,

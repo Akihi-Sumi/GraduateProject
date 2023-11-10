@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduate_app/controller/group.dart';
+import 'package:graduate_app/page/group/group_info_page.dart';
 import 'package:graduate_app/widgets/imitation_list_tile.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -43,7 +44,7 @@ class SearchUserGroupDelegate extends SearchDelegate {
                 return ImitationListTile(
                   title: Text(group.groupName),
                   leading: CircleAvatar(),
-                  onTap: () {},
+                  onTap: () => navigateToUserOrGroup(context, group.groupName),
                 );
               }),
           error: (error, stackTrace) {
@@ -66,6 +67,10 @@ class SearchUserGroupDelegate extends SearchDelegate {
     );
   }
 
-  void navigateToUserOrGroup(
-      BuildContext context, String userName, String groupName) {}
+  void navigateToUserOrGroup(BuildContext context, String groupName) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => GroupInfoPage(name: groupName)));
+  }
 }

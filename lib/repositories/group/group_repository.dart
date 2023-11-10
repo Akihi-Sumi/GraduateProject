@@ -36,6 +36,17 @@ class GroupRepository {
     });
   }
 
+  Stream<GroupModel> getGroupByName(String groupName) {
+    return _groups
+        .where('groupName', isEqualTo: groupName)
+        .snapshots()
+        .map((qs) {
+      var doc = qs.docs.first;
+      var data = doc.data() as Map<String, dynamic>;
+      return GroupModel.fromJson(data);
+    });
+  }
+
   //ユーザーをコミュニティに参加させたり、コミュニティから退出させたりします。
   FutureVoid joinGroup(String groupName, String userId) async {
     try {

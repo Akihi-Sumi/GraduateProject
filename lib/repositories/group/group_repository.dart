@@ -47,10 +47,23 @@ class GroupRepository {
     });
   }
 
+  Future<String> getGroupById(String groupName) async {
+    QuerySnapshot qs = await FirebaseFirestore.instance
+        .collection('groups')
+        .where('groupName', isEqualTo: groupName)
+        .get();
+    if (qs.docs.isNotEmpty) {
+      return qs.docs.first.reference.id;
+    } else {
+      throw Exception('Group not found');
+    }
+  }
+
   //ユーザーをコミュニティに参加させたり、コミュニティから退出させたりします。
   FutureVoid joinGroup(String groupName, String userId) async {
+    String docId = await getGroupById(groupName);
     try {
-      return right(_groups.doc(groupName).update({
+      return right(_groups.doc(docId).update({
         'members': FieldValue.arrayUnion([userId]),
       }));
     } on FirebaseException catch (e) {
@@ -62,8 +75,9 @@ class GroupRepository {
 
   //ユーザーをコミュニティに参加させたり、コミュニティから退出させたりします。
   FutureVoid leaveGroup(String groupName, String userId) async {
+    String docId = await getGroupById(groupName);
     try {
-      return right(_groups.doc(groupName).update({
+      return right(_groups.doc(docId).update({
         'members': FieldValue.arrayRemove([userId]),
       }));
     } on FirebaseException catch (e) {

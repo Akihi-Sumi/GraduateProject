@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/controllers/group/group.dart';
 import 'package:graduate_app/page/auth/auth_dependent_builder.dart';
 import 'package:graduate_app/widgets/group_massase_bubble.dart';
@@ -36,6 +37,11 @@ class _GroupChatPageState extends ConsumerState<GroupChatPage> {
     final state = ref.watch(groupStateNotifierProvider(widget.groupId));
     //final loading = state.loading;
     final readGroup = state.readGroup;
+
+    final appUserName = ref.watch(appUserFutureProvider).maybeWhen<String?>(
+          data: (data) => data?.userName,
+          orElse: () => null,
+        );
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -91,7 +97,8 @@ class _GroupChatPageState extends ConsumerState<GroupChatPage> {
                           child: GroupMessageBubble(
                             group: readGroup,
                             message: readGroupMessage,
-                            isMyMessage: readGroupMessage.senderId == userId,
+                            isMyMessage:
+                                readGroupMessage.senderId == appUserName,
                             isGroupMessage: true,
                             sizeSenderBubble:
                                 EdgeInsets.fromLTRB(12.5, 15, 20, 15),
@@ -159,6 +166,11 @@ class _MessageInputFieldState extends ConsumerState<_MessageInputField> {
 
   @override
   Widget build(BuildContext context) {
+    final appUserName = ref.watch(appUserFutureProvider).maybeWhen<String?>(
+          data: (data) => data?.userName,
+          orElse: () => null,
+        );
+
     return Row(
       children: [
         IconButton(
@@ -213,7 +225,7 @@ class _MessageInputFieldState extends ConsumerState<_MessageInputField> {
             await ref
                 .read(groupStateNotifierProvider(widget.groupId).notifier)
                 .sendGroupMessage(
-                  senderId: widget.userId,
+                  senderId: appUserName ?? '',
                   content: content,
                   createdAt: DateTime.now(),
                 );

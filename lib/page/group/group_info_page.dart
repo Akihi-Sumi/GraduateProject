@@ -1,12 +1,51 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/controller/group.dart';
 import 'package:graduate_app/controllers/auth.dart';
+import 'package:graduate_app/models/group/group_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+Future<String?> fetchUserData(String userId) async {
+  final FirebaseFirestore db = FirebaseFirestore.instance;
+  final userDocs =
+      await db.collection("appUsers").where("userId", isEqualTo: userId).get();
+  if (userDocs.docs.isNotEmpty) {
+    var userData = userDocs.docs.first.data();
+    String userName = userData["userName"];
+    return userName;
+  } else {
+    return null;
+  }
+}
 
 class GroupInfoPage extends ConsumerWidget {
   const GroupInfoPage({Key? key, required this.name}) : super(key: key);
 
   final String name;
+
+  void joinGroup(WidgetRef ref, GroupModel group, BuildContext context) {
+    ref.read(groupControllerProvider.notifier).joinGroup(group, context);
+  }
+
+  Future<List<Widget>> _fetchUserDataForGroupMembers(
+      List<String> members) async {
+    List<Widget> userDataWidgets = [];
+    for (var member in members) {
+      String? userData = await fetchUserData(member);
+      if (userData != null) {
+        userDataWidgets.add(
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Text(
+              userData,
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+        );
+      }
+    }
+    return userDataWidgets;
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -70,11 +109,36 @@ class GroupInfoPage extends ConsumerWidget {
                                         onPressed: () {
                                           group.members.contains(userId)
                                               ? null
-                                              : print("debug");
+                                              : joinGroup(ref, group, context);
                                         },
                                       ),
                               ],
                             ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: Text(
+                                "${group.members.length} 人のメンバーが参加しています",
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: FutureBuilder<List<Widget>>(
+                                future: _fetchUserDataForGroupMembers(
+                                    group.members),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return CircularProgressIndicator();
+                                  } else if (snapshot.hasError) {
+                                    return Text("Error: ${snapshot.error}");
+                                  } else if (snapshot.hasData) {
+                                    return Column(children: snapshot.data!);
+                                  } else {
+                                    return Text("メンバーが居ません");
+                                  }
+                                },
+                              ),
+                            )
                           ],
                         ),
                       ),

@@ -27,7 +27,7 @@ class ReadStatusRepository {
     return _query.set(
       groupId: groupId,
       readStatusId: userId,
-      createReadStatus: const ReadStatus(),
+      createReadStatus: ReadStatus(lastReadAt: DateTime.now()),
     );
   }
 }

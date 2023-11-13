@@ -78,7 +78,7 @@ class _GroupChatPageState extends ConsumerState<GroupChatPage> {
               //   );
               // }
               if (readGroup == null) {
-                return const SizedBox();
+                return SizedBox();
               }
               // if (!_hasAccessToGroup(group: readGroup, userId: userId)) {
               //   return const Unavailable("そのグループは表示できません。");
@@ -93,7 +93,7 @@ class _GroupChatPageState extends ConsumerState<GroupChatPage> {
                       itemBuilder: (context, index) {
                         final readGroupMessage = state.readGroupMessages[index];
                         return Padding(
-                          padding: const EdgeInsets.only(bottom: 24),
+                          padding: const EdgeInsets.only(bottom: 10),
                           child: GroupMessageBubble(
                             group: readGroup,
                             message: readGroupMessage,

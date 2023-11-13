@@ -42,7 +42,10 @@ class SearchUserGroupDelegate extends SearchDelegate {
               itemBuilder: (context, index) {
                 final group = groups[index];
                 return ImitationListTile(
-                  title: Text(group.groupName),
+                  title: Text(
+                    group.groupName,
+                    style: TextStyle(fontSize: 18),
+                  ),
                   leading: CircleAvatar(),
                   onTap: () => navigateToUserOrGroup(context, group.groupName),
                 );
@@ -69,8 +72,12 @@ class SearchUserGroupDelegate extends SearchDelegate {
 
   void navigateToUserOrGroup(BuildContext context, String groupName) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => GroupInfoPage(name: groupName)));
+      context,
+      MaterialPageRoute(
+        builder: (context) => GroupInfoPage(
+          groupName: groupName,
+        ),
+      ),
+    );
   }
 }

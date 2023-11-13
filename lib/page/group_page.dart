@@ -39,8 +39,8 @@ class GroupPage extends ConsumerWidget {
                           ),
                           const Gap(16),
                           const Text(
-                            "グループがありません。"
-                            "作成してみましょう",
+                            "グループがありません。\n"
+                            "作成するか参加してみましょう",
                             style: TextStyle(color: Colors.white),
                           ),
                         ],

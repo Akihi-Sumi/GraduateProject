@@ -55,7 +55,7 @@ class GroupController extends StateNotifier<bool> {
   }
 
   // ユーザーがコミュニティに参加または退会するメソッド
-  void joinGroup(GroupModel group, BuildContext context) async {
+  void joinOrLeaveGroup(GroupModel group, BuildContext context) async {
     //final user = _ref.read(userProvider)!;//現在のユーザーオブジェクトを取得
     final uid = _ref.watch(userIdProvider);
 

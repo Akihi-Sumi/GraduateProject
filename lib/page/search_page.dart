@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/controllers/group/groups.dart';
+import 'package:graduate_app/page/group/group_info_page.dart';
 import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
 import 'package:graduate_app/utils/loading.dart';
 import 'package:graduate_app/widgets/imitation_list_tile.dart';
@@ -10,6 +11,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 @RoutePage()
 class SearchRouterPage extends AutoRouter {
   const SearchRouterPage({super.key});
+
+  static const path = 'search';
+  static const location = path;
 }
 
 @RoutePage()
@@ -44,9 +48,9 @@ class SearchPage extends ConsumerWidget {
                           style: TextStyle(fontSize: 20),
                         ),
                         leading: CircleAvatar(),
-                        onTap: () {
-                          // グループ画面へ
-                        },
+                        onTap: () => context.router.pushNamed(
+                          GroupInfoPage.location(groupName: group.groupName),
+                        ),
                       );
                     },
                   ),

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/controller/group.dart';
@@ -18,13 +19,23 @@ Future<String?> fetchUserData(String userId) async {
   }
 }
 
+@RoutePage()
 class GroupInfoPage extends ConsumerWidget {
-  const GroupInfoPage({Key? key, required this.name}) : super(key: key);
+  const GroupInfoPage({
+    Key? key,
+    @PathParam('groupName') required this.groupName,
+  }) : super(key: key);
 
-  final String name;
+  //final String name;
 
-  void joinGroup(WidgetRef ref, GroupModel group, BuildContext context) {
-    ref.read(groupControllerProvider.notifier).joinGroup(group, context);
+  static const path = 'search/:groupName';
+
+  static String location({required String groupName}) => 'search/$groupName';
+
+  final String groupName;
+
+  void joinOrLeaveGroup(WidgetRef ref, GroupModel group, BuildContext context) {
+    ref.read(groupControllerProvider.notifier).joinOrLeaveGroup(group, context);
   }
 
   Future<List<Widget>> _fetchUserDataForGroupMembers(
@@ -52,7 +63,7 @@ class GroupInfoPage extends ConsumerWidget {
     final userId = ref.watch(userIdProvider);
 
     return Scaffold(
-      body: ref.watch(getGroupByNameProvider(name)).when(
+      body: ref.watch(getGroupByNameProvider(groupName)).when(
             data: (group) {
               return NestedScrollView(
                 headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -87,29 +98,43 @@ class GroupInfoPage extends ConsumerWidget {
                                 ),
                                 group.mods.contains(userId)
                                     ? OutlinedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          shape: const StadiumBorder(),
+                                          side: const BorderSide(
+                                            color: Colors.grey,
+                                          ),
+                                        ),
                                         onPressed: () {},
                                         child: Text(
                                           "モデレーターツール",
-                                          style: TextStyle(fontSize: 15),
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       )
                                     : OutlinedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          shape: const StadiumBorder(),
+                                          side: const BorderSide(
+                                            color: Colors.grey,
+                                          ),
+                                        ),
                                         child: Text(
                                           group.members.contains(userId)
-                                              ? "参加済み"
+                                              ? "退会"
                                               : "参加",
                                           style: TextStyle(
                                             fontSize: 18,
+                                            fontWeight: FontWeight.bold,
                                             color:
                                                 group.members.contains(userId)
-                                                    ? Colors.blue
-                                                    : Colors.orangeAccent,
+                                                    ? Colors.redAccent
+                                                    : Colors.blueAccent,
                                           ),
                                         ),
                                         onPressed: () {
-                                          group.members.contains(userId)
-                                              ? null
-                                              : joinGroup(ref, group, context);
+                                          joinOrLeaveGroup(ref, group, context);
                                         },
                                       ),
                               ],

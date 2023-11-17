@@ -127,7 +127,6 @@ class LoginPage extends HookConsumerWidget {
             ),
             body: Stack(
               children: [
-                //const GradationBackground(),
                 SingleChildScrollView(
                   reverse: true,
                   child: Column(

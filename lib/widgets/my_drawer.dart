@@ -1,9 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/controllers/group/groups.dart';
 import 'package:graduate_app/page/group/create_group_page.dart';
-import 'package:graduate_app/page/group/group_info_page.dart';
+import 'package:graduate_app/page/group/group_info_card.dart';
 import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
 import 'package:graduate_app/utils/loading.dart';
 import 'package:graduate_app/widgets/imitation_list_tile.dart';
@@ -61,9 +60,13 @@ class MyDrawer extends HookConsumerWidget {
                               ),
                               leading: CircleAvatar(),
                               onTap: () {
-                                context.router.pushNamed(GroupInfoPage.location(
-                                  groupName: group.groupName,
-                                ));
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return GroupInfoCard(
+                                        groupName: group.groupName);
+                                  },
+                                );
                                 Navigator.of(context).pop();
                               },
                             );

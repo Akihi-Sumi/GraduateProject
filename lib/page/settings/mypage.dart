@@ -24,8 +24,8 @@ class MyPageState extends ConsumerState<MyProfilePage> {
   void initState() {
     super.initState();
     nameController = TextEditingController(
-      // text: ref.read(appUserFutureProvider).value?.userName ?? '',
-      text: ref.read(userProvider)?.userName,
+      text: ref.read(appUserFutureProvider).value?.userName ?? '',
+      //text: ref.read(userProvider)?.userName,
     );
     emailController = TextEditingController(
       text: ref.read(appUserFutureProvider).value?.userEmail ?? '',

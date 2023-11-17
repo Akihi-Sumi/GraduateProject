@@ -34,7 +34,7 @@ final _unReadCountStreamProvider =
 
   return ref
       .watch(groupMessageRepositoryProvider)
-      .subsribeUnReadGroupMessages(
+      .subscribeUnReadGroupMessages(
           groupId: readGroup.groupId,
           lastReadAt: lastReadAt,
           limit: _maxUnReadCount + 1)

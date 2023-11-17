@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduate_app/controller/group.dart';
-import 'package:graduate_app/page/group/group_info_page.dart';
+import 'package:graduate_app/page/group/group_info_card.dart';
 import 'package:graduate_app/widgets/imitation_list_tile.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -47,7 +47,15 @@ class SearchUserGroupDelegate extends SearchDelegate {
                     style: TextStyle(fontSize: 18),
                   ),
                   leading: CircleAvatar(),
-                  onTap: () => navigateToUserOrGroup(context, group.groupName),
+                  // onTap: () => navigateToUserOrGroup(context, group.groupName),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return GroupInfoCard(groupName: group.groupName);
+                      },
+                    );
+                  },
                 );
               }),
           error: (error, stackTrace) {
@@ -66,17 +74,6 @@ class SearchUserGroupDelegate extends SearchDelegate {
       dialogBackgroundColor: Colors.black,
       inputDecorationTheme: InputDecorationTheme(
         border: InputBorder.none,
-      ),
-    );
-  }
-
-  void navigateToUserOrGroup(BuildContext context, String groupName) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => GroupInfoPage(
-          groupName: groupName,
-        ),
       ),
     );
   }

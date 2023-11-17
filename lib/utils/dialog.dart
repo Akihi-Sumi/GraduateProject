@@ -44,7 +44,7 @@ Future<bool?> showActionDialog({
         title: Text(title),
         insetPadding: Measure.p_a16,
         content: SizedBox(
-          width: 280,
+          width: 290,
         ),
         actions: [
           Padding(
@@ -53,7 +53,7 @@ Future<bool?> showActionDialog({
               onPressed: () => Navigator.of(context).pop(),
               child: Text(
                 "キャンセル",
-                style: TextStyles.p1(color: AppColors.baseLight),
+                style: TextStyle(fontSize: 17, color: Colors.white),
               ),
             ),
           ),
@@ -69,6 +69,7 @@ Future<bool?> showActionDialog({
                 buttonText,
                 style: TextStyle(
                   color: Colors.black,
+                  fontSize: 17,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -77,19 +78,6 @@ Future<bool?> showActionDialog({
         ],
       );
     },
-    // => AlertDialog(
-    //   title: Text(title),
-    //   actions: <Widget>[
-    //     TextButton(
-    //       child: const Text('キャンセル'),
-    //       onPressed: () => Navigator.of(context).pop(),
-    //     ),
-    //     TextButton(
-    //       onPressed: onPressed,
-    //       child: const Text('OK'),
-    //     ),
-    //   ],
-    // ),
   );
 }
 

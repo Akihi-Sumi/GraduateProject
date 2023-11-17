@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/controllers/group/groups.dart';
-import 'package:graduate_app/page/group/group_info_page.dart';
+import 'package:graduate_app/page/group/group_info_card.dart';
 import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
 import 'package:graduate_app/utils/loading.dart';
 import 'package:graduate_app/widgets/imitation_list_tile.dart';
@@ -47,10 +47,17 @@ class SearchPage extends ConsumerWidget {
                           group.groupName,
                           style: TextStyle(fontSize: 20),
                         ),
-                        leading: CircleAvatar(),
-                        onTap: () => context.router.pushNamed(
-                          GroupInfoPage.location(groupName: group.groupName),
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.blueGrey,
                         ),
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return GroupInfoCard(groupName: group.groupName);
+                            },
+                          );
+                        },
                       );
                     },
                   ),

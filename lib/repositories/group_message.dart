@@ -96,7 +96,7 @@ class GroupMessageRepository {
     );
   }
 
-  Stream<List<Message>> subsribeUnReadGroupMessages({
+  Stream<List<Message>> subscribeUnReadGroupMessages({
     required String groupId,
     required DateTime? lastReadAt,
     required int limit,

@@ -34,7 +34,7 @@ DocumentReference<Message> createGroupMessageDocumentReference({
 CollectionReference<Message> updateGroupMessageCollectionReference({
   required String groupId,
 }) =>
-    _db.doc(groupId).collection('gropuMessages').withConverter<Message>(
+    _db.doc(groupId).collection('groupMessages').withConverter<Message>(
           fromFirestore: (_, __) => throw UnimplementedError(),
           toFirestore: (obj, _) => obj.toJson(),
         );
@@ -48,7 +48,7 @@ DocumentReference<Message> updateGroupMessageDocumentReference({
 CollectionReference<Message> deleteGroupMessageCollectionReference({
   required String groupId,
 }) =>
-    _db.doc(groupId).collection('gropuMessages').withConverter<Message>(
+    _db.doc(groupId).collection('groupMessages').withConverter<Message>(
           fromFirestore: (_, __) => throw UnimplementedError(),
           toFirestore: (_, __) => throw UnimplementedError(),
         );

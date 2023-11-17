@@ -1,9 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/controller/group_message.dart';
 import 'package:graduate_app/controller/message.dart';
+import 'package:graduate_app/controllers/auth.dart';
 import 'package:graduate_app/models/message/message.dart';
-import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
 import 'package:graduate_app/utils/async_value_error_dialog.dart';
 import 'package:graduate_app/utils/dialog.dart';
 import 'package:graduate_app/utils/loading.dart';
@@ -36,7 +37,7 @@ class HomePage extends HookConsumerWidget {
           ref
               .read(scaffoldMessengerServiceProvider)
               .showSnackBar("メッセージを送信しました");
-          //Navigator.of(context).pop();
+          //Navigator.of(context, rootNavigator: true).pop();
         },
         error: (e, s) async {
           ref.watch(overlayLoadingProvider.notifier).update((state) => false);
@@ -55,7 +56,13 @@ class HomePage extends HookConsumerWidget {
           orElse: () => [],
         );
 
-    final userId = ref.watch(authRepositoryImplProvider).currentUser?.uid;
+    final userId = ref.watch(userIdProvider);
+    final appUserName = ref.watch(appUserFutureProvider).maybeWhen<String?>(
+          data: (data) => data?.userName,
+          orElse: () => null,
+        );
+
+    final sendAllGroupState = ref.watch(sendMessageAllGroupControllerProvider);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -73,24 +80,24 @@ class HomePage extends HookConsumerWidget {
                           context: context,
                           title: "メッセージを送信しますか",
                           buttonText: "送信",
-                          onPressed: () async {
-                            ref
-                                .watch(overlayLoadingProvider.notifier)
-                                .update((state) => true);
+                          onPressed: sendAllGroupState.isLoading
+                              ? null
+                              : () async {
+                                  final groupMessage = Message(
+                                    content: message.content,
+                                    senderId: appUserName ?? '',
+                                    createdAt: DateTime.now(),
+                                  );
 
-                            final groupMessage = Message(
-                              content: message.content,
-                              senderId: userId ?? '',
-                              createdAt: DateTime.now(),
-                            );
-
-                            await ref
-                                .read(sendMessageAllGroupControllerProvider
-                                    .notifier)
-                                .sendMessageAllGroup(
-                                  groupMessage: groupMessage,
-                                );
-                          },
+                                  await ref
+                                      .read(
+                                          sendMessageAllGroupControllerProvider
+                                              .notifier)
+                                      .sendMessageAllGroup(
+                                        groupMessage: groupMessage,
+                                        userId: userId ?? '',
+                                      );
+                                },
                         );
                       },
                     ),

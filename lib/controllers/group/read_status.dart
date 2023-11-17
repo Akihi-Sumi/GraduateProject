@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final myReadStatusStreamProvider = StreamProvider.family
     .autoDispose<ReadStatus?, GroupModel>((ref, readGroup) {
-  return ref.watch(readStatusRepositoryProvider).subscrbeReadStatus(
+  return ref.watch(readStatusRepositoryProvider).subscribeReadStatus(
         groupId: readGroup.groupId,
         userId: readGroup.createUserId,
       );
@@ -20,7 +20,7 @@ final groupPartnerLastReadAtProvider =
 
 final _groupPartnerReadStatusStreamProvider = StreamProvider.family
     .autoDispose<ReadStatus?, GroupModel>((ref, readGroup) {
-  return ref.watch(readStatusRepositoryProvider).subscrbeReadStatus(
+  return ref.watch(readStatusRepositoryProvider).subscribeReadStatus(
         groupId: readGroup.groupId,
         userId: readGroup.createUserId,
       );

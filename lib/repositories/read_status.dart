@@ -9,7 +9,7 @@ class ReadStatusRepository {
   final _query = ReadStatusQuery();
 
   /// Obtains the [ReadStatus] of the specified [chatRoomId] and [userId].
-  Stream<ReadStatus?> subscrbeReadStatus({
+  Stream<ReadStatus?> subscribeReadStatus({
     required String groupId,
     required String userId,
   }) {

@@ -36,7 +36,7 @@ class CreateMessageController extends AutoDisposeAsyncNotifier<void> {
 
     state = await AsyncValue.guard(() async {
       try {
-        if (message.messageText.isEmpty) {
+        if (message.content.isEmpty) {
           throw const AppException(
             message: '文章を入力してください。',
           );
@@ -73,7 +73,7 @@ class UpdateMessageController extends AutoDisposeAsyncNotifier<void> {
 
     state = await AsyncValue.guard(() async {
       try {
-        if (message.messageText.isEmpty) {
+        if (message.content.isEmpty) {
           throw const AppException(
             message: '文章を入力してください。',
           );

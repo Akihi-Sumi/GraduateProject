@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:graduate_app/controller/group.dart';
+import 'package:graduate_app/page/group/group_info_card.dart';
+import 'package:graduate_app/widgets/imitation_list_tile.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SearchUserGroupDelegate extends SearchDelegate {
@@ -25,7 +28,7 @@ class SearchUserGroupDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return const SizedBox();
+    return buildSuggestions(context);
   }
 
   @override
@@ -33,11 +36,35 @@ class SearchUserGroupDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return ListTile(
-      leading: CircleAvatar(),
-      title: Text("結果"),
-      onTap: () {},
-    );
+    return ref.watch(searchGroupProvider(query)).when(
+          data: (groups) => ListView.builder(
+              itemCount: groups.length,
+              itemBuilder: (context, index) {
+                final group = groups[index];
+                return ImitationListTile(
+                  title: Text(
+                    group.groupName,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  leading: CircleAvatar(),
+                  // onTap: () => navigateToUserOrGroup(context, group.groupName),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return GroupInfoCard(groupName: group.groupName);
+                      },
+                    );
+                  },
+                );
+              }),
+          error: (error, stackTrace) {
+            return Text("An error occurred");
+          },
+          loading: () {
+            return CircularProgressIndicator();
+          },
+        );
   }
 
   @override
@@ -50,7 +77,4 @@ class SearchUserGroupDelegate extends SearchDelegate {
       ),
     );
   }
-
-  void navigateToUserOrGroup(
-      BuildContext context, String userName, String groupName) {}
 }

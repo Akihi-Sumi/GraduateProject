@@ -1,184 +1,173 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:graduate_app/controller/group_message.dart';
-import 'package:graduate_app/models/message/message.dart';
-import 'package:graduate_app/page/group/send_message_page.dart';
-import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
+import 'package:gap/gap.dart';
+import 'package:graduate_app/controllers/group/groups.dart';
+import 'package:graduate_app/page/auth/auth_dependent_builder.dart';
+import 'package:graduate_app/page/group/group_chat_page.dart';
 import 'package:graduate_app/utils/extensions/date_time.dart';
-import 'package:graduate_app/widgets/message_bubble.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()
-class GroupRouterPage extends AutoRouter {
-  const GroupRouterPage({super.key});
-}
-
-@RoutePage()
-class GroupPage extends HookConsumerWidget {
+class GroupPage extends ConsumerWidget {
   const GroupPage({Key? key}) : super(key: key);
+
+  static const path = 'group';
+  static const location = path;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final groupMessages =
-        ref.watch(groupMessageProvider).maybeWhen<List<Message>>(
-              data: (data) => data.toList(),
-              orElse: () => [],
-            );
-
-    final userId = ref.watch(authRepositoryImplProvider).currentUser?.uid;
-
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 20),
-          child: Column(
-            children: groupMessages.map((messages) {
-              /// 自身のユーザーIDとメッセージのユーザーIDを比較
-              final isSender = userId == messages.userId;
-
-              return Container(
-                margin: EdgeInsets.only(bottom: 15),
-                child: GroupMessageBubble(
-                  message: messages,
-                  isSender: isSender,
-                  textStyle: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18.5,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  onLongPress: () {
-                    print("longPressed");
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        body: AuthDependentBuilder(
+          onAuthenticated: ((userId) {
+            final readGroups = ref.watch(groupsStreamProvider(userId));
+            return readGroups.when(
+              data: (groups) {
+                if (groups.isEmpty) {
+                  return Padding(
+                    padding: const EdgeInsets.all(36),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.chat,
+                            size: 80,
+                            color: Colors.white,
+                          ),
+                          const Gap(16),
+                          const Text(
+                            "グループがありません。\n"
+                            "作成するか参加してみましょう",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+                return ListView.builder(
+                  itemCount: groups.length,
+                  itemBuilder: (context, index) {
+                    final group = groups[index];
+                    final latestMessage =
+                        ref.watch(latestMessageProvider(group.groupId));
+                    return GenericGroupCard(
+                      title: group.groupName,
+                      latestMessage: latestMessage?.content,
+                      onTap: () => context.router.pushNamed(
+                        GroupChatPage.location(groupId: group.groupId),
+                      ),
+                      updatedAt: latestMessage?.createdAt,
+                      unReadCountString: ref.watch(
+                        unReadCountStringProvider(group),
+                      ),
+                      isMyMessage: latestMessage?.senderId == userId,
+                    );
                   },
-                  date: toIsoStringDateWithWeekDay(messages.createdAt.dateTime),
-                  time: to24HourNotationString(messages.createdAt.dateTime),
-                ),
-              );
-            }).toList(),
-          ),
+                );
+              },
+              loading: () => const SizedBox(),
+              error: (_, __) => const Text("error"),
+            );
+          }),
         ),
       ),
-      floatingActionButton: Container(
-        height: 80,
-        width: 80,
-        padding: EdgeInsets.only(bottom: 10, right: 10),
-        child: FloatingActionButton(
-          backgroundColor: Colors.orange[700],
-          heroTag: "post",
-          onPressed: () => showModalBottomSheet(
-            context: context,
-            useRootNavigator: true,
-            builder: (builder) {
-              return SelectPostTypeSheet();
-            },
-            backgroundColor: Colors.grey[850],
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(25.0),
-              ),
-            ),
-          ),
-          child: Icon(
-            Icons.add,
-            size: 50,
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
 
-class SelectPostTypeSheet extends StatelessWidget {
-  const SelectPostTypeSheet({Key? key}) : super(key: key);
+class GenericGroupCard extends StatelessWidget {
+  const GenericGroupCard({
+    super.key,
+    required this.title,
+    this.latestMessage,
+    this.onTap,
+    this.unReadCountString,
+    this.updatedAt,
+    required this.isMyMessage,
+    this.imageSize = 54,
+  });
 
-  void navigateToType(BuildContext context, String type) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => SendMessagePage(type: type)));
-  }
+  final double imageSize;
+  final String? latestMessage;
+  final String title;
+  final VoidCallback? onTap;
+  final String? unReadCountString;
+  final DateTime? updatedAt;
+  final bool isMyMessage;
 
   @override
   Widget build(BuildContext context) {
-    double cardHeightWidth = kIsWeb ? 360 : 120;
-    double iconSize = kIsWeb ? 120 : 60;
-
-    return SizedBox(
-      height: 180,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          GestureDetector(
-            child: SizedBox(
-              height: cardHeightWidth,
-              width: cardHeightWidth,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                color: Colors.black,
-                elevation: 16,
-                child: Center(
-                  child: Icon(
-                    Icons.add_comment,
-                    size: iconSize,
-                  ),
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CircleAvatar(
+              radius: imageSize / 2,
+              backgroundColor: Colors.grey,
+              child: const Icon(Icons.person),
+            ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style:
+                          TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Gap(3),
+                    if (latestMessage != null)
+                      Text(
+                        latestMessage!,
+                        style: TextStyle(color: Colors.grey),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                  ],
                 ),
               ),
             ),
-            onTap: () {
-              Navigator.of(context).pop();
-              // メッセージ作成画面orウィジェット
-              navigateToType(context, 'text');
-            },
-          ),
-          GestureDetector(
-            child: SizedBox(
-              height: cardHeightWidth,
-              width: cardHeightWidth,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                color: Colors.black,
-                elevation: 16,
-                child: Center(
-                  child: Icon(
-                    Icons.image,
-                    size: iconSize,
+            Column(
+              children: [
+                if (updatedAt != null)
+                  Text(
+                    updatedAt!.formatRelativeDate(),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-              ),
+                Gap(5),
+                if (!isMyMessage) ...[
+                  if ((unReadCountString ?? '').isNotEmpty)
+                    Container(
+                      width: 30,
+                      height: 30,
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Text(
+                          unReadCountString!,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                ],
+              ],
             ),
-            onTap: () {
-              Navigator.of(context).pop();
-              // 画像選択画面orウィジェット
-            },
-          ),
-          GestureDetector(
-            child: SizedBox(
-              height: cardHeightWidth,
-              width: cardHeightWidth,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                color: Colors.black,
-                elevation: 16,
-                child: Center(
-                  child: Icon(
-                    Icons.add_a_photo,
-                    size: iconSize,
-                  ),
-                ),
-              ),
-            ),
-            onTap: () {
-              Navigator.of(context).pop();
-              // カメラ起動
-            },
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -1,109 +1,67 @@
 import 'package:intl/intl.dart';
 
+/// [DateTime] 型の拡張クラス。
 extension DateTimeExtension on DateTime {
-  /// 日本の曜日
-  static const List<String> japaneseWeekdays = [
-    '月',
-    '火',
-    '水',
-    '木',
-    '金',
-    '土',
-    '日'
-  ];
+  /// _daysBeforeメソッドで使用される定数。
+  /// 「N日前」と表示される最小日数を示す。
+  static const _daysBeforeLowerLimit = 2;
 
-  /// 「2022-01-01 (月)」のような文字列に変換する
-  String toYYYYMMDD({
-    String delimiter = '-',
-    bool withJapaneseWeekDay = true,
-  }) =>
-      withJapaneseWeekDay
-          ? DateFormat('yyyy${delimiter}MM${delimiter}dd ($japaneseWeekDay)')
-              .format(this)
-          : DateFormat('yyyy${delimiter}MM${delimiter}dd').format(this);
+  /// _daysBeforeメソッドで使用される定数。
+  /// 「N日前」と表示される最大日数を示す。
+  static const _daysBeforeUpperLimit = 7;
 
-  /// 「2022年01月01日 (月)」のような文字列に変換する
-  String toJaYYYYMMDD({bool withJapaneseWeekDay = true}) => withJapaneseWeekDay
-      ? DateFormat('yyyy年MM月dd日 ($japaneseWeekDay)').format(this)
-      : DateFormat('yyyy年MM月dd日').format(this);
+  /// 「yyyy年MM月dd日」形式の文字列を返す。
+  String formatDate() => DateFormat('yyyy年MM月dd日').format(this);
 
-  /// 「2022-01-01 (月) 00:00」のような文字列に変換する
-  String toYYYYMMDDHHMM({
-    String delimiter = '-',
-    bool withJapaneseWeekDay = true,
-  }) =>
-      withJapaneseWeekDay
-          ? DateFormat(
-              'yyyy${delimiter}MM${delimiter}dd ($japaneseWeekDay) HH:mm',
-            ).format(this)
-          : DateFormat('yyyy${delimiter}MM${delimiter}dd HH:mm').format(this);
+  /// 「yyyy年MM月dd日 HH時mm分」形式の文字列を返す。
+  String formatDateTime() => DateFormat('yyyy年MM月dd日 HH時mm分').format(this);
 
-  /// 「2022年01月01日 (月) 00:00」のような文字列に変換する
-  String toJaYYYYMMDDHHMM({bool withJapaneseWeekDay = true}) =>
-      withJapaneseWeekDay
-          ? DateFormat('yyyy年MM月dd日 ($japaneseWeekDay) HH:mm').format(this)
-          : DateFormat('yyyy年MM月dd日 HH:mm').format(this);
-
-  /// 入力日の日本の曜日を返す
-  String get japaneseWeekDay => japaneseWeekdays[_weekDayInt(this) - 1];
-
-  /// 入力日の曜日を整数型で返す
-  int _weekDayInt(DateTime dateTime) => dateTime.weekday;
-}
-
-/// yyyy-MM-dd (曜) の形式の文字列を返す
-String toIsoStringDateWithWeekDay(DateTime? dateTime,
-    [String placeHolder = '']) {
-  if (dateTime == null) {
-    return placeHolder;
-  }
-  return '${DateFormat('yyyy-MM-dd').format(dateTime)} '
-      '(${dateTime.japaneseWeekDay})';
-}
-
-/// 24 時間制の時刻だけを返す
-String to24HourNotationString(DateTime? dateTime) {
-  return dateTime == null ? '' : DateFormat.Hm().format(dateTime);
-}
-
-/// 2 つの DateTime が同じ日かどうか判定する
-bool sameDay(DateTime a, DateTime b) =>
-    a.difference(b).inDays == 0 && a.day == b.day;
-
-/// - 今日と同じ日付なら 24 時間制の時刻の文字列を
-/// - N 日前までなら「N 日前」の文字列を
-/// - それより前なら yyyy-MM-dd の日付を
-///
-/// 返す
-String humanReadableDateTimeString(
-  DateTime? dateTime, [
-  int daysDiffLimit = 7,
-  String placeHolder = '',
-]) {
-  if (dateTime == null) {
-    return placeHolder;
-  }
-  final now = DateTime.now();
-  if (sameDay(dateTime, now)) {
-    return DateFormat('HH:mm').format(dateTime);
-  }
-  // 今日の 00:00
-  final todaysMidnight = DateTime(now.year, now.month, now.day);
-  // 引数に渡した日の 00:00
-  final midnight = DateTime(dateTime.year, dateTime.month, dateTime.day);
-
-  // 今日の 00:00 と引数に渡した日の 00:00 の日付差を取って
-  // 「今日」「昨日」or「N 日前」の文字列を返す
-  final daysDiff = todaysMidnight.difference(midnight).inDays.abs();
-  if (daysDiff <= daysDiffLimit) {
-    if (daysDiff == 0) {
-      return '今日';
+  /// thisと現在時刻と比較して相対的な日付文字列を返す。
+  /// thisが今日であれば、「HH:mm」
+  /// 昨日であれば、「昨日」
+  /// _daysBeforeLowerLimitから_daysBeforeUpperLimitの範囲内であれば、「N日前」
+  /// それ以外は 'yyyy年MM月dd日' 形式の日付
+  String formatRelativeDate() {
+    if (_isToday()) {
+      return DateFormat('HH:mm').format(this);
     }
-    if (daysDiff == 1) {
+    if (_isYesterday()) {
       return '昨日';
     }
-    return '$daysDiff 日前';
+    final daysBeforeResult = _daysBefore();
+    if (daysBeforeResult != null) {
+      return '$daysBeforeResult日前';
+    }
+    return formatDate();
   }
-  // 上記に該当しない場合は yyyy-MM-dd の日付を返す
-  return DateFormat('yyyy-MM-dd').format(dateTime);
+
+  /// thisが今日かどうかの真偽値を返す。
+  /// thisと現在時刻の「年、月、日」が全て一致する場合には「今日」であるため真を返す。
+  bool _isToday() {
+    final now = DateTime.now();
+    return year == now.year && month == now.month && day == now.day;
+  }
+
+  /// thisが昨日かどうかの真偽値を返す。
+  /// thisと現在の日付より1日前の「年、月、日」が全て一致する場合には「昨日」であるため真を返す。
+  bool _isYesterday() {
+    final now = DateTime.now();
+    final yesterday = DateTime(now.year, now.month, now.day - 1);
+    return year == yesterday.year &&
+        month == yesterday.month &&
+        day == yesterday.day;
+  }
+
+  /// thisと現在時刻との間の日数を計算し、
+  /// その日数が[_daysBeforeLowerLimit] 日〜 [_daysBeforeUpperLimit] 日の範囲内ならその数字を、
+  /// そうでなければnullを返す
+  int? _daysBefore() {
+    final now = DateTime.now();
+    final difference = now.difference(this).inDays;
+    if (difference >= _daysBeforeLowerLimit &&
+        difference <= _daysBeforeUpperLimit) {
+      return difference;
+    }
+    return null;
+  }
 }

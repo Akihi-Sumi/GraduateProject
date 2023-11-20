@@ -10,9 +10,11 @@ class GroupModel with _$GroupModel {
   const factory GroupModel({
     @Default('') String groupId,
     @Default('') String groupName,
+    @Default('') String createUserId,
     @Default(<String>[]) List<String> members,
     @Default(<String>[]) List<String> mods,
-    @unionTimestampConverter required UnionTimestamp createdAt,
+    @unionTimestampConverter UnionTimestamp? createdAt,
+    @alwaysUseServerTimestampUnionTimestampConverter UnionTimestamp? updatedAt,
   }) = _GroupModel;
 
   factory GroupModel.fromJson(Map<String, dynamic> json) =>

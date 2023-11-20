@@ -5,16 +5,7 @@ import 'package:graduate_app/repositories/group_message/group_message_repository
 import 'package:graduate_app/utils/exceptions/exception.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final groupMessageProvider = StreamProvider.autoDispose<List<Message>>((ref) {
-  final groupMessages =
-      ref.read(groupMessageRepositoryImplProvider).subscribeGroupMessages(
-            queryBuilder: (q) => q.orderBy('createdAt', descending: false),
-          );
-
-  return groupMessages;
-});
-
-final sendMessageControllerProvider =
+final sendMessageAllGroupControllerProvider =
     AutoDisposeAsyncNotifierProvider<SendMessageController, void>(
   SendMessageController.new,
 );
@@ -23,29 +14,19 @@ class SendMessageController extends AutoDisposeAsyncNotifier<void> {
   @override
   FutureOr<void> build() {}
 
-  Future<void> sendMessage({
+  Future<void> sendMessageAllGroup({
     required Message groupMessage,
-    //required GroupModel group,
+    required String userId,
   }) async {
-    final groupMessageRepository = ref.read(groupMessageRepositoryImplProvider);
+    final groupMessageRepo = ref.read(groupMessageRepositoryImplProvider);
 
     state = const AsyncLoading();
 
     state = await AsyncValue.guard(() async {
       try {
-        if (groupMessage.messageText.isEmpty) {
-          throw const AppException(
-            message: "文章を入力してください",
-          );
-        }
-        // if (group.groupId == 'id-unselected') {
-        //   throw const AppException(
-        //     message: "グループを選択してください",
-        //   );
-        // }
-
-        await groupMessageRepository.sendMessage(
+        await groupMessageRepo.sendMessageAllGroup(
           groupMessage: groupMessage,
+          userId: userId,
         );
       } on AppException {
         rethrow;

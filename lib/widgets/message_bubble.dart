@@ -3,260 +3,62 @@ import 'package:graduate_app/models/message/message.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MessageBubble extends HookConsumerWidget {
-  final bool isSender;
   final bool tail;
-  final TextStyle textStyle;
-  final bool changeEnable;
-  final VoidCallback exe;
+  final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
 
   final Message message;
 
   const MessageBubble({
     Key? key,
     required this.message,
-    required this.isSender,
+    this.onTap,
+    this.onLongPress,
     this.tail = true,
-    this.textStyle = const TextStyle(
-      color: Colors.black87,
-      fontSize: 30,
-      fontWeight: FontWeight.bold,
-    ),
-    required this.changeEnable,
-    required this.exe,
   }) : super(key: key);
 
   ///chat bubble builder method
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: isSender ? exe : null,
+      onTap: onTap,
+      onLongPress: onLongPress,
       child: Align(
-        alignment: isSender ? Alignment.topRight : Alignment.topLeft,
+        alignment: Alignment.topRight,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 2),
           child: CustomPaint(
             painter: BubbleSampleDesign(
-              color: isSender ? Colors.orange : Colors.grey.shade400,
-              alignment: isSender ? Alignment.topRight : Alignment.topLeft,
+              color: Colors.orange,
+              alignment: Alignment.topRight,
               tail: tail,
             ),
             child: Container(
               constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width * .8,
               ),
-              margin: isSender
-                  ? EdgeInsets.fromLTRB(15, 15, 25, 15)
-                  : EdgeInsets.fromLTRB(25, 15, 15, 15),
+              margin: EdgeInsets.fromLTRB(15, 15, 25, 15),
               child: Stack(
                 children: <Widget>[
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                    child: changeEnable
-                        ? TextField(
-                            enabled: changeEnable,
-                            style: textStyle,
-                            textAlign: TextAlign.left,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                            ),
-                          )
-                        : Text(
-                            message.messageText,
-                            style: textStyle,
-                          ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class EditMessageBubble extends StatelessWidget {
-  const EditMessageBubble({
-    Key? key,
-    required this.message,
-    required this.onLongPress,
-    required this.textStyle,
-    this.tail = true,
-  }) : super(key: key);
-
-  final Message message;
-
-  final bool tail;
-  final TextStyle textStyle;
-  final void Function()? onLongPress;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onLongPress: onLongPress,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-            child: CustomPaint(
-              painter: BubbleSampleDesign(
-                  color: Colors.orange,
-                  alignment: Alignment.topRight,
-                  tail: tail),
-              child: Container(
-                constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width * .8,
-                ),
-                margin: EdgeInsets.fromLTRB(12.5, 15, 20, 15),
-                child: Stack(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 0, horizontal: 0),
-                      child: Text(
-                        message.messageText,
-                        style: textStyle,
+                    child: Text(
+                      message.content,
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
-  }
-}
-
-class GroupMessageBubble extends StatelessWidget {
-  const GroupMessageBubble({
-    Key? key,
-    required this.message,
-    required this.isSender,
-    required this.textStyle,
-    required this.onLongPress,
-    required this.date,
-    required this.time,
-    this.tail = true,
-  }) : super(key: key);
-
-  final Message message;
-  final bool isSender;
-
-  final TextStyle textStyle;
-  final void Function()? onLongPress;
-  final String date;
-  final String time;
-  final bool tail;
-
-  @override
-  Widget build(BuildContext context) {
-    if (isSender) {
-      return GestureDetector(
-        onLongPress: onLongPress,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 17),
-              child: Column(
-                children: [
-                  Text(
-                    date,
-                    style: TextStyle(fontSize: 12.5),
-                  ),
-                  Text(
-                    time,
-                    style: TextStyle(fontSize: 12.5),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-              child: CustomPaint(
-                painter: BubbleSampleDesign(
-                    color: Colors.orange,
-                    alignment: Alignment.topRight,
-                    tail: tail),
-                child: Container(
-                  constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * .8,
-                  ),
-                  margin: EdgeInsets.fromLTRB(12.5, 15, 20, 15),
-                  child: Stack(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 0, horizontal: 0),
-                        child: Text(
-                          message.messageText,
-                          style: textStyle,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return GestureDetector(
-        onLongPress: () {},
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-              child: CustomPaint(
-                painter: BubbleSampleDesign(
-                    color: Colors.grey.shade400,
-                    alignment: Alignment.topLeft,
-                    tail: tail),
-                child: Container(
-                  constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * .8,
-                  ),
-                  margin: EdgeInsets.fromLTRB(25, 15, 12.5, 15),
-                  child: Stack(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 0, horizontal: 0),
-                        child: Text(
-                          message.messageText,
-                          style: textStyle,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 17),
-              child: Column(
-                children: [
-                  Text(
-                    date,
-                    style: TextStyle(fontSize: 12.5),
-                  ),
-                  Text(
-                    time,
-                    style: TextStyle(fontSize: 12.5),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    }
   }
 }
 

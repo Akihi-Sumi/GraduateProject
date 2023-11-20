@@ -8,12 +8,13 @@ part 'message.g.dart';
 @freezed
 class Message with _$Message {
   const factory Message({
-    @Default('') String userId,
-    @Default('') String userName,
     @Default('') String messageId,
-    @Default('') String type,
-    @Default('') String messageText,
-    @unionTimestampConverter required UnionTimestamp createdAt,
+    @Default('') String senderId,
+    @Default('') String content,
+    @Default(<String>[]) List<String> imageUrls,
+    @Default(false) bool isDeleted,
+    @unionTimestampConverter DateTime? createdAt,
+    @alwaysUseServerTimestampUnionTimestampConverter DateTime? updatedAt,
   }) = _Message;
 
   factory Message.fromJson(Map<String, dynamic> json) =>

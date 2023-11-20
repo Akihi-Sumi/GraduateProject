@@ -8,22 +8,29 @@ part of 'message.dart';
 
 _$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
     _$MessageImpl(
-      userId: json['userId'] as String? ?? '',
-      userName: json['userName'] as String? ?? '',
       messageId: json['messageId'] as String? ?? '',
-      type: json['type'] as String? ?? '',
-      messageText: json['messageText'] as String? ?? '',
-      isSendUser: json['isSendUser'] as bool? ?? true,
-      createdAt: unionTimestampConverter.fromJson(json['createdAt'] as Object),
+      senderId: json['senderId'] as String? ?? '',
+      content: json['content'] as String? ?? '',
+      imageUrls: (json['imageUrls'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const <String>[],
+      isDeleted: json['isDeleted'] as bool? ?? false,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
 Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) =>
     <String, dynamic>{
-      'userId': instance.userId,
-      'userName': instance.userName,
       'messageId': instance.messageId,
-      'type': instance.type,
-      'messageText': instance.messageText,
-      'isSendUser': instance.isSendUser,
-      'createdAt': unionTimestampConverter.toJson(instance.createdAt),
+      'senderId': instance.senderId,
+      'content': instance.content,
+      'imageUrls': instance.imageUrls,
+      'isDeleted': instance.isDeleted,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };

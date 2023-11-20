@@ -51,7 +51,7 @@ class FirebaseConstants {
 }
 
 /// groupコレクション
-final groupsRef = _db.collection('groups').withConverter(
+final groupsRef = _db.collection('groups').withConverter<GroupModel>(
       fromFirestore: (ds, _) => GroupModel.fromDocumentSnapshot(ds),
       toFirestore: (obj, _) => obj.toJson(),
     );
@@ -63,13 +63,19 @@ DocumentReference<GroupModel> groupRef({
     groupsRef.doc(groupId);
 
 /// groupMessagesコレクション
-final groupMessagesRef = _db.collection('groupMessages').withConverter(
-      fromFirestore: (ds, _) => Message.fromDocumentSnapshot(ds),
-      toFirestore: (obj, _) => obj.toJson(),
-    );
+CollectionReference<Message> groupMessagesRef({
+  required String groupId,
+}) =>
+    groupRef(groupId: groupId)
+        .collection('groupMessages')
+        .withConverter<Message>(
+          fromFirestore: (ds, _) => Message.fromDocumentSnapshot(ds),
+          toFirestore: (obj, _) => obj.toJson(),
+        );
 
 /// groupMessageドキュメント
 DocumentReference<Message> groupMessageRef({
+  required String groupId,
   required String messageId,
 }) =>
-    groupMessagesRef.doc(messageId);
+    groupMessagesRef(groupId: groupId).doc(messageId);

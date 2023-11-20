@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/controller/group_message.dart';
 import 'package:graduate_app/controller/message.dart';
+import 'package:graduate_app/controllers/auth.dart';
 import 'package:graduate_app/models/message/message.dart';
-import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
 import 'package:graduate_app/utils/async_value_error_dialog.dart';
 import 'package:graduate_app/utils/dialog.dart';
-import 'package:graduate_app/utils/json_converters/union_timestamp.dart';
 import 'package:graduate_app/utils/loading.dart';
 import 'package:graduate_app/utils/scaffold_messenger_service.dart';
 import 'package:graduate_app/widgets/message_bubble.dart';
@@ -25,7 +24,7 @@ class HomePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen<AsyncValue<void>>(sendMessageControllerProvider,
+    ref.listen<AsyncValue<void>>(sendMessageAllGroupControllerProvider,
         (_, state) async {
       if (state.isLoading) {
         ref.watch(overlayLoadingProvider.notifier).update((state) => true);
@@ -38,7 +37,7 @@ class HomePage extends HookConsumerWidget {
           ref
               .read(scaffoldMessengerServiceProvider)
               .showSnackBar("メッセージを送信しました");
-          //Navigator.of(context).pop();
+          //Navigator.of(context, rootNavigator: true).pop();
         },
         error: (e, s) async {
           ref.watch(overlayLoadingProvider.notifier).update((state) => false);
@@ -57,11 +56,13 @@ class HomePage extends HookConsumerWidget {
           orElse: () => [],
         );
 
-    final userId = ref.watch(authRepositoryImplProvider).currentUser?.uid;
+    final userId = ref.watch(userIdProvider);
     final appUserName = ref.watch(appUserFutureProvider).maybeWhen<String?>(
           data: (data) => data?.userName,
           orElse: () => null,
         );
+
+    final sendAllGroupState = ref.watch(sendMessageAllGroupControllerProvider);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -74,36 +75,29 @@ class HomePage extends HookConsumerWidget {
                     margin: EdgeInsets.only(bottom: 30),
                     child: MessageBubble(
                       message: message,
-                      isSender: true,
-                      changeEnable: false,
-                      exe: () async {
+                      onTap: () async {
                         await showActionDialog(
                           context: context,
                           title: "メッセージを送信しますか",
                           buttonText: "送信",
-                          onPressed: () async {
-                            ref
-                                .watch(overlayLoadingProvider.notifier)
-                                .update((state) => true);
+                          onPressed: sendAllGroupState.isLoading
+                              ? null
+                              : () async {
+                                  final groupMessage = Message(
+                                    content: message.content,
+                                    senderId: appUserName ?? '',
+                                    createdAt: DateTime.now(),
+                                  );
 
-                            final groupMessage = Message(
-                              messageText: message.messageText,
-                              type: 'text',
-                              userId: userId ?? '',
-                              userName: appUserName ?? '',
-                              createdAt: UnionTimestamp.serverTimestamp(),
-                            );
-
-                            await ref
-                                .read(sendMessageControllerProvider.notifier)
-                                .sendMessage(
-                                  groupMessage: groupMessage,
-                                );
-
-                            // if (context.mounted) {
-                            //   Navigator.of(context).pop();
-                            // }
-                          },
+                                  await ref
+                                      .read(
+                                          sendMessageAllGroupControllerProvider
+                                              .notifier)
+                                      .sendMessageAllGroup(
+                                        groupMessage: groupMessage,
+                                        userId: userId ?? '',
+                                      );
+                                },
                         );
                       },
                     ),

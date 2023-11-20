@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:graduate_app/controller/group.dart';
+import 'package:graduate_app/controllers/group/group.dart';
 import 'package:graduate_app/models/group/group_model.dart';
 import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
 import 'package:graduate_app/utils/async_value_error_dialog.dart';
@@ -19,23 +19,6 @@ class CreateGroupPage extends StatefulHookConsumerWidget {
 }
 
 class _CreateGroupPageState extends ConsumerState<CreateGroupPage> {
-  // final groupNameController = TextEditingController();
-
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   groupNameController.dispose();
-  // }
-
-  // void createGroup() {
-  //   ref.read(groupControllerProvider.notifier).createGroup(
-  //         groupNameController.text.trim(),
-  //         context,
-  //       );
-
-  //   groupNameController.clear();
-  // }
-
   @override
   Widget build(BuildContext context) {
     ref.listen(createGroupControllerProvider, (_, state) async {
@@ -63,58 +46,65 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60),
-          child: AppBar(
-            title: Text(
-              "グループ作成",
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
+      child: Stack(
+        children: [
+          Scaffold(
+            appBar: PreferredSize(
+              preferredSize: Size.fromHeight(60),
+              child: AppBar(
+                title: Text(
+                  "グループ作成",
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                centerTitle: true,
+                // leading: BackButton(
+                //   onPressed: () => context.popRoute(),
+                // ),
+                backgroundColor: Colors.black,
               ),
             ),
-            centerTitle: true,
-            // leading: BackButton(
-            //   onPressed: () => context.popRoute(),
-            // ),
-            backgroundColor: Colors.black,
-          ),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              _GroupNameTextForm(controller: useGroupNameController),
-              Measure.g_24,
-              Padding(
-                padding: Measure.p_h32,
-                child: PrimaryRoundedButton(
-                  text: "作成",
-                  onTap: () async {
-                    if (userId != null) {
-                      ref
-                          .watch(overlayLoadingProvider.notifier)
-                          .update((state) => true);
+            body: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  _GroupNameTextForm(controller: useGroupNameController),
+                  Measure.g_24,
+                  Padding(
+                    padding: Measure.p_h32,
+                    child: PrimaryRoundedButton(
+                      text: "作成",
+                      onTap: () async {
+                        if (userId != null) {
+                          ref
+                              .watch(overlayLoadingProvider.notifier)
+                              .update((state) => true);
 
-                      final group = GroupModel(
-                        groupId: useGroupNameController.value.text,
-                        groupName: useGroupNameController.value.text,
-                        members: [userId],
-                        mods: [userId],
-                        createdAt: UnionTimestamp.serverTimestamp(),
-                      );
+                          final group = GroupModel(
+                            groupId: useGroupNameController.value.text,
+                            groupName: useGroupNameController.value.text,
+                            createUserId: userId,
+                            members: [userId],
+                            mods: [userId],
+                            createdAt: UnionTimestamp.serverTimestamp(),
+                            updatedAt: UnionTimestamp.serverTimestamp(),
+                          );
 
-                      await ref
-                          .read(createGroupControllerProvider.notifier)
-                          .createGroup(group: group);
-                    }
-                  },
-                ),
+                          await ref
+                              .read(createGroupControllerProvider.notifier)
+                              .createGroup(group: group);
+                        }
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+          if (ref.watch(overlayLoadingProvider)) const OverlayLoadingWidget(),
+        ],
       ),
     );
   }

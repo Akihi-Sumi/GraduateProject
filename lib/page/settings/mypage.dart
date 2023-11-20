@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/utils/constants/app_colors.dart';
@@ -7,6 +10,7 @@ import 'package:graduate_app/utils/constants/measure.dart';
 import 'package:graduate_app/widgets/textform_header.dart';
 import 'package:graduate_app/widgets/userIcon.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 @RoutePage()
 class MyProfilePage extends StatefulHookConsumerWidget {
@@ -20,12 +24,29 @@ class MyPageState extends ConsumerState<MyProfilePage> {
   var nameController = TextEditingController();
   var emailController = TextEditingController();
 
+  File? _image;
+
+  Future _pickImage(ImageSource source) async {
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) return;
+      File? img = File(image.path);
+      setState(() {
+        _image = img;
+        Navigator.of(context).pop();
+      });
+    } on PlatformException catch (e) {
+      print(e);
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     nameController = TextEditingController(
-      // text: ref.read(appUserFutureProvider).value?.userName ?? '',
-      text: ref.read(userProvider)?.userName,
+      text: ref.read(appUserFutureProvider).value?.userName ?? '',
+      //text: ref.read(userProvider)?.userName,
     );
     emailController = TextEditingController(
       text: ref.read(appUserFutureProvider).value?.userEmail ?? '',
@@ -83,7 +104,20 @@ class MyPageState extends ConsumerState<MyProfilePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                UserIcon(),
+                UserIcon(
+                  content: Center(
+                    child: _image == null
+                        ? const Text(
+                            "No Image",
+                            style: TextStyle(fontSize: 24),
+                          )
+                        : CircleAvatar(
+                            backgroundImage: FileImage(_image!),
+                            radius: 200.0,
+                          ),
+                  ),
+                  onTap: () {},
+                ),
                 //SizedBox(height: 30),
                 _EditUserNameTextForm(
                   controller: nameController,

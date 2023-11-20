@@ -12,7 +12,7 @@ class MyAlertDialog extends StatelessWidget {
   final String title;
   final String txt_cancel;
   final String txt_ok;
-  final void Function()? onTap;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {

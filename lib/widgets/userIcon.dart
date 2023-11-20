@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 // import 'package:cached_network_image/cached_network_image.dart';
 
 class UserIcon extends StatelessWidget {
-  const UserIcon({Key? key}) : super(key: key);
+  const UserIcon({
+    Key? key,
+    required this.content,
+    required this.onTap,
+  }) : super(key: key);
 
   // final String avatarUrl;
+
+  final Widget content;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -14,32 +21,30 @@ class UserIcon extends StatelessWidget {
 
     return Stack(
       children: [
-        Icon(
-          Icons.account_circle_sharp,
-          size: iconSize,
+        Container(
+          height: iconSize,
+          width: iconSize,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.grey.shade600,
+          ),
+          child: content,
         ),
-        // CircleAvatar(
-        //   radius: 100,
-        // backgroundImage: NetworkImage(
-        //   /// profileImage
-        //   "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1327&q=80",
-        // ),
-        //),
         Positioned(
           bottom: algo * 5.0,
           right: algo * 10.0,
           child: GestureDetector(
-            onTap: () {
-              /// デバイスに保存されている写真を選ぶ処理
-              // PickImage(context);
-              print("写真を選択");
-            },
-            child: CircleAvatar(
-              radius: algo * 30.0,
-              backgroundColor: Colors.orange[700],
+            onTap: onTap,
+            child: Container(
+              height: 60,
+              width: 60,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.orange.shade700,
+              ),
               child: Icon(
                 Icons.camera_alt,
-                size: algo * 38.0,
+                size: algo * 37.0,
               ),
             ),
           ),

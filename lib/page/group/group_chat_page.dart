@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/controllers/group/group.dart';
@@ -174,8 +175,22 @@ class _MessageInputFieldState extends ConsumerState<_MessageInputField> {
     return Row(
       children: [
         IconButton(
-          onPressed: () {},
           icon: Icon(Icons.add),
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              useRootNavigator: true,
+              builder: (builder) {
+                return SelectImageOrCameraSheet();
+              },
+              backgroundColor: Color.fromARGB(255, 186, 105, 13),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(25),
+                ),
+              ),
+            );
+          },
         ),
         Expanded(
           child: Container(
@@ -233,6 +248,70 @@ class _MessageInputFieldState extends ConsumerState<_MessageInputField> {
           },
         ),
       ],
+    );
+  }
+}
+
+class SelectImageOrCameraSheet extends StatelessWidget {
+  const SelectImageOrCameraSheet({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    double cardHeightWidth = kIsWeb ? 360 : 120;
+    double iconSize = kIsWeb ? 120 : 60;
+
+    return SizedBox(
+      height: 180,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          GestureDetector(
+            child: SizedBox(
+              height: cardHeightWidth,
+              width: cardHeightWidth,
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                color: Colors.black,
+                elevation: 16,
+                child: Center(
+                  child: Icon(
+                    Icons.image,
+                    size: iconSize,
+                  ),
+                ),
+              ),
+            ),
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          GestureDetector(
+            child: SizedBox(
+              height: cardHeightWidth,
+              width: cardHeightWidth,
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                color: Colors.black,
+                elevation: 16,
+                child: Center(
+                  child: Icon(
+                    Icons.add_a_photo,
+                    size: iconSize,
+                  ),
+                ),
+              ),
+            ),
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
     );
   }
 }

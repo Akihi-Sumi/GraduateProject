@@ -136,7 +136,7 @@ class ContentBox extends ConsumerWidget {
                                   ),
                                   onPressed: () {},
                                   child: Text(
-                                    "モデレーターツール",
+                                    "管理者ツール",
                                     style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,

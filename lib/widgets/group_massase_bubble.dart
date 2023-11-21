@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:graduate_app/controllers/group/read_status.dart';
+import 'package:graduate_app/controller/group_controller/read_status.dart';
 import 'package:graduate_app/models/group/group_model.dart';
 import 'package:graduate_app/models/message/message.dart';
 import 'package:graduate_app/utils/extensions/date_time.dart';

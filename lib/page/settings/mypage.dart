@@ -3,26 +3,29 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graduate_app/controller/app_user.dart';
+import 'package:graduate_app/controller/user_profile_controller.dart';
 import 'package:graduate_app/utils/constants/app_colors.dart';
 import 'package:graduate_app/utils/constants/measure.dart';
+import 'package:graduate_app/widgets/select_photo_options.dart';
 import 'package:graduate_app/widgets/textform_header.dart';
 import 'package:graduate_app/widgets/userIcon.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 @RoutePage()
-class MyProfilePage extends StatefulHookConsumerWidget {
+class MyProfilePage extends ConsumerStatefulWidget {
   const MyProfilePage({Key? key}) : super(key: key);
 
   @override
-  MyPageState createState() => MyPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => MyProfilePageState();
 }
 
-class MyPageState extends ConsumerState<MyProfilePage> {
-  var nameController = TextEditingController();
-  var emailController = TextEditingController();
+class MyProfilePageState extends ConsumerState<MyProfilePage> {
+  late TextEditingController nameController;
+  late TextEditingController emailController;
+  late TextEditingController evacuationController;
 
   File? _image;
 
@@ -31,6 +34,8 @@ class MyPageState extends ConsumerState<MyProfilePage> {
       final image = await ImagePicker().pickImage(source: source);
       if (image == null) return;
       File? img = File(image.path);
+      img = await _cropImage(imageFile: img);
+
       setState(() {
         _image = img;
         Navigator.of(context).pop();
@@ -41,16 +46,65 @@ class MyPageState extends ConsumerState<MyProfilePage> {
     }
   }
 
+  Future<File?> _cropImage({required File imageFile}) async {
+    CroppedFile? croppedImage =
+        await ImageCropper().cropImage(sourcePath: imageFile.path);
+    if (croppedImage == null) return null;
+    return File(croppedImage.path);
+  }
+
+  void _showSelectPhotoOptions(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(25.0),
+        ),
+      ),
+      builder: (context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.28,
+          maxChildSize: 0.4,
+          minChildSize: 0.28,
+          expand: false,
+          builder: (context, scrollController) {
+            return SingleChildScrollView(
+              controller: scrollController,
+              child: SelectPhotoOptions(
+                onTap: _pickImage,
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
-    nameController = TextEditingController(
-      text: ref.read(appUserFutureProvider).value?.userName ?? '',
-      //text: ref.read(userProvider)?.userName,
-    );
+    nameController =
+        TextEditingController(text: ref.read(userProvider)?.userName);
     emailController = TextEditingController(
       text: ref.read(appUserFutureProvider).value?.userEmail ?? '',
     );
+    evacuationController = TextEditingController(
+      text: ref.read(appUserFutureProvider).value?.userEvacuation ?? '',
+    );
+  }
+
+  void save() {
+    // appUserを変更
+    ref.read(userProfileControllerProvider.notifier).editUserProfile(
+          profileFile: _image,
+          userName: nameController.text.trim(),
+          userEmail: emailController.text.trim(),
+          userEvacuation: evacuationController.text.trim(),
+          context: context,
+        );
+    // Authenticationを変更
+    //ref.read(editEmailProvider.notifier).emailUpdate(emailController.text);
   }
 
   @override
@@ -58,22 +112,19 @@ class MyPageState extends ConsumerState<MyProfilePage> {
     super.dispose();
     nameController.dispose();
     emailController.dispose();
+    evacuationController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final bottomSpace = MediaQuery.of(context).viewInsets.bottom;
 
-    final appUserName = ref.watch(appUserFutureProvider).maybeWhen(
-          data: (data) => data?.userName,
-          orElse: () => null,
-        );
-    final appUserEmail = ref.watch(appUserFutureProvider).maybeWhen(
-          data: (data) => data?.userEmail,
+    final appUserPicture = ref.watch(appUserFutureProvider).maybeWhen(
+          data: (data) => data?.profilePicture,
           orElse: () => null,
         );
 
-    final userEvacuation = useTextEditingController(text: "保存した避難場所");
+    // final userEvacuation = useTextEditingController(text: "保存した避難場所");
 
     // キーボード外をタップで収納するよう変更 (済み)
     return GestureDetector(
@@ -111,14 +162,22 @@ class MyPageState extends ConsumerState<MyProfilePage> {
                             "No Image",
                             style: TextStyle(fontSize: 24),
                           )
-                        : CircleAvatar(
-                            backgroundImage: FileImage(_image!),
-                            radius: 200.0,
-                          ),
+                        : _image != null
+                            ? CircleAvatar(
+                                backgroundImage: FileImage(_image!),
+                                radius: 200.0,
+                              )
+                            : CircleAvatar(
+                                backgroundImage:
+                                    NetworkImage(appUserPicture ?? ''),
+                                radius: 200.0,
+                              ),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    _showSelectPhotoOptions(context);
+                  },
                 ),
-                //SizedBox(height: 30),
+                SizedBox(height: 30),
                 _EditUserNameTextForm(
                   controller: nameController,
                   onPressed: () => nameController.clear(),
@@ -130,105 +189,84 @@ class MyPageState extends ConsumerState<MyProfilePage> {
                 ),
                 SizedBox(height: 20),
                 _EditEvacuationTextForm(
-                  controller: userEvacuation,
-                  onPressed: () => userEvacuation.clear(),
+                  controller: evacuationController,
+                  onPressed: () => evacuationController.clear(),
                 ),
                 SizedBox(height: 40),
                 SizedBox(
                   width: 140,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: (nameController.text != appUserName ||
-                            emailController.text != appUserEmail ||
-                            userEvacuation.text != "前回保存した避難場所")
-                        ? () {
-                            //メールアドレスのバリデーション & 名前と避難場所の欄が空白じゃないとき
-                            if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                    .hasMatch(emailController.text) &&
-                                nameController.text.isNotEmpty &&
-                                userEvacuation.text.isNotEmpty) {
-                              FocusScope.of(context).unfocus();
-                              showDialog<void>(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: Text("変更内容を保存しました"),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                        FocusScope.of(context).unfocus();
-                                      },
-                                      child: Text(
-                                        "閉じる",
-                                        style: TextStyle(fontSize: 17.5),
-                                      ),
-                                    ),
-                                  ],
+                    onPressed: () async {
+                      //メールアドレスのバリデーション & 名前と避難場所の欄が空白じゃないとき
+                      if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              .hasMatch(emailController.text) &&
+                          nameController.text.isNotEmpty &&
+                          evacuationController.text.isNotEmpty) {
+                        save;
+                        FocusScope.of(context).unfocus();
+                      }
+                      // 空欄があるとき
+                      else if (nameController.text.isEmpty ||
+                          emailController.text.isEmpty ||
+                          evacuationController.text.isEmpty) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text(
+                              "未入力の項目があります",
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 23.5,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  "閉じる",
+                                  style: TextStyle(fontSize: 17.5),
                                 ),
-                              );
-                            }
-                            // 空欄があるとき
-                            else if (nameController.text.isEmpty ||
-                                emailController.text.isEmpty ||
-                                userEvacuation.text.isEmpty) {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: Text(
-                                    "未入力の項目があります",
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 23.5,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      // メールアドレスが無効なとき
+                      else {
+                        showDialog<void>(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text(
+                              "メールアドレスが無効です",
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 23.5,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  "編集を続ける",
+                                  style: TextStyle(
+                                    fontSize: 17.5,
+                                    color: Colors.grey[400],
                                   ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text(
-                                        "閉じる",
-                                        style: TextStyle(fontSize: 17.5),
-                                      ),
-                                    ),
-                                  ],
                                 ),
-                              );
-                            }
-                            // メールアドレスが無効なとき
-                            else {
-                              showDialog<void>(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: Text(
-                                    "メールアドレスが無効です",
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 23.5,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text(
-                                        "編集を続ける",
-                                        style: TextStyle(
-                                          fontSize: 17.5,
-                                          color: Colors.grey[400],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                              return;
-                            }
-                          }
-                        : null,
+                              ),
+                            ],
+                          ),
+                        );
+                        return;
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.black,
                       backgroundColor: Colors.orange[700],

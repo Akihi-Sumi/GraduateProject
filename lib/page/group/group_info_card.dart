@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_app/controller/auth.dart';
 import 'package:graduate_app/controller/group.dart';
-import 'package:graduate_app/controllers/auth.dart';
 import 'package:graduate_app/models/group/group_model.dart';
 import 'package:graduate_app/utils/constants/measure.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/controller/app_user.dart';
-import 'package:graduate_app/controllers/group/group.dart';
+import 'package:graduate_app/controller/group_controller/group.dart';
 import 'package:graduate_app/page/auth/auth_dependent_builder.dart';
 import 'package:graduate_app/widgets/group_massase_bubble.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

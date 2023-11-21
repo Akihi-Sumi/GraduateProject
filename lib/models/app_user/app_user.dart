@@ -11,6 +11,8 @@ class AppUser with _$AppUser {
     @Assert('userName.length <= 20') @Default('') String userId,
     @Default('') String userName,
     @Default('') String userEmail,
+    @Default('') String userEvacuation,
+    @Default('') String profilePicture,
     @unionTimestampConverter required UnionTimestamp createdAt,
   }) = _AppUser;
 

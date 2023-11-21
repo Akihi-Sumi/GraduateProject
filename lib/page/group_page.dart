@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:graduate_app/controllers/group/groups.dart';
+import 'package:graduate_app/controller/group_controller/groups.dart';
 import 'package:graduate_app/page/auth/auth_dependent_builder.dart';
 import 'package:graduate_app/page/group/group_chat_page.dart';
 import 'package:graduate_app/utils/extensions/date_time.dart';

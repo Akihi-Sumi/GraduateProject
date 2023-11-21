@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduate_app/controller/app_user.dart';
-import 'package:graduate_app/controllers/group/groups.dart';
+import 'package:graduate_app/controller/group_controller/groups.dart';
 import 'package:graduate_app/page/group/create_group_page.dart';
 import 'package:graduate_app/page/group/group_info_card.dart';
 import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';

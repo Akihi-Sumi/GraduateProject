@@ -35,13 +35,12 @@ class GroupPage extends ConsumerWidget {
                           const Icon(
                             Icons.chat,
                             size: 80,
-                            color: Colors.white,
                           ),
                           const Gap(16),
                           const Text(
                             "グループがありません。\n"
                             "作成するか参加してみましょう",
-                            style: TextStyle(color: Colors.white),
+                            //style: TextStyle(color: Colors.white),
                           ),
                         ],
                       ),

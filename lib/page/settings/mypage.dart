@@ -84,8 +84,8 @@ class MyProfilePageState extends ConsumerState<MyProfilePage> {
   @override
   void initState() {
     super.initState();
-    nameController =
-        TextEditingController(text: ref.read(userProvider)?.userName);
+    nameController = TextEditingController(
+        text: ref.read(appUserFutureProvider).value?.userName ?? '');
     emailController = TextEditingController(
       text: ref.read(appUserFutureProvider).value?.userEmail ?? '',
     );

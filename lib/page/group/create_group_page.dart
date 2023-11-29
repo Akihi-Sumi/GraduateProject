@@ -60,10 +60,6 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage> {
                   ),
                 ),
                 centerTitle: true,
-                // leading: BackButton(
-                //   onPressed: () => context.popRoute(),
-                // ),
-                backgroundColor: Colors.black,
               ),
             ),
             body: Padding(

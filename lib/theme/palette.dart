@@ -9,21 +9,21 @@ final themeNotifierProvider =
 
 class Palette {
   // Colors
-  static const blackColor = Color.fromRGBO(1, 1, 1, 1); // primary color
-  static const greyColor = Color.fromRGBO(26, 39, 45, 1); // secondary color
-  static const drawerColor = Color.fromRGBO(18, 18, 18, 1);
+  static const blackColor = Colors.black; // primary color
+  static const greyColor = Colors.grey; // secondary color
+  static const drawerColor = Color.fromRGBO(28, 28, 28, 1);
   static const whiteColor = Colors.white;
   static var redColor = Colors.red.shade500;
   static var blueColor = Colors.blue.shade300;
 
   // Themes
-  static var darkModeAppTheme = ThemeData.dark().copyWith(
+  static var darkModeAppTheme = ThemeData.dark(useMaterial3: false).copyWith(
     scaffoldBackgroundColor: blackColor,
     cardColor: greyColor,
     appBarTheme: const AppBarTheme(
-      backgroundColor: drawerColor,
+      backgroundColor: blackColor,
       titleTextStyle: TextStyle(
-        color: Colors.white,
+        color: whiteColor,
         fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
@@ -35,28 +35,70 @@ class Palette {
       backgroundColor: drawerColor,
     ),
     primaryColor: redColor,
-    colorScheme: const ColorScheme(
-      primary: Colors.blue,
-      onPrimary: Colors.white,
+    colorScheme: ColorScheme(
+      primary: Colors.orange.shade700,
+      onPrimary: whiteColor,
       secondary: Color(0xfff57c00),
-      onSecondary: Colors.white,
+      onSecondary: whiteColor,
       error: Color(0xffc62828),
-      onError: Colors.white,
-      surface: Colors.white,
-      onSurface: Colors.black,
+      onError: whiteColor,
+      surface: blackColor,
+      onSurface: whiteColor,
       background: drawerColor,
-      onBackground: Colors.white,
+      onBackground: whiteColor,
       brightness: Brightness.dark,
-    ), // will be used as alternative background color
+    ),
     canvasColor: Colors.transparent,
     textSelectionTheme: TextSelectionThemeData(
-      cursorColor: Colors.white,
+      cursorColor: whiteColor,
+    ),
+    expansionTileTheme: ExpansionTileThemeData(
+      textColor: whiteColor,
+      collapsedTextColor: whiteColor,
+      iconColor: whiteColor,
+      collapsedIconColor: whiteColor,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      hintStyle: TextStyle(color: Colors.grey),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: Colors.orange.shade700,
+          width: 2,
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.white),
+        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+      ),
+    ),
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: Colors.white,
+      contentTextStyle: TextStyle(color: Colors.black),
+    ),
+    datePickerTheme: DatePickerThemeData(
+      backgroundColor: Colors.grey.shade800,
+      headerBackgroundColor: Colors.orange.shade700,
+      headerHeadlineStyle: TextStyle(color: Colors.black),
+      dayOverlayColor: MaterialStateProperty.resolveWith(
+        (states) => Colors.orange.shade700,
+      ),
+      cancelButtonStyle: ButtonStyle(
+        foregroundColor: MaterialStateProperty.resolveWith(
+          (states) => greyColor,
+        ),
+      ),
+      confirmButtonStyle: ButtonStyle(
+        foregroundColor: MaterialStateProperty.resolveWith(
+          (states) => Colors.orange.shade700,
+        ),
+      ),
     ),
   );
 
-  static var lightModeAppTheme = ThemeData.light().copyWith(
+  static var lightModeAppTheme = ThemeData.light(useMaterial3: false).copyWith(
     scaffoldBackgroundColor: whiteColor,
-    cardColor: greyColor,
+    cardColor: Colors.grey.shade200,
     appBarTheme: const AppBarTheme(
       backgroundColor: whiteColor,
       titleTextStyle: TextStyle(
@@ -73,22 +115,62 @@ class Palette {
       backgroundColor: whiteColor,
     ),
     primaryColor: redColor,
-    colorScheme: const ColorScheme(
-      primary: Colors.white,
-      onPrimary: Colors.black,
+    colorScheme: ColorScheme(
+      primary: Colors.orange.shade700,
+      onPrimary: blackColor,
       secondary: Color(0xfff57c00),
       onSecondary: Colors.black,
       error: Color(0xffc62828),
-      onError: Colors.white,
-      surface: Colors.black,
-      onSurface: Colors.white,
+      onError: whiteColor,
+      surface: whiteColor,
+      onSurface: blackColor,
       background: whiteColor,
       onBackground: Colors.black,
       brightness: Brightness.light,
     ),
     canvasColor: Colors.transparent,
     textSelectionTheme: TextSelectionThemeData(
-      cursorColor: Colors.white,
+      cursorColor: Colors.black,
+    ),
+    expansionTileTheme: ExpansionTileThemeData(
+      textColor: blackColor,
+      collapsedTextColor: blackColor,
+      iconColor: blackColor,
+      collapsedIconColor: blackColor,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: Colors.orange,
+          width: 2,
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.black),
+        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+      ),
+    ),
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: Colors.grey.shade700,
+      contentTextStyle: TextStyle(color: Colors.white),
+    ),
+    datePickerTheme: DatePickerThemeData(
+      headerBackgroundColor: Colors.orange.shade700,
+      headerHeadlineStyle: TextStyle(color: Colors.black),
+      dayOverlayColor: MaterialStateProperty.resolveWith(
+        (states) => Colors.orange.shade700,
+      ),
+      cancelButtonStyle: ButtonStyle(
+        foregroundColor: MaterialStateProperty.resolveWith(
+          (states) => greyColor,
+        ),
+      ),
+      confirmButtonStyle: ButtonStyle(
+        foregroundColor: MaterialStateProperty.resolveWith(
+          (states) => Colors.orange.shade700,
+        ),
+      ),
     ),
   );
 }

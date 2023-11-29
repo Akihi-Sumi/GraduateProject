@@ -24,6 +24,8 @@ import 'package:graduate_app/page/settings/edit_message.dart' as _i2;
 import 'package:graduate_app/page/settings/mypage.dart' as _i8;
 import 'package:graduate_app/page/settings/survival_kit.dart' as _i14;
 import 'package:graduate_app/page/settings_page.dart' as _i12;
+import 'package:graduate_app/repositories/survival_kits/list_collection_repository.dart'
+    as _i18;
 import 'package:graduate_app/router/root_page.dart' as _i10;
 
 abstract class $AppRouter extends _i15.RootStackRouter {
@@ -137,9 +139,10 @@ abstract class $AppRouter extends _i15.RootStackRouter {
       );
     },
     SurvivalKitRoute.name: (routeData) {
+      final args = routeData.argsAs<SurvivalKitRouteArgs>();
       return _i15.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i14.SurvivalKitPage(),
+        child: _i14.SurvivalKitPage(itemRepository: args.itemRepository),
       );
     },
   };
@@ -411,14 +414,29 @@ class SignupRoute extends _i15.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i14.SurvivalKitPage]
-class SurvivalKitRoute extends _i15.PageRouteInfo<void> {
-  const SurvivalKitRoute({List<_i15.PageRouteInfo>? children})
-      : super(
+class SurvivalKitRoute extends _i15.PageRouteInfo<SurvivalKitRouteArgs> {
+  SurvivalKitRoute({
+    required _i18.ItemRepository itemRepository,
+    List<_i15.PageRouteInfo>? children,
+  }) : super(
           SurvivalKitRoute.name,
+          args: SurvivalKitRouteArgs(itemRepository: itemRepository),
           initialChildren: children,
         );
 
   static const String name = 'SurvivalKitRoute';
 
-  static const _i15.PageInfo<void> page = _i15.PageInfo<void>(name);
+  static const _i15.PageInfo<SurvivalKitRouteArgs> page =
+      _i15.PageInfo<SurvivalKitRouteArgs>(name);
+}
+
+class SurvivalKitRouteArgs {
+  const SurvivalKitRouteArgs({required this.itemRepository});
+
+  final _i18.ItemRepository itemRepository;
+
+  @override
+  String toString() {
+    return 'SurvivalKitRouteArgs{itemRepository: $itemRepository}';
+  }
 }

@@ -26,7 +26,7 @@ class UserIcon extends StatelessWidget {
           width: iconSize,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Colors.grey.shade600,
+            color: Colors.grey,
           ),
           child: content,
         ),

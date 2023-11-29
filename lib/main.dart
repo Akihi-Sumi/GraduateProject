@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:graduate_app/router/app_router.dart';
 import 'package:graduate_app/theme/palette.dart';
@@ -43,6 +44,14 @@ class App extends HookConsumerWidget {
       debugShowCheckedModeBanner: false,
       theme: ref.watch(themeNotifierProvider),
       scaffoldMessengerKey: ref.watch(scaffoldMessengerKeyProvider),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('ja'),
+      ],
     );
   }
 }

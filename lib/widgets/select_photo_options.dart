@@ -68,7 +68,7 @@ class SelectPhoto extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.grey.shade600,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         shape: StadiumBorder(),
       ),
       child: Padding(
@@ -78,12 +78,14 @@ class SelectPhoto extends StatelessWidget {
           children: [
             Icon(
               icon,
-              color: Colors.orange,
             ),
             const SizedBox(width: 14),
             Text(
               textLabel,
-              style: TextStyle(fontSize: 18, color: Colors.white),
+              style: TextStyle(
+                fontSize: 18,
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
             ),
           ],
         ),

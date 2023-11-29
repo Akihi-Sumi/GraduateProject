@@ -26,6 +26,8 @@ class MyDrawer extends HookConsumerWidget {
 
     final userId = ref.watch(authRepositoryImplProvider).currentUser?.uid;
 
+    final theme = ref.watch(themeNotifierProvider);
+
     return Drawer(
       child: SafeArea(
         child: Column(
@@ -33,9 +35,12 @@ class MyDrawer extends HookConsumerWidget {
             Expanded(
               child: Column(
                 children: [
-                  const SizedBox(height: 15),
-                  MyAccountIcon(),
-                  const SizedBox(height: 15),
+                  Image.asset(
+                    theme == Palette.darkModeAppTheme
+                        ? 'assets/images/account_dark.png'
+                        : 'assets/images/account_light.png',
+                    width: 180,
+                  ),
                   Text(
                     appUserName ?? '',
                     style: TextStyle(
@@ -49,9 +54,7 @@ class MyDrawer extends HookConsumerWidget {
                         .copyWith(dividerColor: Colors.transparent),
                     child: ExpansionTile(
                       title: Text("グループ", style: TextStyle(fontSize: 26)),
-                      textColor: Colors.white,
-                      leading: Icon(Icons.group, color: Colors.white),
-                      iconColor: Colors.white,
+                      leading: Icon(Icons.group),
                       children: <Widget>[
                         ref.watch(groupsStreamProvider(userId ?? '')).when(
                               data: (groups) => ListView.builder(
@@ -71,7 +74,8 @@ class MyDrawer extends HookConsumerWidget {
                                         context: context,
                                         builder: (context) {
                                           return GroupInfoCard(
-                                              groupName: group.groupName);
+                                            groupName: group.groupName,
+                                          );
                                         },
                                       );
                                       Navigator.of(context).pop();
@@ -110,7 +114,7 @@ class MyDrawer extends HookConsumerWidget {
             ),
             Consumer(
               builder: (context, ref, child) {
-                final theme = ref.watch(themeNotifierProvider);
+                //final theme = ref.watch(themeNotifierProvider);
                 return IconButton(
                   onPressed: () {
                     ref.read(themeNotifierProvider.notifier).toggleTheme();
@@ -130,28 +134,17 @@ class MyDrawer extends HookConsumerWidget {
   }
 }
 
-class MyAccountIcon extends StatelessWidget {
-  const MyAccountIcon({Key? key}) : super(key: key);
+// class MyAccountIcon extends StatelessWidget {
+//   const MyAccountIcon({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        CircleAvatar(
-          radius: 60,
-        ),
-        RawMaterialButton(
-          shape: CircleBorder(),
-          elevation: 0.0,
-          child: SizedBox(width: 120, height: 120),
-          onPressed: () {
-            // ユーザー画面へ
-          },
-        ),
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Image(
+//       image: AssetImage('assets/images/account_dark.png'),
+//       width: 180,
+//     );
+//   }
+// }
 
 class ErrorText extends StatelessWidget {
   const ErrorText({Key? key, required this.error}) : super(key: key);

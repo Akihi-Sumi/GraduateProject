@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'async_value_error_dialog.dart';
-import 'constants/app_colors.dart';
 import 'constants/snack_bar.dart';
-import 'text_styles.dart';
 
 final scaffoldMessengerKeyProvider = Provider(
   (_) => GlobalKey<ScaffoldMessengerState>(),
@@ -56,9 +54,7 @@ class ScaffoldMessengerService {
       SnackBar(
         content: Text(
           message,
-          style: TextStyles.p2(color: AppColors.baseBlack),
         ),
-        backgroundColor: AppColors.baseWhite,
         behavior: defaultSnackBarBehavior,
         duration: duration,
       ),

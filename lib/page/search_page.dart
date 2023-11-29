@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:graduate_app/controller/group_controller/groups.dart';
 import 'package:graduate_app/page/group/group_info_card.dart';
 import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
+import 'package:graduate_app/theme/palette.dart';
 import 'package:graduate_app/utils/loading.dart';
 import 'package:graduate_app/widgets/imitation_list_tile.dart';
 import 'package:graduate_app/widgets/search_user_group_delegate.dart';
@@ -76,15 +77,19 @@ class SearchBox extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = ref.watch(themeNotifierProvider);
+
     return InkWell(
       child: Container(
         //width: 300,
         padding: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
-          color: Color(0xFF393939),
+          color: theme == Palette.darkModeAppTheme
+              ? Color(0xFF393939)
+              : Colors.white,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: const Color(0xFFD0D0D0),
+            color: Colors.grey,
             width: 1.5,
           ),
         ),
@@ -92,11 +97,10 @@ class SearchBox extends ConsumerWidget {
           enabled: false,
           decoration: InputDecoration(
             border: InputBorder.none,
-            hintText: "ユーザー、グループを検索",
+            hintText: "グループを検索",
             hintStyle: const TextStyle(
               fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: Colors.white,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),

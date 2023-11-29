@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/controller/user_profile_controller.dart';
-import 'package:graduate_app/utils/constants/app_colors.dart';
 import 'package:graduate_app/utils/constants/measure.dart';
 import 'package:graduate_app/widgets/select_photo_options.dart';
 import 'package:graduate_app/widgets/textform_header.dart';
@@ -145,13 +144,12 @@ class MyProfilePageState extends ConsumerState<MyProfilePage> {
             leading: BackButton(
               onPressed: () => context.popRoute(),
             ),
-            backgroundColor: Colors.black,
           ),
         ),
         body: SingleChildScrollView(
           padding: EdgeInsets.only(bottom: bottomSpace),
           child: Container(
-            padding: EdgeInsets.fromLTRB(16, 20, 16, 16),
+            padding: EdgeInsets.fromLTRB(8, 20, 8, 16),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -315,19 +313,10 @@ class _EditUserNameTextForm extends StatelessWidget {
             style: TextStyle(color: Colors.amber, fontSize: 18),
             decoration: InputDecoration(
               labelStyle: TextStyle(color: Colors.white, fontSize: 16),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.orange.shade700),
-                borderRadius: BorderRadius.all(Radius.circular(15.0)),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-                borderRadius: BorderRadius.all(Radius.circular(15.0)),
-              ),
               suffixIcon: IconButton(
                 onPressed: onPressed,
                 icon: Icon(
                   Icons.clear,
-                  color: AppColors.baseLight,
                 ),
               ),
             ),
@@ -361,19 +350,10 @@ class _EditEmailTextForm extends StatelessWidget {
             style: TextStyle(color: Colors.amber, fontSize: 18),
             decoration: InputDecoration(
               labelStyle: TextStyle(color: Colors.white, fontSize: 16),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.orange.shade700),
-                borderRadius: BorderRadius.all(Radius.circular(15.0)),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-                borderRadius: BorderRadius.all(Radius.circular(15.0)),
-              ),
               suffixIcon: IconButton(
                 onPressed: onPressed,
                 icon: Icon(
                   Icons.clear,
-                  color: AppColors.baseLight,
                 ),
               ),
             ),
@@ -409,19 +389,10 @@ class _EditEvacuationTextForm extends StatelessWidget {
             style: TextStyle(color: Colors.amber, fontSize: 18),
             decoration: InputDecoration(
               labelStyle: TextStyle(color: Colors.white, fontSize: 16),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.orange.shade700),
-                borderRadius: BorderRadius.all(Radius.circular(15.0)),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-                borderRadius: BorderRadius.all(Radius.circular(15.0)),
-              ),
               suffixIcon: IconButton(
                 onPressed: onPressed,
                 icon: Icon(
                   Icons.clear,
-                  color: AppColors.baseLight,
                 ),
               ),
             ),

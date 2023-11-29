@@ -62,7 +62,6 @@ class _GroupChatPageState extends ConsumerState<GroupChatPage> {
             leading: BackButton(
               onPressed: () => context.popRoute(),
             ),
-            backgroundColor: Colors.black,
           ),
         ),
         body: Padding(
@@ -183,7 +182,7 @@ class _MessageInputFieldState extends ConsumerState<_MessageInputField> {
               builder: (builder) {
                 return SelectImageOrCameraSheet();
               },
-              backgroundColor: Color.fromARGB(255, 186, 105, 13),
+              backgroundColor: Colors.transparent,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(
                   top: Radius.circular(25),
@@ -274,7 +273,7 @@ class SelectImageOrCameraSheet extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                color: Colors.black,
+                //color: Colors.black,
                 elevation: 16,
                 child: Center(
                   child: Icon(
@@ -296,7 +295,7 @@ class SelectImageOrCameraSheet extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                color: Colors.black,
+                //color: Colors.black,
                 elevation: 16,
                 child: Center(
                   child: Icon(

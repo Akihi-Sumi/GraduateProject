@@ -3,18 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:graduate_app/gen/assets.gen.dart';
 import 'package:graduate_app/page/auth/login_page.dart';
 import 'package:graduate_app/page/auth/signup_page.dart';
+import 'package:graduate_app/theme/palette.dart';
 import 'package:graduate_app/utils/constants/app_colors.dart';
 import 'package:graduate_app/utils/constants/measure.dart';
 import 'package:graduate_app/utils/text_styles.dart';
 import 'package:graduate_app/widgets/app_bar.dart';
 import 'package:graduate_app/widgets/rounded_button.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()
-class GetStartedPage extends StatelessWidget {
+class GetStartedPage extends ConsumerWidget {
   const GetStartedPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -45,7 +47,7 @@ class GetStartedPage extends StatelessWidget {
                   Padding(
                     padding: Measure.p_h32,
                     child: PrimaryRoundedButton(
-                      text: 'Create a account',
+                      text: 'Create account',
                       onTap: () {
                         Navigator.push<dynamic>(
                           context,
@@ -67,6 +69,25 @@ class GetStartedPage extends StatelessWidget {
                       },
                     ),
                   ),
+                  Measure.g_16,
+                  Consumer(builder: (context, ref, child) {
+                    return Row(
+                      children: [
+                        Icon(Icons.light_mode),
+                        Switch.adaptive(
+                          value:
+                              ref.watch(themeNotifierProvider.notifier).mode ==
+                                  ThemeMode.dark,
+                          onChanged: (value) {
+                            ref
+                                .read(themeNotifierProvider.notifier)
+                                .toggleTheme();
+                          },
+                        ),
+                        Icon(Icons.dark_mode),
+                      ],
+                    );
+                  }),
                 ],
               ),
             ),
@@ -108,18 +129,18 @@ class _AppTitleText extends StatelessWidget {
     return RichText(
       text: TextSpan(
         children: <TextSpan>[
+          // TextSpan(
+          //   text: 'Welcome to ',
+          //   style: TextStyles.h2(),
+          // ),
           TextSpan(
-            text: 'Welcome to ',
-            style: TextStyles.h2(),
+            text: '緊急時用メッセンジャー',
+            style: TextStyles.h2(color: AppColors.secondary),
           ),
-          TextSpan(
-            text: 'My App',
-            style: TextStyles.h2(color: AppColors.primary),
-          ),
-          TextSpan(
-            text: ' !!',
-            style: TextStyles.h2(),
-          ),
+          // TextSpan(
+          //   text: ' !!',
+          //   style: TextStyles.h2(),
+          // ),
         ],
       ),
     );

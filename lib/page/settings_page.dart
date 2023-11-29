@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/controller/auth/sign_out.dart';
+import 'package:graduate_app/repositories/survival_kits/list_collection_repository.dart';
 import 'package:graduate_app/router/app_router.gr.dart';
 import 'package:graduate_app/utils/async_value_error_dialog.dart';
 import 'package:graduate_app/utils/dialog.dart';
@@ -58,6 +59,8 @@ class SettingsPage extends ConsumerWidget {
     // Provider
     final state = ref.watch(signOutControllerProvider);
 
+    final ItemRepository itemRepository = ItemRepository();
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
@@ -73,7 +76,6 @@ class SettingsPage extends ConsumerWidget {
           leading: BackButton(
             onPressed: () => context.popRoute(),
           ),
-          backgroundColor: Colors.black,
         ),
       ),
       body: Column(
@@ -91,7 +93,9 @@ class SettingsPage extends ConsumerWidget {
           ImitationListTile(
             title: Text("防災グッズ", style: TextStyle(fontSize: 24)),
             leading: Icon(Icons.medical_services, size: 30),
-            onTap: () => context.pushRoute(SurvivalKitRoute()),
+            onTap: () => context.pushRoute(
+              SurvivalKitRoute(itemRepository: itemRepository),
+            ),
           ),
           const SizedBox(height: 10),
           TextButton(
@@ -109,7 +113,10 @@ class SettingsPage extends ConsumerWidget {
                       },
               );
             },
-            child: Text("ログアウト"),
+            child: Text(
+              "ログアウト",
+              style: TextStyle(fontSize: 18, color: Colors.deepOrange),
+            ),
           ),
         ],
       ),

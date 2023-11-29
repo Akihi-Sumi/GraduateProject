@@ -33,8 +33,10 @@ class PrimaryRoundedButton extends StatelessWidget {
             child: Center(
               child: Text(
                 text,
-                style: TextStyles.h3(
-                  color: AppColors.baseWhite,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
                 ),
               ),
             ),

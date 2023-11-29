@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:graduate_app/controllers/auth.dart';
+import 'package:graduate_app/controller/auth.dart';
 import 'package:graduate_app/page/auth/sign_in_button.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

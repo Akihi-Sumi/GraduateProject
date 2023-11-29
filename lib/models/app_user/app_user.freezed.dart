@@ -24,6 +24,8 @@ mixin _$AppUser {
   String get userId => throw _privateConstructorUsedError;
   String get userName => throw _privateConstructorUsedError;
   String get userEmail => throw _privateConstructorUsedError;
+  String get userEvacuation => throw _privateConstructorUsedError;
+  String get profilePicture => throw _privateConstructorUsedError;
   @unionTimestampConverter
   UnionTimestamp get createdAt => throw _privateConstructorUsedError;
 
@@ -41,6 +43,8 @@ abstract class $AppUserCopyWith<$Res> {
       {@Assert('userName.length <= 20') String userId,
       String userName,
       String userEmail,
+      String userEvacuation,
+      String profilePicture,
       @unionTimestampConverter UnionTimestamp createdAt});
 
   $UnionTimestampCopyWith<$Res> get createdAt;
@@ -62,6 +66,8 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
     Object? userId = null,
     Object? userName = null,
     Object? userEmail = null,
+    Object? userEvacuation = null,
+    Object? profilePicture = null,
     Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
@@ -76,6 +82,14 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
       userEmail: null == userEmail
           ? _value.userEmail
           : userEmail // ignore: cast_nullable_to_non_nullable
+              as String,
+      userEvacuation: null == userEvacuation
+          ? _value.userEvacuation
+          : userEvacuation // ignore: cast_nullable_to_non_nullable
+              as String,
+      profilePicture: null == profilePicture
+          ? _value.profilePicture
+          : profilePicture // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -104,6 +118,8 @@ abstract class _$$AppUserImplCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       {@Assert('userName.length <= 20') String userId,
       String userName,
       String userEmail,
+      String userEvacuation,
+      String profilePicture,
       @unionTimestampConverter UnionTimestamp createdAt});
 
   @override
@@ -124,6 +140,8 @@ class __$$AppUserImplCopyWithImpl<$Res>
     Object? userId = null,
     Object? userName = null,
     Object? userEmail = null,
+    Object? userEvacuation = null,
+    Object? profilePicture = null,
     Object? createdAt = null,
   }) {
     return _then(_$AppUserImpl(
@@ -138,6 +156,14 @@ class __$$AppUserImplCopyWithImpl<$Res>
       userEmail: null == userEmail
           ? _value.userEmail
           : userEmail // ignore: cast_nullable_to_non_nullable
+              as String,
+      userEvacuation: null == userEvacuation
+          ? _value.userEvacuation
+          : userEvacuation // ignore: cast_nullable_to_non_nullable
+              as String,
+      profilePicture: null == profilePicture
+          ? _value.profilePicture
+          : profilePicture // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -154,6 +180,8 @@ class _$AppUserImpl extends _AppUser {
       {@Assert('userName.length <= 20') this.userId = '',
       this.userName = '',
       this.userEmail = '',
+      this.userEvacuation = '',
+      this.profilePicture = '',
       @unionTimestampConverter required this.createdAt})
       : super._();
 
@@ -171,12 +199,18 @@ class _$AppUserImpl extends _AppUser {
   @JsonKey()
   final String userEmail;
   @override
+  @JsonKey()
+  final String userEvacuation;
+  @override
+  @JsonKey()
+  final String profilePicture;
+  @override
   @unionTimestampConverter
   final UnionTimestamp createdAt;
 
   @override
   String toString() {
-    return 'AppUser(userId: $userId, userName: $userName, userEmail: $userEmail, createdAt: $createdAt)';
+    return 'AppUser(userId: $userId, userName: $userName, userEmail: $userEmail, userEvacuation: $userEvacuation, profilePicture: $profilePicture, createdAt: $createdAt)';
   }
 
   @override
@@ -189,14 +223,18 @@ class _$AppUserImpl extends _AppUser {
                 other.userName == userName) &&
             (identical(other.userEmail, userEmail) ||
                 other.userEmail == userEmail) &&
+            (identical(other.userEvacuation, userEvacuation) ||
+                other.userEvacuation == userEvacuation) &&
+            (identical(other.profilePicture, profilePicture) ||
+                other.profilePicture == profilePicture) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, userId, userName, userEmail, createdAt);
+  int get hashCode => Object.hash(runtimeType, userId, userName, userEmail,
+      userEvacuation, profilePicture, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -217,6 +255,8 @@ abstract class _AppUser extends AppUser {
           {@Assert('userName.length <= 20') final String userId,
           final String userName,
           final String userEmail,
+          final String userEvacuation,
+          final String profilePicture,
           @unionTimestampConverter required final UnionTimestamp createdAt}) =
       _$AppUserImpl;
   const _AppUser._() : super._();
@@ -230,6 +270,10 @@ abstract class _AppUser extends AppUser {
   String get userName;
   @override
   String get userEmail;
+  @override
+  String get userEvacuation;
+  @override
+  String get profilePicture;
   @override
   @unionTimestampConverter
   UnionTimestamp get createdAt;

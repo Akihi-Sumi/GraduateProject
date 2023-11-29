@@ -96,7 +96,7 @@ class SignupPage extends HookConsumerWidget {
                       _UserNameTextForm(
                         controller: userNameController,
                       ),
-                      Measure.g_16,
+                      Measure.g_8,
                       _EmailTextForm(
                         controller: emailController,
                       ),
@@ -286,7 +286,10 @@ class _TermsAndPrivacyPolicyText extends HookConsumerWidget {
                   ),
                   TextSpan(
                     text: 'および',
-                    style: TextStyles.p2(),
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                   TextSpan(
                     text: ' プライバシーポリシー',

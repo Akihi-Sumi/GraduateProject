@@ -9,7 +9,8 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i15;
-import 'package:flutter/material.dart' as _i16;
+import 'package:flutter/foundation.dart' as _i16;
+import 'package:flutter/material.dart' as _i17;
 import 'package:graduate_app/page/auth/auth_page.dart' as _i1;
 import 'package:graduate_app/page/auth/get_started_page.dart' as _i3;
 import 'package:graduate_app/page/auth/login_page.dart' as _i7;
@@ -23,6 +24,8 @@ import 'package:graduate_app/page/settings/edit_message.dart' as _i2;
 import 'package:graduate_app/page/settings/mypage.dart' as _i8;
 import 'package:graduate_app/page/settings/survival_kit.dart' as _i14;
 import 'package:graduate_app/page/settings_page.dart' as _i12;
+import 'package:graduate_app/repositories/survival_kits/list_collection_repository.dart'
+    as _i18;
 import 'package:graduate_app/router/root_page.dart' as _i10;
 
 abstract class $AppRouter extends _i15.RootStackRouter {
@@ -136,9 +139,10 @@ abstract class $AppRouter extends _i15.RootStackRouter {
       );
     },
     SurvivalKitRoute.name: (routeData) {
+      final args = routeData.argsAs<SurvivalKitRouteArgs>();
       return _i15.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i14.SurvivalKitPage(),
+        child: _i14.SurvivalKitPage(itemRepository: args.itemRepository),
       );
     },
   };
@@ -369,7 +373,7 @@ class SettingsRoute extends _i15.PageRouteInfo<void> {
 /// [_i12.SettingsRouterPage]
 class SettingsRouterRoute extends _i15.PageRouteInfo<SettingsRouterRouteArgs> {
   SettingsRouterRoute({
-    _i16.Key? key,
+    _i17.Key? key,
     List<_i15.PageRouteInfo>? children,
   }) : super(
           SettingsRouterRoute.name,
@@ -386,7 +390,7 @@ class SettingsRouterRoute extends _i15.PageRouteInfo<SettingsRouterRouteArgs> {
 class SettingsRouterRouteArgs {
   const SettingsRouterRouteArgs({this.key});
 
-  final _i16.Key? key;
+  final _i17.Key? key;
 
   @override
   String toString() {
@@ -410,14 +414,29 @@ class SignupRoute extends _i15.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i14.SurvivalKitPage]
-class SurvivalKitRoute extends _i15.PageRouteInfo<void> {
-  const SurvivalKitRoute({List<_i15.PageRouteInfo>? children})
-      : super(
+class SurvivalKitRoute extends _i15.PageRouteInfo<SurvivalKitRouteArgs> {
+  SurvivalKitRoute({
+    required _i18.ItemRepository itemRepository,
+    List<_i15.PageRouteInfo>? children,
+  }) : super(
           SurvivalKitRoute.name,
+          args: SurvivalKitRouteArgs(itemRepository: itemRepository),
           initialChildren: children,
         );
 
   static const String name = 'SurvivalKitRoute';
 
-  static const _i15.PageInfo<void> page = _i15.PageInfo<void>(name);
+  static const _i15.PageInfo<SurvivalKitRouteArgs> page =
+      _i15.PageInfo<SurvivalKitRouteArgs>(name);
+}
+
+class SurvivalKitRouteArgs {
+  const SurvivalKitRouteArgs({required this.itemRepository});
+
+  final _i18.ItemRepository itemRepository;
+
+  @override
+  String toString() {
+    return 'SurvivalKitRouteArgs{itemRepository: $itemRepository}';
+  }
 }

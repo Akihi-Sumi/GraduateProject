@@ -80,7 +80,7 @@ class AppRouter extends $AppRouter {
                 AutoRoute(
                   path: 'survival-kit',
                   page: SurvivalKitRoute.page,
-                  title: (ctx, _) => "防災グッズ リスト",
+                  title: (ctx, _) => "防災アイテム リスト",
                 ),
               ],
             ),

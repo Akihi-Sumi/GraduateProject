@@ -32,7 +32,7 @@ class SearchUserGroupDelegate extends SearchDelegate {
   }
 
   @override
-  String? get searchFieldLabel => "ユーザー、グループを検索";
+  String? get searchFieldLabel => "グループを検索";
 
   @override
   Widget buildSuggestions(BuildContext context) {
@@ -70,8 +70,6 @@ class SearchUserGroupDelegate extends SearchDelegate {
   @override
   ThemeData appBarTheme(BuildContext context) {
     return Theme.of(context).copyWith(
-      scaffoldBackgroundColor: Colors.black,
-      dialogBackgroundColor: Colors.black,
       inputDecorationTheme: InputDecorationTheme(
         border: InputBorder.none,
       ),

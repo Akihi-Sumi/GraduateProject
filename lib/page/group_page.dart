@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:graduate_app/controllers/group/groups.dart';
+import 'package:graduate_app/controller/group_controller/groups.dart';
 import 'package:graduate_app/page/auth/auth_dependent_builder.dart';
 import 'package:graduate_app/page/group/group_chat_page.dart';
 import 'package:graduate_app/utils/extensions/date_time.dart';
@@ -35,13 +35,12 @@ class GroupPage extends ConsumerWidget {
                           const Icon(
                             Icons.chat,
                             size: 80,
-                            color: Colors.white,
                           ),
                           const Gap(16),
                           const Text(
                             "グループがありません。\n"
                             "作成するか参加してみましょう",
-                            style: TextStyle(color: Colors.white),
+                            //style: TextStyle(color: Colors.white),
                           ),
                         ],
                       ),

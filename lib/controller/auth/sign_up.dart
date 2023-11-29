@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/models/app_user/app_user.dart';
+import 'package:graduate_app/page/settings/survival_kits/add_item_page.dart';
 import 'package:graduate_app/repositories/app_user/app_user_repository_impl.dart';
 import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
 import 'package:graduate_app/utils/exceptions/exception.dart';
@@ -65,6 +67,13 @@ class SignUpController extends AutoDisposeAsyncNotifier<void> {
           );
 
           await appUserRepository.create(userId: userId, appUser: appUser);
+
+          // サブコレクション
+          final survivalCollection = FirebaseFirestore.instance
+              .collection('appUsers')
+              .doc(userId)
+              .collection('survivalKits');
+          await survivalCollection.doc('listData').set({'list': _list});
         } else {
           const exception = AppException(
             message: "アカウントの作成に失敗しました。",
@@ -81,4 +90,136 @@ class SignUpController extends AutoDisposeAsyncNotifier<void> {
       }
     });
   }
+
+  List<Map> _list = [
+    {
+      "expirationDate": "保存期限なし",
+      "name": "応急セット",
+      "time": 0,
+      "isChecked": false
+    },
+    {
+      "expirationDate": AddItemPage.nowData(),
+      "name": "長期保存水",
+      "time": 10,
+      "isChecked": false
+    },
+    {
+      "expirationDate": "保存期限なし",
+      "name": "緊急用呼口笛",
+      "time": 0,
+      "isChecked": false
+    },
+    {
+      "expirationDate": AddItemPage.nowData(),
+      "name": "缶詰、備蓄パン",
+      "time": 5,
+      "isChecked": false
+    },
+    {
+      "expirationDate": "保存期限なし",
+      "name": "レジャーシート",
+      "time": 0,
+      "isChecked": false
+    },
+    {
+      "expirationDate": "保存期限なし",
+      "name": "食品加熱袋、加熱材",
+      "time": 0,
+      "isChecked": false
+    },
+    {
+      "expirationDate": "保存期限なし",
+      "name": "防災折り畳みヘルメット",
+      "time": 0,
+      "isChecked": false
+    },
+    {
+      "expirationDate": "保存期限なし",
+      "name": "ウェットボディタオル",
+      "time": 0,
+      "isChecked": false
+    },
+    {"expirationDate": "保存期限なし", "name": "歯ブラシ", "time": 0, "isChecked": false},
+    {
+      "expirationDate": "保存期限なし",
+      "name": "非常用簡易トイレ",
+      "time": 0,
+      "isChecked": false
+    },
+    {
+      "expirationDate": "保存期限なし",
+      "name": "布ガムテープ",
+      "time": 0,
+      "isChecked": false
+    },
+    {
+      "expirationDate": "保存期限なし",
+      "name": "アルミブランケット、アルミシート",
+      "time": 0,
+      "isChecked": false
+    },
+    {
+      "expirationDate": "保存期限なし",
+      "name": "レインコート",
+      "time": 0,
+      "isChecked": false
+    },
+    {
+      "expirationDate": "保存期限なし",
+      "name": "アルコール除菌ジェル",
+      "time": 0,
+      "isChecked": false
+    },
+    {
+      "expirationDate": "保存期限なし",
+      "name": "非常用カイロ",
+      "time": 0,
+      "isChecked": false
+    },
+    {
+      "expirationDate": "保存期限なし",
+      "name": "マルチツール",
+      "time": 0,
+      "isChecked": false
+    },
+    {"expirationDate": "保存期限なし", "name": "乾電池", "time": 0, "isChecked": false},
+    {
+      "expirationDate": "保存期限なし",
+      "name": "エアーピロー",
+      "time": 0,
+      "isChecked": false
+    },
+    {
+      "expirationDate": "保存期限なし",
+      "name": "三角巾、ガーゼ",
+      "time": 0,
+      "isChecked": false
+    },
+    {
+      "expirationDate": "保存期限なし",
+      "name": "折り畳み式スリッパ",
+      "time": 0,
+      "isChecked": false
+    },
+    {
+      "expirationDate": "保存期限なし",
+      "name": "緊急用連絡シート",
+      "time": 0,
+      "isChecked": false
+    },
+    {
+      "expirationDate": "保存期限なし",
+      "name": "非常用給水袋",
+      "time": 0,
+      "isChecked": false
+    },
+    {"expirationDate": "保存期限なし", "name": "マスク", "time": 0, "isChecked": false},
+    {
+      "expirationDate": "保存期限なし",
+      "name": "ドライシャンプー",
+      "time": 3,
+      "isChecked": false
+    },
+  ];
 }

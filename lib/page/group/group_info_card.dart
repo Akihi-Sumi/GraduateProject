@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_app/controller/auth.dart';
 import 'package:graduate_app/controller/group.dart';
-import 'package:graduate_app/controllers/auth.dart';
 import 'package:graduate_app/models/group/group_model.dart';
+import 'package:graduate_app/theme/palette.dart';
 import 'package:graduate_app/utils/constants/measure.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -78,6 +79,8 @@ class ContentBox extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userId = ref.watch(userIdProvider);
 
+    final theme = ref.watch(themeNotifierProvider);
+
     return Stack(
       children: <Widget>[
         Container(
@@ -90,7 +93,9 @@ class ContentBox extends ConsumerWidget {
           margin: EdgeInsets.only(top: Constants.avatarRadius),
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,
-            color: Colors.grey.shade700,
+            color: theme == Palette.darkModeAppTheme
+                ? Colors.grey.shade700
+                : Colors.grey.shade100,
             borderRadius: BorderRadius.circular(Constants.padding),
             boxShadow: [
               BoxShadow(
@@ -129,6 +134,7 @@ class ContentBox extends ConsumerWidget {
                           group.mods.contains(userId)
                               ? OutlinedButton(
                                   style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.grey,
                                     shape: const StadiumBorder(),
                                     side: const BorderSide(
                                       color: Colors.grey,
@@ -139,7 +145,7 @@ class ContentBox extends ConsumerWidget {
                                     "管理者ツール",
                                     style: TextStyle(
                                       fontSize: 15,
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.w400,
                                       color: Colors.yellowAccent,
                                     ),
                                   ),
@@ -157,7 +163,7 @@ class ContentBox extends ConsumerWidget {
                                         : "参加",
                                     style: TextStyle(
                                       fontSize: 18,
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.w400,
                                       color: group.members.contains(userId)
                                           ? Colors.redAccent
                                           : Colors.greenAccent,
@@ -176,8 +182,6 @@ class ContentBox extends ConsumerWidget {
                           padding: const EdgeInsets.only(left: 16, right: 16),
                           child: ExpansionTile(
                             title: Text("${group.members.length} 人のメンバーが参加"),
-                            textColor: Colors.white,
-                            iconColor: Colors.white,
                             children: <Widget>[
                               FutureBuilder<List<Widget>>(
                                 future: _fetchUserDataForGroupMembers(

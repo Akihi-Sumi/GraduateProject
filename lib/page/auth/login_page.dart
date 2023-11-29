@@ -353,7 +353,6 @@ class _ResetEmailTextForm extends StatelessWidget {
         children: [
           const TextFormHeader(
             title: 'メールアドレス',
-            color: AppColors.baseWhite,
           ),
           Measure.g_16,
           TextFormField(
@@ -361,9 +360,8 @@ class _ResetEmailTextForm extends StatelessWidget {
               color: AppColors.baseWhite,
             ),
             controller: controller,
-            decoration: AppTextFormStyles.onGeneral(
+            decoration: AppTextFormStyles.onResetPassword(
               iconData: Icons.mail,
-              color: AppColors.baseWhite,
             ),
           ),
         ],
@@ -386,7 +384,6 @@ class _ResetPasswordBackButton extends StatelessWidget {
         icon: const Icon(
           Icons.close,
           size: 32,
-          color: AppColors.baseDark,
         ),
       ),
     );

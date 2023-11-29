@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:graduate_app/controllers/group/group.dart';
+import 'package:graduate_app/controller/group_controller/group.dart';
 import 'package:graduate_app/models/group/group_model.dart';
 import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
 import 'package:graduate_app/utils/async_value_error_dialog.dart';
@@ -60,10 +60,6 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage> {
                   ),
                 ),
                 centerTitle: true,
-                // leading: BackButton(
-                //   onPressed: () => context.popRoute(),
-                // ),
-                backgroundColor: Colors.black,
               ),
             ),
             body: Padding(

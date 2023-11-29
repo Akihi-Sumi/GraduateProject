@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:graduate_app/controllers/auth.dart';
+import 'package:graduate_app/controller/auth.dart';
 import 'package:graduate_app/models/group/group_model.dart';
 import 'package:graduate_app/repositories/group/group_repository.dart';
 import 'package:graduate_app/utils/failure_type_defs.dart';

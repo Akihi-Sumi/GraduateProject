@@ -149,7 +149,6 @@ class EditMessagePageState extends ConsumerState<EditMessagePage> {
             leading: BackButton(
               onPressed: () => context.popRoute(),
             ),
-            backgroundColor: Colors.black,
           ),
         ),
         body: SingleChildScrollView(
@@ -173,10 +172,17 @@ class EditMessagePageState extends ConsumerState<EditMessagePage> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
                                     ListTile(
-                                      leading: Icon(Icons.edit, size: 40),
+                                      leading: Icon(
+                                        Icons.edit,
+                                        size: 40,
+                                        color: Colors.grey.shade300,
+                                      ),
                                       title: Text(
                                         "編集",
-                                        style: TextStyle(fontSize: 28),
+                                        style: TextStyle(
+                                          fontSize: 28,
+                                          color: Colors.grey.shade300,
+                                        ),
                                       ),
                                       onTap: () async {
                                         useReNameController.text = msg.content;
@@ -208,10 +214,17 @@ class EditMessagePageState extends ConsumerState<EditMessagePage> {
                                       },
                                     ),
                                     ListTile(
-                                      leading: Icon(Icons.delete, size: 40),
+                                      leading: Icon(
+                                        Icons.delete,
+                                        size: 40,
+                                        color: Colors.grey.shade300,
+                                      ),
                                       title: Text(
                                         "削除",
-                                        style: TextStyle(fontSize: 28),
+                                        style: TextStyle(
+                                          fontSize: 28,
+                                          color: Colors.grey.shade300,
+                                        ),
                                       ),
                                       onTap: () async {
                                         await showActionDialog(

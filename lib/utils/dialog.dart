@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduate_app/utils/constants/app_colors.dart';
 import 'package:graduate_app/utils/constants/measure.dart';
-import 'package:graduate_app/utils/text_styles.dart';
 import 'package:graduate_app/widgets/textform_header.dart';
 
 Future<bool?> showAlertDialog({
@@ -53,7 +52,7 @@ Future<bool?> showActionDialog({
               onPressed: () => Navigator.of(context).pop(),
               child: Text(
                 "キャンセル",
-                style: TextStyle(fontSize: 17, color: Colors.white),
+                style: TextStyle(fontSize: 17),
               ),
             ),
           ),
@@ -101,19 +100,7 @@ Future<void> createMessageDialog(
               TextFormField(
                 maxLength: 20,
                 controller: controller,
-                decoration: const InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.orangeAccent,
-                      width: 2,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: AppColors.baseLight,
-                    ),
-                  ),
-                ),
+                decoration: InputDecoration(hintText: "入力してください"),
               ),
             ],
           ),
@@ -129,8 +116,10 @@ Future<void> createMessageDialog(
               },
               child: Text(
                 "キャンセル",
-                style: TextStyles.p1(
-                  color: AppColors.baseLight,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: Theme.of(context).colorScheme.onPrimary,
                 ),
               ),
             ),
@@ -147,8 +136,10 @@ Future<void> createMessageDialog(
               ),
               child: Text(
                 "追加",
-                style: TextStyles.p1(
+                style: TextStyle(
                   color: AppColors.baseBlack,
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
@@ -180,20 +171,8 @@ Future<void> editMessageDialog(
                 maxLength: 20,
                 controller: controller,
                 decoration: const InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.orangeAccent,
-                      width: 2,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: AppColors.baseLight,
-                    ),
-                  ),
                   prefixIcon: Icon(
                     Icons.edit_square,
-                    color: AppColors.baseLight,
                   ),
                 ),
               ),
@@ -211,8 +190,9 @@ Future<void> editMessageDialog(
               },
               child: Text(
                 "キャンセル",
-                style: TextStyles.p1(
-                  color: AppColors.baseLight,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
             ),
@@ -229,8 +209,10 @@ Future<void> editMessageDialog(
               ),
               child: Text(
                 "編集",
-                style: TextStyles.p1(
+                style: TextStyle(
                   color: AppColors.baseBlack,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),

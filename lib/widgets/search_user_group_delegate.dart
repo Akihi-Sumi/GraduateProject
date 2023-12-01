@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graduate_app/controller/group.dart';
 import 'package:graduate_app/page/group/group_info_card.dart';
+import 'package:graduate_app/theme/palette.dart';
 import 'package:graduate_app/widgets/imitation_list_tile.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -46,7 +47,13 @@ class SearchUserGroupDelegate extends SearchDelegate {
                     group.groupName,
                     style: TextStyle(fontSize: 18),
                   ),
-                  leading: CircleAvatar(),
+                  leading: CircleAvatar(
+                    backgroundColor: Palette.appColor,
+                    child: Icon(
+                      Icons.groups_3_sharp,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  ),
                   // onTap: () => navigateToUserOrGroup(context, group.groupName),
                   onTap: () {
                     showDialog(

@@ -8,6 +8,7 @@ import 'package:graduate_app/models/item/item_model.dart';
 import 'package:graduate_app/page/settings/survival_kits/add_item_page.dart';
 import 'package:graduate_app/page/settings/survival_kits/edit_item_page.dart';
 import 'package:graduate_app/repositories/survival_kits/list_collection_repository.dart';
+import 'package:graduate_app/theme/palette.dart';
 
 @RoutePage()
 class SurvivalKitPage extends StatefulWidget {
@@ -144,7 +145,6 @@ class _SurvivalKitPageState extends State<SurvivalKitPage>
         title: Text(
           context.topRoute.title(context),
         ),
-        centerTitle: true,
       ),
       body: _items.isEmpty
           ? Center(
@@ -189,7 +189,7 @@ class _SurvivalKitPageState extends State<SurvivalKitPage>
                     },
                     child: CheckboxListTile(
                       controlAffinity: ListTileControlAffinity.leading,
-                      activeColor: Colors.orange.shade700,
+                      activeColor: Palette.appColor,
                       contentPadding: EdgeInsets.only(
                           top: 10, right: 0, bottom: 10, left: 30),
                       value: item.isChecked,
@@ -254,7 +254,7 @@ class _SurvivalKitPageState extends State<SurvivalKitPage>
             context,
             MaterialPageRoute(
               builder: (context) => AddItemPage(itemRepository: itemRepository),
-              fullscreenDialog: true,
+              //fullscreenDialog: true,
             ),
           );
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:graduate_app/utils/constants/app_colors.dart';
+import 'package:graduate_app/theme/palette.dart';
 
 /// [TextFormField] arguments, i.e., the form styles of [InputDecoration].
 class AppTextFormStyles {
@@ -13,17 +13,6 @@ class AppTextFormStyles {
         prefixIcon: Icon(
           iconData,
         ),
-        // focusedBorder: const OutlineInputBorder(
-        //   borderSide: BorderSide(
-        //     color: AppColors.secondaryPale,
-        //     width: 2,
-        //   ),
-        // ),
-        // enabledBorder: OutlineInputBorder(
-        //   borderSide: BorderSide(
-        //     color: color,
-        //   ),
-        // ),
       );
 
   static InputDecoration onPassword({
@@ -62,17 +51,15 @@ class AppTextFormStyles {
         contentPadding: EdgeInsets.zero,
         prefixIcon: Icon(
           iconData,
+          color: Palette.whiteColor,
         ),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: AppColors.secondaryPale,
-            width: 2,
-          ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderSide: BorderSide(color: Palette.whiteColor),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: AppColors.secondaryPale,
-          ),
+          borderSide: BorderSide(color: Palette.whiteColor),
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
         ),
       );
 }

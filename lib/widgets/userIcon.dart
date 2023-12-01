@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduate_app/theme/palette.dart';
 // import 'package:cached_network_image/cached_network_image.dart';
 
 class UserIcon extends StatelessWidget {
@@ -40,7 +41,7 @@ class UserIcon extends StatelessWidget {
               width: 60,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.orange.shade700,
+                color: Palette.appColor,
               ),
               child: Icon(
                 Icons.camera_alt,

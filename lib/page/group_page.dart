@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:graduate_app/controller/group_controller/groups.dart';
 import 'package:graduate_app/page/auth/auth_dependent_builder.dart';
 import 'package:graduate_app/page/group/group_chat_page.dart';
+import 'package:graduate_app/theme/palette.dart';
 import 'package:graduate_app/utils/extensions/date_time.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -40,7 +41,6 @@ class GroupPage extends ConsumerWidget {
                           const Text(
                             "グループがありません。\n"
                             "作成するか参加してみましょう",
-                            //style: TextStyle(color: Colors.white),
                           ),
                         ],
                       ),
@@ -109,8 +109,12 @@ class GenericGroupCard extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: imageSize / 2,
-              backgroundColor: Colors.grey,
-              child: const Icon(Icons.person),
+              backgroundColor: Palette.appColor,
+              child: Icon(
+                Icons.groups_3_sharp,
+                color: Theme.of(context).colorScheme.onPrimary,
+                size: 32,
+              ),
             ),
             Expanded(
               child: Padding(
@@ -129,7 +133,7 @@ class GenericGroupCard extends StatelessWidget {
                     if (latestMessage != null)
                       Text(
                         latestMessage!,
-                        style: TextStyle(color: Colors.grey),
+                        style: TextStyle(color: Palette.greyColor),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -151,14 +155,13 @@ class GenericGroupCard extends StatelessWidget {
                     Container(
                       width: 30,
                       height: 30,
-                      decoration: const BoxDecoration(
-                        color: Colors.red,
+                      decoration: BoxDecoration(
+                        color: Palette.redColor,
                         shape: BoxShape.circle,
                       ),
                       child: Center(
                         child: Text(
                           unReadCountString!,
-                          style: TextStyle(color: Colors.white),
                         ),
                       ),
                     ),

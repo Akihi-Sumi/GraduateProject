@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:graduate_app/theme/palette.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //import 'constants/app_colors.dart';
@@ -20,7 +21,7 @@ class PrimarySpinkitCircle extends StatelessWidget {
   Widget build(BuildContext context) {
     return SpinKitFadingCircle(
       size: size,
-      color: Colors.amber,
+      color: Palette.appColor,
     );
   }
 }

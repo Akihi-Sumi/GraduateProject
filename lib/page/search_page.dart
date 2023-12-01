@@ -34,7 +34,10 @@ class SearchPage extends ConsumerWidget {
               child: SearchBox(),
             ),
             ListTile(
-              title: Text("参加済みグループ"),
+              title: Text(
+                "参加済みグループ",
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
             ),
             ref.watch(groupsStreamProvider(userId ?? '')).when(
                   data: (groups) => ListView.builder(
@@ -49,7 +52,11 @@ class SearchPage extends ConsumerWidget {
                           style: TextStyle(fontSize: 20),
                         ),
                         leading: CircleAvatar(
-                          backgroundColor: Colors.blueGrey,
+                          backgroundColor: Palette.appColor,
+                          child: Icon(
+                            Icons.groups_sharp,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
                         ),
                         onTap: () {
                           showDialog(

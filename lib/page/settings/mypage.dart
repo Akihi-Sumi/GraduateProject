@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/controller/user_profile_controller.dart';
+import 'package:graduate_app/theme/palette.dart';
 import 'package:graduate_app/utils/constants/measure.dart';
+import 'package:graduate_app/widgets/rounded_button.dart';
 import 'package:graduate_app/widgets/select_photo_options.dart';
 import 'package:graduate_app/widgets/textform_header.dart';
 import 'package:graduate_app/widgets/userIcon.dart';
@@ -86,11 +88,9 @@ class MyProfilePageState extends ConsumerState<MyProfilePage> {
     nameController = TextEditingController(
         text: ref.read(appUserFutureProvider).value?.userName ?? '');
     emailController = TextEditingController(
-      text: ref.read(appUserFutureProvider).value?.userEmail ?? '',
-    );
+        text: ref.read(appUserFutureProvider).value?.userEmail ?? '');
     evacuationController = TextEditingController(
-      text: ref.read(appUserFutureProvider).value?.userEvacuation ?? '',
-    );
+        text: ref.read(appUserFutureProvider).value?.userEvacuation ?? '');
   }
 
   void save() {
@@ -98,7 +98,7 @@ class MyProfilePageState extends ConsumerState<MyProfilePage> {
     ref.read(userProfileControllerProvider.notifier).editUserProfile(
           profileFile: _image,
           userName: nameController.text.trim(),
-          userEmail: emailController.text.trim(),
+          //userEmail: emailController.text.trim(),
           userEvacuation: evacuationController.text.trim(),
           context: context,
         );
@@ -135,12 +135,7 @@ class MyProfilePageState extends ConsumerState<MyProfilePage> {
           child: AppBar(
             title: Text(
               context.topRoute.title(context),
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
-              ),
             ),
-            centerTitle: true,
             leading: BackButton(
               onPressed: () => context.popRoute(),
             ),
@@ -192,10 +187,10 @@ class MyProfilePageState extends ConsumerState<MyProfilePage> {
                 ),
                 SizedBox(height: 40),
                 SizedBox(
-                  width: 140,
+                  width: 160,
                   height: 50,
-                  child: ElevatedButton(
-                    onPressed: () async {
+                  child: PrimaryRoundedButton(
+                    onTap: () {
                       //メールアドレスのバリデーション & 名前と避難場所の欄が空白じゃないとき
                       if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                               .hasMatch(emailController.text) &&
@@ -214,7 +209,7 @@ class MyProfilePageState extends ConsumerState<MyProfilePage> {
                             title: Text(
                               "未入力の項目があります",
                               style: TextStyle(
-                                color: Colors.red,
+                                color: Palette.redColor,
                                 fontSize: 23.5,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -226,7 +221,11 @@ class MyProfilePageState extends ConsumerState<MyProfilePage> {
                                 },
                                 child: Text(
                                   "閉じる",
-                                  style: TextStyle(fontSize: 17.5),
+                                  style: TextStyle(
+                                    fontSize: 17.5,
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
+                                  ),
                                 ),
                               ),
                             ],
@@ -241,7 +240,7 @@ class MyProfilePageState extends ConsumerState<MyProfilePage> {
                             title: Text(
                               "メールアドレスが無効です",
                               style: TextStyle(
-                                color: Colors.red,
+                                color: Palette.redColor,
                                 fontSize: 23.5,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -255,7 +254,8 @@ class MyProfilePageState extends ConsumerState<MyProfilePage> {
                                   "編集を続ける",
                                   style: TextStyle(
                                     fontSize: 17.5,
-                                    color: Colors.grey[400],
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
                                   ),
                                 ),
                               ),
@@ -265,21 +265,7 @@ class MyProfilePageState extends ConsumerState<MyProfilePage> {
                         return;
                       }
                     },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      backgroundColor: Colors.orange[700],
-                      textStyle: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    child: Text(
-                      "保存",
-                      style: TextStyle(
-                        color: Colors.black,
-                        //fontSize: 25,
-                      ),
-                    ),
+                    text: "保存",
                   ),
                 ),
               ],
@@ -310,9 +296,9 @@ class _EditUserNameTextForm extends StatelessWidget {
           Measure.g_4,
           TextFormField(
             controller: controller,
-            style: TextStyle(color: Colors.amber, fontSize: 18),
+            style: TextStyle(color: Palette.appColor, fontSize: 18),
             decoration: InputDecoration(
-              labelStyle: TextStyle(color: Colors.white, fontSize: 16),
+              labelStyle: TextStyle(color: Palette.whiteColor, fontSize: 16),
               suffixIcon: IconButton(
                 onPressed: onPressed,
                 icon: Icon(
@@ -347,9 +333,9 @@ class _EditEmailTextForm extends StatelessWidget {
           Measure.g_4,
           TextFormField(
             controller: controller,
-            style: TextStyle(color: Colors.amber, fontSize: 18),
+            style: TextStyle(color: Palette.appColor, fontSize: 18),
             decoration: InputDecoration(
-              labelStyle: TextStyle(color: Colors.white, fontSize: 16),
+              labelStyle: TextStyle(color: Palette.whiteColor, fontSize: 16),
               suffixIcon: IconButton(
                 onPressed: onPressed,
                 icon: Icon(
@@ -386,9 +372,9 @@ class _EditEvacuationTextForm extends StatelessWidget {
           Measure.g_4,
           TextFormField(
             controller: controller,
-            style: TextStyle(color: Colors.amber, fontSize: 18),
+            style: TextStyle(color: Palette.appColor, fontSize: 18),
             decoration: InputDecoration(
-              labelStyle: TextStyle(color: Colors.white, fontSize: 16),
+              labelStyle: TextStyle(color: Palette.whiteColor, fontSize: 16),
               suffixIcon: IconButton(
                 onPressed: onPressed,
                 icon: Icon(

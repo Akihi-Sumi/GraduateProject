@@ -37,7 +37,7 @@ class UserProfileController extends StateNotifier<bool> {
   void editUserProfile({
     required File? profileFile,
     required String userName,
-    required String userEmail,
+    //required String userEmail,
     required String userEvacuation,
     required BuildContext context,
   }) async {
@@ -58,7 +58,7 @@ class UserProfileController extends StateNotifier<bool> {
 
     user = user.copyWith(
       userName: userName,
-      userEmail: userEmail,
+      //userEmail: userEmail,
       userEvacuation: userEvacuation,
     );
     final res = await _userProfileRepository.editProfile(user);

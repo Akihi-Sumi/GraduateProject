@@ -53,12 +53,7 @@ class _GroupChatPageState extends ConsumerState<GroupChatPage> {
           child: AppBar(
             title: Text(
               readGroup?.groupName ?? '',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
-              ),
             ),
-            centerTitle: true,
             leading: BackButton(
               onPressed: () => context.popRoute(),
             ),

@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graduate_app/controller/message.dart';
 import 'package:graduate_app/models/message/message.dart';
 import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
+import 'package:graduate_app/theme/palette.dart';
 import 'package:graduate_app/utils/async_value_error_dialog.dart';
 import 'package:graduate_app/utils/dialog.dart';
 import 'package:graduate_app/utils/loading.dart';
@@ -133,6 +134,8 @@ class EditMessagePageState extends ConsumerState<EditMessagePage> {
     final useMessageController = useTextEditingController();
     final useReNameController = useTextEditingController();
 
+    final theme = ref.watch(themeNotifierProvider);
+
     return GestureDetector(
       child: Scaffold(
         appBar: PreferredSize(
@@ -140,12 +143,7 @@ class EditMessagePageState extends ConsumerState<EditMessagePage> {
           child: AppBar(
             title: Text(
               context.topRoute.title(context),
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
-              ),
             ),
-            centerTitle: true,
             leading: BackButton(
               onPressed: () => context.popRoute(),
             ),
@@ -155,112 +153,110 @@ class EditMessagePageState extends ConsumerState<EditMessagePage> {
           child: Padding(
             padding: EdgeInsets.only(top: 110),
             child: Column(
-              children: messages
-                  .map(
-                    (msg) => Container(
-                      margin: EdgeInsets.only(bottom: 30),
-                      child: MessageBubble(
-                        message: msg,
-                        onLongPress: () {
-                          showModalBottomSheet(
-                            context: context,
-                            isDismissible: true,
-                            builder: (BuildContext context) {
-                              return SizedBox(
-                                height: 140,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    ListTile(
-                                      leading: Icon(
-                                        Icons.edit,
-                                        size: 40,
-                                        color: Colors.grey.shade300,
-                                      ),
-                                      title: Text(
-                                        "編集",
-                                        style: TextStyle(
-                                          fontSize: 28,
-                                          color: Colors.grey.shade300,
-                                        ),
-                                      ),
-                                      onTap: () async {
-                                        useReNameController.text = msg.content;
-                                        await editMessageDialog(
-                                          context,
-                                          useReNameController,
-                                          onPressed: () async {
-                                            final message = msg.copyWith(
-                                                content: useReNameController
-                                                    .value.text);
+              children: messages.map((msg) {
+                return Container(
+                  margin: EdgeInsets.only(bottom: 30),
+                  child: MessageBubble(
+                    message: msg,
+                    onLongPress: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isDismissible: true,
+                        builder: (BuildContext context) {
+                          return SizedBox(
+                            height: 140,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                ListTile(
+                                  leading: Icon(
+                                    Icons.edit,
+                                    size: 40,
+                                    color: Colors.grey.shade300,
+                                  ),
+                                  title: Text(
+                                    "編集",
+                                    style: TextStyle(
+                                      fontSize: 28,
+                                      color: Colors.grey.shade300,
+                                    ),
+                                  ),
+                                  onTap: () async {
+                                    useReNameController.text = msg.content;
+                                    await editMessageDialog(
+                                      context,
+                                      useReNameController,
+                                      onPressed: () async {
+                                        final message = msg.copyWith(
+                                            content:
+                                                useReNameController.value.text);
 
-                                            if (userId != null) {
-                                              await ref
-                                                  .read(
-                                                      messageUpdateControllerProvider
-                                                          .notifier)
-                                                  .updateMessage(
-                                                    userId: userId,
-                                                    messageId: msg.messageId,
-                                                    message: message,
-                                                  );
-                                            }
-                                          },
-                                        );
-
-                                        if (context.mounted) {
-                                          Navigator.of(context).pop();
+                                        if (userId != null) {
+                                          await ref
+                                              .read(
+                                                  messageUpdateControllerProvider
+                                                      .notifier)
+                                              .updateMessage(
+                                                userId: userId,
+                                                messageId: msg.messageId,
+                                                message: message,
+                                              );
                                         }
                                       },
-                                    ),
-                                    ListTile(
-                                      leading: Icon(
-                                        Icons.delete,
-                                        size: 40,
-                                        color: Colors.grey.shade300,
-                                      ),
-                                      title: Text(
-                                        "削除",
-                                        style: TextStyle(
-                                          fontSize: 28,
-                                          color: Colors.grey.shade300,
-                                        ),
-                                      ),
-                                      onTap: () async {
-                                        await showActionDialog(
-                                          context: context,
-                                          title: 'メッセージを削除しますか?',
-                                          buttonText: "はい",
-                                          onPressed: () async {
-                                            if (userId != null) {
-                                              await ref
-                                                  .read(
-                                                      messageDeleteControllerProvider
-                                                          .notifier)
-                                                  .deleteMessage(
-                                                    userId: userId,
-                                                    messageId: msg.messageId,
-                                                    message: msg,
-                                                  );
-                                            }
-                                          },
-                                        );
+                                    );
 
-                                        if (context.mounted) {
-                                          Navigator.of(context).pop();
-                                        }
-                                      },
-                                    ),
-                                  ],
+                                    if (context.mounted) {
+                                      Navigator.of(context).pop();
+                                    }
+                                  },
                                 ),
-                              );
-                            },
+                                ListTile(
+                                  leading: Icon(
+                                    Icons.delete,
+                                    size: 40,
+                                    color: Colors.grey.shade300,
+                                  ),
+                                  title: Text(
+                                    "削除",
+                                    style: TextStyle(
+                                      fontSize: 28,
+                                      color: Colors.grey.shade300,
+                                    ),
+                                  ),
+                                  onTap: () async {
+                                    await showActionDialog(
+                                      context: context,
+                                      title: 'メッセージを削除しますか?',
+                                      buttonText: "はい",
+                                      onPressed: () async {
+                                        if (userId != null) {
+                                          await ref
+                                              .read(
+                                                  messageDeleteControllerProvider
+                                                      .notifier)
+                                              .deleteMessage(
+                                                userId: userId,
+                                                messageId: msg.messageId,
+                                                message: msg,
+                                              );
+                                        }
+                                      },
+                                    );
+
+                                    if (context.mounted) {
+                                      Navigator.of(context).pop();
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
                           );
                         },
-                      ),
-                    ),
-                  )
-                  .toList(),
+                      );
+                    },
+                  ),
+                );
+              }).toList(),
             ),
           ),
         ),
@@ -297,10 +293,14 @@ class EditMessagePageState extends ConsumerState<EditMessagePage> {
                 },
               );
             },
-            backgroundColor: Colors.white,
+            backgroundColor: theme == Palette.darkModeAppTheme
+                ? Palette.whiteColor
+                : Palette.appColor,
             child: Icon(
               Icons.add_comment_rounded,
-              color: Colors.orange[700],
+              color: theme == Palette.darkModeAppTheme
+                  ? Palette.appColor
+                  : Palette.whiteColor,
               size: 50,
             ),
           ),

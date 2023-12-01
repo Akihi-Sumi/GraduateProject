@@ -69,41 +69,38 @@ class HomePage extends HookConsumerWidget {
         child: Padding(
           padding: EdgeInsets.only(top: 110),
           child: Column(
-            children: messages
-                .map(
-                  (message) => Container(
-                    margin: EdgeInsets.only(bottom: 30),
-                    child: MessageBubble(
-                      message: message,
-                      onTap: () async {
-                        await showActionDialog(
-                          context: context,
-                          title: "メッセージを送信しますか",
-                          buttonText: "送信",
-                          onPressed: sendAllGroupState.isLoading
-                              ? null
-                              : () async {
-                                  final groupMessage = Message(
-                                    content: message.content,
-                                    senderId: appUserName ?? '',
-                                    createdAt: DateTime.now(),
-                                  );
+            children: messages.map((message) {
+              return Container(
+                margin: EdgeInsets.only(bottom: 30),
+                child: MessageBubble(
+                  message: message,
+                  onTap: () async {
+                    await showActionDialog(
+                      context: context,
+                      title: "メッセージを送信しますか",
+                      buttonText: "送信",
+                      onPressed: sendAllGroupState.isLoading
+                          ? null
+                          : () async {
+                              final groupMessage = Message(
+                                content: message.content,
+                                senderId: appUserName ?? '',
+                                createdAt: DateTime.now(),
+                              );
 
-                                  await ref
-                                      .read(
-                                          sendMessageAllGroupControllerProvider
-                                              .notifier)
-                                      .sendMessageAllGroup(
-                                        groupMessage: groupMessage,
-                                        userId: userId ?? '',
-                                      );
-                                },
-                        );
-                      },
-                    ),
-                  ),
-                )
-                .toList(),
+                              await ref
+                                  .read(sendMessageAllGroupControllerProvider
+                                      .notifier)
+                                  .sendMessageAllGroup(
+                                    groupMessage: groupMessage,
+                                    userId: userId ?? '',
+                                  );
+                            },
+                    );
+                  },
+                ),
+              );
+            }).toList(),
           ),
         ),
       ),

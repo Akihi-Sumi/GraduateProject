@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graduate_app/controller/auth/sign_up.dart';
 import 'package:graduate_app/gen/assets.gen.dart';
+import 'package:graduate_app/theme/palette.dart';
 import 'package:graduate_app/utils/async_value_error_dialog.dart';
-import 'package:graduate_app/utils/constants/app_colors.dart';
 import 'package:graduate_app/utils/constants/measure.dart';
 import 'package:graduate_app/utils/dialog.dart';
 import 'package:graduate_app/utils/exceptions/exception.dart';
@@ -13,7 +13,6 @@ import 'package:graduate_app/utils/loading.dart';
 import 'package:graduate_app/utils/scaffold_messenger_service.dart';
 import 'package:graduate_app/utils/text_styles.dart';
 import 'package:graduate_app/utils/textform_styles.dart';
-import 'package:graduate_app/widgets/app_bar.dart';
 import 'package:graduate_app/widgets/rounded_button.dart';
 import 'package:graduate_app/widgets/textform_header.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -75,9 +74,8 @@ class SignupPage extends HookConsumerWidget {
       child: Stack(
         children: [
           Scaffold(
-            appBar: const MyAppBar(
-              title: 'Create a account',
-              elevation: 0,
+            appBar: AppBar(
+              title: Text('Create account'),
               automaticallyImplyLeading: true,
             ),
             body: Stack(
@@ -248,8 +246,8 @@ class _TermsAndPrivacyPolicyText extends HookConsumerWidget {
       child: Row(
         children: [
           Checkbox(
-            activeColor: AppColors.secondary,
-            checkColor: AppColors.baseWhite,
+            activeColor: Theme.of(context).colorScheme.secondary,
+            checkColor: Palette.whiteColor,
             value: isCheckTerms.value,
             onChanged: (value) => isCheckTerms.value = value!,
           ),
@@ -280,15 +278,12 @@ class _TermsAndPrivacyPolicyText extends HookConsumerWidget {
                               .update((state) => false);
                         }
                       },
-                    style: TextStyles.p2(
-                      color: AppColors.secondary,
-                    ),
+                    style: TextStyles.p2(color: Palette.appColor),
                   ),
                   TextSpan(
                     text: 'および',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
+                    style: TextStyles.p2(
+                      color: Theme.of(context).colorScheme.onPrimary,
                     ),
                   ),
                   TextSpan(
@@ -314,9 +309,7 @@ class _TermsAndPrivacyPolicyText extends HookConsumerWidget {
                               .update((state) => false);
                         }
                       },
-                    style: TextStyles.p2(
-                      color: AppColors.secondary,
-                    ),
+                    style: TextStyles.p2(color: Palette.appColor),
                   ),
                 ],
               ),

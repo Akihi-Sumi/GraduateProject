@@ -114,7 +114,6 @@ class MyDrawer extends HookConsumerWidget {
             ),
             Consumer(
               builder: (context, ref, child) {
-                //final theme = ref.watch(themeNotifierProvider);
                 return IconButton(
                   onPressed: () {
                     ref.read(themeNotifierProvider.notifier).toggleTheme();

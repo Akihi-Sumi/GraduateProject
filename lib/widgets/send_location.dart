@@ -8,9 +8,9 @@ import 'package:graduate_app/controller/auth.dart';
 import 'package:graduate_app/controller/group_message.dart';
 import 'package:graduate_app/models/message/message.dart';
 import 'package:graduate_app/utils/async_value_error_dialog.dart';
+import 'package:graduate_app/utils/dialog.dart';
 import 'package:graduate_app/utils/loading.dart';
 import 'package:graduate_app/utils/scaffold_messenger_service.dart';
-import 'package:graduate_app/widgets/myAlertDialog.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SendLocation extends ConsumerStatefulWidget {
@@ -93,33 +93,26 @@ class _SendLocationState extends ConsumerState<SendLocation> {
       padding: EdgeInsets.all(13),
       child: FloatingActionButton(
         child: Image.asset('assets/images/google_maps.png'),
-        onPressed: () {
-          showDialog<void>(
+        onPressed: () async {
+          await showActionDialog(
             context: context,
-            builder: (BuildContext context) {
-              return MyAlertDialog(
-                title: "現在地を送信しますか？",
-                txt_cancel: "キャンセル",
-                txt_ok: "送信",
-                onTap: () {
-                  //_getLocation();
+            title: "現在地を送信しますか",
+            buttonText: "送信",
+            onPressed: () {
+              _getLocation().then((value) async {
+                final groupMessage = Message(
+                  content: value.toString(),
+                  senderId: appUserName ?? '',
+                  createdAt: DateTime.now(),
+                );
 
-                  _getLocation().then((value) async {
-                    final groupMessage = Message(
-                      content: value.toString(),
-                      senderId: appUserName ?? '',
-                      createdAt: DateTime.now(),
+                await ref
+                    .read(sendMessageAllGroupControllerProvider.notifier)
+                    .sendMessageAllGroup(
+                      groupMessage: groupMessage,
+                      userId: userId ?? '',
                     );
-
-                    await ref
-                        .read(sendMessageAllGroupControllerProvider.notifier)
-                        .sendMessageAllGroup(
-                          groupMessage: groupMessage,
-                          userId: userId ?? '',
-                        );
-                  });
-                },
-              );
+              });
             },
           );
         },

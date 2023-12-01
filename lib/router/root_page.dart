@@ -35,16 +35,10 @@ class RootPage extends ConsumerWidget {
                   forceMaterialTransparency: true,
                   title: Text(
                     context.topRoute.title(context),
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w600,
-                    ),
                   ),
-                  centerTitle: true,
                   leading: AutoLeadingButton(
                     showIfChildCanPop: false,
                   ),
-                  backgroundColor: Colors.black,
                 ),
               ),
               drawer: Drawer(child: MyDrawer(

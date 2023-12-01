@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:graduate_app/utils/constants/app_colors.dart';
+import 'package:graduate_app/theme/palette.dart';
 import 'package:graduate_app/utils/constants/measure.dart';
 import 'package:graduate_app/widgets/textform_header.dart';
 
@@ -40,7 +40,12 @@ Future<bool?> showActionDialog({
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: Text(title),
+        title: Align(
+            alignment: Alignment.center,
+            child: Text(
+              title,
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),),
         insetPadding: Measure.p_a16,
         content: SizedBox(
           width: 290,
@@ -52,7 +57,10 @@ Future<bool?> showActionDialog({
               onPressed: () => Navigator.of(context).pop(),
               child: Text(
                 "キャンセル",
-                style: TextStyle(fontSize: 17),
+                style: TextStyle(
+                  fontSize: 17,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
               ),
             ),
           ),
@@ -67,7 +75,7 @@ Future<bool?> showActionDialog({
               child: Text(
                 buttonText,
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Theme.of(context).colorScheme.onPrimary,
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
                 ),
@@ -131,13 +139,12 @@ Future<void> createMessageDialog(
             child: ElevatedButton(
               onPressed: onPressed,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orangeAccent,
+                backgroundColor: Palette.appColor,
                 fixedSize: Size(130, 40),
               ),
               child: Text(
                 "追加",
                 style: TextStyle(
-                  color: AppColors.baseBlack,
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
                 ),
@@ -204,13 +211,13 @@ Future<void> editMessageDialog(
             child: ElevatedButton(
               onPressed: onPressed,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orangeAccent,
+                backgroundColor: Palette.appColor,
                 fixedSize: Size(130, 40),
               ),
               child: Text(
                 "編集",
                 style: TextStyle(
-                  color: AppColors.baseBlack,
+                  color: Palette.blackColor,
                   fontSize: 17,
                   fontWeight: FontWeight.w600,
                 ),

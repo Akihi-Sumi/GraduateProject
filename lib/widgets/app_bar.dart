@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduate_app/theme/palette.dart';
 import 'package:graduate_app/utils/text_styles.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -29,7 +30,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: elevation,
       title: Text(
         title,
-        style: TextStyles.h2(),
+        style: TextStyles.h2(color: Palette.appColor),
       ),
       //iconTheme: const IconThemeData(color: AppColors.baseWhite),
       actions: actions,

@@ -67,12 +67,7 @@ class SettingsPage extends ConsumerWidget {
         child: AppBar(
           title: Text(
             context.topRoute.title(context),
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w600,
-            ),
           ),
-          centerTitle: true,
           leading: BackButton(
             onPressed: () => context.popRoute(),
           ),

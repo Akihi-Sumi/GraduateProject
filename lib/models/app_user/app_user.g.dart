@@ -13,7 +13,8 @@ _$AppUserImpl _$$AppUserImplFromJson(Map<String, dynamic> json) =>
       userEmail: json['userEmail'] as String? ?? '',
       userEvacuation: json['userEvacuation'] as String? ?? '',
       profilePicture: json['profilePicture'] as String? ?? '',
-      createdAt: unionTimestampConverter.fromJson(json['createdAt'] as Object),
+      createdAt: _$JsonConverterFromJson<Object, UnionTimestamp>(
+          json['createdAt'], unionTimestampConverter.fromJson),
     );
 
 Map<String, dynamic> _$$AppUserImplToJson(_$AppUserImpl instance) =>
@@ -23,5 +24,18 @@ Map<String, dynamic> _$$AppUserImplToJson(_$AppUserImpl instance) =>
       'userEmail': instance.userEmail,
       'userEvacuation': instance.userEvacuation,
       'profilePicture': instance.profilePicture,
-      'createdAt': unionTimestampConverter.toJson(instance.createdAt),
+      'createdAt': _$JsonConverterToJson<Object, UnionTimestamp>(
+          instance.createdAt, unionTimestampConverter.toJson),
     };
+
+Value? _$JsonConverterFromJson<Json, Value>(
+  Object? json,
+  Value? Function(Json json) fromJson,
+) =>
+    json == null ? null : fromJson(json as Json);
+
+Json? _$JsonConverterToJson<Json, Value>(
+  Value? value,
+  Json? Function(Value value) toJson,
+) =>
+    value == null ? null : toJson(value);

@@ -13,7 +13,7 @@ class AppUser with _$AppUser {
     @Default('') String userEmail,
     @Default('') String userEvacuation,
     @Default('') String profilePicture,
-    @unionTimestampConverter required UnionTimestamp createdAt,
+    @unionTimestampConverter UnionTimestamp? createdAt,
   }) = _AppUser;
 
   factory AppUser.fromJson(Map<String, dynamic> json) =>

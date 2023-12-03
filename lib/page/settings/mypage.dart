@@ -7,6 +7,7 @@ import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/controller/user_profile_controller.dart';
 import 'package:graduate_app/theme/palette.dart';
 import 'package:graduate_app/utils/constants/measure.dart';
+import 'package:graduate_app/utils/loading.dart';
 import 'package:graduate_app/widgets/rounded_button.dart';
 import 'package:graduate_app/widgets/select_photo_options.dart';
 import 'package:graduate_app/widgets/textform_header.dart';
@@ -98,7 +99,7 @@ class MyProfilePageState extends ConsumerState<MyProfilePage> {
     ref.read(userProfileControllerProvider.notifier).editUserProfile(
           profileFile: _image,
           userName: nameController.text.trim(),
-          //userEmail: emailController.text.trim(),
+          userEmail: emailController.text.trim(),
           userEvacuation: evacuationController.text.trim(),
           context: context,
         );
@@ -123,7 +124,7 @@ class MyProfilePageState extends ConsumerState<MyProfilePage> {
           orElse: () => null,
         );
 
-    // final userEvacuation = useTextEditingController(text: "保存した避難場所");
+    final isLoading = ref.watch(userProfileControllerProvider);
 
     // キーボード外をタップで収納するよう変更 (済み)
     return GestureDetector(
@@ -141,137 +142,141 @@ class MyProfilePageState extends ConsumerState<MyProfilePage> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          padding: EdgeInsets.only(bottom: bottomSpace),
-          child: Container(
-            padding: EdgeInsets.fromLTRB(8, 20, 8, 16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                UserIcon(
-                  content: Center(
-                    child: _image == null
-                        ? const Text(
-                            "No Image",
-                            style: TextStyle(fontSize: 24),
-                          )
-                        : _image != null
-                            ? CircleAvatar(
-                                backgroundImage: FileImage(_image!),
-                                radius: 200.0,
-                              )
-                            : CircleAvatar(
-                                backgroundImage:
-                                    NetworkImage(appUserPicture ?? ''),
-                                radius: 200.0,
-                              ),
-                  ),
-                  onTap: () {
-                    _showSelectPhotoOptions(context);
-                  },
-                ),
-                SizedBox(height: 30),
-                _EditUserNameTextForm(
-                  controller: nameController,
-                  onPressed: () => nameController.clear(),
-                ),
-                SizedBox(height: 20),
-                _EditEmailTextForm(
-                  controller: emailController,
-                  onPressed: () => emailController.clear(),
-                ),
-                SizedBox(height: 20),
-                _EditEvacuationTextForm(
-                  controller: evacuationController,
-                  onPressed: () => evacuationController.clear(),
-                ),
-                SizedBox(height: 40),
-                SizedBox(
-                  width: 160,
-                  height: 50,
-                  child: PrimaryRoundedButton(
-                    onTap: () {
-                      //メールアドレスのバリデーション & 名前と避難場所の欄が空白じゃないとき
-                      if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                              .hasMatch(emailController.text) &&
-                          nameController.text.isNotEmpty &&
-                          evacuationController.text.isNotEmpty) {
-                        save;
-                        FocusScope.of(context).unfocus();
-                      }
-                      // 空欄があるとき
-                      else if (nameController.text.isEmpty ||
-                          emailController.text.isEmpty ||
-                          evacuationController.text.isEmpty) {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text(
-                              "未入力の項目があります",
-                              style: TextStyle(
-                                color: Palette.redColor,
-                                fontSize: 23.5,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text(
-                                  "閉じる",
-                                  style: TextStyle(
-                                    fontSize: 17.5,
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
+        body: isLoading
+            ? Loader()
+            : SingleChildScrollView(
+                padding: EdgeInsets.only(bottom: bottomSpace),
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(8, 20, 8, 16),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      UserIcon(
+                        content: Center(
+                          child: _image != null
+                              ? CircleAvatar(
+                                  backgroundImage: FileImage(_image!),
+                                  radius: 200,
+                                )
+                              : appUserPicture != ''
+                                  ? CircleAvatar(
+                                      backgroundImage:
+                                          NetworkImage(appUserPicture!),
+                                      radius: 200,
+                                    )
+                                  : Text(
+                                      "No Image",
+                                      style: TextStyle(fontSize: 24),
+                                    ),
+                        ),
+                        onTap: () {
+                          _showSelectPhotoOptions(context);
+                        },
+                      ),
+                      SizedBox(height: 30),
+                      _EditUserNameTextForm(
+                        controller: nameController,
+                        onPressed: () => nameController.clear(),
+                      ),
+                      SizedBox(height: 20),
+                      _EditEmailTextForm(
+                        controller: emailController,
+                        onPressed: () => emailController.clear(),
+                      ),
+                      SizedBox(height: 20),
+                      _EditEvacuationTextForm(
+                        controller: evacuationController,
+                        onPressed: () => evacuationController.clear(),
+                      ),
+                      SizedBox(height: 40),
+                      SizedBox(
+                        width: 160,
+                        height: 50,
+                        child: PrimaryRoundedButton(
+                          onTap: () {
+                            //メールアドレスのバリデーション & 名前と避難場所の欄が空白じゃないとき
+                            if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                    .hasMatch(emailController.text) &&
+                                nameController.text.isNotEmpty &&
+                                evacuationController.text.isNotEmpty) {
+                              save();
+                              FocusScope.of(context).unfocus();
+                            }
+                            // 空欄があるとき
+                            else if (nameController.text.isEmpty ||
+                                emailController.text.isEmpty ||
+                                evacuationController.text.isEmpty) {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text(
+                                    "未入力の項目があります",
+                                    style: TextStyle(
+                                      color: Palette.redColor,
+                                      fontSize: 23.5,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text(
+                                        "閉じる",
+                                        style: TextStyle(
+                                          fontSize: 17.5,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                      // メールアドレスが無効なとき
-                      else {
-                        showDialog<void>(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text(
-                              "メールアドレスが無効です",
-                              style: TextStyle(
-                                color: Palette.redColor,
-                                fontSize: 23.5,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text(
-                                  "編集を続ける",
-                                  style: TextStyle(
-                                    fontSize: 17.5,
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
+                              );
+                            }
+                            // メールアドレスが無効なとき
+                            else {
+                              showDialog<void>(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text(
+                                    "メールアドレスが無効です",
+                                    style: TextStyle(
+                                      color: Palette.redColor,
+                                      fontSize: 23.5,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text(
+                                        "編集を続ける",
+                                        style: TextStyle(
+                                          fontSize: 17.5,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                        );
-                        return;
-                      }
-                    },
-                    text: "保存",
+                              );
+                              return;
+                            }
+                          },
+                          text: "保存",
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ),
+              ),
       ),
     );
   }

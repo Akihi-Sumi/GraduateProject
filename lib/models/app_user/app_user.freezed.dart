@@ -27,7 +27,7 @@ mixin _$AppUser {
   String get userEvacuation => throw _privateConstructorUsedError;
   String get profilePicture => throw _privateConstructorUsedError;
   @unionTimestampConverter
-  UnionTimestamp get createdAt => throw _privateConstructorUsedError;
+  UnionTimestamp? get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -45,9 +45,9 @@ abstract class $AppUserCopyWith<$Res> {
       String userEmail,
       String userEvacuation,
       String profilePicture,
-      @unionTimestampConverter UnionTimestamp createdAt});
+      @unionTimestampConverter UnionTimestamp? createdAt});
 
-  $UnionTimestampCopyWith<$Res> get createdAt;
+  $UnionTimestampCopyWith<$Res>? get createdAt;
 }
 
 /// @nodoc
@@ -68,7 +68,7 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
     Object? userEmail = null,
     Object? userEvacuation = null,
     Object? profilePicture = null,
-    Object? createdAt = null,
+    Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
       userId: null == userId
@@ -91,17 +91,21 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
           ? _value.profilePicture
           : profilePicture // ignore: cast_nullable_to_non_nullable
               as String,
-      createdAt: null == createdAt
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as UnionTimestamp,
+              as UnionTimestamp?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $UnionTimestampCopyWith<$Res> get createdAt {
-    return $UnionTimestampCopyWith<$Res>(_value.createdAt, (value) {
+  $UnionTimestampCopyWith<$Res>? get createdAt {
+    if (_value.createdAt == null) {
+      return null;
+    }
+
+    return $UnionTimestampCopyWith<$Res>(_value.createdAt!, (value) {
       return _then(_value.copyWith(createdAt: value) as $Val);
     });
   }
@@ -120,10 +124,10 @@ abstract class _$$AppUserImplCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       String userEmail,
       String userEvacuation,
       String profilePicture,
-      @unionTimestampConverter UnionTimestamp createdAt});
+      @unionTimestampConverter UnionTimestamp? createdAt});
 
   @override
-  $UnionTimestampCopyWith<$Res> get createdAt;
+  $UnionTimestampCopyWith<$Res>? get createdAt;
 }
 
 /// @nodoc
@@ -142,7 +146,7 @@ class __$$AppUserImplCopyWithImpl<$Res>
     Object? userEmail = null,
     Object? userEvacuation = null,
     Object? profilePicture = null,
-    Object? createdAt = null,
+    Object? createdAt = freezed,
   }) {
     return _then(_$AppUserImpl(
       userId: null == userId
@@ -165,10 +169,10 @@ class __$$AppUserImplCopyWithImpl<$Res>
           ? _value.profilePicture
           : profilePicture // ignore: cast_nullable_to_non_nullable
               as String,
-      createdAt: null == createdAt
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as UnionTimestamp,
+              as UnionTimestamp?,
     ));
   }
 }
@@ -182,7 +186,7 @@ class _$AppUserImpl extends _AppUser {
       this.userEmail = '',
       this.userEvacuation = '',
       this.profilePicture = '',
-      @unionTimestampConverter required this.createdAt})
+      @unionTimestampConverter this.createdAt})
       : super._();
 
   factory _$AppUserImpl.fromJson(Map<String, dynamic> json) =>
@@ -206,7 +210,7 @@ class _$AppUserImpl extends _AppUser {
   final String profilePicture;
   @override
   @unionTimestampConverter
-  final UnionTimestamp createdAt;
+  final UnionTimestamp? createdAt;
 
   @override
   String toString() {
@@ -257,7 +261,7 @@ abstract class _AppUser extends AppUser {
           final String userEmail,
           final String userEvacuation,
           final String profilePicture,
-          @unionTimestampConverter required final UnionTimestamp createdAt}) =
+          @unionTimestampConverter final UnionTimestamp? createdAt}) =
       _$AppUserImpl;
   const _AppUser._() : super._();
 
@@ -276,7 +280,7 @@ abstract class _AppUser extends AppUser {
   String get profilePicture;
   @override
   @unionTimestampConverter
-  UnionTimestamp get createdAt;
+  UnionTimestamp? get createdAt;
   @override
   @JsonKey(ignore: true)
   _$$AppUserImplCopyWith<_$AppUserImpl> get copyWith =>

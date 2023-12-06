@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:graduate_app/controller/app_user.dart';
+import 'package:graduate_app/controller/auth.dart';
 import 'package:graduate_app/controller/group_controller/groups.dart';
+import 'package:graduate_app/controller/user_profile/user.dart';
+import 'package:graduate_app/models/app_user/app_user.dart';
 import 'package:graduate_app/page/group/create_group_page.dart';
 import 'package:graduate_app/page/group/group_info_card.dart';
-import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
 import 'package:graduate_app/theme/palette.dart';
 import 'package:graduate_app/utils/loading.dart';
 import 'package:graduate_app/widgets/imitation_list_tile.dart';
@@ -14,9 +16,12 @@ class MyDrawer extends HookConsumerWidget {
   const MyDrawer({
     Key? key,
     required this.toSettings,
+    required this.user,
   }) : super(key: key);
 
   final Function()? toSettings;
+
+  final AppUser? user;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,12 +30,8 @@ class MyDrawer extends HookConsumerWidget {
           orElse: () => null,
         );
 
-    final appUserPicture = ref.watch(appUserFutureProvider).maybeWhen(
-          data: (data) => data?.profilePicture,
-          orElse: () => null,
-        );
-
-    final userId = ref.watch(authRepositoryImplProvider).currentUser?.uid;
+    final userId = ref.watch(userIdProvider)!;
+    final userImage = ref.watch(userImageProfileProvider(userId));
 
     final theme = ref.watch(themeNotifierProvider);
 
@@ -41,12 +42,12 @@ class MyDrawer extends HookConsumerWidget {
             Expanded(
               child: Column(
                 children: [
-                  if (appUserPicture != null)
+                  if (userImage != '')
                     CircleAvatar(
                       radius: 80,
-                      backgroundImage: NetworkImage(appUserPicture),
+                      backgroundImage: NetworkImage(userImage),
                     ),
-                  if (appUserPicture == null)
+                  if (userImage == '')
                     CircleAvatar(
                       radius: 80,
                       backgroundColor: Palette.appColor,
@@ -72,7 +73,7 @@ class MyDrawer extends HookConsumerWidget {
                       title: Text("グループ", style: TextStyle(fontSize: 26)),
                       leading: Icon(Icons.group),
                       children: <Widget>[
-                        ref.watch(groupsStreamProvider(userId ?? '')).when(
+                        ref.watch(groupsStreamProvider(userId)).when(
                               data: (groups) => ListView.builder(
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),

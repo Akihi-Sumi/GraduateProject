@@ -8,11 +8,11 @@ part 'app_user.g.dart';
 @freezed
 class AppUser with _$AppUser {
   const factory AppUser({
-    @Assert('userName.length <= 20') @Default('') String userId,
-    @Default('') String userName,
-    @Default('') String userEmail,
-    @Default('') String userEvacuation,
-    @Default('') String profilePicture,
+    @Assert('userName.length <= 20') @Default('') String? userId,
+    @Default('') String? userName,
+    @Default('') String? userEmail,
+    @Default('') String? userEvacuation,
+    @Default('') String? profilePicture,
     @unionTimestampConverter UnionTimestamp? createdAt,
   }) = _AppUser;
 

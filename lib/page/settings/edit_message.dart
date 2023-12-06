@@ -271,9 +271,9 @@ class EditMessagePageState extends ConsumerState<EditMessagePage> {
                 context,
                 useMessageController,
                 onPressed: () async {
-                  ref
-                      .watch(overlayLoadingProvider.notifier)
-                      .update((state) => true);
+                  // ref
+                  //     .watch(overlayLoadingProvider.notifier)
+                  //     .update((state) => true);
 
                   final message = Message(
                     content: useMessageController.value.text,

@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_app/controller/auth.dart';
+import 'package:graduate_app/controller/user_profile/user.dart';
 import 'package:graduate_app/router/app_router.gr.dart';
 import 'package:graduate_app/router/root_navigation_bar.dart';
 import 'package:graduate_app/utils/loading.dart';
@@ -12,6 +14,10 @@ class RootPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userId = ref.watch(userIdProvider)!;
+    final userAsyncValue = ref.watch(userFutureProvider(userId));
+    final user = userAsyncValue.valueOrNull;
+
     return AutoTabsRouter(
       routes: const [
         HomeRouterRoute(),
@@ -41,11 +47,13 @@ class RootPage extends ConsumerWidget {
                   ),
                 ),
               ),
-              drawer: Drawer(child: MyDrawer(
+              drawer: Drawer(
+                  child: MyDrawer(
                 toSettings: () {
                   Navigator.of(context).pop();
                   context.navigateTo(SettingsRouterRoute());
                 },
+                user: user,
               )),
               body: child,
               bottomNavigationBar: RootNavigationBar(tabsRouter: tabsRouter),

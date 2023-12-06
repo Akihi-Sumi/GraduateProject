@@ -6,9 +6,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/controller/auth.dart';
 import 'package:graduate_app/controller/group_message.dart';
-import 'package:graduate_app/models/message/message.dart';
 import 'package:graduate_app/utils/async_value_error_dialog.dart';
 import 'package:graduate_app/utils/dialog.dart';
+import 'package:graduate_app/utils/firestore_refs/group_message_ref.dart';
 import 'package:graduate_app/utils/loading.dart';
 import 'package:graduate_app/utils/scaffold_messenger_service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -100,10 +100,9 @@ class _SendLocationState extends ConsumerState<SendLocation> {
             buttonText: "送信",
             onPressed: () {
               _getLocation().then((value) async {
-                final groupMessage = Message(
+                final groupMessage = CreateGroupMessage(
                   content: value.toString(),
                   senderId: appUserName ?? '',
-                  createdAt: DateTime.now(),
                 );
 
                 await ref

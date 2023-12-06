@@ -18,7 +18,7 @@ dependencies:
   cached_network_image: ^3.2.3
 
   auto_route: ^7.8.4
-  firebase_core: ^2.19.0
+  firebase_core: ^2.24.0
   firebase_auth: ^4.11.1
   firebase_messaging: ^14.7.1
   firebase_storage: ^11.5.1
@@ -47,6 +47,7 @@ dependencies:
   provider: ^6.1.1
   flutter_localizations:
     sdk: flutter
+  flutterfire_gen_annotation: ^0.1.0-dev.5
 
 dev_dependencies:
   flutter_test:

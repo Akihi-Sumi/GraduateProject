@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/controller/group_controller/groups.dart';
 import 'package:graduate_app/page/group/create_group_page.dart';
@@ -24,6 +25,11 @@ class MyDrawer extends HookConsumerWidget {
           orElse: () => null,
         );
 
+    final appUserPicture = ref.watch(appUserFutureProvider).maybeWhen(
+          data: (data) => data?.profilePicture,
+          orElse: () => null,
+        );
+
     final userId = ref.watch(authRepositoryImplProvider).currentUser?.uid;
 
     final theme = ref.watch(themeNotifierProvider);
@@ -35,12 +41,22 @@ class MyDrawer extends HookConsumerWidget {
             Expanded(
               child: Column(
                 children: [
-                  Image.asset(
-                    theme == Palette.darkModeAppTheme
-                        ? 'assets/images/account_dark.png'
-                        : 'assets/images/account_light.png',
-                    width: 180,
-                  ),
+                  if (appUserPicture != null)
+                    CircleAvatar(
+                      radius: 80,
+                      backgroundImage: NetworkImage(appUserPicture),
+                    ),
+                  if (appUserPicture == null)
+                    CircleAvatar(
+                      radius: 80,
+                      backgroundColor: Palette.appColor,
+                      child: Icon(
+                        Icons.person_sharp,
+                        color: Theme.of(context).iconTheme.color,
+                        size: 120,
+                      ),
+                    ),
+                  Gap(10),
                   Text(
                     appUserName ?? '',
                     style: TextStyle(
@@ -68,7 +84,14 @@ class MyDrawer extends HookConsumerWidget {
                                       group.groupName,
                                       style: TextStyle(fontSize: 24),
                                     ),
-                                    leading: CircleAvatar(),
+                                    leading: CircleAvatar(
+                                      backgroundColor: Palette.appColor,
+                                      child: Icon(
+                                        Icons.groups,
+                                        color:
+                                            Theme.of(context).iconTheme.color,
+                                      ),
+                                    ),
                                     onTap: () {
                                       showDialog(
                                         context: context,

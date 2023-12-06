@@ -84,6 +84,7 @@ class ContentBox extends ConsumerWidget {
     return Stack(
       children: <Widget>[
         Container(
+          width: 300,
           padding: EdgeInsets.only(
             left: Constants.padding,
             top: Constants.avatarRadius + Constants.padding,
@@ -229,7 +230,7 @@ class ContentBox extends ConsumerWidget {
                 radius: 40,
                 child: Icon(
                   Icons.groups_3_sharp,
-                  color: Theme.of(context).colorScheme.onPrimary,
+                  color: Theme.of(context).iconTheme.color,
                   size: 44,
                 ),
               ),

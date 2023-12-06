@@ -7,6 +7,7 @@ import 'package:graduate_app/controller/message.dart';
 import 'package:graduate_app/models/message/message.dart';
 import 'package:graduate_app/utils/async_value_error_dialog.dart';
 import 'package:graduate_app/utils/dialog.dart';
+import 'package:graduate_app/utils/firestore_refs/group_message_ref.dart';
 import 'package:graduate_app/utils/loading.dart';
 import 'package:graduate_app/utils/scaffold_messenger_service.dart';
 import 'package:graduate_app/widgets/message_bubble.dart';
@@ -82,10 +83,10 @@ class HomePage extends HookConsumerWidget {
                       onPressed: sendAllGroupState.isLoading
                           ? null
                           : () async {
-                              final groupMessage = Message(
+                              final groupMessage = CreateGroupMessage(
                                 content: message.content,
                                 senderId: appUserName ?? '',
-                                createdAt: DateTime.now(),
+                                //createdAt: DateTime.now(),
                               );
 
                               await ref

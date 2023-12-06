@@ -1,8 +1,7 @@
-import 'package:graduate_app/controller/group_controller/read_status.dart';
 import 'package:graduate_app/models/group/group_model.dart';
-import 'package:graduate_app/models/message/message.dart';
 import 'package:graduate_app/repositories/group.dart';
 import 'package:graduate_app/repositories/group_message.dart';
+import 'package:graduate_app/utils/firestore_refs/group_message_ref.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final groupsStreamProvider =
@@ -11,45 +10,45 @@ final groupsStreamProvider =
 });
 
 final _latestMessagesStreamProvider =
-    StreamProvider.family.autoDispose<List<Message>, String>(
+    StreamProvider.family.autoDispose<List<ReadGroupMessage>, String>(
   (ref, groupId) => ref
       .watch(groupMessageRepositoryProvider)
       .subscribeLatestMessages(groupId: groupId),
 );
 
 final latestMessageProvider =
-    Provider.family.autoDispose<Message?, String>((ref, groupId) {
+    Provider.family.autoDispose<ReadGroupMessage?, String>((ref, groupId) {
   final latestMessages =
       ref.watch(_latestMessagesStreamProvider(groupId)).value ?? [];
   return latestMessages.firstOrNull;
 });
 
-const _maxUnReadCount = 10;
+// const _maxUnReadCount = 10;
 
-final _unReadCountStreamProvider =
-    StreamProvider.autoDispose.family<int, GroupModel>((ref, readGroup) {
-  final readStatus =
-      ref.watch(myReadStatusStreamProvider(readGroup)).valueOrNull;
-  final lastReadAt = readStatus?.lastReadAt;
+// final _unReadCountStreamProvider =
+//     StreamProvider.autoDispose.family<int, GroupModel>((ref, readGroup) {
+  // final readStatus =
+  //     ref.watch(myReadStatusStreamProvider(readGroup)).valueOrNull;
+  // final lastReadAt = readStatus?.lastReadAt;
 
-  return ref
-      .watch(groupMessageRepositoryProvider)
-      .subscribeUnReadGroupMessages(
-          groupId: readGroup.groupId,
-          lastReadAt: lastReadAt,
-          limit: _maxUnReadCount + 1)
-      .map((messages) => messages.length);
-});
+//   return ref
+//       .watch(groupMessageRepositoryProvider)
+//       .subscribeUnReadGroupMessages(
+//           groupId: readGroup.groupId,
+//           //lastReadAt: lastReadAt,
+//           limit: _maxUnReadCount + 1)
+//       .map((messages) => messages.length);
+// });
 
-final unReadCountStringProvider =
-    Provider.autoDispose.family<String, GroupModel>((ref, readGroup) {
-  final unReadCount =
-      ref.watch(_unReadCountStreamProvider(readGroup)).value ?? 0;
-  if (unReadCount == 0) {
-    return '';
-  }
-  if (unReadCount > _maxUnReadCount) {
-    return '$_maxUnReadCount+';
-  }
-  return unReadCount.toString();
-});
+// final unReadCountStringProvider =
+//     Provider.autoDispose.family<String, GroupModel>((ref, readGroup) {
+//   final unReadCount =
+//       ref.watch(_unReadCountStreamProvider(readGroup)).value ?? 0;
+//   if (unReadCount == 0) {
+//     return '';
+//   }
+//   if (unReadCount > _maxUnReadCount) {
+//     return '$_maxUnReadCount+';
+//   }
+//   return unReadCount.toString();
+// });

@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:graduate_app/controller/auth.dart';
+import 'package:graduate_app/controller/app_user.dart';
+import 'package:graduate_app/models/app_user/app_user.dart';
 import 'package:graduate_app/repositories/app_user/user_profile_repository.dart';
 import 'package:graduate_app/repositories/storage_repository.dart';
 import 'package:graduate_app/widgets/show_snack_bar.dart';
@@ -23,7 +24,7 @@ final userProfileControllerProvider =
 });
 
 class UserProfileController extends StateNotifier<bool> {
-  //final UserProfileRepository _userProfileRepository;
+  final UserProfileRepository _userProfileRepository;
   final Ref _ref;
   final StorageRepository _storageRepository;
 
@@ -31,8 +32,7 @@ class UserProfileController extends StateNotifier<bool> {
     required UserProfileRepository userProfileRepository,
     required Ref ref,
     required StorageRepository storageRepository,
-  })  :
-        //_userProfileRepository = userProfileRepository,
+  })  : _userProfileRepository = userProfileRepository,
         _ref = ref,
         _storageRepository = storageRepository,
         super(false);
@@ -46,40 +46,42 @@ class UserProfileController extends StateNotifier<bool> {
   }) async {
     state = true;
 
-    final userId = _ref.watch(userIdProvider);
+    AppUser? user = _ref.read(userProvider);
 
-    if (profileFile != null) {
-      final res = await _storageRepository.storeFile(
-        path: 'users/profile',
-        id: userId ?? '',
-        file: profileFile,
+    //final userId = _ref.watch(userIdProvider);
+
+    if (user != null) {
+      if (profileFile != null) {
+        final res = await _storageRepository.storeFile(
+          path: 'users/profile',
+          id: user.userId,
+          file: profileFile,
+        );
+        res.fold(
+          (l) => showSnackBar(context, l.message),
+          (r) => user = user!.copyWith(profilePicture: r),
+        );
+      }
+
+      // _db.collection('appUsers').doc(userId).update({
+      //   'userName': userName,
+      //   'userEmail': userEmail,
+      //   'userEvacuation': userEvacuation,
+      // });
+
+      user = user!.copyWith(
+        userName: userName,
+        userEmail: userEmail,
+        userEvacuation: userEvacuation,
       );
+      final res = await _userProfileRepository.editProfile(user!);
+      state = false;
       res.fold(
         (l) => showSnackBar(context, l.message),
-        (r) => _db.collection('appUsers').doc(userId).update({
-          'profilePicture': r,
-        }),
+        (r) {
+          _ref.read(userProvider.notifier).update((state) => user);
+        },
       );
     }
-
-    _db.collection('appUsers').doc(userId).update({
-      'userName': userName,
-      'userEmail': userEmail,
-      'userEvacuation': userEvacuation,
-    });
-
-    // user = user.copyWith(
-    //   userName: userName,
-    //   userEmail: userEmail,
-    //   userEvacuation: userEvacuation,
-    // );
-    // final res = await _userProfileRepository.editProfile(user);
-    state = false;
-    // res.fold(
-    //   (l) => showSnackBar(context, l.message),
-    //   (r) {
-    //     _ref.read(userProvider.notifier).update((state) => user);
-    //   },
-    // );
   }
 }

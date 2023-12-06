@@ -20,6 +20,7 @@ class Palette {
 
   // Themes
   static var darkModeAppTheme = ThemeData.dark(useMaterial3: false).copyWith(
+    visualDensity: VisualDensity.adaptivePlatformDensity,
     scaffoldBackgroundColor: blackColor,
     cardColor: greyColor,
     appBarTheme: const AppBarTheme(
@@ -104,6 +105,7 @@ class Palette {
   );
 
   static var lightModeAppTheme = ThemeData.light(useMaterial3: false).copyWith(
+    visualDensity: VisualDensity.adaptivePlatformDensity,
     scaffoldBackgroundColor: whiteColor,
     cardColor: Colors.grey.shade200,
     appBarTheme: const AppBarTheme(

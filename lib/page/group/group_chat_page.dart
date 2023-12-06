@@ -36,7 +36,7 @@ class _GroupChatPageState extends ConsumerState<GroupChatPage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(groupStateNotifierProvider(widget.groupId));
-    //final loading = state.loading;
+    final loading = state.loading;
     final readGroup = state.readGroup;
 
     final appUserName = ref.watch(appUserFutureProvider).maybeWhen<String?>(
@@ -63,15 +63,15 @@ class _GroupChatPageState extends ConsumerState<GroupChatPage> {
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: AuthDependentBuilder(
             onAuthenticated: (userId) {
-              // if (loading) {
-              //   return const Center(
-              //     child: Icon(
-              //       Icons.chat,
-              //       size: 80,
-              //       color: Colors.amber,
-              //     ),
-              //   );
-              // }
+              if (loading) {
+                return const Center(
+                  child: Icon(
+                    Icons.chat,
+                    size: 80,
+                    color: Colors.amber,
+                  ),
+                );
+              }
               if (readGroup == null) {
                 return SizedBox();
               }
@@ -215,8 +215,8 @@ class _MessageInputFieldState extends ConsumerState<_MessageInputField> {
         GestureDetector(
           child: Container(
             margin: const EdgeInsets.only(right: 8, top: 8, bottom: 8),
-            width: 32,
-            height: 32,
+            width: 35,
+            height: 35,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: _isValid ? Colors.orange : Colors.grey,
@@ -236,7 +236,7 @@ class _MessageInputFieldState extends ConsumerState<_MessageInputField> {
                 .sendGroupMessage(
                   senderId: appUserName ?? '',
                   content: content,
-                  createdAt: DateTime.now(),
+                  //createdAt: DateTime.now(),
                 );
             messageTextController.clear();
           },

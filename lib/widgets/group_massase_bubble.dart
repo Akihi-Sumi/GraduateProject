@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:graduate_app/controller/group_controller/read_status.dart';
 import 'package:graduate_app/models/group/group_model.dart';
-import 'package:graduate_app/models/message/message.dart';
 import 'package:graduate_app/utils/extensions/date_time.dart';
+import 'package:graduate_app/utils/firestore_refs/group_message_ref.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 const double _senderIconSize = 24;
@@ -33,12 +32,12 @@ class GroupMessageBubble extends ConsumerWidget {
   final bool tail;
   final EdgeInsetsGeometry sizeSenderBubble;
 
-  final Message message;
+  final ReadGroupMessage message;
   final TextStyle textStyle;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final partnerLastReadAt = ref.watch(groupPartnerLastReadAtProvider(group));
+    //final partnerLastReadAt = ref.watch(groupPartnerLastReadAtProvider(group));
 
     return Column(
       crossAxisAlignment:
@@ -67,14 +66,14 @@ class GroupMessageBubble extends ConsumerWidget {
               //   ),
               ,
             ],
-            if (isGroupMessage) ...[
-              if (isMyMessage) ...[
-                _ReadStatusText(
-                  messageCreatedAt: message.createdAt,
-                  partnerLastReadAt: partnerLastReadAt,
-                ),
-              ],
-            ],
+            // if (isGroupMessage) ...[
+            //   if (isMyMessage) ...[
+            //     _ReadStatusText(
+            //       messageCreatedAt: message.createdAt,
+            //       partnerLastReadAt: partnerLastReadAt,
+            //     ),
+            //   ],
+            // ],
             GestureDetector(
               onTap: onTap,
               onLongPress: onLongPress,
@@ -316,46 +315,46 @@ class BubbleDesign extends CustomPainter {
   }
 }
 
-class _ReadStatusText extends StatelessWidget {
-  const _ReadStatusText({
-    required this.messageCreatedAt,
-    required this.partnerLastReadAt,
-  });
+// class _ReadStatusText extends StatelessWidget {
+//   const _ReadStatusText({
+//     required this.messageCreatedAt,
+//     required this.partnerLastReadAt,
+//   });
 
-  final DateTime? messageCreatedAt;
-  final DateTime? partnerLastReadAt;
+//   final DateTime? messageCreatedAt;
+//   final DateTime? partnerLastReadAt;
 
-  @override
-  Widget build(BuildContext context) {
-    final text = _readStatusString(
-      messageCreatedAt: messageCreatedAt,
-      partnerLastReadAt: partnerLastReadAt,
-    );
-    if (text.isEmpty) {
-      return const SizedBox();
-    }
-    return Padding(
-      padding: const EdgeInsets.only(top: 20),
-      child: Text(
-        text,
-        style: TextStyle(fontSize: 15, color: Colors.grey),
-      ),
-    );
-  }
+//   @override
+//   Widget build(BuildContext context) {
+//     final text = _readStatusString(
+//       messageCreatedAt: messageCreatedAt,
+//       partnerLastReadAt: partnerLastReadAt,
+//     );
+//     if (text.isEmpty) {
+//       return const SizedBox();
+//     }
+//     return Padding(
+//       padding: const EdgeInsets.only(top: 20),
+//       child: Text(
+//         text,
+//         style: TextStyle(fontSize: 15, color: Colors.grey),
+//       ),
+//     );
+//   }
 
-  String _readStatusString({
-    required DateTime? messageCreatedAt,
-    required DateTime? partnerLastReadAt,
-  }) {
-    if (messageCreatedAt == null) {
-      return '';
-    }
-    if (partnerLastReadAt == null) {
-      return '未読';
-    }
-    return messageCreatedAt.isAfter(partnerLastReadAt) ? '未読' : '既読';
-  }
-}
+//   String _readStatusString({
+//     required DateTime? messageCreatedAt,
+//     required DateTime? partnerLastReadAt,
+//   }) {
+//     if (messageCreatedAt == null) {
+//       return '';
+//     }
+//     if (partnerLastReadAt == null) {
+//       return '未読';
+//     }
+//     return messageCreatedAt.isAfter(partnerLastReadAt) ? '未読' : '既読';
+//   }
+// }
 
 class _MessageCreatedAt extends StatelessWidget {
   const _MessageCreatedAt({
@@ -363,7 +362,7 @@ class _MessageCreatedAt extends StatelessWidget {
     required this.isMyMessage,
   });
 
-  final Message groupMessage;
+  final ReadGroupMessage groupMessage;
   final bool isMyMessage;
 
   @override

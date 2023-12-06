@@ -60,9 +60,9 @@ class GroupPage extends ConsumerWidget {
                         GroupChatPage.location(groupId: group.groupId),
                       ),
                       updatedAt: latestMessage?.createdAt,
-                      unReadCountString: ref.watch(
-                        unReadCountStringProvider(group),
-                      ),
+                      // unReadCountString: ref.watch(
+                      //   unReadCountStringProvider(group),
+                      // ),
                       isMyMessage: latestMessage?.senderId == userId,
                     );
                   },
@@ -84,7 +84,7 @@ class GenericGroupCard extends StatelessWidget {
     required this.title,
     this.latestMessage,
     this.onTap,
-    this.unReadCountString,
+    //this.unReadCountString,
     this.updatedAt,
     required this.isMyMessage,
     this.imageSize = 54,
@@ -94,7 +94,7 @@ class GenericGroupCard extends StatelessWidget {
   final String? latestMessage;
   final String title;
   final VoidCallback? onTap;
-  final String? unReadCountString;
+  //final String? unReadCountString;
   final DateTime? updatedAt;
   final bool isMyMessage;
 
@@ -149,23 +149,23 @@ class GenericGroupCard extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                Gap(5),
-                if (!isMyMessage) ...[
-                  if ((unReadCountString ?? '').isNotEmpty)
-                    Container(
-                      width: 30,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        color: Palette.redColor,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Text(
-                          unReadCountString!,
-                        ),
-                      ),
-                    ),
-                ],
+                // Gap(5),
+                // if (!isMyMessage) ...[
+                //   if ((unReadCountString ?? '').isNotEmpty)
+                //     Container(
+                //       width: 30,
+                //       height: 30,
+                //       decoration: BoxDecoration(
+                //         color: Palette.redColor,
+                //         shape: BoxShape.circle,
+                //       ),
+                //       child: Center(
+                //         child: Text(
+                //           unReadCountString!,
+                //         ),
+                //       ),
+                //     ),
+                // ],
               ],
             ),
           ],

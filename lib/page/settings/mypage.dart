@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/controller/user_profile_controller.dart';
+import 'package:graduate_app/responsive/responsive_widget.dart';
 import 'package:graduate_app/theme/palette.dart';
 import 'package:graduate_app/utils/constants/measure.dart';
 import 'package:graduate_app/utils/loading.dart';
@@ -18,7 +19,15 @@ import 'package:image_picker/image_picker.dart';
 
 @RoutePage()
 class MyProfilePage extends ConsumerStatefulWidget {
-  const MyProfilePage({Key? key}) : super(key: key);
+  const MyProfilePage({
+    Key? key,
+    @PathParam('userId') required this.userId,
+  }) : super(key: key);
+
+  static const path = 'settings/:userId';
+  static String location({required String userId}) => 'settings/$userId';
+
+  final String userId;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => MyProfilePageState();
@@ -144,137 +153,189 @@ class MyProfilePageState extends ConsumerState<MyProfilePage> {
         ),
         body: isLoading
             ? Loader()
-            : SingleChildScrollView(
-                padding: EdgeInsets.only(bottom: bottomSpace),
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(8, 20, 8, 16),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      UserIcon(
-                        content: Center(
+            : ResponsiveLayout(
+                mobileBody: SingleChildScrollView(
+                  padding: EdgeInsets.only(bottom: bottomSpace),
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(8, 20, 8, 16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        UserIcon(
+                          content: Center(
+                            child: _image != null
+                                ? CircleAvatar(
+                                    backgroundImage: FileImage(_image!),
+                                    radius: 200,
+                                  )
+                                : appUserPicture != ''
+                                    ? CircleAvatar(
+                                        backgroundImage:
+                                            NetworkImage(appUserPicture!),
+                                        radius: 200,
+                                      )
+                                    : Text(
+                                        "No Image",
+                                        style: TextStyle(fontSize: 24),
+                                      ),
+                          ),
+                          onTap: () {
+                            _showSelectPhotoOptions(context);
+                          },
+                        ),
+                        SizedBox(height: 30),
+                        _EditUserNameTextForm(
+                          controller: nameController,
+                          onPressed: () => nameController.clear(),
+                        ),
+                        SizedBox(height: 20),
+                        _EditEmailTextForm(
+                          controller: emailController,
+                          onPressed: () => emailController.clear(),
+                        ),
+                        SizedBox(height: 20),
+                        _EditEvacuationTextForm(
+                          controller: evacuationController,
+                          onPressed: () => evacuationController.clear(),
+                        ),
+                        SizedBox(height: 40),
+                        SizedBox(
+                          width: 160,
+                          height: 50,
+                          child: SaveButton(
+                            emailController: emailController,
+                            nameController: nameController,
+                            evacuationController: evacuationController,
+                            save: save,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                tabletBody: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          alignment: Alignment.center,
                           child: _image != null
                               ? CircleAvatar(
                                   backgroundImage: FileImage(_image!),
-                                  radius: 200,
+                                  radius: 120,
                                 )
                               : appUserPicture != ''
                                   ? CircleAvatar(
                                       backgroundImage:
                                           NetworkImage(appUserPicture!),
-                                      radius: 200,
+                                      radius: 120,
                                     )
                                   : Text(
                                       "No Image",
                                       style: TextStyle(fontSize: 24),
                                     ),
                         ),
-                        onTap: () {
-                          _showSelectPhotoOptions(context);
-                        },
-                      ),
-                      SizedBox(height: 30),
-                      _EditUserNameTextForm(
-                        controller: nameController,
-                        onPressed: () => nameController.clear(),
-                      ),
-                      SizedBox(height: 20),
-                      _EditEmailTextForm(
-                        controller: emailController,
-                        onPressed: () => emailController.clear(),
-                      ),
-                      SizedBox(height: 20),
-                      _EditEvacuationTextForm(
-                        controller: evacuationController,
-                        onPressed: () => evacuationController.clear(),
-                      ),
-                      SizedBox(height: 40),
-                      SizedBox(
-                        width: 160,
-                        height: 50,
-                        child: PrimaryRoundedButton(
+                        SizedBox(width: 40),
+                        PrimaryRoundedButton(
+                          text: "アイコン画像を編集",
+                          width: 200,
                           onTap: () {
-                            //メールアドレスのバリデーション & 名前と避難場所の欄が空白じゃないとき
-                            if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                    .hasMatch(emailController.text) &&
-                                nameController.text.isNotEmpty &&
-                                evacuationController.text.isNotEmpty) {
-                              save();
-                              FocusScope.of(context).unfocus();
-                            }
-                            // 空欄があるとき
-                            else if (nameController.text.isEmpty ||
-                                emailController.text.isEmpty ||
-                                evacuationController.text.isEmpty) {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: Text(
-                                    "未入力の項目があります",
-                                    style: TextStyle(
-                                      color: Palette.redColor,
-                                      fontSize: 23.5,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text(
-                                        "閉じる",
-                                        style: TextStyle(
-                                          fontSize: 17.5,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimary,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                            // メールアドレスが無効なとき
-                            else {
-                              showDialog<void>(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: Text(
-                                    "メールアドレスが無効です",
-                                    style: TextStyle(
-                                      color: Palette.redColor,
-                                      fontSize: 23.5,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text(
-                                        "編集を続ける",
-                                        style: TextStyle(
-                                          fontSize: 17.5,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimary,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                              return;
-                            }
+                            _showSelectPhotoOptions(context);
                           },
-                          text: "保存",
                         ),
+                      ],
+                    ),
+                    SizedBox(height: 30),
+                    _EditUserNameTextForm(
+                      controller: nameController,
+                      onPressed: () => nameController.clear(),
+                    ),
+                    SizedBox(height: 20),
+                    _EditEmailTextForm(
+                      controller: emailController,
+                      onPressed: () => emailController.clear(),
+                    ),
+                    SizedBox(height: 20),
+                    _EditEvacuationTextForm(
+                      controller: evacuationController,
+                      onPressed: () => evacuationController.clear(),
+                    ),
+                    SizedBox(height: 40),
+                    SizedBox(
+                      width: 160,
+                      height: 50,
+                      child: SaveButton(
+                        emailController: emailController,
+                        nameController: nameController,
+                        evacuationController: evacuationController,
+                        save: save,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
+                ),
+                desktopBody: Row(
+                  children: [
+                    Column(
+                      children: [
+                        Container(
+                          alignment: Alignment.topCenter,
+                          child: _image != null
+                              ? CircleAvatar(
+                                  backgroundImage: FileImage(_image!),
+                                  radius: 150,
+                                )
+                              : appUserPicture != ''
+                                  ? CircleAvatar(
+                                      backgroundImage:
+                                          NetworkImage(appUserPicture!),
+                                      radius: 150,
+                                    )
+                                  : Text(
+                                      "No Image",
+                                      style: TextStyle(fontSize: 24),
+                                    ),
+                        ),
+                        SizedBox(height: 40),
+                        PrimaryRoundedButton(
+                          text: "アイコン画像を編集",
+                          width: 200,
+                          onTap: () {
+                            _showSelectPhotoOptions(context);
+                          },
+                        )
+                      ],
+                    ),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _EditUserNameTextForm(
+                            controller: nameController,
+                            onPressed: () => nameController.clear(),
+                          ),
+                          SizedBox(height: 20),
+                          _EditEmailTextForm(
+                            controller: emailController,
+                            onPressed: () => emailController.clear(),
+                          ),
+                          SizedBox(height: 20),
+                          _EditEvacuationTextForm(
+                            controller: evacuationController,
+                            onPressed: () => evacuationController.clear(),
+                          ),
+                          SizedBox(height: 40),
+                          SaveButton(
+                            width: 200,
+                            emailController: emailController,
+                            nameController: nameController,
+                            evacuationController: evacuationController,
+                            save: save,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
       ),
@@ -390,6 +451,104 @@ class _EditEvacuationTextForm extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class SaveButton extends ConsumerWidget {
+  const SaveButton({
+    this.width,
+    required this.emailController,
+    required this.nameController,
+    required this.evacuationController,
+    required this.save,
+    super.key,
+  });
+
+  final double? width;
+  final TextEditingController emailController;
+  final TextEditingController nameController;
+  final TextEditingController evacuationController;
+  final VoidCallback save;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return PrimaryRoundedButton(
+      width: width,
+      onTap: () {
+        //メールアドレスのバリデーション & 名前と避難場所の欄が空白じゃないとき
+        if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                .hasMatch(emailController.text) &&
+            nameController.text.isNotEmpty &&
+            evacuationController.text.isNotEmpty) {
+          save();
+          FocusScope.of(context).unfocus();
+        }
+        // 空欄があるとき
+        else if (nameController.text.isEmpty ||
+            emailController.text.isEmpty ||
+            evacuationController.text.isEmpty) {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text(
+                "未入力の項目があります",
+                style: TextStyle(
+                  color: Palette.redColor,
+                  fontSize: 23.5,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "閉じる",
+                    style: TextStyle(
+                      fontSize: 17.5,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+        // メールアドレスが無効なとき
+        else {
+          showDialog<void>(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text(
+                "メールアドレスが無効です",
+                style: TextStyle(
+                  color: Palette.redColor,
+                  fontSize: 23.5,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "編集を続ける",
+                    style: TextStyle(
+                      fontSize: 17.5,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+          return;
+        }
+      },
+      text: "保存",
     );
   }
 }

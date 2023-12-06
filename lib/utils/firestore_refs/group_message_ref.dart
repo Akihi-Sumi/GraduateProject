@@ -1,31 +1,136 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutterfire_gen_annotation/flutterfire_gen_annotation.dart';
 import 'package:graduate_app/models/message/message.dart';
+
+@FirestoreDocument(
+  path: 'groups/{groupId}/groupMessages',
+  documentName: 'groupMessage',
+)
+class GroupMessage {
+  const GroupMessage({
+    required this.senderId,
+    required this.content,
+    required this.imageUrls,
+    required this.isDeleted,
+    this.createdAt,
+  });
+
+  final String senderId;
+
+  @ReadDefault('')
+  final String content;
+
+  @ReadDefault(<String>[])
+  @CreateDefault(<String>[])
+  final List<String> imageUrls;
+
+  @ReadDefault(false)
+  @CreateDefault(false)
+  final bool isDeleted;
+
+  @AlwaysUseFieldValueServerTimestampWhenCreating()
+  final DateTime? createdAt;
+}
+
+class ReadGroupMessage {
+  const ReadGroupMessage({
+    required this.messageId,
+    required this.path,
+    required this.senderId,
+    required this.content,
+    required this.imageUrls,
+    required this.isDeleted,
+    required this.createdAt,
+  });
+
+  final String messageId;
+  final String path;
+  final String senderId;
+  final String content;
+  final List<String> imageUrls;
+  final bool isDeleted;
+  final DateTime? createdAt;
+
+  factory ReadGroupMessage._fromJson(Map<String, dynamic> json) {
+    return ReadGroupMessage(
+      messageId: json['messageId'] as String,
+      path: json['path'] as String,
+      senderId: json['senderId'] as String,
+      content: json['content'] as String? ?? '',
+      imageUrls: (json['imageUrls'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const <String>[],
+      isDeleted: json['isDeleted'] as bool? ?? false,
+      createdAt: (json['createdAt'] as Timestamp?)?.toDate(),
+    );
+  }
+
+  factory ReadGroupMessage.fromDocumentSnapshot(DocumentSnapshot ds) {
+    final data = ds.data()! as Map<String, dynamic>;
+    return ReadGroupMessage._fromJson(<String, dynamic>{
+      ...data,
+      'messageId': ds.id,
+      'path': ds.reference.path,
+    });
+  }
+}
+
+class CreateGroupMessage {
+  const CreateGroupMessage({
+    required this.senderId,
+    required this.content,
+    this.imageUrls = const <String>[],
+    this.isDeleted = false,
+  });
+
+  final String senderId;
+  final String content;
+  final List<String> imageUrls;
+  final bool isDeleted;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'senderId': senderId,
+      'content': content,
+      'imageUrls': imageUrls,
+      'isDeleted': isDeleted,
+      'createdAt': FieldValue.serverTimestamp(),
+    };
+  }
+}
 
 final _db = FirebaseFirestore.instance.collection('groups');
 
-CollectionReference<Message> readGroupMessageCollectionReference({
+CollectionReference<ReadGroupMessage> readGroupMessageCollectionReference({
   required String groupId,
 }) =>
-    _db.doc(groupId).collection('groupMessages').withConverter<Message>(
-          fromFirestore: (ds, _) => Message.fromDocumentSnapshot(ds),
+    _db
+        .doc(groupId)
+        .collection('groupMessages')
+        .withConverter<ReadGroupMessage>(
+          fromFirestore: (ds, _) => ReadGroupMessage.fromDocumentSnapshot(ds),
           toFirestore: (_, __) => throw UnimplementedError(),
         );
 
-DocumentReference<Message> readGroupMessageDocumentReference({
+DocumentReference<ReadGroupMessage> readGroupMessageDocumentReference({
   required String groupId,
   required String messageId,
 }) =>
     readGroupMessageCollectionReference(groupId: groupId).doc(messageId);
 
-CollectionReference<Message> createGroupMessageCollectionReference({
+CollectionReference<CreateGroupMessage> createGroupMessageCollectionReference({
   required String groupId,
 }) =>
-    _db.doc(groupId).collection('groupMessages').withConverter<Message>(
+    _db
+        .doc(groupId)
+        .collection('groupMessages')
+        .withConverter<CreateGroupMessage>(
           fromFirestore: (_, __) => throw UnimplementedError(),
           toFirestore: (obj, _) => obj.toJson(),
         );
 
-DocumentReference<Message> createGroupMessageDocumentReference({
+DocumentReference<CreateGroupMessage> createGroupMessageDocumentReference({
   required String groupId,
   required String messageId,
 }) =>
@@ -60,13 +165,14 @@ DocumentReference<Message> deleteGroupMessageDocumentReference({
     deleteGroupMessageCollectionReference(groupId: groupId).doc(messageId);
 
 class GroupMessageQuery {
-  Future<List<Message>> fetchDocuments({
+  Future<List<ReadGroupMessage>> fetchDocuments({
     required String groupId,
     GetOptions? options,
-    Query<Message>? Function(Query<Message> query)? queryBuilder,
-    int Function(Message lhs, Message rhs)? compare,
+    Query<ReadGroupMessage>? Function(Query<ReadGroupMessage> query)?
+        queryBuilder,
+    int Function(ReadGroupMessage lhs, ReadGroupMessage rhs)? compare,
   }) async {
-    Query<Message> query =
+    Query<ReadGroupMessage> query =
         readGroupMessageCollectionReference(groupId: groupId);
 
     if (queryBuilder != null) {
@@ -80,14 +186,15 @@ class GroupMessageQuery {
     return result;
   }
 
-  Stream<List<Message>> subscribeDocuments({
+  Stream<List<ReadGroupMessage>> subscribeDocuments({
     required String groupId,
-    Query<Message>? Function(Query<Message> query)? queryBuilder,
-    int Function(Message lhs, Message rhs)? compare,
+    Query<ReadGroupMessage>? Function(Query<ReadGroupMessage> query)?
+        queryBuilder,
+    int Function(ReadGroupMessage lhs, ReadGroupMessage rhs)? compare,
     bool includeMetadataChanges = false,
     bool excludePendingWrites = false,
   }) {
-    Query<Message> query =
+    Query<ReadGroupMessage> query =
         readGroupMessageCollectionReference(groupId: groupId);
 
     if (queryBuilder != null) {
@@ -108,7 +215,7 @@ class GroupMessageQuery {
   }
 
   /// Fetches a specific [Message] document.
-  Future<Message?> fetchDocument({
+  Future<ReadGroupMessage?> fetchDocument({
     required String groupId,
     required String messageId,
     GetOptions? options,
@@ -121,7 +228,7 @@ class GroupMessageQuery {
   }
 
   /// Subscribes a specific [Message] document.
-  Stream<Message?> subscribeDocument({
+  Stream<ReadGroupMessage?> subscribeDocument({
     required String groupId,
     required String messageId,
     bool includeMetadataChanges = false,
@@ -138,9 +245,9 @@ class GroupMessageQuery {
   }
 
   /// Adds a [Message] document.
-  Future<DocumentReference<Message>> add({
+  Future<DocumentReference<CreateGroupMessage>> add({
     required String groupId,
-    required Message createGroupMessage,
+    required CreateGroupMessage createGroupMessage,
   }) =>
       createGroupMessageCollectionReference(groupId: groupId)
           .add(createGroupMessage);
@@ -149,7 +256,7 @@ class GroupMessageQuery {
   Future<void> set({
     required String groupId,
     required String messageId,
-    required Message createGroupMessage,
+    required CreateGroupMessage createGroupMessage,
     SetOptions? options,
   }) =>
       createGroupMessageDocumentReference(

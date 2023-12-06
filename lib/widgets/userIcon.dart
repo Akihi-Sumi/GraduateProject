@@ -45,7 +45,8 @@ class UserIcon extends StatelessWidget {
               ),
               child: Icon(
                 Icons.camera_alt,
-                size: algo * 37.0,
+                size: 40,
+                //size: algo * 37.0,
               ),
             ),
           ),

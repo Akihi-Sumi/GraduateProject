@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 
 class EditItemPage extends StatelessWidget {
   final ItemRepository itemRepository;
-  final ItemModel item;
+  final Item item;
 
   const EditItemPage({
     super.key,
@@ -22,12 +22,12 @@ class EditItemPage extends StatelessWidget {
 
   // late TextEditingController _textEditingController;
 
-  // EditItemPage({required this.itemRepository, required this.item}) {
+  // EditItemModelPage({required this.itemRepository, required this.item}) {
   //   _textEditingController =
   //       TextEditingController(text: getExpirationDate(item));
   // }
 
-  String getExpirationDate(ItemModel item) {
+  String getExpirationDate(Item item) {
     String expirationDate = item.expirationDate;
     if (item.expirationDate == '保存期限なし') {
       expirationDate = AddItemPage.nowData();
@@ -36,7 +36,7 @@ class EditItemPage extends StatelessWidget {
     return expirationDate;
   }
 
-  static String getName(ItemModel item) {
+  static String getName(Item item) {
     final String itemName = item.name;
     return itemName;
   }

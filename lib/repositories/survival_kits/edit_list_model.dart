@@ -7,7 +7,7 @@ import 'package:graduate_app/repositories/survival_kits/list_collection_reposito
 
 class EditItemModel extends ChangeNotifier {
   final ItemRepository itemRepository;
-  final ItemModel item;
+  final Item item;
 
   final nameController = TextEditingController();
   final expirationDateController = TextEditingController();
@@ -99,7 +99,7 @@ class EditItemModel extends ChangeNotifier {
       userId = user.uid;
     }
 
-    ItemModel updatedItem = ItemModel(
+    Item updatedItem = Item(
       expirationDate: expirationDate!,
       name: title!,
       isChecked: item.isChecked,

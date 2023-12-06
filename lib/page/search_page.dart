@@ -55,7 +55,7 @@ class SearchPage extends ConsumerWidget {
                           backgroundColor: Palette.appColor,
                           child: Icon(
                             Icons.groups_sharp,
-                            color: Theme.of(context).colorScheme.onPrimary,
+                            color: Theme.of(context).iconTheme.color,
                           ),
                         ),
                         onTap: () {

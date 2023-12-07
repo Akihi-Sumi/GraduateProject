@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart' as geoCoding;
 import 'package:geolocator/geolocator.dart';
@@ -14,7 +15,16 @@ import 'package:graduate_app/utils/scaffold_messenger_service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SendLocation extends ConsumerStatefulWidget {
-  const SendLocation({Key? key}) : super(key: key);
+  const SendLocation({
+    required this.height,
+    required this.width,
+    required this.iconSize,
+    Key? key,
+  }) : super(key: key);
+
+  final double height;
+  final double width;
+  final double iconSize;
 
   @override
   ConsumerState<SendLocation> createState() => _SendLocationState();
@@ -66,10 +76,10 @@ class _SendLocationState extends ConsumerState<SendLocation> {
       await state.when(
         data: (_) async {
           ref.watch(overlayLoadingProvider.notifier).update((state) => false);
-          ref
-              .read(scaffoldMessengerServiceProvider)
-              .showSnackBar("メッセージを送信しました");
-          Navigator.of(context, rootNavigator: true).pop();
+          ref.read(scaffoldMessengerServiceProvider).showSnackBar("現在地を送信しました");
+
+          context.router.popUntilRoot();
+          // Navigator.of(context, rootNavigator: true).pop();
         },
         error: (e, s) async {
           ref.watch(overlayLoadingProvider.notifier).update((state) => false);
@@ -87,35 +97,47 @@ class _SendLocationState extends ConsumerState<SendLocation> {
           orElse: () => null,
         );
 
-    return Container(
-      height: 100,
-      width: 100,
-      padding: EdgeInsets.all(13),
-      child: FloatingActionButton(
-        child: Image.asset('assets/images/google_maps.png'),
-        onPressed: () async {
-          await showActionDialog(
-            context: context,
-            title: "現在地を送信しますか",
-            buttonText: "送信",
-            onPressed: () {
-              _getLocation().then((value) async {
-                final groupMessage = CreateGroupMessage(
-                  content: value.toString(),
-                  senderId: appUserName ?? '',
-                );
-
-                await ref
-                    .read(sendMessageAllGroupControllerProvider.notifier)
-                    .sendMessageAllGroup(
-                      groupMessage: groupMessage,
-                      userId: userId ?? '',
-                    );
-              });
-            },
-          );
-        },
+    return GestureDetector(
+      child: SizedBox(
+        height: widget.height,
+        width: widget.width,
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          //color: Colors.black,
+          elevation: 16,
+          child: Center(
+            child: Icon(
+              Icons.share_location_sharp,
+              size: widget.iconSize,
+            ),
+          ),
+        ),
       ),
+      onTap: () async {
+        //if (mounted) Navigator.of(context).pop();
+        await showActionDialog(
+          context: context,
+          title: "現在地を送信しますか",
+          buttonText: "送信",
+          onPressed: () async {
+            _getLocation().then((value) async {
+              final groupMessage = CreateGroupMessage(
+                content: value.toString(),
+                senderId: appUserName ?? '',
+              );
+
+              await ref
+                  .read(sendMessageAllGroupControllerProvider.notifier)
+                  .sendMessageAllGroup(
+                    groupMessage: groupMessage,
+                    userId: userId ?? '',
+                  );
+            });
+          },
+        );
+      },
     );
   }
 }

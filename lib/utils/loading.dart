@@ -30,7 +30,7 @@ class PrimarySpinkitCircle extends StatelessWidget {
 class OverlayLoadingWidget extends StatelessWidget {
   const OverlayLoadingWidget({
     super.key,
-    this.backgroundColor = Colors.orange,
+    this.backgroundColor = Colors.grey,
   });
 
   final Color backgroundColor;

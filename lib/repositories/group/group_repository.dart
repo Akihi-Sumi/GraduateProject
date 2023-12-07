@@ -3,6 +3,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:graduate_app/models/group/group_model.dart';
 import 'package:graduate_app/utils/failure_type_defs.dart';
 import 'package:graduate_app/utils/firestore_refs.dart';
+import 'package:graduate_app/utils/firestore_refs/group_message_ref.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final groupRepositoryProvider = Provider((ref) {
@@ -13,6 +14,8 @@ class GroupRepository {
   final FirebaseFirestore _firestore;
   GroupRepository({required FirebaseFirestore firestore})
       : _firestore = firestore;
+
+  final _query = GroupMessageQuery();
 
   Stream<List<GroupModel>> searchGroup(String query) {
     return _groups
@@ -86,6 +89,18 @@ class GroupRepository {
       return left(Failure(e.toString()));
     }
   }
+
+  Future<void> sendAllGroup({
+    required String userId,
+    String? content,
+  }) =>
+      _query.sendAllGroup(
+        userId: userId,
+        allGroupMessage: CreateGroupMessage(
+          senderId: userId,
+          content: content,
+        ),
+      );
 
   CollectionReference get _groups =>
       _firestore.collection(FirebaseConstants.groupsCollection);

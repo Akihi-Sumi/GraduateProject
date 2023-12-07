@@ -68,14 +68,14 @@ class GroupMessageRepository {
     required String groupId,
     required String senderId,
     required String content,
-    List<String> imageUrls = const <String>[],
+    //required File picture,
   }) {
     return _query.add(
       groupId: groupId,
       createGroupMessage: CreateGroupMessage(
         senderId: senderId,
         content: content,
-        imageUrls: imageUrls,
+        //picture: picture,
       ),
     );
   }

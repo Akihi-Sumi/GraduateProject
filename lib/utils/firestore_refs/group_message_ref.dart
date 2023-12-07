@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutterfire_gen_annotation/flutterfire_gen_annotation.dart';
 import 'package:graduate_app/models/message/message.dart';
+import 'package:graduate_app/utils/firestore_refs.dart';
 
 @FirestoreDocument(
   path: 'groups/{groupId}/groupMessages',
@@ -79,13 +80,13 @@ class ReadGroupMessage {
 class CreateGroupMessage {
   const CreateGroupMessage({
     required this.senderId,
-    required this.content,
+    this.content,
     this.imageUrls = const <String>[],
     this.isDeleted = false,
   });
 
   final String senderId;
-  final String content;
+  final String? content;
   final List<String> imageUrls;
   final bool isDeleted;
 
@@ -281,4 +282,17 @@ class GroupMessageQuery {
       deleteGroupMessageDocumentReference(
               groupId: groupId, messageId: messageId)
           .delete();
+
+  Future<void> sendAllGroup({
+    required String userId,
+    required CreateGroupMessage allGroupMessage,
+  }) async {
+    final groupDocs =
+        await groupsRef.where("members", arrayContains: userId).get();
+
+    for (final groupDoc in groupDocs.docs) {
+      final groupMessagesRef = groupDoc.reference.collection('groupMessages');
+      groupMessagesRef.add(allGroupMessage.toJson());
+    }
+  }
 }

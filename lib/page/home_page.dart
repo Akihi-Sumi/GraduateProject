@@ -11,7 +11,7 @@ import 'package:graduate_app/utils/firestore_refs/group_message_ref.dart';
 import 'package:graduate_app/utils/loading.dart';
 import 'package:graduate_app/utils/scaffold_messenger_service.dart';
 import 'package:graduate_app/widgets/message_bubble.dart';
-import 'package:graduate_app/widgets/send_location.dart';
+import 'package:graduate_app/widgets/send_action_button.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()
@@ -105,7 +105,8 @@ class HomePage extends HookConsumerWidget {
           ),
         ),
       ),
-      floatingActionButton: SendLocation(),
+      // floatingActionButton: SendLocation(),
+      floatingActionButton: SendActionButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
     );
   }

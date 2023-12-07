@@ -7,11 +7,9 @@ import 'package:graduate_app/utils/failure_type_defs.dart';
 import 'package:graduate_app/widgets/show_snack_bar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-///
-///
-// final groupFutureProvider = FutureProvider.family
-//     .autoDispose<GroupModel?, String>((ref, groupId) =>
-//         ref.watch(groupRepositoryProvider).fetchGroup(groupId: groupId));
+final groupServiceProvider = Provider.autoDispose<GroupService>(
+  (ref) => GroupService(groupRepository: ref.watch(groupRepositoryProvider)),
+);
 
 final groupControllerProvider =
     StateNotifierProvider<GroupController, bool>((ref) {
@@ -76,5 +74,23 @@ class GroupController extends StateNotifier<bool> {
         showSnackBar(context, 'グループに参加しました');
       }
     });
+  }
+}
+
+class GroupService {
+  const GroupService({
+    required GroupRepository groupRepository,
+  }) : _groupRepository = groupRepository;
+
+  final GroupRepository _groupRepository;
+
+  Future<void> sendAllGroup({
+    required String userId,
+    String? content,
+  }) async {
+    await _groupRepository.sendAllGroup(
+      userId: userId,
+      content: content,
+    );
   }
 }

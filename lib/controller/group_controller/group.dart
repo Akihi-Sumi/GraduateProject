@@ -144,14 +144,14 @@ class GroupStateNotifier extends StateNotifier<GroupState> {
   Future<void> sendGroupMessage({
     required String senderId,
     required String content,
-    List<String> imageUrls = const <String>[],
+    //required File picture,
     //required DateTime createdAt,
   }) {
     return _groupMessageRepository.addGroupMessage(
       groupId: _groupId,
       senderId: senderId,
       content: content,
-      imageUrls: imageUrls,
+      //picture: picture,
       //createdAt: createdAt,
     );
   }

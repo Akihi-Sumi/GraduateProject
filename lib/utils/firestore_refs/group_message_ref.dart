@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutterfire_gen_annotation/flutterfire_gen_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:graduate_app/models/message/message.dart';
 import 'package:graduate_app/utils/firestore_refs.dart';
 
@@ -10,20 +11,24 @@ import 'package:graduate_app/utils/firestore_refs.dart';
 class GroupMessage {
   const GroupMessage({
     required this.senderId,
+    required this.messageType,
     required this.content,
-    required this.imageUrls,
+    required this.imageUrl,
     required this.isDeleted,
     this.createdAt,
   });
 
   final String senderId;
 
+  @_messageTypeConverter
+  final String messageType;
+
   @ReadDefault('')
   final String content;
 
-  @ReadDefault(<String>[])
-  @CreateDefault(<String>[])
-  final List<String> imageUrls;
+  @ReadDefault(String)
+  @CreateDefault(String)
+  final String imageUrl;
 
   @ReadDefault(false)
   @CreateDefault(false)
@@ -33,35 +38,63 @@ class GroupMessage {
   final DateTime? createdAt;
 }
 
+enum MessageType {
+  text,
+  picture;
+
+  factory MessageType.fromString(String messageTypeString) {
+    switch (messageTypeString) {
+      case 'text':
+        return MessageType.text;
+      case 'picture':
+        return MessageType.picture;
+    }
+    throw ArgumentError("メッセージの種別が正しくありません。");
+  }
+}
+
+const _messageTypeConverter = _MessageTypeConverter();
+
+class _MessageTypeConverter implements JsonConverter<MessageType, String> {
+  const _MessageTypeConverter();
+
+  @override
+  MessageType fromJson(String json) => MessageType.fromString(json);
+
+  @override
+  String toJson(MessageType messageType) => messageType.name;
+}
+
 class ReadGroupMessage {
   const ReadGroupMessage({
     required this.messageId,
+    required this.messageType,
     required this.path,
     required this.senderId,
     required this.content,
-    required this.imageUrls,
+    required this.imageUrl,
     required this.isDeleted,
     required this.createdAt,
   });
 
   final String messageId;
+  final MessageType messageType;
   final String path;
   final String senderId;
   final String content;
-  final List<String> imageUrls;
+  final String imageUrl;
   final bool isDeleted;
   final DateTime? createdAt;
 
   factory ReadGroupMessage._fromJson(Map<String, dynamic> json) {
     return ReadGroupMessage(
       messageId: json['messageId'] as String,
+      messageType:
+          _messageTypeConverter.fromJson(json['messageType'] as String),
       path: json['path'] as String,
       senderId: json['senderId'] as String,
       content: json['content'] as String? ?? '',
-      imageUrls: (json['imageUrls'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          const <String>[],
+      imageUrl: json['imageUrl'] as String? ?? '',
       isDeleted: json['isDeleted'] as bool? ?? false,
       createdAt: (json['createdAt'] as Timestamp?)?.toDate(),
     );
@@ -80,21 +113,24 @@ class ReadGroupMessage {
 class CreateGroupMessage {
   const CreateGroupMessage({
     required this.senderId,
+    required this.messageType,
     this.content,
-    this.imageUrls = const <String>[],
+    this.imageUrl,
     this.isDeleted = false,
   });
 
   final String senderId;
+  final MessageType messageType;
   final String? content;
-  final List<String> imageUrls;
+  final String? imageUrl;
   final bool isDeleted;
 
   Map<String, dynamic> toJson() {
     return {
       'senderId': senderId,
+      'messageType': _messageTypeConverter.toJson(messageType),
       'content': content,
-      'imageUrls': imageUrls,
+      'imageUrl': imageUrl,
       'isDeleted': isDeleted,
       'createdAt': FieldValue.serverTimestamp(),
     };

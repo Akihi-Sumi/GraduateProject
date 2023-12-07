@@ -17,7 +17,8 @@ abstract class GroupMessageRepository {
   });
   Future<void> sendMessageAllGroup({
     required CreateGroupMessage groupMessage,
-    required String userId,
+    String? userId,
+    //String? content,
   });
   Stream<List<Message>> subscribeGroupMessages({
     required String groupId,
@@ -80,7 +81,8 @@ class GroupMessageRepositoryImpl implements GroupMessageRepository {
   @override
   Future<void> sendMessageAllGroup({
     required CreateGroupMessage groupMessage,
-    required String userId,
+    String? userId,
+    //String? content,
   }) async {
     final groupDocs =
         await groupsRef.where("members", arrayContains: userId).get();

@@ -144,6 +144,7 @@ class GroupStateNotifier extends StateNotifier<GroupState> {
   Future<void> sendGroupMessage({
     required String senderId,
     required String content,
+    required MessageType messageType,
     //required File picture,
     //required DateTime createdAt,
   }) {
@@ -151,6 +152,7 @@ class GroupStateNotifier extends StateNotifier<GroupState> {
       groupId: _groupId,
       senderId: senderId,
       content: content,
+      messageType: messageType,
       //picture: picture,
       //createdAt: createdAt,
     );

@@ -4,6 +4,7 @@ import 'package:graduate_app/controller/auth.dart';
 import 'package:graduate_app/models/group/group_model.dart';
 import 'package:graduate_app/repositories/group/group_repository.dart';
 import 'package:graduate_app/utils/failure_type_defs.dart';
+import 'package:graduate_app/utils/firestore_refs/group_message_ref.dart';
 import 'package:graduate_app/widgets/show_snack_bar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -86,10 +87,12 @@ class GroupService {
 
   Future<void> sendAllGroup({
     required String userId,
+    required MessageType messageType,
     String? content,
   }) async {
     await _groupRepository.sendAllGroup(
       userId: userId,
+      messageType: messageType,
       content: content,
     );
   }

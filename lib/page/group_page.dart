@@ -6,6 +6,7 @@ import 'package:graduate_app/page/auth/auth_dependent_builder.dart';
 import 'package:graduate_app/page/group/group_chat_page.dart';
 import 'package:graduate_app/theme/palette.dart';
 import 'package:graduate_app/utils/extensions/date_time.dart';
+import 'package:graduate_app/utils/firestore_refs/group_message_ref.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()
@@ -55,7 +56,12 @@ class GroupPage extends ConsumerWidget {
                         ref.watch(latestMessageProvider(group.groupId));
                     return GenericGroupCard(
                       title: group.groupName,
-                      latestMessage: latestMessage?.content,
+                      latestMessage: latestMessage?.messageType ==
+                              MessageType.text
+                          ? latestMessage?.content
+                          : latestMessage?.messageType == MessageType.picture
+                              ? "画像を送信しました。"
+                              : null,
                       onTap: () => context.router.pushNamed(
                         GroupChatPage.location(groupId: group.groupId),
                       ),

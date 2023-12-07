@@ -14,7 +14,7 @@ class GroupMessageBubble extends ConsumerWidget {
     this.onTap,
     this.onLongPress,
     required this.isMyMessage,
-    required this.isGroupMessage,
+    //required this.isGroupMessage,
     this.tail = true,
     required this.sizeSenderBubble,
     required this.message,
@@ -27,7 +27,7 @@ class GroupMessageBubble extends ConsumerWidget {
   final VoidCallback? onLongPress;
 
   final bool isMyMessage;
-  final bool isGroupMessage;
+  //final bool isGroupMessage;
 
   final bool tail;
   final EdgeInsetsGeometry sizeSenderBubble;
@@ -54,26 +54,11 @@ class GroupMessageBubble extends ConsumerWidget {
               isMyMessage ? MainAxisAlignment.end : MainAxisAlignment.start,
           children: [
             if (!isMyMessage) ...[
-              // if (partnerImageUrl.isEmpty)
               const Icon(
                 Icons.account_circle,
                 size: _senderIconSize * 2,
-              )
-              // else
-              //   GenericImage.circle(
-              //     imageUrl: userImageUrl,
-              //     size: _senderIconSize * 2,
-              //   ),
-              ,
+              ),
             ],
-            // if (isGroupMessage) ...[
-            //   if (isMyMessage) ...[
-            //     _ReadStatusText(
-            //       messageCreatedAt: message.createdAt,
-            //       partnerLastReadAt: partnerLastReadAt,
-            //     ),
-            //   ],
-            // ],
             GestureDetector(
               onTap: onTap,
               onLongPress: onLongPress,
@@ -106,10 +91,15 @@ class GroupMessageBubble extends ConsumerWidget {
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                   vertical: 0, horizontal: 0),
-                              child: Text(
-                                message.content,
-                                style: textStyle,
-                              ),
+                              child: message.messageType == MessageType.text
+                                  ? Text(
+                                      message.content,
+                                      style: textStyle,
+                                    )
+                                  : Image.network(
+                                      message.imageUrl,
+                                      width: 250,
+                                    ),
                             ),
                           ],
                         ),

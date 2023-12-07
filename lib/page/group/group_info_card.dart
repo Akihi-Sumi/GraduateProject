@@ -84,7 +84,7 @@ class ContentBox extends ConsumerWidget {
     return Stack(
       children: <Widget>[
         Container(
-          width: 300,
+          //width: 300,
           padding: EdgeInsets.only(
             left: Constants.padding,
             top: Constants.avatarRadius + Constants.padding,

@@ -52,7 +52,7 @@ class EditProfileFormState extends ConsumerState<EditProfileForm> {
       });
     } on PlatformException catch (e) {
       print(e);
-      Navigator.of(context).pop();
+      //Navigator.of(context).pop();
     }
   }
 

@@ -67,6 +67,7 @@ class GroupMessageRepository {
   Future<void> addGroupMessage({
     required String groupId,
     required String senderId,
+    required MessageType messageType,
     required String content,
     //required File picture,
   }) {
@@ -74,6 +75,7 @@ class GroupMessageRepository {
       groupId: groupId,
       createGroupMessage: CreateGroupMessage(
         senderId: senderId,
+        messageType: messageType,
         content: content,
         //picture: picture,
       ),

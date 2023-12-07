@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/controller/group_controller/group.dart';
 import 'package:graduate_app/page/auth/auth_dependent_builder.dart';
+import 'package:graduate_app/utils/firestore_refs/group_message_ref.dart';
 import 'package:graduate_app/widgets/group_massase_bubble.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -94,7 +95,7 @@ class _GroupChatPageState extends ConsumerState<GroupChatPage> {
                             message: readGroupMessage,
                             isMyMessage:
                                 readGroupMessage.senderId == appUserName,
-                            isGroupMessage: true,
+                            //isGroupMessage: true,
                             sizeSenderBubble:
                                 EdgeInsets.fromLTRB(12.5, 15, 20, 15),
                             textStyle: TextStyle(
@@ -236,6 +237,7 @@ class _MessageInputFieldState extends ConsumerState<_MessageInputField> {
                 .sendGroupMessage(
                   senderId: appUserName ?? '',
                   content: content,
+                  messageType: MessageType.text,
                   //createdAt: DateTime.now(),
                 );
             messageTextController.clear();

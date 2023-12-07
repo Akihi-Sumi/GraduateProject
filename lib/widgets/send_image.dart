@@ -8,7 +8,7 @@ import 'package:graduate_app/controller/group_message.dart';
 import 'package:graduate_app/controller/user_profile/user.dart';
 import 'package:graduate_app/utils/async_value_error_dialog.dart';
 import 'package:graduate_app/utils/dialog.dart';
-import 'package:graduate_app/utils/exceptions/exception.dart';
+import 'package:graduate_app/utils/firestore_refs/group_message_ref.dart';
 import 'package:graduate_app/utils/loading.dart';
 import 'package:graduate_app/utils/scaffold_messenger_service.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -73,7 +73,7 @@ class _SendImageState extends ConsumerState<SendImage> {
           ref.read(scaffoldMessengerServiceProvider).showSnackBar("画像を送信しました");
 
           context.router.popUntilRoot();
-          // Navigator.of(context, rootNavigator: true).pop();
+          //Navigator.of(context, rootNavigator: true).pop();
         },
         error: (e, s) async {
           ref.watch(overlayLoadingProvider.notifier).update((state) => false);
@@ -114,34 +114,14 @@ class _SendImageState extends ConsumerState<SendImage> {
           title: '選択した画像を送信しますか',
           buttonText: "送信",
           onPressed: () async {
-            ref.read(overlayLoadingProvider.notifier).update((state) => true);
-            try {
-              final controller =
-                  ref.read(sendAllGroupControllerProvider(userId));
-
-              controller.sendAllGroup(
-                userId: userName,
-                picture: _image,
-              );
-            } on AppException {
-              rethrow;
-            } finally {
-              ref
-                  .read(overlayLoadingProvider.notifier)
-                  .update((state) => false);
-            }
-
-            // final groupMessage = CreateGroupMessage(
-            //   content: _image,
-            //   senderId: userName,
-            // );
-
-            // await ref
-            //     .read(sendMessageAllGroupControllerProvider.notifier)
-            //     .sendMessageAllGroup(
-            //       groupMessage: groupMessage,
-            //       userId: userId,
-            //     );
+            await ref
+                .read(sendMessageAllGroupControllerProvider.notifier)
+                .sendMessageAllGroup(
+                  userId: userId,
+                  userName: userName,
+                  picture: _image,
+                  messageType: MessageType.picture,
+                );
           },
         );
       },

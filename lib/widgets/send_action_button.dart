@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:graduate_app/widgets/send_image.dart';
+import 'package:graduate_app/widgets/send_image_from_camera.dart';
 import 'package:graduate_app/widgets/send_location.dart';
 
 class SendActionButton extends StatefulWidget {
@@ -59,27 +60,10 @@ class SelectImageCameraLocation extends StatelessWidget {
             width: cardHeightWidth,
             iconSize: iconSize,
           ),
-          GestureDetector(
-            child: SizedBox(
-              height: cardHeightWidth,
-              width: cardHeightWidth,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                //color: Colors.black,
-                elevation: 16,
-                child: Center(
-                  child: Icon(
-                    Icons.add_a_photo,
-                    size: iconSize,
-                  ),
-                ),
-              ),
-            ),
-            onTap: () {
-              Navigator.of(context).pop();
-            },
+          SendImageFromCamera(
+            height: cardHeightWidth,
+            width: cardHeightWidth,
+            iconSize: iconSize,
           ),
           SendLocation(
             height: cardHeightWidth,

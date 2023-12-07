@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/controller/auth.dart';
 import 'package:graduate_app/controller/group_message.dart';
 import 'package:graduate_app/controller/message.dart';
+import 'package:graduate_app/controller/user_profile/user.dart';
 import 'package:graduate_app/models/message/message.dart';
 import 'package:graduate_app/utils/async_value_error_dialog.dart';
 import 'package:graduate_app/utils/dialog.dart';
@@ -38,6 +38,7 @@ class HomePage extends HookConsumerWidget {
           ref
               .read(scaffoldMessengerServiceProvider)
               .showSnackBar("メッセージを送信しました");
+
           //Navigator.of(context, rootNavigator: true).pop();
         },
         error: (e, s) async {
@@ -57,11 +58,8 @@ class HomePage extends HookConsumerWidget {
           orElse: () => [],
         );
 
-    final userId = ref.watch(userIdProvider);
-    final appUserName = ref.watch(appUserFutureProvider).maybeWhen<String?>(
-          data: (data) => data?.userName,
-          orElse: () => null,
-        );
+    final userId = ref.watch(userIdProvider) ?? '';
+    final userName = ref.watch(userNameProvider(userId));
 
     final sendAllGroupState = ref.watch(sendMessageAllGroupControllerProvider);
 
@@ -83,18 +81,18 @@ class HomePage extends HookConsumerWidget {
                       onPressed: sendAllGroupState.isLoading
                           ? null
                           : () async {
-                              final groupMessage = CreateGroupMessage(
-                                content: message.content,
-                                senderId: appUserName ?? '',
-                                //createdAt: DateTime.now(),
-                              );
-
+                              // final groupMessage = CreateGroupMessage(
+                              //   senderId: appUserName,
+                              //   content: message.content,
+                              // );
                               await ref
                                   .read(sendMessageAllGroupControllerProvider
                                       .notifier)
                                   .sendMessageAllGroup(
-                                    groupMessage: groupMessage,
-                                    userId: userId ?? '',
+                                    content: message.content,
+                                    userId: userId,
+                                    userName: userName,
+                                    messageType: MessageType.text,
                                   );
                             },
                     );

@@ -92,12 +92,14 @@ class GroupRepository {
 
   Future<void> sendAllGroup({
     required String userId,
+    required MessageType messageType,
     String? content,
   }) =>
       _query.sendAllGroup(
         userId: userId,
         allGroupMessage: CreateGroupMessage(
           senderId: userId,
+          messageType: messageType,
           content: content,
         ),
       );

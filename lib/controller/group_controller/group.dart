@@ -2,12 +2,11 @@ import 'dart:async';
 
 import 'package:graduate_app/controller/auth.dart';
 import 'package:graduate_app/controller/group_controller/group_state.dart';
-import 'package:graduate_app/controller/group_controller/read_status.dart';
 import 'package:graduate_app/models/group/group_model.dart';
-import 'package:graduate_app/models/message/message.dart';
 import 'package:graduate_app/repositories/group.dart';
 import 'package:graduate_app/repositories/group_message.dart';
 import 'package:graduate_app/utils/exceptions/exception.dart';
+import 'package:graduate_app/utils/firestore_refs/group_message_ref.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final groupFutureProvider = FutureProvider.family
@@ -28,24 +27,24 @@ final groupStateNotifierProvider = StateNotifierProvider.family
     .autoDispose<GroupStateNotifier, GroupState, String>((ref, groupId) {
   return GroupStateNotifier(
     groupId: groupId,
-    userId: ref.watch(userIdProvider)!,
+    userId: ref.watch(userIdProvider) ?? '',
     groupRepository: ref.watch(groupRepositoryProvider),
     groupMessageRepository: ref.watch(groupMessageRepositoryProvider),
-    readStatusService: ref.watch(readStatusServiceProvider),
+    //readStatusService: ref.watch(readStatusServiceProvider),
   );
 });
 
 class GroupStateNotifier extends StateNotifier<GroupState> {
   final String _groupId;
-  final String _userId;
+  //final String _userId;
   final GroupRepository _groupRepository;
   final GroupMessageRepository _groupMessageRepository;
-  final ReadStatusService _readStatusService;
+  //final ReadStatusService _readStatusService;
 
   final _startDateTime = DateTime.now();
   static const _limit = 10;
 
-  late final StreamSubscription<List<Message>>
+  late final StreamSubscription<List<ReadGroupMessage>>
       _newReadGroupMessagesSubscription;
 
   GroupStateNotifier({
@@ -53,12 +52,12 @@ class GroupStateNotifier extends StateNotifier<GroupState> {
     required String userId,
     required GroupRepository groupRepository,
     required GroupMessageRepository groupMessageRepository,
-    required ReadStatusService readStatusService,
+    //required ReadStatusService readStatusService,
   })  : _groupId = groupId,
-        _userId = userId,
+        //_userId = userId,
         _groupRepository = groupRepository,
         _groupMessageRepository = groupMessageRepository,
-        _readStatusService = readStatusService,
+        //_readStatusService = readStatusService,
         super(const GroupState()) {
     _newReadGroupMessagesSubscription = _groupMessageRepository
         .subscribeGroupMessage(
@@ -70,11 +69,12 @@ class GroupStateNotifier extends StateNotifier<GroupState> {
     Future<void>(() async {
       await Future.wait<void>([
         _fetchGroup(),
-        _updateReadStatus(),
+        //_updateReadStatus(),
         loadMore(),
         Future<void>.delayed(const Duration(milliseconds: 500)),
       ]);
     });
+    state = state.copyWith(loading: false);
   }
 
   @override
@@ -115,13 +115,15 @@ class GroupStateNotifier extends StateNotifier<GroupState> {
     );
   }
 
-  void _updateNewReadGroupMessages(List<Message> newReadGroupMessages) {
+  void _updateNewReadGroupMessages(
+      List<ReadGroupMessage> newReadGroupMessages) {
     state = state.copyWith(newReadGroupMessages: newReadGroupMessages);
     _updateReadGroupMessages();
-    _updateReadStatus();
+    //_updateReadStatus();
   }
 
-  void _updatePastReadGroupMessages(List<Message> pastReadGroupMessages) {
+  void _updatePastReadGroupMessages(
+      List<ReadGroupMessage> pastReadGroupMessages) {
     state = state.copyWith(pastReadGroupMessages: pastReadGroupMessages);
     _updateReadGroupMessages();
   }
@@ -135,22 +137,24 @@ class GroupStateNotifier extends StateNotifier<GroupState> {
     );
   }
 
-  Future<void> _updateReadStatus() {
-    return _readStatusService.setReadStatus(groupId: _groupId, userId: _userId);
-  }
+  // Future<void> _updateReadStatus() {
+  //   return _readStatusService.setReadStatus(groupId: _groupId, userId: _userId);
+  // }
 
   Future<void> sendGroupMessage({
     required String senderId,
     required String content,
-    List<String> imageUrls = const <String>[],
-    required DateTime createdAt,
+    required MessageType messageType,
+    //required File picture,
+    //required DateTime createdAt,
   }) {
     return _groupMessageRepository.addGroupMessage(
       groupId: _groupId,
       senderId: senderId,
       content: content,
-      imageUrls: imageUrls,
-      createdAt: createdAt,
+      messageType: messageType,
+      //picture: picture,
+      //createdAt: createdAt,
     );
   }
 }

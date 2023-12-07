@@ -84,6 +84,7 @@ class ContentBox extends ConsumerWidget {
     return Stack(
       children: <Widget>[
         Container(
+          //width: 300,
           padding: EdgeInsets.only(
             left: Constants.padding,
             top: Constants.avatarRadius + Constants.padding,
@@ -163,10 +164,10 @@ class ContentBox extends ConsumerWidget {
                                         : "参加",
                                     style: TextStyle(
                                       fontSize: 18,
-                                      fontWeight: FontWeight.w400,
+                                      fontWeight: FontWeight.w600,
                                       color: group.members.contains(userId)
                                           ? Colors.redAccent
-                                          : Colors.greenAccent,
+                                          : Colors.lightGreen,
                                     ),
                                   ),
                                   onPressed: () {
@@ -181,7 +182,7 @@ class ContentBox extends ConsumerWidget {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 16, right: 16),
                           child: ExpansionTile(
-                            title: Text("${group.members.length} 人のメンバーが参加"),
+                            title: Text("${group.members.length} 人のメンバーが参加中"),
                             children: <Widget>[
                               FutureBuilder<List<Widget>>(
                                 future: _fetchUserDataForGroupMembers(
@@ -225,8 +226,13 @@ class ContentBox extends ConsumerWidget {
                 Radius.circular(Constants.avatarRadius),
               ),
               child: CircleAvatar(
-                backgroundColor: Colors.blueGrey,
+                backgroundColor: Palette.appColor,
                 radius: 40,
+                child: Icon(
+                  Icons.groups_3_sharp,
+                  color: Theme.of(context).iconTheme.color,
+                  size: 44,
+                ),
               ),
             ),
           ),

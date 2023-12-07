@@ -1,30 +1,49 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'item_model.freezed.dart';
-part 'item_model.g.dart';
+class Item {
+  final String expirationDate;
+  final String name;
+  bool isChecked;
+  final int time;
 
-@freezed
-class ItemModel with _$ItemModel {
-  const factory ItemModel({
-    @Default('') String itemId,
-    @Default('') String expirationDate,
-    @Default('') String name,
-    @Default(false) bool isChecked,
-    @Default(0) int time,
-  }) = _ItemModel;
+  Item({
+    required this.expirationDate,
+    required this.name,
+    required this.isChecked,
+    required this.time,
+  });
 
-  factory ItemModel.fromJson(Map<String, dynamic> json) =>
-      _$ItemModelFromJson(json);
-
-  factory ItemModel.fromDocumentSnapshot(DocumentSnapshot ds) {
-    final data = ds.data()! as Map<String, dynamic>;
-
-    return ItemModel.fromJson(<String, dynamic>{
-      ...data,
-      'itemId': ds.id,
-    });
+  Item copyWith({
+    String? expirationDate,
+    String? name,
+    bool? isChecked,
+    int? time,
+  }) {
+    return Item(
+      expirationDate: expirationDate ?? this.expirationDate,
+      name: name ?? this.name,
+      isChecked: isChecked ?? this.isChecked,
+      time: time ?? this.time,
+    );
   }
 
-  const ItemModel._();
+  // Create an item from a Firestore document
+  factory Item.fromDocument(QueryDocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+    return Item(
+      expirationDate: data['expirationDate'] as String,
+      name: data['name'] as String,
+      isChecked: data['isChecked'] as bool,
+      time: data['time'] as int,
+    );
+  }
+
+  Map<String, dynamic> toDocument() {
+    return {
+      'expirationDate': expirationDate,
+      'name': name,
+      'isChecked': isChecked,
+      'time': time,
+    };
+  }
 }

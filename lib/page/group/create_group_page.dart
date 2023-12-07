@@ -54,12 +54,7 @@ class _CreateGroupPageState extends ConsumerState<CreateGroupPage> {
               child: AppBar(
                 title: Text(
                   "グループ作成",
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
-                  ),
                 ),
-                centerTitle: true,
               ),
             ),
             body: Padding(

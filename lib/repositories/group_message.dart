@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:graduate_app/models/message/message.dart';
 import 'package:graduate_app/utils/firestore_refs/group_message_ref.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -10,10 +9,11 @@ final groupMessageRepositoryProvider =
 class GroupMessageRepository {
   final _query = GroupMessageQuery();
 
-  final Map<String, QueryDocumentSnapshot<Message>>
-      _lastReadQueryDocumentSnapshotCahce = {};
+  final Map<String, QueryDocumentSnapshot<ReadGroupMessage>>
+      _lastReadQueryDocumentSnapshotCache = {};
 
-  Future<(List<Message>, String?, bool)> loadMessageWithDocumentIdCursor({
+  Future<(List<ReadGroupMessage>, String?, bool)>
+      loadMessageWithDocumentIdCursor({
     required String groupId,
     required int limit,
     required String? lastReadMessageId,
@@ -23,7 +23,7 @@ class GroupMessageRepository {
 
     final qds = lastReadMessageId == null
         ? null
-        : _lastReadQueryDocumentSnapshotCahce[lastReadMessageId];
+        : _lastReadQueryDocumentSnapshotCache[lastReadMessageId];
 
     if (qds != null) {
       query = query.startAfterDocument(qds);
@@ -41,17 +41,17 @@ class GroupMessageRepository {
   }
 
   void _updateLastReadQueryDocumentSnapshotCache(
-    QueryDocumentSnapshot<Message>? lastReadQueryDocumentSnaphot,
+    QueryDocumentSnapshot<ReadGroupMessage>? lastReadQueryDocumentSnaphot,
   ) {
-    _lastReadQueryDocumentSnapshotCahce.clear();
+    _lastReadQueryDocumentSnapshotCache.clear();
     if (lastReadQueryDocumentSnaphot != null) {
-      _lastReadQueryDocumentSnapshotCahce[lastReadQueryDocumentSnaphot.id] =
+      _lastReadQueryDocumentSnapshotCache[lastReadQueryDocumentSnaphot.id] =
           lastReadQueryDocumentSnaphot;
     }
   }
 
   /// Subscribe to the [GroupMessage] list after [startDateTime] of the specified [groupId].
-  Stream<List<Message>> subscribeGroupMessage({
+  Stream<List<ReadGroupMessage>> subscribeGroupMessage({
     required String groupId,
     required DateTime startDateTime,
   }) {
@@ -67,23 +67,23 @@ class GroupMessageRepository {
   Future<void> addGroupMessage({
     required String groupId,
     required String senderId,
+    required MessageType messageType,
     required String content,
-    List<String> imageUrls = const <String>[],
-    required DateTime createdAt,
+    //required File picture,
   }) {
     return _query.add(
       groupId: groupId,
-      createGroupMessage: Message(
+      createGroupMessage: CreateGroupMessage(
         senderId: senderId,
+        messageType: messageType,
         content: content,
-        imageUrls: imageUrls,
-        createdAt: createdAt,
+        //picture: picture,
       ),
     );
   }
 
   /// Returns at most one latest [GroupMessage] list for the specified [groupId].
-  Stream<List<Message>> subscribeLatestMessages({
+  Stream<List<ReadGroupMessage>> subscribeLatestMessages({
     required String groupId,
   }) {
     return _query.subscribeDocuments(
@@ -96,7 +96,7 @@ class GroupMessageRepository {
     );
   }
 
-  Stream<List<Message>> subscribeUnReadGroupMessages({
+  Stream<List<ReadGroupMessage>> subscribeUnReadGroupMessages({
     required String groupId,
     required DateTime? lastReadAt,
     required int limit,

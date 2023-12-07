@@ -4,7 +4,6 @@ import 'package:graduate_app/gen/assets.gen.dart';
 import 'package:graduate_app/page/auth/login_page.dart';
 import 'package:graduate_app/page/auth/signup_page.dart';
 import 'package:graduate_app/theme/palette.dart';
-import 'package:graduate_app/utils/constants/app_colors.dart';
 import 'package:graduate_app/utils/constants/measure.dart';
 import 'package:graduate_app/utils/text_styles.dart';
 import 'package:graduate_app/widgets/app_bar.dart';
@@ -17,6 +16,8 @@ class GetStartedPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = ref.watch(themeNotifierProvider);
+
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -71,21 +72,15 @@ class GetStartedPage extends ConsumerWidget {
                   ),
                   Measure.g_16,
                   Consumer(builder: (context, ref, child) {
-                    return Row(
-                      children: [
-                        Icon(Icons.light_mode),
-                        Switch.adaptive(
-                          value:
-                              ref.watch(themeNotifierProvider.notifier).mode ==
-                                  ThemeMode.dark,
-                          onChanged: (value) {
-                            ref
-                                .read(themeNotifierProvider.notifier)
-                                .toggleTheme();
-                          },
-                        ),
-                        Icon(Icons.dark_mode),
-                      ],
+                    return IconButton(
+                      onPressed: () {
+                        ref.read(themeNotifierProvider.notifier).toggleTheme();
+                      },
+                      icon: Icon(
+                        theme == Palette.darkModeAppTheme
+                            ? Icons.light_mode
+                            : Icons.dark_mode,
+                      ),
                     );
                   }),
                 ],
@@ -128,20 +123,8 @@ class _AppTitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
-        children: <TextSpan>[
-          // TextSpan(
-          //   text: 'Welcome to ',
-          //   style: TextStyles.h2(),
-          // ),
-          TextSpan(
-            text: '緊急時用メッセンジャー',
-            style: TextStyles.h2(color: AppColors.secondary),
-          ),
-          // TextSpan(
-          //   text: ' !!',
-          //   style: TextStyles.h2(),
-          // ),
-        ],
+        text: '緊急時用メッセンジャー',
+        style: TextStyles.h2(color: Theme.of(context).colorScheme.primary),
       ),
     );
   }

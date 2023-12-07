@@ -89,9 +89,16 @@ abstract class $AppRouter extends _i15.RootStackRouter {
       );
     },
     MyProfileRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<MyProfileRouteArgs>(
+          orElse: () =>
+              MyProfileRouteArgs(userId: pathParams.getString('userId')));
       return _i15.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i8.MyProfilePage(),
+        child: _i8.MyProfilePage(
+          key: args.key,
+          userId: args.userId,
+        ),
       );
     },
     NotFoundRoute.name: (routeData) {
@@ -287,16 +294,41 @@ class LoginRoute extends _i15.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i8.MyProfilePage]
-class MyProfileRoute extends _i15.PageRouteInfo<void> {
-  const MyProfileRoute({List<_i15.PageRouteInfo>? children})
-      : super(
+class MyProfileRoute extends _i15.PageRouteInfo<MyProfileRouteArgs> {
+  MyProfileRoute({
+    _i17.Key? key,
+    required String userId,
+    List<_i15.PageRouteInfo>? children,
+  }) : super(
           MyProfileRoute.name,
+          args: MyProfileRouteArgs(
+            key: key,
+            userId: userId,
+          ),
+          rawPathParams: {'userId': userId},
           initialChildren: children,
         );
 
   static const String name = 'MyProfileRoute';
 
-  static const _i15.PageInfo<void> page = _i15.PageInfo<void>(name);
+  static const _i15.PageInfo<MyProfileRouteArgs> page =
+      _i15.PageInfo<MyProfileRouteArgs>(name);
+}
+
+class MyProfileRouteArgs {
+  const MyProfileRouteArgs({
+    this.key,
+    required this.userId,
+  });
+
+  final _i17.Key? key;
+
+  final String userId;
+
+  @override
+  String toString() {
+    return 'MyProfileRouteArgs{key: $key, userId: $userId}';
+  }
 }
 
 /// generated route for

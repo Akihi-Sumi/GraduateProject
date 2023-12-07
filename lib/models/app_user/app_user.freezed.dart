@@ -21,13 +21,13 @@ AppUser _$AppUserFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$AppUser {
   @Assert('userName.length <= 20')
-  String get userId => throw _privateConstructorUsedError;
-  String get userName => throw _privateConstructorUsedError;
-  String get userEmail => throw _privateConstructorUsedError;
-  String get userEvacuation => throw _privateConstructorUsedError;
-  String get profilePicture => throw _privateConstructorUsedError;
+  String? get userId => throw _privateConstructorUsedError;
+  String? get userName => throw _privateConstructorUsedError;
+  String? get userEmail => throw _privateConstructorUsedError;
+  String? get userEvacuation => throw _privateConstructorUsedError;
+  String? get profilePicture => throw _privateConstructorUsedError;
   @unionTimestampConverter
-  UnionTimestamp get createdAt => throw _privateConstructorUsedError;
+  UnionTimestamp? get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,14 +40,14 @@ abstract class $AppUserCopyWith<$Res> {
       _$AppUserCopyWithImpl<$Res, AppUser>;
   @useResult
   $Res call(
-      {@Assert('userName.length <= 20') String userId,
-      String userName,
-      String userEmail,
-      String userEvacuation,
-      String profilePicture,
-      @unionTimestampConverter UnionTimestamp createdAt});
+      {@Assert('userName.length <= 20') String? userId,
+      String? userName,
+      String? userEmail,
+      String? userEvacuation,
+      String? profilePicture,
+      @unionTimestampConverter UnionTimestamp? createdAt});
 
-  $UnionTimestampCopyWith<$Res> get createdAt;
+  $UnionTimestampCopyWith<$Res>? get createdAt;
 }
 
 /// @nodoc
@@ -63,45 +63,49 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userId = null,
-    Object? userName = null,
-    Object? userEmail = null,
-    Object? userEvacuation = null,
-    Object? profilePicture = null,
-    Object? createdAt = null,
+    Object? userId = freezed,
+    Object? userName = freezed,
+    Object? userEmail = freezed,
+    Object? userEvacuation = freezed,
+    Object? profilePicture = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
-      userId: null == userId
+      userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-      userName: null == userName
+              as String?,
+      userName: freezed == userName
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
-              as String,
-      userEmail: null == userEmail
+              as String?,
+      userEmail: freezed == userEmail
           ? _value.userEmail
           : userEmail // ignore: cast_nullable_to_non_nullable
-              as String,
-      userEvacuation: null == userEvacuation
+              as String?,
+      userEvacuation: freezed == userEvacuation
           ? _value.userEvacuation
           : userEvacuation // ignore: cast_nullable_to_non_nullable
-              as String,
-      profilePicture: null == profilePicture
+              as String?,
+      profilePicture: freezed == profilePicture
           ? _value.profilePicture
           : profilePicture // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
+              as String?,
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as UnionTimestamp,
+              as UnionTimestamp?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $UnionTimestampCopyWith<$Res> get createdAt {
-    return $UnionTimestampCopyWith<$Res>(_value.createdAt, (value) {
+  $UnionTimestampCopyWith<$Res>? get createdAt {
+    if (_value.createdAt == null) {
+      return null;
+    }
+
+    return $UnionTimestampCopyWith<$Res>(_value.createdAt!, (value) {
       return _then(_value.copyWith(createdAt: value) as $Val);
     });
   }
@@ -115,15 +119,15 @@ abstract class _$$AppUserImplCopyWith<$Res> implements $AppUserCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@Assert('userName.length <= 20') String userId,
-      String userName,
-      String userEmail,
-      String userEvacuation,
-      String profilePicture,
-      @unionTimestampConverter UnionTimestamp createdAt});
+      {@Assert('userName.length <= 20') String? userId,
+      String? userName,
+      String? userEmail,
+      String? userEvacuation,
+      String? profilePicture,
+      @unionTimestampConverter UnionTimestamp? createdAt});
 
   @override
-  $UnionTimestampCopyWith<$Res> get createdAt;
+  $UnionTimestampCopyWith<$Res>? get createdAt;
 }
 
 /// @nodoc
@@ -137,38 +141,38 @@ class __$$AppUserImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userId = null,
-    Object? userName = null,
-    Object? userEmail = null,
-    Object? userEvacuation = null,
-    Object? profilePicture = null,
-    Object? createdAt = null,
+    Object? userId = freezed,
+    Object? userName = freezed,
+    Object? userEmail = freezed,
+    Object? userEvacuation = freezed,
+    Object? profilePicture = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_$AppUserImpl(
-      userId: null == userId
+      userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-      userName: null == userName
+              as String?,
+      userName: freezed == userName
           ? _value.userName
           : userName // ignore: cast_nullable_to_non_nullable
-              as String,
-      userEmail: null == userEmail
+              as String?,
+      userEmail: freezed == userEmail
           ? _value.userEmail
           : userEmail // ignore: cast_nullable_to_non_nullable
-              as String,
-      userEvacuation: null == userEvacuation
+              as String?,
+      userEvacuation: freezed == userEvacuation
           ? _value.userEvacuation
           : userEvacuation // ignore: cast_nullable_to_non_nullable
-              as String,
-      profilePicture: null == profilePicture
+              as String?,
+      profilePicture: freezed == profilePicture
           ? _value.profilePicture
           : profilePicture // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
+              as String?,
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as UnionTimestamp,
+              as UnionTimestamp?,
     ));
   }
 }
@@ -182,7 +186,7 @@ class _$AppUserImpl extends _AppUser {
       this.userEmail = '',
       this.userEvacuation = '',
       this.profilePicture = '',
-      @unionTimestampConverter required this.createdAt})
+      @unionTimestampConverter this.createdAt})
       : super._();
 
   factory _$AppUserImpl.fromJson(Map<String, dynamic> json) =>
@@ -191,22 +195,22 @@ class _$AppUserImpl extends _AppUser {
   @override
   @JsonKey()
   @Assert('userName.length <= 20')
-  final String userId;
+  final String? userId;
   @override
   @JsonKey()
-  final String userName;
+  final String? userName;
   @override
   @JsonKey()
-  final String userEmail;
+  final String? userEmail;
   @override
   @JsonKey()
-  final String userEvacuation;
+  final String? userEvacuation;
   @override
   @JsonKey()
-  final String profilePicture;
+  final String? profilePicture;
   @override
   @unionTimestampConverter
-  final UnionTimestamp createdAt;
+  final UnionTimestamp? createdAt;
 
   @override
   String toString() {
@@ -252,12 +256,12 @@ class _$AppUserImpl extends _AppUser {
 
 abstract class _AppUser extends AppUser {
   const factory _AppUser(
-          {@Assert('userName.length <= 20') final String userId,
-          final String userName,
-          final String userEmail,
-          final String userEvacuation,
-          final String profilePicture,
-          @unionTimestampConverter required final UnionTimestamp createdAt}) =
+          {@Assert('userName.length <= 20') final String? userId,
+          final String? userName,
+          final String? userEmail,
+          final String? userEvacuation,
+          final String? profilePicture,
+          @unionTimestampConverter final UnionTimestamp? createdAt}) =
       _$AppUserImpl;
   const _AppUser._() : super._();
 
@@ -265,18 +269,18 @@ abstract class _AppUser extends AppUser {
 
   @override
   @Assert('userName.length <= 20')
-  String get userId;
+  String? get userId;
   @override
-  String get userName;
+  String? get userName;
   @override
-  String get userEmail;
+  String? get userEmail;
   @override
-  String get userEvacuation;
+  String? get userEvacuation;
   @override
-  String get profilePicture;
+  String? get profilePicture;
   @override
   @unionTimestampConverter
-  UnionTimestamp get createdAt;
+  UnionTimestamp? get createdAt;
   @override
   @JsonKey(ignore: true)
   _$$AppUserImplCopyWith<_$AppUserImpl> get copyWith =>

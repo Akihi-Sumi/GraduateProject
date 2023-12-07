@@ -16,27 +16,35 @@ class Palette {
   static var redColor = Colors.red.shade500;
   static var blueColor = Colors.blue.shade300;
 
+  static var appColor = Colors.orange.shade700;
+
   // Themes
   static var darkModeAppTheme = ThemeData.dark(useMaterial3: false).copyWith(
+    visualDensity: VisualDensity.adaptivePlatformDensity,
     scaffoldBackgroundColor: blackColor,
     cardColor: greyColor,
     appBarTheme: const AppBarTheme(
       backgroundColor: blackColor,
+      centerTitle: true,
       titleTextStyle: TextStyle(
         color: whiteColor,
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
+        fontSize: 22,
+        fontWeight: FontWeight.w600,
       ),
       iconTheme: IconThemeData(
         color: whiteColor,
       ),
+    ),
+    iconTheme: IconThemeData(
+      color: whiteColor,
+      size: 24,
     ),
     drawerTheme: const DrawerThemeData(
       backgroundColor: drawerColor,
     ),
     primaryColor: redColor,
     colorScheme: ColorScheme(
-      primary: Colors.orange.shade700,
+      primary: appColor,
       onPrimary: whiteColor,
       secondary: Color(0xfff57c00),
       onSecondary: whiteColor,
@@ -49,20 +57,11 @@ class Palette {
       brightness: Brightness.dark,
     ),
     canvasColor: Colors.transparent,
-    textSelectionTheme: TextSelectionThemeData(
-      cursorColor: whiteColor,
-    ),
-    expansionTileTheme: ExpansionTileThemeData(
-      textColor: whiteColor,
-      collapsedTextColor: whiteColor,
-      iconColor: whiteColor,
-      collapsedIconColor: whiteColor,
-    ),
     inputDecorationTheme: InputDecorationTheme(
       hintStyle: TextStyle(color: Colors.grey),
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(
-          color: Colors.orange.shade700,
+          color: whiteColor,
           width: 2,
         ),
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -72,16 +71,25 @@ class Palette {
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
       ),
     ),
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: whiteColor,
+    ),
+    expansionTileTheme: ExpansionTileThemeData(
+      textColor: whiteColor,
+      collapsedTextColor: whiteColor,
+      iconColor: whiteColor,
+      collapsedIconColor: whiteColor,
+    ),
     snackBarTheme: SnackBarThemeData(
       backgroundColor: Colors.white,
       contentTextStyle: TextStyle(color: Colors.black),
     ),
     datePickerTheme: DatePickerThemeData(
       backgroundColor: Colors.grey.shade800,
-      headerBackgroundColor: Colors.orange.shade700,
+      headerBackgroundColor: appColor,
       headerHeadlineStyle: TextStyle(color: Colors.black),
       dayOverlayColor: MaterialStateProperty.resolveWith(
-        (states) => Colors.orange.shade700,
+        (states) => appColor,
       ),
       cancelButtonStyle: ButtonStyle(
         foregroundColor: MaterialStateProperty.resolveWith(
@@ -90,33 +98,39 @@ class Palette {
       ),
       confirmButtonStyle: ButtonStyle(
         foregroundColor: MaterialStateProperty.resolveWith(
-          (states) => Colors.orange.shade700,
+          (states) => appColor,
         ),
       ),
     ),
   );
 
   static var lightModeAppTheme = ThemeData.light(useMaterial3: false).copyWith(
+    visualDensity: VisualDensity.adaptivePlatformDensity,
     scaffoldBackgroundColor: whiteColor,
     cardColor: Colors.grey.shade200,
     appBarTheme: const AppBarTheme(
       backgroundColor: whiteColor,
+      centerTitle: true,
       titleTextStyle: TextStyle(
         color: Colors.black,
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
+        fontSize: 22,
+        fontWeight: FontWeight.w600,
       ),
       elevation: 0,
       iconTheme: IconThemeData(
         color: blackColor,
       ),
     ),
+    iconTheme: IconThemeData(
+      color: blackColor,
+      size: 24,
+    ),
     drawerTheme: const DrawerThemeData(
       backgroundColor: whiteColor,
     ),
     primaryColor: redColor,
     colorScheme: ColorScheme(
-      primary: Colors.orange.shade700,
+      primary: appColor,
       onPrimary: blackColor,
       secondary: Color(0xfff57c00),
       onSecondary: Colors.black,
@@ -129,15 +143,6 @@ class Palette {
       brightness: Brightness.light,
     ),
     canvasColor: Colors.transparent,
-    textSelectionTheme: TextSelectionThemeData(
-      cursorColor: Colors.black,
-    ),
-    expansionTileTheme: ExpansionTileThemeData(
-      textColor: blackColor,
-      collapsedTextColor: blackColor,
-      iconColor: blackColor,
-      collapsedIconColor: blackColor,
-    ),
     inputDecorationTheme: InputDecorationTheme(
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(
@@ -151,15 +156,24 @@ class Palette {
         borderRadius: BorderRadius.all(Radius.circular(15.0)),
       ),
     ),
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: Colors.black,
+    ),
+    expansionTileTheme: ExpansionTileThemeData(
+      textColor: blackColor,
+      collapsedTextColor: blackColor,
+      iconColor: blackColor,
+      collapsedIconColor: blackColor,
+    ),
     snackBarTheme: SnackBarThemeData(
       backgroundColor: Colors.grey.shade700,
       contentTextStyle: TextStyle(color: Colors.white),
     ),
     datePickerTheme: DatePickerThemeData(
-      headerBackgroundColor: Colors.orange.shade700,
+      headerBackgroundColor: appColor,
       headerHeadlineStyle: TextStyle(color: Colors.black),
       dayOverlayColor: MaterialStateProperty.resolveWith(
-        (states) => Colors.orange.shade700,
+        (states) => appColor,
       ),
       cancelButtonStyle: ButtonStyle(
         foregroundColor: MaterialStateProperty.resolveWith(
@@ -168,7 +182,7 @@ class Palette {
       ),
       confirmButtonStyle: ButtonStyle(
         foregroundColor: MaterialStateProperty.resolveWith(
-          (states) => Colors.orange.shade700,
+          (states) => appColor,
         ),
       ),
     ),

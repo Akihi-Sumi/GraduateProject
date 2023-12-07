@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:graduate_app/page/group/group_chat_page.dart';
+import 'package:graduate_app/page/settings/mypage.dart';
 import 'package:graduate_app/router/app_router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Page,Route')
@@ -73,14 +74,14 @@ class AppRouter extends $AppRouter {
                   title: (ctx, _) => "メッセージ設定",
                 ),
                 AutoRoute(
-                  path: 'my-page',
+                  path: MyProfilePage.path,
                   page: MyProfileRoute.page,
                   title: (ctx, _) => "マイページ",
                 ),
                 AutoRoute(
                   path: 'survival-kit',
                   page: SurvivalKitRoute.page,
-                  title: (ctx, _) => "防災アイテム リスト",
+                  title: (ctx, _) => "防災グッズ",
                 ),
               ],
             ),

@@ -19,9 +19,12 @@ mixin _$GroupState {
   bool get loading => throw _privateConstructorUsedError;
   GroupModel? get readGroup => throw _privateConstructorUsedError;
   bool get sending => throw _privateConstructorUsedError;
-  List<Message> get readGroupMessages => throw _privateConstructorUsedError;
-  List<Message> get newReadGroupMessages => throw _privateConstructorUsedError;
-  List<Message> get pastReadGroupMessages => throw _privateConstructorUsedError;
+  List<ReadGroupMessage> get readGroupMessages =>
+      throw _privateConstructorUsedError;
+  List<ReadGroupMessage> get newReadGroupMessages =>
+      throw _privateConstructorUsedError;
+  List<ReadGroupMessage> get pastReadGroupMessages =>
+      throw _privateConstructorUsedError;
   bool get fetchitg => throw _privateConstructorUsedError;
   bool get hasMore => throw _privateConstructorUsedError;
   String? get lastReadGroupMessageId => throw _privateConstructorUsedError;
@@ -41,9 +44,9 @@ abstract class $GroupStateCopyWith<$Res> {
       {bool loading,
       GroupModel? readGroup,
       bool sending,
-      List<Message> readGroupMessages,
-      List<Message> newReadGroupMessages,
-      List<Message> pastReadGroupMessages,
+      List<ReadGroupMessage> readGroupMessages,
+      List<ReadGroupMessage> newReadGroupMessages,
+      List<ReadGroupMessage> pastReadGroupMessages,
       bool fetchitg,
       bool hasMore,
       String? lastReadGroupMessageId});
@@ -90,15 +93,15 @@ class _$GroupStateCopyWithImpl<$Res, $Val extends GroupState>
       readGroupMessages: null == readGroupMessages
           ? _value.readGroupMessages
           : readGroupMessages // ignore: cast_nullable_to_non_nullable
-              as List<Message>,
+              as List<ReadGroupMessage>,
       newReadGroupMessages: null == newReadGroupMessages
           ? _value.newReadGroupMessages
           : newReadGroupMessages // ignore: cast_nullable_to_non_nullable
-              as List<Message>,
+              as List<ReadGroupMessage>,
       pastReadGroupMessages: null == pastReadGroupMessages
           ? _value.pastReadGroupMessages
           : pastReadGroupMessages // ignore: cast_nullable_to_non_nullable
-              as List<Message>,
+              as List<ReadGroupMessage>,
       fetchitg: null == fetchitg
           ? _value.fetchitg
           : fetchitg // ignore: cast_nullable_to_non_nullable
@@ -139,9 +142,9 @@ abstract class _$$GroupStateImplCopyWith<$Res>
       {bool loading,
       GroupModel? readGroup,
       bool sending,
-      List<Message> readGroupMessages,
-      List<Message> newReadGroupMessages,
-      List<Message> pastReadGroupMessages,
+      List<ReadGroupMessage> readGroupMessages,
+      List<ReadGroupMessage> newReadGroupMessages,
+      List<ReadGroupMessage> pastReadGroupMessages,
       bool fetchitg,
       bool hasMore,
       String? lastReadGroupMessageId});
@@ -187,15 +190,15 @@ class __$$GroupStateImplCopyWithImpl<$Res>
       readGroupMessages: null == readGroupMessages
           ? _value._readGroupMessages
           : readGroupMessages // ignore: cast_nullable_to_non_nullable
-              as List<Message>,
+              as List<ReadGroupMessage>,
       newReadGroupMessages: null == newReadGroupMessages
           ? _value._newReadGroupMessages
           : newReadGroupMessages // ignore: cast_nullable_to_non_nullable
-              as List<Message>,
+              as List<ReadGroupMessage>,
       pastReadGroupMessages: null == pastReadGroupMessages
           ? _value._pastReadGroupMessages
           : pastReadGroupMessages // ignore: cast_nullable_to_non_nullable
-              as List<Message>,
+              as List<ReadGroupMessage>,
       fetchitg: null == fetchitg
           ? _value.fetchitg
           : fetchitg // ignore: cast_nullable_to_non_nullable
@@ -219,9 +222,12 @@ class _$GroupStateImpl implements _GroupState {
       {this.loading = true,
       this.readGroup,
       this.sending = false,
-      final List<Message> readGroupMessages = const <Message>[],
-      final List<Message> newReadGroupMessages = const <Message>[],
-      final List<Message> pastReadGroupMessages = const <Message>[],
+      final List<ReadGroupMessage> readGroupMessages =
+          const <ReadGroupMessage>[],
+      final List<ReadGroupMessage> newReadGroupMessages =
+          const <ReadGroupMessage>[],
+      final List<ReadGroupMessage> pastReadGroupMessages =
+          const <ReadGroupMessage>[],
       this.fetchitg = false,
       this.hasMore = true,
       this.lastReadGroupMessageId})
@@ -237,30 +243,30 @@ class _$GroupStateImpl implements _GroupState {
   @override
   @JsonKey()
   final bool sending;
-  final List<Message> _readGroupMessages;
+  final List<ReadGroupMessage> _readGroupMessages;
   @override
   @JsonKey()
-  List<Message> get readGroupMessages {
+  List<ReadGroupMessage> get readGroupMessages {
     if (_readGroupMessages is EqualUnmodifiableListView)
       return _readGroupMessages;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_readGroupMessages);
   }
 
-  final List<Message> _newReadGroupMessages;
+  final List<ReadGroupMessage> _newReadGroupMessages;
   @override
   @JsonKey()
-  List<Message> get newReadGroupMessages {
+  List<ReadGroupMessage> get newReadGroupMessages {
     if (_newReadGroupMessages is EqualUnmodifiableListView)
       return _newReadGroupMessages;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_newReadGroupMessages);
   }
 
-  final List<Message> _pastReadGroupMessages;
+  final List<ReadGroupMessage> _pastReadGroupMessages;
   @override
   @JsonKey()
-  List<Message> get pastReadGroupMessages {
+  List<ReadGroupMessage> get pastReadGroupMessages {
     if (_pastReadGroupMessages is EqualUnmodifiableListView)
       return _pastReadGroupMessages;
     // ignore: implicit_dynamic_type
@@ -328,9 +334,9 @@ abstract class _GroupState implements GroupState {
       {final bool loading,
       final GroupModel? readGroup,
       final bool sending,
-      final List<Message> readGroupMessages,
-      final List<Message> newReadGroupMessages,
-      final List<Message> pastReadGroupMessages,
+      final List<ReadGroupMessage> readGroupMessages,
+      final List<ReadGroupMessage> newReadGroupMessages,
+      final List<ReadGroupMessage> pastReadGroupMessages,
       final bool fetchitg,
       final bool hasMore,
       final String? lastReadGroupMessageId}) = _$GroupStateImpl;
@@ -342,11 +348,11 @@ abstract class _GroupState implements GroupState {
   @override
   bool get sending;
   @override
-  List<Message> get readGroupMessages;
+  List<ReadGroupMessage> get readGroupMessages;
   @override
-  List<Message> get newReadGroupMessages;
+  List<ReadGroupMessage> get newReadGroupMessages;
   @override
-  List<Message> get pastReadGroupMessages;
+  List<ReadGroupMessage> get pastReadGroupMessages;
   @override
   bool get fetchitg;
   @override

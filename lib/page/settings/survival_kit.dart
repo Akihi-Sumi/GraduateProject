@@ -8,6 +8,7 @@ import 'package:graduate_app/models/item/item_model.dart';
 import 'package:graduate_app/page/settings/survival_kits/add_item_page.dart';
 import 'package:graduate_app/page/settings/survival_kits/edit_item_page.dart';
 import 'package:graduate_app/repositories/survival_kits/list_collection_repository.dart';
+import 'package:graduate_app/theme/palette.dart';
 
 @RoutePage()
 class SurvivalKitPage extends StatefulWidget {
@@ -23,10 +24,11 @@ class SurvivalKitPage extends StatefulWidget {
 class _SurvivalKitPageState extends State<SurvivalKitPage>
     with AutomaticKeepAliveClientMixin {
   late ItemRepository itemRepository;
-  List<ItemModel> _items = [];
+  List<Item> _items = [];
   String userId = '';
   String itemId = '';
   bool _isDisposed = false;
+  bool selectedAllChecked = false;
 
   _SurvivalKitPageState({required this.itemRepository});
 
@@ -45,7 +47,7 @@ class _SurvivalKitPageState extends State<SurvivalKitPage>
       setState(() {
         userId = user.uid;
       });
-      fetchSurvivalKitsData(); // Fetch data when the user is retrieved
+      fetchSurvivalKitsData();
     }
   }
 
@@ -78,10 +80,10 @@ class _SurvivalKitPageState extends State<SurvivalKitPage>
     }
   }
 
-  List<ItemModel> processData(dynamic listData) {
+  List<Item> processData(dynamic listData) {
     if (listData is List) {
-      List<ItemModel> items = listData.map((item) {
-        return ItemModel(
+      List<Item> items = listData.map((item) {
+        return Item(
           expirationDate: item['expirationDate'],
           name: item['name'],
           isChecked: item['isChecked'],
@@ -95,7 +97,7 @@ class _SurvivalKitPageState extends State<SurvivalKitPage>
     }
   }
 
-  Future<void> showConfirmDialog(ItemModel list) async {
+  Future<void> showConfirmDialog(Item list) async {
     await showDialog(
       context: context,
       builder: (_) {
@@ -144,7 +146,6 @@ class _SurvivalKitPageState extends State<SurvivalKitPage>
         title: Text(
           context.topRoute.title(context),
         ),
-        centerTitle: true,
       ),
       body: _items.isEmpty
           ? Center(
@@ -189,7 +190,7 @@ class _SurvivalKitPageState extends State<SurvivalKitPage>
                     },
                     child: CheckboxListTile(
                       controlAffinity: ListTileControlAffinity.leading,
-                      activeColor: Colors.orange.shade700,
+                      activeColor: Palette.appColor,
                       contentPadding: EdgeInsets.only(
                           top: 10, right: 0, bottom: 10, left: 30),
                       value: item.isChecked,
@@ -227,7 +228,7 @@ class _SurvivalKitPageState extends State<SurvivalKitPage>
                         }
 
                         // Create a new Item instance with the updated isChecked value
-                        ItemModel updatedItem =
+                        Item updatedItem =
                             item.copyWith(isChecked: value ?? false);
 
                         // Update the UI and perform other actions if needed
@@ -254,7 +255,7 @@ class _SurvivalKitPageState extends State<SurvivalKitPage>
             context,
             MaterialPageRoute(
               builder: (context) => AddItemPage(itemRepository: itemRepository),
-              fullscreenDialog: true,
+              //fullscreenDialog: true,
             ),
           );
 
@@ -272,8 +273,8 @@ class _SurvivalKitPageState extends State<SurvivalKitPage>
     super.dispose();
   }
 
-  Future<List<ItemModel>> myAsyncFunction() async {
-    List<ItemModel> result = await itemRepository.retrieveItem(userId: userId);
+  Future<List<Item>> myAsyncFunction() async {
+    List<Item> result = await itemRepository.retrieveItem(userId: userId);
     return result;
   }
 

@@ -1,16 +1,17 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/controller/auth.dart';
 import 'package:graduate_app/controller/group_message.dart';
 import 'package:graduate_app/controller/message.dart';
+import 'package:graduate_app/controller/user_profile/user.dart';
 import 'package:graduate_app/models/message/message.dart';
 import 'package:graduate_app/utils/async_value_error_dialog.dart';
 import 'package:graduate_app/utils/dialog.dart';
+import 'package:graduate_app/utils/firestore_refs/group_message_ref.dart';
 import 'package:graduate_app/utils/loading.dart';
 import 'package:graduate_app/utils/scaffold_messenger_service.dart';
 import 'package:graduate_app/widgets/message_bubble.dart';
-import 'package:graduate_app/widgets/send_location.dart';
+import 'package:graduate_app/widgets/send_action_button.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()
@@ -37,6 +38,7 @@ class HomePage extends HookConsumerWidget {
           ref
               .read(scaffoldMessengerServiceProvider)
               .showSnackBar("メッセージを送信しました");
+
           //Navigator.of(context, rootNavigator: true).pop();
         },
         error: (e, s) async {
@@ -56,11 +58,8 @@ class HomePage extends HookConsumerWidget {
           orElse: () => [],
         );
 
-    final userId = ref.watch(userIdProvider);
-    final appUserName = ref.watch(appUserFutureProvider).maybeWhen<String?>(
-          data: (data) => data?.userName,
-          orElse: () => null,
-        );
+    final userId = ref.watch(userIdProvider) ?? '';
+    final userName = ref.watch(userNameProvider(userId));
 
     final sendAllGroupState = ref.watch(sendMessageAllGroupControllerProvider);
 
@@ -69,45 +68,43 @@ class HomePage extends HookConsumerWidget {
         child: Padding(
           padding: EdgeInsets.only(top: 110),
           child: Column(
-            children: messages
-                .map(
-                  (message) => Container(
-                    margin: EdgeInsets.only(bottom: 30),
-                    child: MessageBubble(
-                      message: message,
-                      onTap: () async {
-                        await showActionDialog(
-                          context: context,
-                          title: "メッセージを送信しますか",
-                          buttonText: "送信",
-                          onPressed: sendAllGroupState.isLoading
-                              ? null
-                              : () async {
-                                  final groupMessage = Message(
+            children: messages.map((message) {
+              return Container(
+                margin: EdgeInsets.only(bottom: 30),
+                child: MessageBubble(
+                  message: message,
+                  onTap: () async {
+                    await showActionDialog(
+                      context: context,
+                      title: "メッセージを送信しますか",
+                      buttonText: "送信",
+                      onPressed: sendAllGroupState.isLoading
+                          ? null
+                          : () async {
+                              // final groupMessage = CreateGroupMessage(
+                              //   senderId: appUserName,
+                              //   content: message.content,
+                              // );
+                              await ref
+                                  .read(sendMessageAllGroupControllerProvider
+                                      .notifier)
+                                  .sendMessageAllGroup(
                                     content: message.content,
-                                    senderId: appUserName ?? '',
-                                    createdAt: DateTime.now(),
+                                    userId: userId,
+                                    userName: userName,
+                                    messageType: MessageType.text,
                                   );
-
-                                  await ref
-                                      .read(
-                                          sendMessageAllGroupControllerProvider
-                                              .notifier)
-                                      .sendMessageAllGroup(
-                                        groupMessage: groupMessage,
-                                        userId: userId ?? '',
-                                      );
-                                },
-                        );
-                      },
-                    ),
-                  ),
-                )
-                .toList(),
+                            },
+                    );
+                  },
+                ),
+              );
+            }).toList(),
           ),
         ),
       ),
-      floatingActionButton: SendLocation(),
+      // floatingActionButton: SendLocation(),
+      floatingActionButton: SendActionButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
     );
   }

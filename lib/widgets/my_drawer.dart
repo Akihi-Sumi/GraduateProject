@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:graduate_app/controller/app_user.dart';
+import 'package:graduate_app/controller/auth.dart';
 import 'package:graduate_app/controller/group_controller/groups.dart';
+import 'package:graduate_app/controller/user_profile/user.dart';
+import 'package:graduate_app/models/app_user/app_user.dart';
 import 'package:graduate_app/page/group/create_group_page.dart';
 import 'package:graduate_app/page/group/group_info_card.dart';
-import 'package:graduate_app/repositories/auth/auth_repository_impl.dart';
 import 'package:graduate_app/theme/palette.dart';
 import 'package:graduate_app/utils/loading.dart';
 import 'package:graduate_app/widgets/imitation_list_tile.dart';
@@ -13,9 +16,12 @@ class MyDrawer extends HookConsumerWidget {
   const MyDrawer({
     Key? key,
     required this.toSettings,
+    required this.user,
   }) : super(key: key);
 
   final Function()? toSettings;
+
+  final AppUser? user;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,7 +30,8 @@ class MyDrawer extends HookConsumerWidget {
           orElse: () => null,
         );
 
-    final userId = ref.watch(authRepositoryImplProvider).currentUser?.uid;
+    final userId = ref.watch(userIdProvider)!;
+    final userImage = ref.watch(userImageProfileProvider(userId));
 
     final theme = ref.watch(themeNotifierProvider);
 
@@ -35,12 +42,22 @@ class MyDrawer extends HookConsumerWidget {
             Expanded(
               child: Column(
                 children: [
-                  Image.asset(
-                    theme == Palette.darkModeAppTheme
-                        ? 'assets/images/account_dark.png'
-                        : 'assets/images/account_light.png',
-                    width: 180,
-                  ),
+                  if (userImage != '')
+                    CircleAvatar(
+                      radius: 80,
+                      backgroundImage: NetworkImage(userImage),
+                    ),
+                  if (userImage == '')
+                    CircleAvatar(
+                      radius: 80,
+                      backgroundColor: Palette.appColor,
+                      child: Icon(
+                        Icons.person_sharp,
+                        color: Theme.of(context).iconTheme.color,
+                        size: 120,
+                      ),
+                    ),
+                  Gap(10),
                   Text(
                     appUserName ?? '',
                     style: TextStyle(
@@ -56,7 +73,7 @@ class MyDrawer extends HookConsumerWidget {
                       title: Text("グループ", style: TextStyle(fontSize: 26)),
                       leading: Icon(Icons.group),
                       children: <Widget>[
-                        ref.watch(groupsStreamProvider(userId ?? '')).when(
+                        ref.watch(groupsStreamProvider(userId)).when(
                               data: (groups) => ListView.builder(
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
@@ -68,7 +85,14 @@ class MyDrawer extends HookConsumerWidget {
                                       group.groupName,
                                       style: TextStyle(fontSize: 24),
                                     ),
-                                    leading: CircleAvatar(),
+                                    leading: CircleAvatar(
+                                      backgroundColor: Palette.appColor,
+                                      child: Icon(
+                                        Icons.groups,
+                                        color:
+                                            Theme.of(context).iconTheme.color,
+                                      ),
+                                    ),
                                     onTap: () {
                                       showDialog(
                                         context: context,
@@ -114,7 +138,6 @@ class MyDrawer extends HookConsumerWidget {
             ),
             Consumer(
               builder: (context, ref, child) {
-                //final theme = ref.watch(themeNotifierProvider);
                 return IconButton(
                   onPressed: () {
                     ref.read(themeNotifierProvider.notifier).toggleTheme();

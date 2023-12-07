@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/controller/group_controller/group.dart';
 import 'package:graduate_app/page/auth/auth_dependent_builder.dart';
+import 'package:graduate_app/utils/firestore_refs/group_message_ref.dart';
 import 'package:graduate_app/widgets/group_massase_bubble.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -36,7 +37,7 @@ class _GroupChatPageState extends ConsumerState<GroupChatPage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(groupStateNotifierProvider(widget.groupId));
-    //final loading = state.loading;
+    final loading = state.loading;
     final readGroup = state.readGroup;
 
     final appUserName = ref.watch(appUserFutureProvider).maybeWhen<String?>(
@@ -53,12 +54,7 @@ class _GroupChatPageState extends ConsumerState<GroupChatPage> {
           child: AppBar(
             title: Text(
               readGroup?.groupName ?? '',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
-              ),
             ),
-            centerTitle: true,
             leading: BackButton(
               onPressed: () => context.popRoute(),
             ),
@@ -68,15 +64,15 @@ class _GroupChatPageState extends ConsumerState<GroupChatPage> {
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: AuthDependentBuilder(
             onAuthenticated: (userId) {
-              // if (loading) {
-              //   return const Center(
-              //     child: Icon(
-              //       Icons.chat,
-              //       size: 80,
-              //       color: Colors.amber,
-              //     ),
-              //   );
-              // }
+              if (loading) {
+                return const Center(
+                  child: Icon(
+                    Icons.chat,
+                    size: 80,
+                    color: Colors.amber,
+                  ),
+                );
+              }
               if (readGroup == null) {
                 return SizedBox();
               }
@@ -99,7 +95,7 @@ class _GroupChatPageState extends ConsumerState<GroupChatPage> {
                             message: readGroupMessage,
                             isMyMessage:
                                 readGroupMessage.senderId == appUserName,
-                            isGroupMessage: true,
+                            //isGroupMessage: true,
                             sizeSenderBubble:
                                 EdgeInsets.fromLTRB(12.5, 15, 20, 15),
                             textStyle: TextStyle(
@@ -220,8 +216,8 @@ class _MessageInputFieldState extends ConsumerState<_MessageInputField> {
         GestureDetector(
           child: Container(
             margin: const EdgeInsets.only(right: 8, top: 8, bottom: 8),
-            width: 32,
-            height: 32,
+            width: 35,
+            height: 35,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: _isValid ? Colors.orange : Colors.grey,
@@ -241,7 +237,8 @@ class _MessageInputFieldState extends ConsumerState<_MessageInputField> {
                 .sendGroupMessage(
                   senderId: appUserName ?? '',
                   content: content,
-                  createdAt: DateTime.now(),
+                  messageType: MessageType.text,
+                  //createdAt: DateTime.now(),
                 );
             messageTextController.clear();
           },

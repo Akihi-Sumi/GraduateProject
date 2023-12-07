@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/controller/auth/sign_out.dart';
+import 'package:graduate_app/page/settings/mypage.dart';
 import 'package:graduate_app/repositories/survival_kits/list_collection_repository.dart';
 import 'package:graduate_app/router/app_router.gr.dart';
 import 'package:graduate_app/utils/async_value_error_dialog.dart';
@@ -18,6 +20,9 @@ class SettingsRouterPage extends AutoRouter {
 @RoutePage()
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({Key? key}) : super(key: key);
+
+  static const path = 'settings';
+  static const location = path;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -61,18 +66,18 @@ class SettingsPage extends ConsumerWidget {
 
     final ItemRepository itemRepository = ItemRepository();
 
+    final userId = ref.watch(appUserFutureProvider).maybeWhen(
+          data: (data) => data?.userId,
+          orElse: () => null,
+        );
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: AppBar(
           title: Text(
             context.topRoute.title(context),
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w600,
-            ),
           ),
-          centerTitle: true,
           leading: BackButton(
             onPressed: () => context.popRoute(),
           ),
@@ -83,7 +88,9 @@ class SettingsPage extends ConsumerWidget {
           ImitationListTile(
             title: Text("アカウント", style: TextStyle(fontSize: 24)),
             leading: Icon(Icons.account_circle, size: 30),
-            onTap: () => context.pushRoute(MyProfileRoute()),
+            onTap: () => context.router.pushNamed(MyProfilePage.location(
+              userId: userId ?? '',
+            )),
           ),
           ImitationListTile(
             title: Text("メッセージ", style: TextStyle(fontSize: 24)),

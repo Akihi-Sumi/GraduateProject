@@ -4,14 +4,13 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graduate_app/controller/auth/send_password_reset_email.dart';
 import 'package:graduate_app/controller/auth/sign_in.dart';
 import 'package:graduate_app/gen/assets.gen.dart';
+import 'package:graduate_app/theme/palette.dart';
 import 'package:graduate_app/utils/async_value_error_dialog.dart';
-import 'package:graduate_app/utils/constants/app_colors.dart';
 import 'package:graduate_app/utils/constants/measure.dart';
 import 'package:graduate_app/utils/loading.dart';
 import 'package:graduate_app/utils/scaffold_messenger_service.dart';
 import 'package:graduate_app/utils/text_styles.dart';
 import 'package:graduate_app/utils/textform_styles.dart';
-import 'package:graduate_app/widgets/app_bar.dart';
 import 'package:graduate_app/widgets/rounded_button.dart';
 import 'package:graduate_app/widgets/textform_header.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -120,8 +119,8 @@ class LoginPage extends HookConsumerWidget {
       child: Stack(
         children: [
           Scaffold(
-            appBar: const MyAppBar(
-              title: 'Log in',
+            appBar: AppBar(
+              title: Text('Log in'),
               elevation: 0,
               automaticallyImplyLeading: true,
             ),
@@ -193,7 +192,7 @@ class LoginPage extends HookConsumerWidget {
     WidgetRef ref,
   ) async {
     await showModalBottomSheet<bool>(
-      backgroundColor: AppColors.secondary,
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
@@ -203,20 +202,18 @@ class LoginPage extends HookConsumerWidget {
           child: AutofillGroup(
             child: Column(
               children: [
-                Measure.g_80,
+                Measure.g_60,
                 const _ResetPasswordBackButton(),
                 Measure.g_60,
                 const Icon(
                   Icons.lock,
                   size: 80,
-                  color: AppColors.baseWhite,
+                  color: Palette.whiteColor,
                 ),
                 Measure.g_60,
                 Text(
                   'パスワード再設定用のメールを送信',
-                  style: TextStyles.h3(
-                    color: AppColors.baseWhite,
-                  ),
+                  style: TextStyles.p1(color: Palette.whiteColor),
                 ),
                 Measure.g_60,
                 _ResetEmailTextForm(
@@ -299,7 +296,7 @@ class _ForgetPasswordTextButton extends StatelessWidget {
       onTap: onTap,
       child: Text(
         'パスワードをお忘れの方',
-        style: TextStyles.p1(color: AppColors.secondary),
+        style: TextStyles.p1(color: Colors.amber),
       ),
     );
   }
@@ -353,16 +350,16 @@ class _ResetEmailTextForm extends StatelessWidget {
         children: [
           const TextFormHeader(
             title: 'メールアドレス',
+            color: Palette.whiteColor,
           ),
           Measure.g_16,
           TextFormField(
-            style: TextStyles.p1(
-              color: AppColors.baseWhite,
-            ),
+            style: TextStyles.p1(),
             controller: controller,
             decoration: AppTextFormStyles.onResetPassword(
               iconData: Icons.mail,
             ),
+            cursorColor: Palette.whiteColor,
           ),
         ],
       ),
@@ -384,6 +381,7 @@ class _ResetPasswordBackButton extends StatelessWidget {
         icon: const Icon(
           Icons.close,
           size: 32,
+          color: Palette.whiteColor,
         ),
       ),
     );

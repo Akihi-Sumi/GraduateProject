@@ -4,7 +4,9 @@ import 'package:gap/gap.dart';
 import 'package:graduate_app/controller/group_controller/groups.dart';
 import 'package:graduate_app/page/auth/auth_dependent_builder.dart';
 import 'package:graduate_app/page/group/group_chat_page.dart';
+import 'package:graduate_app/theme/palette.dart';
 import 'package:graduate_app/utils/extensions/date_time.dart';
+import 'package:graduate_app/utils/firestore_refs/group_message_ref.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()
@@ -40,7 +42,6 @@ class GroupPage extends ConsumerWidget {
                           const Text(
                             "グループがありません。\n"
                             "作成するか参加してみましょう",
-                            //style: TextStyle(color: Colors.white),
                           ),
                         ],
                       ),
@@ -55,14 +56,19 @@ class GroupPage extends ConsumerWidget {
                         ref.watch(latestMessageProvider(group.groupId));
                     return GenericGroupCard(
                       title: group.groupName,
-                      latestMessage: latestMessage?.content,
+                      latestMessage: latestMessage?.messageType ==
+                              MessageType.text
+                          ? latestMessage?.content
+                          : latestMessage?.messageType == MessageType.picture
+                              ? "画像を送信しました。"
+                              : null,
                       onTap: () => context.router.pushNamed(
                         GroupChatPage.location(groupId: group.groupId),
                       ),
                       updatedAt: latestMessage?.createdAt,
-                      unReadCountString: ref.watch(
-                        unReadCountStringProvider(group),
-                      ),
+                      // unReadCountString: ref.watch(
+                      //   unReadCountStringProvider(group),
+                      // ),
                       isMyMessage: latestMessage?.senderId == userId,
                     );
                   },
@@ -84,7 +90,7 @@ class GenericGroupCard extends StatelessWidget {
     required this.title,
     this.latestMessage,
     this.onTap,
-    this.unReadCountString,
+    //this.unReadCountString,
     this.updatedAt,
     required this.isMyMessage,
     this.imageSize = 54,
@@ -94,7 +100,7 @@ class GenericGroupCard extends StatelessWidget {
   final String? latestMessage;
   final String title;
   final VoidCallback? onTap;
-  final String? unReadCountString;
+  //final String? unReadCountString;
   final DateTime? updatedAt;
   final bool isMyMessage;
 
@@ -109,8 +115,12 @@ class GenericGroupCard extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: imageSize / 2,
-              backgroundColor: Colors.grey,
-              child: const Icon(Icons.person),
+              backgroundColor: Palette.appColor,
+              child: Icon(
+                Icons.groups_3_sharp,
+                color: Theme.of(context).colorScheme.onPrimary,
+                size: 32,
+              ),
             ),
             Expanded(
               child: Padding(
@@ -129,7 +139,7 @@ class GenericGroupCard extends StatelessWidget {
                     if (latestMessage != null)
                       Text(
                         latestMessage!,
-                        style: TextStyle(color: Colors.grey),
+                        style: TextStyle(color: Palette.greyColor),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -145,24 +155,23 @@ class GenericGroupCard extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                Gap(5),
-                if (!isMyMessage) ...[
-                  if ((unReadCountString ?? '').isNotEmpty)
-                    Container(
-                      width: 30,
-                      height: 30,
-                      decoration: const BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Text(
-                          unReadCountString!,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                ],
+                // Gap(5),
+                // if (!isMyMessage) ...[
+                //   if ((unReadCountString ?? '').isNotEmpty)
+                //     Container(
+                //       width: 30,
+                //       height: 30,
+                //       decoration: BoxDecoration(
+                //         color: Palette.redColor,
+                //         shape: BoxShape.circle,
+                //       ),
+                //       child: Center(
+                //         child: Text(
+                //           unReadCountString!,
+                //         ),
+                //       ),
+                //     ),
+                // ],
               ],
             ),
           ],

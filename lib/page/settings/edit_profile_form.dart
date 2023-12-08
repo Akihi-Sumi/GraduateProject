@@ -210,12 +210,12 @@ class EditProfileFormState extends ConsumerState<EditProfileForm> {
                 child: _image != null
                     ? CircleAvatar(
                         backgroundImage: FileImage(_image!),
-                        radius: 200,
+                        radius: 125,
                       )
                     : userImage != ''
                         ? CircleAvatar(
                             backgroundImage: NetworkImage(userImage),
-                            radius: 200,
+                            radius: 125,
                           )
                         : Text(
                             "No Image",

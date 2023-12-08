@@ -83,137 +83,142 @@ class ContentBox extends ConsumerWidget {
 
     return Stack(
       children: <Widget>[
-        Container(
-          //width: 300,
-          padding: EdgeInsets.only(
-            left: Constants.padding,
-            top: Constants.avatarRadius + Constants.padding,
-            right: Constants.padding,
-            bottom: Constants.padding,
+        ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: 350,
           ),
-          margin: EdgeInsets.only(top: Constants.avatarRadius),
-          decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            color: theme == Palette.darkModeAppTheme
-                ? Colors.grey.shade700
-                : Colors.grey.shade100,
-            borderRadius: BorderRadius.circular(Constants.padding),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black,
-                offset: Offset(0, 10),
-                blurRadius: 10,
-              ),
-            ],
-          ),
-          child: ref.watch(getGroupByNameProvider(groupName)).when(
-                data: (group) {
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        group.groupName,
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Measure.g_12,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          if (group.members.contains(userId))
-                            IconButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              icon: Icon(
-                                Icons.message_outlined,
-                                color: Colors.deepOrangeAccent,
-                              ),
-                            ),
-                          group.mods.contains(userId)
-                              ? OutlinedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.grey,
-                                    shape: const StadiumBorder(),
-                                    side: const BorderSide(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  onPressed: () {},
-                                  child: Text(
-                                    "管理者ツール",
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.yellowAccent,
-                                    ),
-                                  ),
-                                )
-                              : OutlinedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    shape: const StadiumBorder(),
-                                    side: const BorderSide(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  child: Text(
-                                    group.members.contains(userId)
-                                        ? "退会"
-                                        : "参加",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      color: group.members.contains(userId)
-                                          ? Colors.redAccent
-                                          : Colors.lightGreen,
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    joinOrLeaveGroup(ref, group, context);
-                                  },
-                                ),
-                        ],
-                      ),
-                      Theme(
-                        data: Theme.of(context)
-                            .copyWith(dividerColor: Colors.transparent),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 16, right: 16),
-                          child: ExpansionTile(
-                            title: Text("${group.members.length} 人のメンバーが参加中"),
-                            children: <Widget>[
-                              FutureBuilder<List<Widget>>(
-                                future: _fetchUserDataForGroupMembers(
-                                    group.members),
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return CircularProgressIndicator();
-                                  } else if (snapshot.hasError) {
-                                    return Text("Error: ${snapshot.error}");
-                                  } else if (snapshot.hasData) {
-                                    return Column(children: snapshot.data!);
-                                  } else {
-                                    return Text("メンバーが居ません");
-                                  }
-                                },
-                              ),
-                            ],
+          child: Container(
+            //width: 300,
+            padding: EdgeInsets.only(
+              left: Constants.padding,
+              top: Constants.avatarRadius + Constants.padding,
+              right: Constants.padding,
+              bottom: Constants.padding,
+            ),
+            margin: EdgeInsets.only(top: Constants.avatarRadius),
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              color: theme == Palette.darkModeAppTheme
+                  ? Colors.grey.shade700
+                  : Colors.grey.shade100,
+              borderRadius: BorderRadius.circular(Constants.padding),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black,
+                  offset: Offset(0, 10),
+                  blurRadius: 10,
+                ),
+              ],
+            ),
+            child: ref.watch(getGroupByNameProvider(groupName)).when(
+                  data: (group) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          group.groupName,
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ),
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: Text("閉じる"),
-                      ),
-                    ],
-                  );
-                },
-                error: (error, stackTrace) => Text("error"),
-                loading: () => CircularProgressIndicator(),
-              ),
+                        Measure.g_12,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            if (group.members.contains(userId))
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                icon: Icon(
+                                  Icons.message_outlined,
+                                  color: Colors.deepOrangeAccent,
+                                ),
+                              ),
+                            group.mods.contains(userId)
+                                ? OutlinedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.grey,
+                                      shape: const StadiumBorder(),
+                                      side: const BorderSide(
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    onPressed: () {},
+                                    child: Text(
+                                      "管理者ツール",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.yellowAccent,
+                                      ),
+                                    ),
+                                  )
+                                : OutlinedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      shape: const StadiumBorder(),
+                                      side: const BorderSide(
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    child: Text(
+                                      group.members.contains(userId)
+                                          ? "退会"
+                                          : "参加",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        color: group.members.contains(userId)
+                                            ? Colors.redAccent
+                                            : Colors.lightGreen,
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      joinOrLeaveGroup(ref, group, context);
+                                    },
+                                  ),
+                          ],
+                        ),
+                        Theme(
+                          data: Theme.of(context)
+                              .copyWith(dividerColor: Colors.transparent),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 16, right: 16),
+                            child: ExpansionTile(
+                              title: Text("${group.members.length} 人のメンバーが参加中"),
+                              children: <Widget>[
+                                FutureBuilder<List<Widget>>(
+                                  future: _fetchUserDataForGroupMembers(
+                                      group.members),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return CircularProgressIndicator();
+                                    } else if (snapshot.hasError) {
+                                      return Text("Error: ${snapshot.error}");
+                                    } else if (snapshot.hasData) {
+                                      return Column(children: snapshot.data!);
+                                    } else {
+                                      return Text("メンバーが居ません");
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text("閉じる"),
+                        ),
+                      ],
+                    );
+                  },
+                  error: (error, stackTrace) => Text("error"),
+                  loading: () => CircularProgressIndicator(),
+                ),
+          ),
         ),
         Positioned(
           left: Constants.padding,

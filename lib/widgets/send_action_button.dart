@@ -19,6 +19,10 @@ class SendActionButtonState extends State<SendActionButton> {
       width: 100,
       padding: EdgeInsets.all(13),
       child: FloatingActionButton(
+        child: Icon(
+          Icons.crisis_alert_sharp,
+          size: 40,
+        ),
         onPressed: () {
           showModalBottomSheet(
             context: context,

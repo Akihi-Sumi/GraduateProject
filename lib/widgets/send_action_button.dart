@@ -50,8 +50,8 @@ class SelectImageCameraLocation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double cardHeightWidth = kIsWeb ? 360 : 120;
-    double iconSize = kIsWeb ? 120 : 60;
+    double cardHeightWidth = kIsWeb ? 140 : 120;
+    double iconSize = kIsWeb ? 80 : 60;
 
     return SizedBox(
       height: 180,

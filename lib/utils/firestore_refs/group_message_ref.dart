@@ -40,7 +40,8 @@ class GroupMessage {
 
 enum MessageType {
   text,
-  picture;
+  picture,
+  location;
 
   factory MessageType.fromString(String messageTypeString) {
     switch (messageTypeString) {
@@ -48,6 +49,8 @@ enum MessageType {
         return MessageType.text;
       case 'picture':
         return MessageType.picture;
+      case 'location':
+        return MessageType.location;
     }
     throw ArgumentError("メッセージの種別が正しくありません。");
   }

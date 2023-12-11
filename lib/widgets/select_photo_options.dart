@@ -33,13 +33,19 @@ class SelectPhotoOptions extends StatelessWidget {
           Column(
             children: [
               SelectPhoto(
-                onPressed: () => onTap(ImageSource.gallery),
+                onPressed: () {
+                  onTap(ImageSource.gallery);
+                  Navigator.of(context).pop();
+                },
                 icon: Icons.image,
                 textLabel: "ギャラリーを開く",
               ),
               const SizedBox(height: 15),
               SelectPhoto(
-                onPressed: () => onTap(ImageSource.camera),
+                onPressed: () {
+                  onTap(ImageSource.camera);
+                  Navigator.of(context).pop();
+                },
                 icon: Icons.camera_alt_rounded,
                 textLabel: "カメラを起動する",
               ),

@@ -18,67 +18,65 @@ class GroupPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        body: AuthDependentBuilder(
-          onAuthenticated: ((userId) {
-            final readGroups = ref.watch(groupsStreamProvider(userId));
-            return readGroups.when(
-              data: (groups) {
-                if (groups.isEmpty) {
-                  return Padding(
-                    padding: const EdgeInsets.all(36),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.chat,
-                            size: 80,
-                          ),
-                          const Gap(16),
-                          const Text(
-                            "グループがありません。\n"
-                            "作成するか参加してみましょう",
-                          ),
-                        ],
-                      ),
+    return Scaffold(
+      body: AuthDependentBuilder(
+        onAuthenticated: ((userId) {
+          final readGroups = ref.watch(groupsStreamProvider(userId));
+          return readGroups.when(
+            data: (groups) {
+              if (groups.isEmpty) {
+                return Padding(
+                  padding: const EdgeInsets.all(36),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.chat,
+                          size: 80,
+                        ),
+                        const Gap(16),
+                        const Text(
+                          "グループがありません。\n"
+                          "作成するか参加してみましょう",
+                        ),
+                      ],
                     ),
-                  );
-                }
-                return ListView.builder(
-                  itemCount: groups.length,
-                  itemBuilder: (context, index) {
-                    final group = groups[index];
-                    final latestMessage =
-                        ref.watch(latestMessageProvider(group.groupId));
-                    return GenericGroupCard(
-                      title: group.groupName,
-                      latestMessage: latestMessage?.messageType ==
-                              MessageType.text
-                          ? latestMessage?.content
-                          : latestMessage?.messageType == MessageType.picture
-                              ? "画像を送信しました。"
-                              : null,
-                      onTap: () => context.router.pushNamed(
-                        GroupChatPage.location(groupId: group.groupId),
-                      ),
-                      updatedAt: latestMessage?.createdAt,
-                      // unReadCountString: ref.watch(
-                      //   unReadCountStringProvider(group),
-                      // ),
-                      isMyMessage: latestMessage?.senderId == userId,
-                    );
-                  },
+                  ),
                 );
-              },
-              loading: () => const SizedBox(),
-              error: (_, __) => const Text("error"),
-            );
-          }),
-        ),
+              }
+              return ListView.builder(
+                itemCount: groups.length,
+                itemBuilder: (context, index) {
+                  final group = groups[index];
+                  final latestMessage =
+                      ref.watch(latestMessageProvider(group.groupId));
+                  return GenericGroupCard(
+                    title: group.groupName,
+                    latestMessage: latestMessage?.messageType ==
+                            MessageType.text
+                        ? latestMessage?.content
+                        : latestMessage?.messageType == MessageType.picture
+                            ? "画像を送信しました。"
+                            : latestMessage?.messageType == MessageType.location
+                                ? "現在地を送信しました。"
+                                : null,
+                    onTap: () => context.router.pushNamed(
+                      GroupChatPage.location(groupId: group.groupId),
+                    ),
+                    updatedAt: latestMessage?.createdAt,
+                    // unReadCountString: ref.watch(
+                    //   unReadCountStringProvider(group),
+                    // ),
+                    isMyMessage: latestMessage?.senderId == userId,
+                  );
+                },
+              );
+            },
+            loading: () => const SizedBox(),
+            error: (_, __) => const Text("error"),
+          );
+        }),
       ),
     );
   }

@@ -5,13 +5,13 @@ import 'package:graduate_app/models/user/user_model.dart';
 final _db = FirebaseFirestore.instance.collection('appUsers');
 
 /// Provides a reference to the Users collection for reading.
-final readUserCollectionReference = _db.withConverter<AppUser>(
-  fromFirestore: (ds, _) => AppUser.fromDocumentSnapshot(ds),
+final readUserCollectionReference = _db.withConverter<ReadUser>(
+  fromFirestore: (ds, _) => ReadUser.fromDocumentSnapshot(ds),
   toFirestore: (_, __) => throw UnimplementedError(),
 );
 
 /// Provides a reference to a User document for reading.
-DocumentReference<AppUser> readUserDocumentReference({
+DocumentReference<ReadUser> readUserDocumentReference({
   required String userId,
 }) =>
     readUserCollectionReference.doc(userId);
@@ -54,12 +54,12 @@ DocumentReference<AppUser> deleteUserDocumentReference({
 
 /// Maneges queries against the users collections.
 class UserQuery {
-  Future<List<AppUser>> fetchDocuments({
+  Future<List<ReadUser>> fetchDocuments({
     GetOptions? options,
-    Query<AppUser>? Function(Query<AppUser> query)? queryBuilder,
-    int Function(AppUser lhs, AppUser rhs)? compare,
+    Query<ReadUser>? Function(Query<ReadUser> query)? queryBuilder,
+    int Function(ReadUser lhs, ReadUser rhs)? compare,
   }) async {
-    Query<AppUser> query = readUserCollectionReference;
+    Query<ReadUser> query = readUserCollectionReference;
     if (queryBuilder != null) {
       query = queryBuilder(query)!;
     }
@@ -72,13 +72,13 @@ class UserQuery {
   }
 
   /// Subscribes [User] documents.
-  Stream<List<AppUser>> subscribeDocuments({
-    Query<AppUser>? Function(Query<AppUser> query)? queryBuilder,
-    int Function(AppUser lhs, AppUser rhs)? compare,
+  Stream<List<ReadUser>> subscribeDocuments({
+    Query<ReadUser>? Function(Query<ReadUser> query)? queryBuilder,
+    int Function(ReadUser lhs, ReadUser rhs)? compare,
     bool includeMetadataChanges = false,
     bool excludePendingWrites = false,
   }) {
-    Query<AppUser> query = readUserCollectionReference;
+    Query<ReadUser> query = readUserCollectionReference;
     if (queryBuilder != null) {
       query = queryBuilder(query)!;
     }
@@ -97,7 +97,7 @@ class UserQuery {
   }
 
   /// Fetches a specific [AppUser] document.
-  Future<AppUser?> fetchDocument({
+  Future<ReadUser?> fetchDocument({
     required String userId,
     GetOptions? options,
   }) async {
@@ -108,7 +108,7 @@ class UserQuery {
   }
 
   /// Subscribes a specific [User] document.
-  Stream<AppUser?> subscribeDocument({
+  Stream<ReadUser?> subscribeDocument({
     required String userId,
     bool includeMetadataChanges = false,
     bool excludePendingWrites = false,

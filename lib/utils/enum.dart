@@ -1,0 +1,4 @@
+enum PageDisplayStyle {
+  mobile,
+  desktop,
+}

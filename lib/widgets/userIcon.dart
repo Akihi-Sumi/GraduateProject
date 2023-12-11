@@ -7,12 +7,12 @@ class UserIcon extends StatelessWidget {
     Key? key,
     required this.content,
     required this.onTap,
+    this.iconData,
   }) : super(key: key);
-
-  // final String avatarUrl;
 
   final Widget content;
   final VoidCallback onTap;
+  final IconData? iconData;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class UserIcon extends StatelessWidget {
                 color: Palette.appColor,
               ),
               child: Icon(
-                Icons.camera_alt,
+                iconData,
                 size: 40,
                 //size: algo * 37.0,
               ),

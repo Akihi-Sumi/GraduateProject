@@ -4,7 +4,7 @@ import 'package:flutterfire_gen_annotation/flutterfire_gen_annotation.dart';
 @FirestoreDocument(path: 'user', documentName: 'user')
 class User {
   const User({
-    required this.imageUrl,
+    required this.profilePicture,
     required this.userName,
     required this.userEmail,
     required this.userEvacuation,
@@ -15,7 +15,7 @@ class User {
 
   @ReadDefault('')
   @CreateDefault('')
-  final String imageUrl;
+  final String profilePicture;
 
   @ReadDefault('')
   final String userName;
@@ -41,22 +41,22 @@ class ReadUser {
   const ReadUser({
     required this.userId,
     required this.path,
-    required this.imageUrl,
+    required this.profilePicture,
     required this.userName,
     required this.userEmail,
     required this.userEvacuation,
-    required this.introduction,
+    //required this.introduction,
     required this.createdAt,
     required this.updatedAt,
   });
 
   final String userId;
   final String path;
-  final String imageUrl;
+  final String profilePicture;
   final String userName;
   final String userEmail;
   final String userEvacuation;
-  final String introduction;
+  //final String introduction;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -64,11 +64,11 @@ class ReadUser {
     return ReadUser(
       userId: json['userId'] as String,
       path: json['path'] as String,
-      imageUrl: json['imageUrl'] as String? ?? '',
+      profilePicture: json['profilePicture'] as String? ?? '',
       userName: json['userName'] as String? ?? '',
       userEmail: json['userEmail'] as String? ?? '',
       userEvacuation: json['userEvacuation'] as String? ?? '',
-      introduction: json['introduction'] as String? ?? '',
+      //introduction: json['introduction'] as String? ?? '',
       createdAt: (json['createdAt'] as Timestamp?)?.toDate(),
       updatedAt: (json['updatedAt'] as Timestamp?)?.toDate(),
     );
@@ -87,6 +87,7 @@ class ReadUser {
 class UpdateUser {
   const UpdateUser({
     this.profilePicture,
+    this.profileWebPicture,
     this.userName,
     this.userEmail,
     this.userEvacuation,
@@ -94,6 +95,7 @@ class UpdateUser {
   });
 
   final String? profilePicture;
+  final String? profileWebPicture;
   final String? userName;
   final String? userEmail;
   final String? userEvacuation;
@@ -102,6 +104,7 @@ class UpdateUser {
   Map<String, dynamic> toJson() {
     return {
       if (profilePicture != null) 'profilePicture': profilePicture,
+      if (profileWebPicture != null) 'profileWebPicture': profileWebPicture,
       if (userName != null) 'userName': userName,
       if (userEmail != null) 'userEmail': userEmail,
       if (userEvacuation != null) 'userEvacuation': userEvacuation,

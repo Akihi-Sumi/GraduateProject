@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:graduate_app/controller/user_profile/user.dart';
 import 'package:graduate_app/utils/firebase_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -34,10 +35,18 @@ class UserProfileController {
     String? userEmail,
     String? userEvacuation,
     File? profilePicture,
+    Uint8List? profileWebPicture,
   }) async {
     String? imageUrl;
-    if (profilePicture != null) {
-      imageUrl = await _uploadImage(profilePicture);
+
+    if (kIsWeb) {
+      if (profileWebPicture != null) {
+        imageUrl = await _uploadWebImage(profileWebPicture);
+      }
+    } else if (!kIsWeb) {
+      if (profilePicture != null) {
+        imageUrl = await _uploadImage(profilePicture);
+      }
     }
 
     await _userService.update(
@@ -54,6 +63,14 @@ class UserProfileController {
     return _storageService.upload(
       path: imagePath,
       resource: FirebaseStorageFile(profilePicture),
+    );
+  }
+
+  Future<String> _uploadWebImage(Uint8List profileWebPicture) {
+    final imagePath = '$_storagePath/$_userId.jpg';
+    return _storageService.upload(
+      path: imagePath,
+      resource: FirebaseStorageRawData(profileWebPicture),
     );
   }
 }

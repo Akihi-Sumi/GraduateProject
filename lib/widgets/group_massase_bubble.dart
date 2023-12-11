@@ -96,10 +96,15 @@ class GroupMessageBubble extends ConsumerWidget {
                                       message.content,
                                       style: textStyle,
                                     )
-                                  : Image.network(
-                                      message.imageUrl,
-                                      width: 250,
-                                    ),
+                                  : message.messageType == MessageType.location
+                                      ? Text(
+                                          message.content,
+                                          style: textStyle,
+                                        )
+                                      : Image.network(
+                                          message.imageUrl,
+                                          width: 250,
+                                        ),
                             ),
                           ],
                         ),
@@ -107,10 +112,6 @@ class GroupMessageBubble extends ConsumerWidget {
                     ),
                   ),
                   const Gap(2),
-                  // _MessageCreatedAt(
-                  //   groupMessage: message,
-                  //   isMyMessage: isMyMessage,
-                  // ),
                 ],
               ),
             ),
@@ -189,40 +190,6 @@ class BubbleDesign extends CustomPainter {
               ..color = color
               ..style = PaintingStyle.fill);
       }
-      // else {
-      //   var path = Path();
-
-      //   /// starting point
-      //   path.moveTo(_radius * 2, 0);
-
-      //   /// top-left corner
-      //   path.quadraticBezierTo(0, 0, 0, _radius * 1.5);
-
-      //   /// left line
-      //   path.lineTo(0, h - _radius * 1.5);
-
-      //   /// bottom-left corner
-      //   path.quadraticBezierTo(0, h, _radius * 2, h);
-
-      //   /// bottom line
-      //   path.lineTo(w - _radius * 3, h);
-
-      //   /// bottom-right curve
-      //   path.quadraticBezierTo(w - _radius, h, w - _radius, h - _radius * 1.5);
-
-      //   /// right line
-      //   path.lineTo(w - _radius, _radius * 1.5);
-
-      //   /// top-right curve
-      //   path.quadraticBezierTo(w - _radius, 0, w - _radius * 3, 0);
-
-      //   canvas.clipPath(path);
-      //   canvas.drawRRect(
-      //       RRect.fromLTRBR(0, 0, w, h, Radius.zero),
-      //       Paint()
-      //         ..color = color
-      //         ..style = PaintingStyle.fill);
-      // }
     } else {
       if (tail) {
         var path = Path();
@@ -263,39 +230,6 @@ class BubbleDesign extends CustomPainter {
               ..color = color
               ..style = PaintingStyle.fill);
       }
-      // else {
-      //   var path = Path();
-
-      //   /// starting point
-      //   path.moveTo(_radius * 3, 0);
-
-      //   /// top-left corner
-      //   path.quadraticBezierTo(_radius, 0, _radius, _radius * 1.5);
-
-      //   /// left line
-      //   path.lineTo(_radius, h - _radius * 1.5);
-
-      //   /// bottom-left curve
-      //   path.quadraticBezierTo(_radius, h, _radius * 3, h);
-
-      //   /// bottom line
-      //   path.lineTo(w - _radius * 2, h);
-
-      //   /// bottom-right curve
-      //   path.quadraticBezierTo(w, h, w, h - _radius * 1.5);
-
-      //   /// right line
-      //   path.lineTo(w, _radius * 1.5);
-
-      //   /// top-right curve
-      //   path.quadraticBezierTo(w, 0, w - _radius * 2, 0);
-      //   canvas.clipPath(path);
-      //   canvas.drawRRect(
-      //       RRect.fromLTRBR(0, 0, w, h, Radius.zero),
-      //       Paint()
-      //         ..color = color
-      //         ..style = PaintingStyle.fill);
-      // }
     }
   }
 
@@ -304,47 +238,6 @@ class BubbleDesign extends CustomPainter {
     return true;
   }
 }
-
-// class _ReadStatusText extends StatelessWidget {
-//   const _ReadStatusText({
-//     required this.messageCreatedAt,
-//     required this.partnerLastReadAt,
-//   });
-
-//   final DateTime? messageCreatedAt;
-//   final DateTime? partnerLastReadAt;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final text = _readStatusString(
-//       messageCreatedAt: messageCreatedAt,
-//       partnerLastReadAt: partnerLastReadAt,
-//     );
-//     if (text.isEmpty) {
-//       return const SizedBox();
-//     }
-//     return Padding(
-//       padding: const EdgeInsets.only(top: 20),
-//       child: Text(
-//         text,
-//         style: TextStyle(fontSize: 15, color: Colors.grey),
-//       ),
-//     );
-//   }
-
-//   String _readStatusString({
-//     required DateTime? messageCreatedAt,
-//     required DateTime? partnerLastReadAt,
-//   }) {
-//     if (messageCreatedAt == null) {
-//       return '';
-//     }
-//     if (partnerLastReadAt == null) {
-//       return '未読';
-//     }
-//     return messageCreatedAt.isAfter(partnerLastReadAt) ? '未読' : '既読';
-//   }
-// }
 
 class _MessageCreatedAt extends StatelessWidget {
   const _MessageCreatedAt({

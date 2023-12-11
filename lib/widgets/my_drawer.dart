@@ -4,7 +4,7 @@ import 'package:graduate_app/controller/app_user.dart';
 import 'package:graduate_app/controller/auth.dart';
 import 'package:graduate_app/controller/group_controller/groups.dart';
 import 'package:graduate_app/controller/user_profile/user.dart';
-import 'package:graduate_app/models/app_user/app_user.dart';
+import 'package:graduate_app/models/user/user_model.dart';
 import 'package:graduate_app/page/group/create_group_page.dart';
 import 'package:graduate_app/page/group/group_info_card.dart';
 import 'package:graduate_app/theme/palette.dart';
@@ -21,7 +21,7 @@ class MyDrawer extends HookConsumerWidget {
 
   final Function()? toSettings;
 
-  final AppUser? user;
+  final ReadUser? user;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

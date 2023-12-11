@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:graduate_app/controller/auth.dart';
 import 'package:graduate_app/repositories/group_message/group_message_repository_impl.dart';
 import 'package:graduate_app/utils/exceptions/exception.dart';
@@ -35,12 +36,19 @@ class SendMessageController extends AutoDisposeAsyncNotifier<void> {
     required MessageType messageType,
     String? content,
     File? picture,
+    Uint8List? webPicture,
   }) async {
     final groupMessageRepo = ref.read(groupMessageRepositoryImplProvider);
 
     String? imageUrl;
-    if (picture != null) {
-      imageUrl = await _uploadImage(picture);
+    if (!kIsWeb) {
+      if (picture != null) {
+        imageUrl = await _uploadImage(picture);
+      }
+    } else {
+      if (webPicture != null) {
+        imageUrl = await _uploadWebImage(webPicture);
+      }
     }
 
     state = const AsyncLoading();
@@ -69,6 +77,16 @@ class SendMessageController extends AutoDisposeAsyncNotifier<void> {
     return storageService.upload(
       path: imagePath,
       resource: FirebaseStorageFile(picture),
+    );
+  }
+
+  Future<String> _uploadWebImage(Uint8List webPicture) {
+    final userId = ref.watch(userIdProvider) ?? '';
+    final imagePath = '$storagePath/$userId+${DateTime.now()}.jpg';
+
+    return storageService.upload(
+      path: imagePath,
+      resource: FirebaseStorageRawData(webPicture),
     );
   }
 }

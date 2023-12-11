@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graduate_app/controller/auth.dart';
@@ -33,18 +34,26 @@ class SendImage extends ConsumerStatefulWidget {
 
 class _SendImageState extends ConsumerState<SendImage> {
   File? _image;
+  Uint8List? _webImage;
 
   Future _pickImage(ImageSource source) async {
     try {
       final image = await ImagePicker().pickImage(source: source);
       if (image == null) return;
-      File? img = File(image.path);
-      img = await _cropImage(imageFile: img);
-
-      setState(() {
-        _image = img;
-        //Navigator.of(context).pop();
-      });
+      if (!kIsWeb) {
+        File? img = File(image.path);
+        img = await _cropImage(imageFile: img);
+        setState(() {
+          _image = img;
+          //Navigator.of(context).pop();
+        });
+      } else {
+        Uint8List? img = await image.readAsBytes();
+        //img = await _cropImage(imageFile: img);
+        setState(() {
+          _webImage = img;
+        });
+      }
     } on PlatformException catch (e) {
       print(e);
       //Navigator.of(context).pop();
@@ -114,14 +123,27 @@ class _SendImageState extends ConsumerState<SendImage> {
           title: '選択した画像を送信しますか',
           buttonText: "送信",
           onPressed: () async {
-            await ref
-                .read(sendMessageAllGroupControllerProvider.notifier)
-                .sendMessageAllGroup(
-                  userId: userId,
-                  userName: userName,
-                  picture: _image,
-                  messageType: MessageType.picture,
-                );
+            if (!kIsWeb) {
+              await ref
+                  .read(sendMessageAllGroupControllerProvider.notifier)
+                  .sendMessageAllGroup(
+                    userId: userId,
+                    userName: userName,
+                    picture: _image,
+                    messageType: MessageType.picture,
+                  );
+              _image = null;
+            } else {
+              await ref
+                  .read(sendMessageAllGroupControllerProvider.notifier)
+                  .sendMessageAllGroup(
+                    userId: userId,
+                    userName: userName,
+                    webPicture: _webImage,
+                    messageType: MessageType.picture,
+                  );
+              _webImage = null;
+            }
           },
         );
       },

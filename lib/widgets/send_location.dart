@@ -131,7 +131,7 @@ class _SendLocationState extends ConsumerState<SendLocation> {
                     userId: userId,
                     userName: userName,
                     content: value.toString(),
-                    messageType: MessageType.text,
+                    messageType: MessageType.location,
                   );
             });
           },

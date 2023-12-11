@@ -1,8 +1,8 @@
-import 'package:graduate_app/models/app_user/app_user.dart';
+import 'package:graduate_app/models/user/user_model.dart';
 import 'package:graduate_app/repositories/app_user/user_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final userStreamProvider = StreamProvider.family.autoDispose<AppUser?, String>(
+final userStreamProvider = StreamProvider.family.autoDispose<ReadUser?, String>(
   (ref, userId) =>
       ref.watch(userRepositoryProvider).subscribeUser(userId: userId),
 );
@@ -19,7 +19,7 @@ final userNameProvider =
   return user?.userName ?? '';
 });
 
-final userFutureProvider = FutureProvider.family.autoDispose<AppUser?, String>(
+final userFutureProvider = FutureProvider.family.autoDispose<ReadUser?, String>(
   (ref, userId) => ref.watch(userServiceProvider).fetchUser(userId: userId),
 );
 
@@ -38,7 +38,7 @@ class UserService {
     return user != null;
   }
 
-  Future<AppUser?> fetchUser({required String userId}) =>
+  Future<ReadUser?> fetchUser({required String userId}) =>
       _userRepository.fetchUser(userId: userId);
 
   Future<void> update({
@@ -47,7 +47,7 @@ class UserService {
     String? userEmail,
     String? userEvacuation,
     String? profilePicture,
-    //String?
+    String? profileWebPicture,
   }) async {
     await _userRepository.update(
       userId: userId,
@@ -55,6 +55,7 @@ class UserService {
       userEmail: userEmail,
       userEvacuation: userEvacuation,
       profilePicture: profilePicture,
+      profileWebPicture: profileWebPicture,
     );
   }
 }

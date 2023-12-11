@@ -7,11 +7,13 @@ class UserIcon extends StatelessWidget {
     Key? key,
     required this.content,
     required this.onTap,
+    this.color,
     this.iconData,
   }) : super(key: key);
 
   final Widget content;
   final VoidCallback onTap;
+  final Color? color;
   final IconData? iconData;
 
   @override
@@ -27,7 +29,7 @@ class UserIcon extends StatelessWidget {
           width: iconSize,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Colors.grey,
+            color: color,
           ),
           child: content,
         ),

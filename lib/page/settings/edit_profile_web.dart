@@ -37,7 +37,7 @@ class EditProfileWebState extends ConsumerState<EditProfileWeb> {
   late final TextEditingController emailController;
   late final TextEditingController evacuationController;
 
-  //Uint8List? _webImage;
+  Uint8List? _webImage;
   String? _uploadedBlobUrl;
   String? _croppedBlobUrl;
 
@@ -67,12 +67,12 @@ class EditProfileWebState extends ConsumerState<EditProfileWeb> {
         context: context,
         presentStyle: CropperPresentStyle.page,
         boundary: CroppieBoundary(
-          width: (screenWidth * 0.9).round(),
-          height: (screenHeight * 0.9).round(),
+          width: (screenWidth * 0.8).round(),
+          height: (screenHeight * 0.8).round(),
         ),
         viewPort: const CroppieViewPort(
-          width: 400,
-          height: 400,
+          width: 325,
+          height: 325,
           type: 'circle',
         ),
         enableExif: true,
@@ -83,7 +83,7 @@ class EditProfileWebState extends ConsumerState<EditProfileWeb> {
     } else {
       settings = WebUiSettings(
         context: context,
-        presentStyle: CropperPresentStyle.page,
+        presentStyle: CropperPresentStyle.dialog,
         boundary: CroppieBoundary(
           width: 400,
           height: 400,
@@ -108,8 +108,10 @@ class EditProfileWebState extends ConsumerState<EditProfileWeb> {
     if (croppedImage != null) {
       setState(() {
         _croppedBlobUrl = croppedImage.path;
+        //_webImage = await File(croppedImage.path).readAsBytes();
       });
     }
+    //Uint8List _webImage = await File(_croppedBlobUrl!).readAsBytes();
   }
 
   void _showSelectPhotoOptions(BuildContext context) {
@@ -140,18 +142,27 @@ class EditProfileWebState extends ConsumerState<EditProfileWeb> {
     );
   }
 
-  void save() {
+  void clear() {
+    setState(() {
+      _uploadedBlobUrl = null;
+      _croppedBlobUrl = null;
+    });
+  }
+
+  Future<void> save() async {
     ref.read(overlayLoadingProvider.notifier).update((state) => true);
 
     try {
       final controller = ref.read(userProfileControllerProvider(widget.userId));
+
+      _webImage = await XFile(_croppedBlobUrl!).readAsBytes();
 
       controller.update(
         userId: widget.userId,
         userName: nameController.text,
         userEmail: emailController.text,
         userEvacuation: evacuationController.text,
-        profileWebPicture: _convertListToInt(_croppedBlobUrl!),
+        profileWebPicture: _webImage,
       );
 
       _croppedBlobUrl = null;
@@ -161,16 +172,6 @@ class EditProfileWebState extends ConsumerState<EditProfileWeb> {
     } finally {
       ref.read(overlayLoadingProvider.notifier).update((state) => false);
     }
-  }
-
-  Uint8List _convertListToInt(String input) {
-    final reg = RegExp(r"([0-9]+|\d+)");
-    final pieces = reg.allMatches(input);
-    final result = pieces.map((e) => int.parse(e.group(0).toString())).toList();
-
-    List<int> example = result;
-
-    return Uint8List.fromList(example);
   }
 
   void _initializeTextEditingControllers() {
@@ -207,8 +208,8 @@ class EditProfileWebState extends ConsumerState<EditProfileWeb> {
                           )
                         : _uploadedBlobUrl != null
                             ? SizedBox(
-                                height: 250,
-                                width: 250,
+                                //height: 300,
+                                width: 400,
                                 child: Image.network(
                                   _uploadedBlobUrl!,
                                 ),
@@ -223,12 +224,20 @@ class EditProfileWebState extends ConsumerState<EditProfileWeb> {
                                     style: TextStyle(fontSize: 24),
                                   ),
                   ),
-                  iconData:
-                      _uploadedBlobUrl != null ? Icons.crop : Icons.image_sharp,
+                  color: _uploadedBlobUrl != null
+                      ? Colors.transparent
+                      : Colors.grey,
+                  iconData: _croppedBlobUrl != null
+                      ? Icons.delete
+                      : _uploadedBlobUrl != null
+                          ? Icons.crop
+                          : Icons.image_sharp,
                   onTap: () {
-                    _uploadedBlobUrl != null
-                        ? _cropImage()
-                        : _showSelectPhotoOptions(context);
+                    _croppedBlobUrl != null
+                        ? clear()
+                        : _uploadedBlobUrl != null
+                            ? _cropImage()
+                            : _showSelectPhotoOptions(context);
                   },
                 ),
                 SizedBox(height: 30),

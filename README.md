@@ -21,6 +21,7 @@
   - Authentication (認証)
   - Cloud Firestore (NoSQLデータベース)
   - Firestorage (画像用ストレージ)
+  - Hosting (ホスティング)
 
 ## コマンド
 

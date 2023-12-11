@@ -42,6 +42,7 @@ class MyDrawer extends HookConsumerWidget {
             Expanded(
               child: Column(
                 children: [
+                  SizedBox(height: 30),
                   if (userImage != '')
                     CircleAvatar(
                       radius: 80,

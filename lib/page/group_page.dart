@@ -20,7 +20,7 @@ class GroupPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: AuthDependentBuilder(
-        onAuthenticated: ((userId) {
+        onAuthenticated: (userId) {
           final readGroups = ref.watch(groupsStreamProvider(userId));
           return readGroups.when(
             data: (groups) {
@@ -76,7 +76,7 @@ class GroupPage extends ConsumerWidget {
             loading: () => const SizedBox(),
             error: (_, __) => const Text("error"),
           );
-        }),
+        },
       ),
     );
   }

@@ -1,8 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:graduate_app/controller/app_user.dart';
+import 'package:graduate_app/controller/auth.dart';
 import 'package:graduate_app/controller/group_controller/group.dart';
+import 'package:graduate_app/controller/user_profile/user.dart';
 import 'package:graduate_app/page/auth/auth_dependent_builder.dart';
 import 'package:graduate_app/utils/firestore_refs/group_message_ref.dart';
 import 'package:graduate_app/widgets/group_massase_bubble.dart';
@@ -40,10 +41,8 @@ class _GroupChatPageState extends ConsumerState<GroupChatPage> {
     final loading = state.loading;
     final readGroup = state.readGroup;
 
-    final appUserName = ref.watch(appUserFutureProvider).maybeWhen<String?>(
-          data: (data) => data?.userName,
-          orElse: () => null,
-        );
+    final userId = ref.watch(userIdProvider) ?? '';
+    final appUserName = ref.watch(userNameProvider(userId));
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -162,10 +161,7 @@ class _MessageInputFieldState extends ConsumerState<_MessageInputField> {
 
   @override
   Widget build(BuildContext context) {
-    final appUserName = ref.watch(appUserFutureProvider).maybeWhen<String?>(
-          data: (data) => data?.userName,
-          orElse: () => null,
-        );
+    final appUserName = ref.watch(userNameProvider(widget.userId));
 
     return Row(
       children: [
@@ -235,7 +231,7 @@ class _MessageInputFieldState extends ConsumerState<_MessageInputField> {
             await ref
                 .read(groupStateNotifierProvider(widget.groupId).notifier)
                 .sendGroupMessage(
-                  senderId: appUserName ?? '',
+                  senderId: appUserName,
                   content: content,
                   messageType: MessageType.text,
                   //createdAt: DateTime.now(),
